@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Likes {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer likeId;
