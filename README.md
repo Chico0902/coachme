@@ -1,38 +1,38 @@
-# 프로젝트명 : 코치미(CoachME)
+# 코치미(CoachME)
 
-# 프로젝트 주제 : 화상회의를 활용한 구독 교육 서비스
+## 프로젝트 주제 : 화상회의를 활용한 구독 교육 서비스
 
-# 팀원
+## 팀원
 
-## 프론트엔드
+### 프론트엔드
 
-### 김동현 : 와이어프레임 설계
+#### 김동현 : 와이어프레임 설계
 
-#### silverstuff95@gmail.com
+##### silverstuff95@gmail.com
 
-### 남상엽(팀장) : 백엔드 연동 로직 구현
+#### 남상엽(팀장) : 백엔드 연동 로직 구현
 
-#### spearoad15@gmail.com
+##### spearoad15@gmail.com
 
-### 이혜지 : 컴포넌트 설계
+#### 이혜지 : 컴포넌트 설계
 
 #### lee02g29@gmail.com
 
-## 백엔드
+### 백엔드
 
-### 김지원 : 백엔드 API 구현
+#### 김지원 : 백엔드 API 구현
 
-#### wldnjs35242@gmail.com
+##### wldnjs35242@gmail.com
 
-### 박민아 : 백엔드 API 구현
+#### 박민아 : 백엔드 API 구현
 
-#### minahpark42@gmail.com
+##### minahpark42@gmail.com
 
-### 이준학 : 백엔드 API 구현
+#### 이준학 : 백엔드 API 구현
 
-#### ssafy1043380@gmail.com
+##### ssafy1043380@gmail.com
 
-# 팀 규칙
+## 팀 규칙
 
 - 이슈나 문제, 완료 등 가감없이 공유하기 서로 연락 잘받기
 
