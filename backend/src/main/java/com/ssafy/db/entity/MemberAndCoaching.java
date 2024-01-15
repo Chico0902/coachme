@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class MemberAndCoaching {
@@ -21,7 +22,7 @@ public class MemberAndCoaching {
     private Members member;
 
     @CreatedDate
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
 
 }
