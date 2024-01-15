@@ -6,9 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Coaching_and_Video {
+public class MemberAndCoaching {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer coachingVideoId;
+    private Integer mycoachingList;
+
+
+
 }
