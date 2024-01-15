@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 public class CoachingDates {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JoinColumn(name="coaching_date_id")
+    @Column(name="coaching_date_id")
     private Integer coachingDateId;
 
     @ManyToOne
     @JoinColumn(name="coaching_id")
-    private Coachings coachingId;
+    private Coachings coaching;
 
     @CreatedDate
     @Column(name = "coaching_date")
