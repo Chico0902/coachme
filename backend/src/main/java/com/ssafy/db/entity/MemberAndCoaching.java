@@ -1,6 +1,9 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDate;
 
 @Entity
 public class MemberAndCoaching {
@@ -17,7 +20,8 @@ public class MemberAndCoaching {
     @JoinColumn(name="member_id")
     private Members memberId;
 
-    private String createDate;
+    @CreatedDate
+    private LocalDate createDate;
 
 
 }
