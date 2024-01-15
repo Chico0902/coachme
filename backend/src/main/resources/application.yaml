@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: '/'
-  port: 8080
+  port: 80
 
 spring:
   datasource:
@@ -16,5 +16,5 @@ spring:
         dialect:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect

@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 public class Members {
 
     @Id
-    private String member_id;
+    @Column(name = "member_id")
+    private String memberId;
 
     @Column
     private String password;
@@ -34,12 +35,12 @@ public class Members {
     private String description;
 
     @LastModifiedDate
-    @Column(nullable = true)
-    private LocalDateTime modify_date;
+    @Column(name = "modify_date", nullable = true)
+    private LocalDateTime modifyDate;
 
     @CreatedDate
-    @Column
-    private LocalDateTime create_date;
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
 
     @Column(columnDefinition = "INT DEFAULT 0")
     private int elevation;
@@ -47,6 +48,4 @@ public class Members {
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private Portfolios portfolios;
-
-
 }
