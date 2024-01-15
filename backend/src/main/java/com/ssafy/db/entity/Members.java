@@ -1,6 +1,8 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -31,9 +33,11 @@ public class Members {
     @Column
     private String description;
 
+    @LastModifiedDate
     @Column(nullable = true)
     private LocalDateTime modify_date;
 
+    @CreatedDate
     @Column
     private LocalDateTime create_date;
 
