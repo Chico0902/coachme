@@ -23,6 +23,6 @@ public class DMs {
     private String message;
 
     @CreatedDate
-    @Column
-    private LocalDateTime create_date;
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
 }

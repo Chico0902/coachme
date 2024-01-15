@@ -9,17 +9,18 @@ import java.time.LocalDateTime;
 public class DMRooms {
     @Id
     @GeneratedValue
-    private int dmroom_id;
+    @Column(name = "dmroom_id")
+    private int dmroomId;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "coame_member_id")
     private Members coame;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "coach_member_id")
     private Members coach;
 
     @CreatedDate
-    @Column
-    private LocalDateTime create_date;
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
 }

@@ -12,12 +12,13 @@ import java.time.LocalDateTime;
 public class Portfolios {
     @Id
     @GeneratedValue
-    private int portfolio_id;
+    @Column(name = "portfolio_id")
+    private int portfolioId;
 
     @Column
     private String description;
 
     @CreatedDate
-    @Column
-    private LocalDateTime create_date;
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
 }
