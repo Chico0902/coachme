@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 public class DMs {
     @Id
     @GeneratedValue
-    private int dm_id;
+    @Column(name = "dm_id")
+    private int dmId;
 
     @ManyToOne
     @JoinColumn(name = "dmroom_id")
