@@ -1,6 +1,10 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name="Files")
@@ -13,15 +17,15 @@ public class Files {
     @JoinColumn(name="member_id")
     private Members memberId;
 
-//    @ManyToOne
-//    @JoinColumn(name="portfolio_id")
-//    private String portfolioId;
+    @ManyToOne
+    @JoinColumn(name="portfolio_id")
+    private Portfolios portfolioId;
 
     private String name;
     private String url;
     private String type;
-    private String modifyDate;
-    private String createDate;
-
-
+    @LastModifiedDate
+    private LocalDate modifyDate;
+    @CreatedDate
+    private LocalDate createDate;
 }
