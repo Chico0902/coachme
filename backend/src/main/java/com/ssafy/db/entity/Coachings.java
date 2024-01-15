@@ -11,17 +11,17 @@ public class Coachings {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="coaching_id")
-    private String coachingId;
+    private Integer coachingId;
 
     @ManyToOne
     @JoinColumn(name="member_id")
-    private Members memberId;
+    private Members member;
 
     @Column(name="category_i")
-    private String categoryI;
+    private String mainCategory;
 
     @Column(name="category_ii")
-    private String categoryII;
+    private String subCategory;
 
     @Column(name="coaching_name")
     private String coachingName;
