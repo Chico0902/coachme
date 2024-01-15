@@ -13,15 +13,13 @@ public class Files {
     @JoinColumn(name="member_id")
     private Members memberId;
 
-//    @ManyToOne
-//    @JoinColumn(name="portfolio_id")
-//    private String portfolioId;
+    @ManyToOne
+    @JoinColumn(name="portfolio_id")
+    private Portfolios portfolioId;
 
     private String name;
     private String url;
     private String type;
     private String modifyDate;
     private String createDate;
-
-
 }
