@@ -15,11 +15,11 @@ public class Files {
 
     @ManyToOne
     @JoinColumn(name="member_id")
-    private Members memberId;
+    private Members member;
 
     @ManyToOne
     @JoinColumn(name="portfolio_id")
-    private Portfolios portfolioId;
+    private Portfolios portfolio;
 
     private String name;
     private String url;

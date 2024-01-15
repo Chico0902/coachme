@@ -14,11 +14,11 @@ public class MemberAndCoaching {
 
     @ManyToOne
     @JoinColumn(name="coaching_date_id")
-    private CoachingDates coachingDateId;
+    private CoachingDates coachingDates;
 
     @ManyToOne
     @JoinColumn(name="member_id")
-    private Members memberId;
+    private Members member;
 
     @CreatedDate
     private LocalDate createDate;

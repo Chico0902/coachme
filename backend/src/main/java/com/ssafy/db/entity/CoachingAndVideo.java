@@ -11,11 +11,11 @@ public class CoachingAndVideo {
 
     @ManyToOne
     @JoinColumn(name="coaching_id")
-    private Coachings coachingId;
+    private Coachings coaching;
 
     @ManyToOne
     @JoinColumn(name="file_id")
-    private Files fileId;
+    private Files files;
 
 
 }
