@@ -7,6 +7,7 @@ public class CoachingAndVideo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="coaching_video_id")
     private Integer coachingVideoId;
 
     @ManyToOne
@@ -15,6 +16,7 @@ public class CoachingAndVideo {
 
     @ManyToOne
     @JoinColumn(name="file_id")
+    @Column(name="create_date")
     private Files files;
 
 
