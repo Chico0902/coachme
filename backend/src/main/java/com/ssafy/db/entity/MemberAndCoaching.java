@@ -11,6 +11,7 @@ public class MemberAndCoaching {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="mycoaching_list")
     private Integer mycoachingList;
 
     @ManyToOne
@@ -22,6 +23,7 @@ public class MemberAndCoaching {
     private Members member;
 
     @CreatedDate
+
     private LocalDateTime createDate;
 
 
