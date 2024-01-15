@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-public class Coachings {
+public class Coaching {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="coaching_id")
@@ -15,7 +14,7 @@ public class Coachings {
 
     @ManyToOne
     @JoinColumn(name="member_id")
-    private Members member;
+    private Member member;
 
     @Column(name="category_i")
     private String mainCategory;

@@ -6,19 +6,22 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 
 @Entity
-public class DMRooms {
+public class DM {
     @Id
     @GeneratedValue
-    @Column(name = "dmroom_id")
-    private int dmroomId;
+    @Column(name = "dm_id")
+    private int dmId;
 
     @ManyToOne
-    @JoinColumn(name = "coame_member_id")
-    private Members coame;
+    @JoinColumn(name = "dmroom_id")
+    private DMRoom dmRoom;
 
     @ManyToOne
-    @JoinColumn(name = "coach_member_id")
-    private Members coach;
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @Column
+    private String message;
 
     @CreatedDate
     @Column(name = "create_date")

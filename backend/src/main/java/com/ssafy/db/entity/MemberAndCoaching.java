@@ -3,7 +3,6 @@ package com.ssafy.db.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,11 +15,11 @@ public class MemberAndCoaching {
 
     @ManyToOne
     @JoinColumn(name="coaching_date_id")
-    private CoachingDates coachingDates;
+    private CoachingDate coachingDate;
 
     @ManyToOne
     @JoinColumn(name="member_id")
-    private Members member;
+    private Member member;
 
     @CreatedDate
 

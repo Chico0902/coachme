@@ -4,35 +4,38 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="Files")
-public class Files {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="file_id")
-    private Integer fileId;
+    @Column(name = "review_id")
+    private Integer reviewId;
 
     @ManyToOne
-    @JoinColumn(name="member_id")
-    private Members member;
+    @JoinColumn(name = "coame_member_id")
+    private Member coame;
 
     @ManyToOne
-    @JoinColumn(name="portfolio_id")
-    private Portfolios portfolio;
+    @JoinColumn(name = "coaching_id")
+    private Coaching coaching;
+
+    @ManyToOne
+    @JoinColumn(name = "coach_member_id")
+    private Member coach;
 
     @Column
-    private String name;
+    private String comment;
+
     @Column
-    private String url;
-    @Column
-    private String type;
+    private Integer score;
+
     @LastModifiedDate
-    @Column(name="modify_date")
+    @Column(name = "modify_date")
     private LocalDateTime modifyDate;
+
     @CreatedDate
-    @Column(name="create_date")
+    @Column(name = "create_date")
     private LocalDateTime createDate;
 }

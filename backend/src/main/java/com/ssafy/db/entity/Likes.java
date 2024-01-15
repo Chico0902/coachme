@@ -12,15 +12,15 @@ public class Likes {
 
     @ManyToOne
     @JoinColumn(name = "coach_member_id")
-    private Members coach;
+    private Member coach;
 
     @ManyToOne
     @JoinColumn(name = "coame_member_id")
-    private Members coame;
+    private Member coame;
 
     @ManyToOne
     @JoinColumn(name = "coaching_id")
-    private Coachings coaching;
+    private Coaching coaching;
 
     @Column(name = "is_mycoaching")
     private Integer isMycoaching;
