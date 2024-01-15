@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +17,7 @@ public class Portfolios {
     @Column
     private String description;
 
+    @CreatedDate
     @Column
     private LocalDateTime create_date;
 }
