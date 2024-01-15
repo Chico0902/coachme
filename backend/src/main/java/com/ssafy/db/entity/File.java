@@ -7,35 +7,31 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 
 @Entity
-public class Reviews {
+@Table(name="Files")
+public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "review_id")
-    private Integer reviewId;
+    @Column(name="file_id")
+    private Integer fileId;
 
     @ManyToOne
-    @JoinColumn(name = "coame_member_id")
-    private Members coame;
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "coaching_id")
-    private Coachings coaching;
-
-    @ManyToOne
-    @JoinColumn(name = "coach_member_id")
-    private Members coach;
+    @JoinColumn(name="portfolio_id")
+    private Portfolio portfolio;
 
     @Column
-    private String comment;
-
+    private String name;
     @Column
-    private Integer score;
-
+    private String url;
+    @Column
+    private String type;
     @LastModifiedDate
-    @Column(name = "modify_date")
+    @Column(name="modify_date")
     private LocalDateTime modifyDate;
-
     @CreatedDate
-    @Column(name = "create_date")
+    @Column(name="create_date")
     private LocalDateTime createDate;
 }

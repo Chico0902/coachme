@@ -9,7 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 
 @Entity
-public class Portfolios {
+public class Portfolio {
     @Id
     @GeneratedValue
     @Column(name = "portfolio_id")

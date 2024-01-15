@@ -7,7 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 
 @Entity
-public class Members {
+public class Member {
 
     @Id
     @Column(name = "member_id")
@@ -47,5 +47,5 @@ public class Members {
 
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
-    private Portfolios portfolios;
+    private Portfolio portfolio;
 }

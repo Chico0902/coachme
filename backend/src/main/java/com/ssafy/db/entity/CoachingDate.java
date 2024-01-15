@@ -3,11 +3,10 @@ package com.ssafy.db.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-public class CoachingDates {
+public class CoachingDate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="coaching_date_id")
@@ -15,7 +14,7 @@ public class CoachingDates {
 
     @ManyToOne
     @JoinColumn(name="coaching_id")
-    private Coachings coaching;
+    private Coaching coaching;
 
     @CreatedDate
     @Column(name = "coaching_date")
