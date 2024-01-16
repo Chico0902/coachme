@@ -7,23 +7,23 @@ import java.time.LocalDateTime;
 
 @Entity
 public class DM {
-    @Id
-    @GeneratedValue
-    @Column(name = "dm_id")
-    private int dmId;
+  @Id
+  @GeneratedValue
+  @Column(name = "dm_id")
+  private int dmId;
 
-    @ManyToOne
-    @JoinColumn(name = "dmroom_id")
-    private DMRoom dmRoom;
+  @ManyToOne
+  @JoinColumn(name = "dmroom_id")
+  private DMRoom dmRoom;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+  @ManyToOne
+  @JoinColumn(name = "member_id")
+  private Member member;
 
-    @Column
-    private String message;
+  @Column
+  private String message;
 
-    @CreatedDate
-    @Column(name = "create_date")
-    private LocalDateTime createDate;
+  @CreatedDate
+  @Column(name = "create_date")
+  private LocalDateTime createDate;
 }

@@ -7,17 +7,17 @@ import java.time.LocalDateTime;
 
 @Entity
 public class CoachingDate {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="coaching_date_id")
-    private Integer coachingDateId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "coaching_date_id")
+  private Integer coachingDateId;
 
-    @ManyToOne
-    @JoinColumn(name="coaching_id")
-    private Coaching coaching;
+  @ManyToOne
+  @JoinColumn(name = "coaching_id")
+  private Coaching coaching;
 
-    @CreatedDate
-    @Column(name = "coaching_date")
-    private LocalDateTime coachingDate;
+  @CreatedDate
+  @Column(name = "coaching_date")
+  private LocalDateTime coachingDate;
 
 }

@@ -1,4 +1,4 @@
-package com.ssafy.db.repository;
+package com.ssafy.api.member.repository;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class MemberRepository {
 
-    private final EntityManager em;
+  private final EntityManager em;
 
 
 }

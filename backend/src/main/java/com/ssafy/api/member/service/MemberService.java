@@ -1,7 +1,7 @@
-package com.ssafy.api.service;
+package com.ssafy.api.member.service;
 
-import com.ssafy.api.request.RegistMemberDto;
-import com.ssafy.db.repository.MemberRepository;
+import com.ssafy.api.member.request.RegistMemberDto;
+import com.ssafy.api.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+  private final MemberRepository memberRepository;
 
-    @Transactional
-    public void regist(RegistMemberDto registMemberDto) {
+  @Transactional
+  public void regist(RegistMemberDto registMemberDto) {
 
-    }
+  }
 }
