@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import RouterButtonView from '../views/RouterButtonView.vue'
 import MainView from '../views/MainView.vue'
 import ProposalView from '../views/ProposalView.vue'
 import SpecView from '../views/SpecView.vue'
@@ -9,6 +10,7 @@ import GitView from '../views/GitView.vue'
 import AgileView from '../views/AgileView.vue'
 import ConventionView from '../views/ConventionView.vue'
 import ErdView from '../views/ErdView.vue'
+import MinutesView from '../views/MinutesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,52 +18,57 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      component: MainView
+      components: { default: MainView, nav: RouterButtonView }
     },
     {
       path: '/proposal',
       name: 'proposal',
-      component: ProposalView
+      components: { default: ProposalView, nav: RouterButtonView }
     },
     {
       path: '/spec',
       name: 'spec',
-      component: SpecView
+      components: { default: SpecView, nav: RouterButtonView }
     },
     {
       path: '/wireframe',
       name: 'wireframe',
-      component: WireframeView
+      components: { default: WireframeView, nav: RouterButtonView }
     },
     {
       path: '/dic',
       name: 'dic',
-      component: DicView
+      components: { default: DicView, nav: RouterButtonView }
     },
     {
       path: '/api',
       name: 'api',
-      component: ApiView
+      components: { default: ApiView, nav: RouterButtonView }
     },
     {
       path: '/git',
       name: 'git',
-      component: GitView
+      components: { default: GitView, nav: RouterButtonView }
     },
     {
       path: '/agile',
       name: 'agile',
-      component: AgileView
+      components: { default: AgileView, nav: RouterButtonView }
     },
     {
       path: '/convention',
       name: 'convention',
-      component: ConventionView
+      components: { default: ConventionView, nav: RouterButtonView }
     },
     {
       path: '/erd',
       name: 'erd',
-      component: ErdView
+      components: { default: ErdView, nav: RouterButtonView }
+    },
+    {
+      path: '/minutes',
+      name: 'minutes',
+      components: { default: MinutesView, nav: RouterButtonView }
     }
   ]
 })
