@@ -5,18 +5,18 @@ import jakarta.persistence.*;
 @Entity
 public class CoachingAndVideo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="coaching_video_id")
-    private Integer coachingVideoId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "coaching_video_id")
+  private Integer coachingVideoId;
 
-    @ManyToOne
-    @JoinColumn(name="coaching_id")
-    private Coaching coaching;
+  @ManyToOne
+  @JoinColumn(name = "coaching_id")
+  private Coaching coaching;
 
-    @ManyToOne
-    @JoinColumn(name="file_id")
-    private File file;
+  @ManyToOne
+  @JoinColumn(name = "file_id")
+  private File file;
 
 
 }

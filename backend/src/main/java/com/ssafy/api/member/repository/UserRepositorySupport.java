@@ -1,11 +1,11 @@
-package com.ssafy.db.repository;
+package com.ssafy.api.member.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserRepositorySupport {
 
-    @Autowired
-    UserRepository userRepository;
+//  @Autowired
+  UserRepository userRepository;
 
 
 }

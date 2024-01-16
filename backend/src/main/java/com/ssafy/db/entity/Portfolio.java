@@ -10,15 +10,15 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Portfolio {
-    @Id
-    @GeneratedValue
-    @Column(name = "portfolio_id")
-    private int portfolioId;
+  @Id
+  @GeneratedValue
+  @Column(name = "portfolio_id")
+  private int portfolioId;
 
-    @Column
-    private String description;
+  @Column
+  private String description;
 
-    @CreatedDate
-    @Column(name = "create_date")
-    private LocalDateTime createDate;
+  @CreatedDate
+  @Column(name = "create_date")
+  private LocalDateTime createDate;
 }

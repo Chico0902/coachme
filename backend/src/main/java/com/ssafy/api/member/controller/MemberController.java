@@ -1,7 +1,7 @@
-package com.ssafy.api.controller;
+package com.ssafy.api.member.controller;
 
-import com.ssafy.api.request.RegistMemberDto;
-import com.ssafy.api.service.MemberService;
+import com.ssafy.api.member.request.RegistMemberDto;
+import com.ssafy.api.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,21 +17,21 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService memberService;
+  private final MemberService memberService;
 
-    @PostMapping
-    public ResponseEntity<Map<String, Object>> registMember(@RequestBody @Validated RegistMemberDto registMemberDto) {
-        Map<String, Object> responseMessage = new HashMap<>();
-        HttpStatus status = HttpStatus.ACCEPTED;
-        try {
-            memberService.regist(registMemberDto);
-            responseMessage.put("message","Regist Done !");
-            status = HttpStatus.OK;
-        } catch (Exception e) {
-            responseMessage.put("message","Error !");
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return new ResponseEntity<Map<String, Object>>(responseMessage, status);
+  @PostMapping
+  public ResponseEntity<Map<String, Object>> registMember(@RequestBody @Validated RegistMemberDto registMemberDto) {
+    Map<String, Object> responseMessage = new HashMap<>();
+    HttpStatus status = HttpStatus.ACCEPTED;
+    try {
+      memberService.regist(registMemberDto);
+      responseMessage.put("message", "Regist Done !");
+      status = HttpStatus.OK;
+    } catch (Exception e) {
+      responseMessage.put("message", "Error !");
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
+    return new ResponseEntity<Map<String, Object>>(responseMessage, status);
+  }
 
 }
