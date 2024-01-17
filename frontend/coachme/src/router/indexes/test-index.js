@@ -3,12 +3,12 @@ import TestRegistView from '../../tests/components/TestRegistView.vue'
 export default [
   {
     path: '/test/login',
-    name: 'login-test',
+    name: 'test-login',
     component: TestLoginView
   },
   {
     path: '/test/regist',
-    name: 'regist-test',
+    name: 'test-regist',
     component: TestRegistView
   }
 ]

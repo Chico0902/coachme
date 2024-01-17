@@ -6,14 +6,16 @@
 export function validateId(id) {
   // Exception : not empty
   if (id === '') {
-    throw new Error('not empty')
+    return false
   }
 
   // Exception : invalid input
   const re = new RegExp(/^[a-zA-Z0-9]*$/)
   if (!re.test(id)) {
-    throw new Error('invalid input')
+    return false
   }
+
+  return true
 }
 
 /**
@@ -93,7 +95,7 @@ export function validateEmail(email) {
  * @param {String} pw 계정 pw
  * @returns
  */
-export async function validateRegist(id, pw, name, nick, email) {
+export function validateRegist(id, pw, name, nick, email) {
   try {
     validateId(id)
     validatePassword(pw)
