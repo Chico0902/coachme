@@ -10,7 +10,7 @@ export default {
       description: '로그인 요청 시 해당 id와 pw가 유효한지 여부를 응답한다.',
       request: {
         name: 'LoginRequestDto',
-        data: { id: 'String', pw: 'String' }
+        data: { id: 'String(max : 20)', pw: 'String(max : 30)' }
       },
       response: {
         name: 'LoginResponseDto',
@@ -41,11 +41,11 @@ export default {
       request: {
         name: 'MemberRegistRequestDto',
         data: {
-          name: 'String',
-          id: 'String',
-          pw: 'String',
-          nick: 'String',
-          email: 'String'
+          id: 'String(max : 20)',
+          pw: 'String(max : 30)',
+          name: 'String(max : 50)',
+          nick: 'String(max : 10)',
+          email: 'String(max : 50)'
         }
       },
       response: {
@@ -116,7 +116,7 @@ export default {
       id: 'member-5',
       spec: '1-6',
       method: 'GET',
-      uri: '/members?id={멤버 pk}',
+      uri: '/members/{멤버 pk}',
       privilege: '1',
       description: '기본 회원정보 조회',
       request: {},
@@ -138,7 +138,7 @@ export default {
       id: 'member-6',
       spec: '1-6',
       method: 'PATCH',
-      uri: '/members?id={멤버 pk}',
+      uri: '/members/{멤버 pk}',
       privilege: '1',
       description: '기본 회원정보 수정',
       request: {
@@ -167,14 +167,14 @@ export default {
       id: 'member-7',
       spec: '1-7',
       method: 'GET',
-      uri: '/members/profile/text?id={멤버 pk}',
+      uri: '/members/profiles/texts/{멤버 pk}',
       privilege: '1',
       description: '코미나 코치의 프로필 글에 대한 조회결과를 전송한다.',
       request: {},
       response: {
         name: 'ProfileTextResponseDto',
         success: {
-          description: '프로필 조회결과 전송',
+          description: '프로필 글 조회결과 전송',
           code: '200',
           data: {
             profileText: 'String'
@@ -191,17 +191,17 @@ export default {
       id: 'member-8',
       spec: '1-7',
       method: 'GET',
-      uri: '/members/profile/image?id={멤버 pk}',
+      uri: '/members/profiles/images/{멤버 pk}',
       privilege: '1',
       description: '코미나 코치의 프로필 사진에 대한 조회결과를 전송한다.',
       request: {},
       response: {
-        name: 'MultipartFile',
+        name: 'ProfileImageResponseDto',
         success: {
-          description: '프로필 조회결과 전송',
+          description: '프로필 사진 조회결과 전송',
           code: '200',
           data: {
-            byte: 'Byte'
+            profileImageUrl: 'String'
           }
         },
         fail: {
@@ -215,7 +215,7 @@ export default {
       id: 'member-9',
       spec: '1-7',
       method: 'POST',
-      uri: '/members/profile/text?id={멤버 pk}',
+      uri: '/members/profiles/texts/{멤버 pk}',
       privilege: '1',
       description: '코치나 코미가 프로필 글을 등록한다.',
       request: {
@@ -242,7 +242,7 @@ export default {
       id: 'member-10',
       spec: '1-7',
       method: 'POST',
-      uri: '/members/profile/image?id={멤버 pk}',
+      uri: '/members/profiles/images/{멤버 pk}',
       privilege: '1',
       description: '코치나 코미가 프로필 사진을 등록한다.',
       request: {
@@ -267,7 +267,7 @@ export default {
       id: 'member-11',
       spec: '1-7',
       method: 'PATCH',
-      uri: '/members/profile/text?id={멤버 pk}',
+      uri: '/members/profiles/texts/{멤버 pk}',
       privilege: '1',
       description: '코치나 코미가 프로필 글을 수정한다.',
       request: {
@@ -294,9 +294,9 @@ export default {
       id: 'member-12',
       spec: '1-7',
       method: 'PATCH',
-      uri: '/members/profile/image?id={멤버 pk}',
+      uri: '/members/profiles/images/{멤버 pk}',
       privilege: '1',
-      description: '코치나 코미가 프로필 사진을 수정한다.',
+      description: '코치나 코미가 프로필 사진을 수정한다. 기존 프로필 사진은 삭제한다.',
       request: {
         name: 'ProfileImageModifyRequestDto',
         data: { type: 'FormData' }
@@ -304,7 +304,7 @@ export default {
       response: {
         name: 'ProfileImageModifyResponseDto',
         success: {
-          description: '프로필 사진 수정 완료',
+          description: '프로필 사진 수정 및 기존파일 삭제 완료',
           code: '200',
           data: { message: 'String' }
         },
@@ -319,7 +319,7 @@ export default {
       id: 'member-13',
       spec: '1-7',
       method: 'DELETE',
-      uri: '/members/profile/text?id={멤버 pk}',
+      uri: '/members/profiles/texts/{멤버 pk}',
       privilege: '1',
       description: '코치나 코미가 프로필 글을 삭제한다.',
       request: {},
@@ -327,28 +327,6 @@ export default {
         name: 'ProfileTextDeleteResponseDto',
         success: {
           description: '프로필 글 삭제 완료',
-          code: '200',
-          data: { message: 'String' }
-        },
-        fail: {
-          description: '잘못된 요청',
-          code: '403',
-          data: { message: 'String' }
-        }
-      }
-    },
-    {
-      id: 'member-14',
-      spec: '1-7',
-      method: 'DELETE',
-      uri: '/members/profile/image?id={멤버 pk}',
-      privilege: '1',
-      description: '코치나 코미가 프로필 사진을 삭제한다.',
-      request: {},
-      response: {
-        name: 'ProfileImageDeleteResponseDto',
-        success: {
-          description: '프로필 사진 삭제 완료',
           code: '200',
           data: { message: 'String' }
         },
