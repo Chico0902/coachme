@@ -10,28 +10,27 @@ color : 글자 색상. 색상코드를 문자열로. 기본값 #FFFFFF
 import { reactive } from "vue";
 
 const props = defineProps({
-  label: {  // 버튼 라벨
-    type: String,
-    default: "버튼"
+  label : {  // 버튼 라벨
+    type : String,
+    default : "버튼"
   },
-
-  size: { // 버튼 크기
-    type: String,
-    default: ""
+  size : { // 버튼 크기
+    type : String,
+    default : ""
   },
-  background: {
-    type: String,
-    default: "#FCBF17"
+  background : { // 버튼 색상
+    type : String,
+    default : "#FCBF17"
   },
-  color: {
-    type: String,
-    default: "#FFFFFF"
+  color : { // 글자 색상
+    type : String,
+    default : "#FFFFFF"
   },
 });
 
 const styleObject = reactive({
-  background: props.background,
-  color: props.color
+  background : props.background,
+  color : props.color
 }) // 인라인 스타일문, 버튼 스타일에 적용
 
 </script>

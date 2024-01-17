@@ -6,9 +6,9 @@ list : 이미지 링크 객체. Object로. 기본값 : quasar 사이트 예시 �
 import { ref } from "vue";
 
 const props = defineProps({
-  list: {
-    type: Object,
-    default: () => {
+  list : { // 이미지 링크 객체
+    type : Object,
+    default : () => {
       return ["https://cdn.quasar.dev/img/mountains.jpg", "https://cdn.quasar.dev/img/parallax1.jpg", "https://cdn.quasar.dev/img/parallax2.jpg", "https://cdn.quasar.dev/img/quasar.jpg"]
     }
   }
