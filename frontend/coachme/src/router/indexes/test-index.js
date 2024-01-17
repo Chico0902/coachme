@@ -1,8 +1,8 @@
-import TestMemberView from '../../tests/components/TestMemberView.vue'
+import TestLoginView from '../../tests/components/TestLoginView.vue'
 export default [
   {
     path: '/test/login',
     name: 'login-test',
-    component: TestMemberView
+    component: TestLoginView
   }
 ]
