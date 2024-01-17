@@ -10,7 +10,7 @@ export function validateId(id) {
   }
 
   // Exception : invalid input
-  const re = /^[a-zA-Z0-9]*$/
+  const re = new RegExp(/^[a-zA-Z0-9]*$/)
   if (!re.test(id)) {
     throw new Error('invalid input')
   }
@@ -28,15 +28,15 @@ export function validatePassword(pw) {
   }
 
   // Exception : not include upper characters
-  const upper = new RegExp(/^[A-Z]*$/)
+  const upper = new RegExp(/^[A-Z]/)
   if (!upper.test(pw)) {
     throw new Error('not include upper characters')
   }
 
   // Exception : not include special characters
-  const special = new RegExp(/^[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]*$/)
+  const special = new RegExp(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g)
   if (!special.test(pw)) {
-    throw new Error('not include upper characters')
+    throw new Error('not include special characters')
   }
 }
 
@@ -87,20 +87,6 @@ export function validateEmail(email) {
   }
 }
 /**
- * 아이디와 비밀번호를 입력받아서 해당 로그인 요청이 유효한지 확인하는 함수
- * @param {String} id 계정 id
- * @param {String} pw 계정 pw
- * @returns
- */
-export function validateLogin(id, pw) {
-  try {
-    validateId(id)
-    validatePassword(pw)
-  } catch (err) {
-    throw '잘못된 로그인 요청입니다.'
-  }
-}
-/**
  * 계정정보를 입력받아서 해당 회원가입 요청이 유효한지 확인하는 함수
  * @param {String} id 계정 id
  * @param {String} pw 계정 pw
@@ -120,6 +106,32 @@ export async function validateRegist(id, pw, name, nick, email) {
         throw new Error('기입하지 않은 항목이 있습니다.')
       case 'invalid input':
         throw new Error('유효하지 않은 입력값이 있습니다.')
+      case 'password not enough length':
+        throw new Error('비밀번호의 길이가 충분하지 않습니다.')
+      case 'not include upper characters':
+        throw new Error('비밀번호는 대문자를 포함해야 합니다.')
+      case 'not include special characters':
+        throw new Error('비밀번호는 특수문자를 포함해야 합니다.')
+    }
+  }
+}
+/**
+ * 아이디와 비밀번호를 입력받아서 해당 로그인 요청이 유효한지 확인하는 함수
+ * @param {String} id 계정 id
+ * @param {String} pw 계정 pw
+ * @returns
+ */
+export function validateLogin(id, pw) {
+  try {
+    validateId(id)
+    validatePassword(pw)
+    return true
+  } catch (e) {
+    switch (e.message) {
+      case 'not empty':
+        throw new Error('기입하지 않은 항목이 있습니다.')
+      case 'invalid input':
+        throw new Error('아이디 혹은 비밀번호를 확인하세요.')
       case 'password not enough length':
         throw new Error('비밀번호의 길이가 충분하지 않습니다.')
       case 'not include upper characters':
