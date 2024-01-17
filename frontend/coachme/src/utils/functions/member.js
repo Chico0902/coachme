@@ -34,6 +34,7 @@ export function validatePassword(pw) {
   }
 
   // Exception : not include special characters
+  // eslint-disable-next-line no-useless-escape
   const special = new RegExp(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g)
   if (!special.test(pw)) {
     throw new Error('not include special characters')
