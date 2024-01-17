@@ -17,7 +17,12 @@ export default {
         success: {
           description: '해당 로그인 요청 유효함',
           code: '200',
-          data: { message: 'String', privilege: 'String', token: 'String' }
+          data: {
+            memberId: 'Long',
+            privilege: 'String',
+            accessToken: 'String',
+            refreshToken: 'String'
+          }
         },
         fail: {
           description: '잘못된 로그인 요청',
@@ -63,8 +68,7 @@ export default {
       method: 'GET',
       uri: '/members?id={아이디}&email={email주소}',
       privilege: '0',
-      description:
-        '비밀번호 찾기 요청 시 해당 아이디와 이메일이 유효한지 확인하고, 이메일로 임시 비밀번호를 발송한다.',
+      description: '비밀번호 찾기 요청 시 해당 아이디와 이메일이 유효한지 확인하고, 이메일로 임시 비밀번호를 발송한다.',
       request: {},
       response: {
         name: 'FindPwResponseDto',
@@ -187,7 +191,7 @@ export default {
       id: 'member-8',
       spec: '1-7',
       method: 'GET',
-      uri: '/members/profile/image/?id={멤버 pk}',
+      uri: '/members/profile/image?id={멤버 pk}',
       privilege: '1',
       description: '코미나 코치의 프로필 사진에 대한 조회결과를 전송한다.',
       request: {},
