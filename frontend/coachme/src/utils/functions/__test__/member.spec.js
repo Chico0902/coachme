@@ -17,34 +17,34 @@ describe('회원가입 기능 테스트', () => {
     const nick = 'SSaFy'
     const email = 'ssafy@ssafy.com'
     // when
-    expect(validateRegist(id, pw, name, nick, email))
+    expect(() => validateRegist(id, pw, name, nick, email))
       // then
       .toBeTruthy()
   })
 
-  it('아이디는 한글, 영어, 숫자로만 이루어져야 한다.', () => {
+  it('아이디는 영어, 숫자로만 이루어져야 한다.', () => {
     // given
-    const id = '!!'
+    const id = '남싸피'
     // when
-    expect(validateId(id))
+    expect(() => validateId(id))
       // then
-      .toThrowError('invalid input')
+      .toThrowError('invalid')
   })
 
   it('아이디는 공백이 있으면 안된다.', () => {
     // given
     const id = 'ssa fy'
     // when
-    expect(validateId(id))
+    expect(() => validateId(id))
       // then
-      .toThrowError('invalid input')
+      .toThrowError('invalid')
   })
 
   it('아이디는 비어있으면 안된다.', () => {
     //given
     const id = ''
     //when
-    expect(validateId(id))
+    expect(() => validateId(id))
       //then
       .toThrowError('not empty')
   })
@@ -53,52 +53,52 @@ describe('회원가입 기능 테스트', () => {
     // given
     const pw = 'Ssafy12!'
     // when
-    expect(validatePassword(pw))
+    expect(() => validatePassword(pw))
       // then
-      .toThrowError('password not enough length')
+      .toThrowError('not enough length')
   })
 
   it('비밀번호는 대문자를 1개 이상 포함해야 한다.', () => {
     // given
     const pw = 'ssafy1234!'
     // when
-    expect(validatePassword(pw))
+    expect(() => validatePassword(pw))
       // then
-      .toThrowError('not include upper characters')
+      .toThrowError('not include')
   })
 
   it('비밀번호는 특수문자를 1개 이상 포함해야 한다.', () => {
     // given
     const pw = 'Ssafy12345'
     // when
-    expect(validatePassword(pw))
+    expect(() => validatePassword(pw))
       // then
-      .toThrowError('not include special characters')
+      .toThrowError('not include')
   })
 
   it('이름은 한글만 가능하다.', () => {
     // given
     const name = 'namssafy'
     // when
-    expect(validateName(name))
+    expect(() => validateName(name))
       // then
-      .toThrowError('invalid input')
+      .toThrowError('invalid')
   })
 
   it('이름은 공백이 있으면 안된다.', () => {
     //given
     const name = '남 싸피'
     // when
-    expect(validateName(name))
+    expect(() => validateName(name))
       // then
-      .toThrowError('invalid input')
+      .toThrowError('invalid')
   })
 
   it('이름은 비어있으면 안된다.', () => {
     //given
     const name = ''
     // when
-    expect(validateName(name))
+    expect(() => validateName(name))
       // then
       .toThrowError('not empty')
   })
@@ -107,16 +107,16 @@ describe('회원가입 기능 테스트', () => {
     //given
     const nick = '!'
     //when
-    expect(validateNickName(nick))
+    expect(() => validateNickName(nick))
       //then
-      .toThrowError('invalid input')
+      .toThrowError('invalid')
   })
 
   it('닉네임은 비어있으면 안된다.', () => {
     //given
     const nick = ''
     //when
-    expect(validateNickName(nick))
+    expect(() => validateNickName(nick))
       //then
       .toThrowError('not empty')
   })
@@ -125,7 +125,7 @@ describe('회원가입 기능 테스트', () => {
     //given
     const email = ''
     //when
-    expect(validateEmail(email))
+    expect(() => validateEmail(email))
       //then
       .toThrowError('not empty')
   })

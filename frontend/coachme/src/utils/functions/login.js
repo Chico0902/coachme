@@ -6,10 +6,14 @@
  */
 export function validateLogin(id, pw) {
   // Exception : not empty
-  if (id === '' || pw === '') return false
+  if (id === '' || pw === '') {
+    throw new Error('not empty')
+  }
 
   // Exception : not English or Number
   const re = /^[a-zA-Z0-9]*$/
-  if (!re.test(id)) return false
+  if (!re.test(id)) {
+    throw new Error('invalid input')
+  }
   return true
 }
