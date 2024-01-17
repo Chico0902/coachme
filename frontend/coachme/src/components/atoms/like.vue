@@ -1,21 +1,33 @@
-<!-- 좋아요 버튼 컴포넌트
+<!-- 찜콩 버튼 컴포넌트
 필요한 정보 : 클릭 이벤트
 clicked : 클릭 이벤트가 담긴 함수, function으로 보낼 것. 디폴트값 없음
 -->
 
 <script setup>
+import { useCounterStore } from "../../stores/like-counter";
+
+const store = useCounterStore();
+
+const { incrementCount, getCount } = store
+
 const props = defineProps({
-  clicked: {
-    type: Function,
-    default: () => { }
+  clicked : { // 클릭 이벤트
+    type : Function,
+    default : () => {
+    }
   },
 });
+
+incrementCount()
+const number = getCount()
+const id = "checkbox" + number
+
 </script>
 
 <template>
   <div>
-    <input type="checkbox" id="checkbox" @click="clicked()" />
-    <label for="checkbox">
+    <input type="checkbox" :id="id" @click="props.clicked()" />
+    <label :for="id">
       <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
         <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
           <path
@@ -112,11 +124,11 @@ svg {
   }
 }
 
-#checkbox {
+[id^="checkbox"] {
   display: none;
 }
 
-#checkbox:checked+label svg {
+[id^="checkbox"]:checked+label svg {
   #heart {
     transform: scale(.2);
     fill: #E2264D;
