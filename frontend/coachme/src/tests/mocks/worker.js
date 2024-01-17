@@ -8,9 +8,15 @@ const mockLoginResponseDto = {
   refreshToken: 'mock-refresh-token'
 }
 
+const mockMemberRegistResponseDto = {
+  message: '회원가입 성공'
+}
 const handlers = [
   http.post('http://localhost/members/login', () => {
     return HttpResponse.json(mockLoginResponseDto)
+  }),
+  http.post('http://localhost/members', () => {
+    return HttpResponse.json(mockMemberRegistResponseDto)
   })
 ]
 
