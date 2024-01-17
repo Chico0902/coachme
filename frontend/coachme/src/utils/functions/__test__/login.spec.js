@@ -11,37 +11,37 @@ describe('로그인 기능 테스트', () => {
       // then
       .toBeTruthy()
   })
-  it('입력이 없을 때 false를 반환해야 한다.', () => {
+  it('입력이 없을 때 안된다.', () => {
     // given
     const id = ''
     const pw = ''
     // when
-    expect(validateLogin(id, pw))
+    expect(() => validateLogin(id, pw))
       // then
-      .toBeFalsy()
+      .toThrowError('not empty')
   })
 
-  it('아이디만 입력했을때 false를 반환해야 한다.', () => {
+  it('아이디만 입력했을때 안된다.', () => {
     // given
     const id = 'ssafy'
     const pw = ''
     // when
-    expect(validateLogin(id, pw))
+    expect(() => validateLogin(id, pw))
       // then
-      .toBeFalsy()
+      .toThrowError('not empty')
   })
 
-  it('비밀번호만 입력했을때 false를 반환해야 한다.', () => {
+  it('비밀번호만 입력했을때 안된다.', () => {
     // given
     const id = ''
     const pw = 'ssafy1234!'
     // when
-    expect(validateLogin(id, pw))
+    expect(() => validateLogin(id, pw))
       // then
-      .toBeFalsy()
+      .toThrowError('not empty')
   })
 
-  it('아이디에 특수문자가 들어가면 false를 반환해야 한다.', () => {
+  it('아이디에 특수문자가 들어가면 안된다.', () => {
     // given
     const ids = [
       '!',
@@ -73,18 +73,18 @@ describe('로그인 기능 테스트', () => {
     const pw = 'ssafy1234!'
     // when
     ids.forEach((id) => {
-      expect(validateLogin(id, pw))
+      expect(() => validateLogin(id, pw))
         // then
-        .toBeFalsy()
+        .toThrowError('invalid')
     })
   })
-  it('한글이 포함되면 false를 반환해야 한다.', () => {
+  it('한글이 포함되면 안된다.', () => {
     //given
     const id = '남상엽'
     const pw = 'ssafy1234!'
     //when
-    expect(validateLogin(id, pw))
+    expect(() => validateLogin(id, pw))
       //then
-      .toBeFalsy()
+      .toThrowError('invalid')
   })
 })
