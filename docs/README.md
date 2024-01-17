@@ -1,35 +1,32 @@
 # docs
 
-This template should help get you started developing with Vue 3 in Vite.
+- 프로젝트에 필요한 문서를 Vue.js로 작성
 
-## Recommended IDE Setup
+## 실행방법
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+1. 현재 프로젝트 fetch받음
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+2. docs 브랜치 로컬에 생성
+```
+git checkout -b docs origin/docs
 ```
 
-### Compile and Hot-Reload for Development
+3. docs 문서로 이동
+```
+cd ~<프로젝트 경로>/S10P12A403/docs
+```
 
-```sh
+4. npm 의존성 설치
+```
+npm i
+```
+
+5. 터미널 명령어로 vite 서버 개발자 모드 실행
+```
 npm run dev
 ```
 
-### Compile and Minify for Production
+6. localhost:1234에서 문서 확인 가능
 
-```sh
-npm run build
-```
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+## 기타 수정이 필요하거나 문의사항은 팀장에게 문의하세요!
