@@ -1,14 +1,14 @@
 package com.ssafy.api.member.repository;
 
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
+import com.ssafy.db.entity.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-@RequiredArgsConstructor
-public class MemberRepository {
+public interface MemberRepository extends JpaRepository<Member, String> {
 
-  private final EntityManager em;
-
+  Optional<Member> findByMemberId(String memberId);
 
 }
