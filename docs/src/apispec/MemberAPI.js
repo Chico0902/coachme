@@ -7,7 +7,7 @@ export default {
       method: 'POST',
       uri: '/members/login',
       privilege: '0',
-      description: '로그인 요청 시 해당 id와 pw가 유효한지 여부를 응답한다.',
+      description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {
         name: 'LoginRequestDto',
         data: { id: 'String(max : 20)', pw: 'String(max : 30)' }

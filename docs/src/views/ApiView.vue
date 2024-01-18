@@ -9,6 +9,7 @@ import videoCoachingAPI from '../apispec/VideoCoachingAPI'
 import likeAPI from '../apispec/LikeAPI'
 import reviewAPI from '../apispec/ReviewAPI'
 import paymentAPI from '../apispec/PaymentAPI'
+import authAPI from '../apispec/AuthAPI'
 import SideIndex from '../components/SideIndex.vue'
 const indexes = [
   { id: 'spec-1', title: 'Member API' },
@@ -20,7 +21,8 @@ const indexes = [
   { id: 'spec-7', title: 'VideoCoaching API' },
   { id: 'spec-8', title: 'Like API' },
   { id: 'spec-9', title: 'Review API' },
-  { id: 'spec-10', title: 'Payment API' }
+  { id: 'spec-10', title: 'Payment API' },
+  { id: 'spec-11', title: 'Auth API' }
 ]
 
 const apiSpecs = [
@@ -33,7 +35,8 @@ const apiSpecs = [
   videoCoachingAPI,
   likeAPI,
   reviewAPI,
-  paymentAPI
+  paymentAPI,
+  authAPI
 ]
 </script>
 <template>
@@ -92,6 +95,11 @@ const apiSpecs = [
       <h4>
         <li class="p-2">
           <a href="#spec-10">Payment API</a>
+        </li>
+      </h4>
+      <h4>
+        <li class="p-2">
+          <a href="#spec-10">Auth API</a>
         </li>
       </h4>
     </ol>

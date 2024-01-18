@@ -33,7 +33,7 @@
       <li class="p-1">환경설정 내용에 한글 문제 확인하기</li>
       <li class="p-1">영문 대소문자 구별 문제, 공백문자 확인하기</li>
       <li class="p-1">OS, language, library, framework 버전 확인하기</li>
-      <li class="p-1">네트워크 연결 + port 확인하기(telnet명령어 적극 확용)</li>
+      <li class="p-1">네트워크 연결 + port 확인하기(telnet명령어 적극 확용 / 안되면 curl -v telnet)</li>
       <li class="p-1">캐릭터 인코딩(utf-8, euc-kr 등) 확인하기</li>
       <li class="p-1">제품 로그(log) 확인(Web Server, WAS 등)하기</li>
     </ol>
