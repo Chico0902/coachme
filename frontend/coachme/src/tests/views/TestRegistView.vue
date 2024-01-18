@@ -84,54 +84,54 @@ const regist = (id, pw, pwConfirm, name, nick, email) => {
           standout="bg-teal text-white"
           v-model="id"
           label="아이디"
-          maxlength="20"
           hint="영어와 숫자로 4글자 이상 입력하세요."
           error-message="잘못된 입력입니다."
           :error="!isValidId"
+          maxlength="20"
         />
         <q-input
           standout="bg-teal text-white"
           type="password"
           v-model="pw"
           label="비밀번호"
-          maxlength="30"
           error-message="비밀번호는 9글자 이상으로, 대문자와 특수문자를 포함해야 합니다."
           :error="!isValidPassword"
+          maxlength="30"
         />
         <q-input
           standout="bg-teal text-white"
           type="password"
           v-model="pwConfirm"
           label="비밀번호"
-          maxlength="30"
           error-message="비밀번호와 일치하지 않습니다."
           :error="!isValidPasswordConfirm"
+          maxlength="30"
         />
         <q-input
           standout="bg-teal text-white"
           v-model="name"
           label="이름"
-          maxlength="10"
           hint="한글만 가능합니다."
           error-message="한글을 제외한 문자는 입력할 수 없습니다."
           :error="!isValidName"
+          maxlength="10"
         />
         <q-input
           standout="bg-teal text-white"
           v-model="nick"
           label="닉네임"
-          maxlength="10"
           hint="영어, 숫자, 한글만 가능합니다."
           error-message="닉네임은 특수문자를 포함할 수 없습니다."
           :error="!isValidNickName"
+          maxlength="10"
         />
         <q-input
           standout="bg-teal text-white"
           type="email"
           v-model="email"
           label="이메일"
-          maxlength="50"
           hint="이메일 주소를 입력하세요."
+          maxlength="50"
         />
         <q-btn type="submit" color="secondary" label="회원가입" style="justify-self: center" />
       </div>
