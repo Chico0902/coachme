@@ -1,3 +1,4 @@
+<script setup></script>
 <template>
   <div class="q-ma-lg">
     <h3 class="mt-5">테스트를 위한 Index Page</h3>
@@ -10,6 +11,9 @@
       </RouterLink>
       <RouterLink :to="{ name: 'test-newpassword' }">
         <q-btn color="secondary" label="비밀번호 찾기" />
+      </RouterLink>
+      <RouterLink :to="{ name: 'test-profile' }">
+        <q-btn color="warning" label="프로필 업로드" />
       </RouterLink>
     </div>
   </div>
