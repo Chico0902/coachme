@@ -1,5 +1,6 @@
 <!-- 로그인 후 nav 컴포넌트 
-아직 분리 덜 됐음
+필요한 정보 없음
+
 -->
 
 <script setup>
@@ -8,22 +9,26 @@ import sidebar from '../atoms/Sidebar.vue'
 import { ref } from 'vue';
 
 const sidebarOpen = ref(false);
+// 사이드바 오픈 여부
 
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value;
-};
+}; // 햄버거 버튼 클릭시 오픈 여부 변경
 
 const closeSidebar = () => {
   sidebarOpen.value = false
 }
+// 사이드바에서 X키를 눌렀다면 오픈 여부 변경
 
 const sideMenu = ['Home', 'About', 'Service', 'Contact']
+// 사이드바 메뉴는 여기서 변경
 
 </script>
 
 <template>
   <div class="menu-container">
     <q-toolbar class="text-black rounded-borders" style="width: 80vw;">
+      <!-- 햄버거 버튼 -->
       <q-btn flat class="burger_button" @click="toggleSidebar">
         <div class="navbar_burger">
           <span class="material-symbols-outlined">
@@ -33,11 +38,13 @@ const sideMenu = ['Home', 'About', 'Service', 'Contact']
       </q-btn>
       <q-space></q-space>
 
+      <!-- 로고 -->
       <q-btn flat>
         <img src="../icons/4.png" width="150px">
       </q-btn>
       <q-space></q-space>
 
+      <!-- 프로필 사진 -->
       <q-btn flat>
         <profile></profile>
       </q-btn>
@@ -63,5 +70,9 @@ body {
 button {
   font-size: 20px;
   cursor: pointer;
+}
+
+.material-symbols-outlined {
+  font-size: 36px;
 }
 </style>

@@ -12,6 +12,7 @@ import category from '../components/molecules/Category.vue'
 import { reactive } from "vue";
 
 const input = reactive({})
+// 선택한 메뉴와 입력값
 
 const searchData = (data) => {
   input.value = data
@@ -28,7 +29,7 @@ const bColor = "#FCBF17"
 const dColor = "blue-10"
 const label0 = "검색하기"
 const list = ["코치명", "코칭제목"]
-// 검색 컴포넌트의 버튼 색상, 드롭다운 색상, 버튼 라벨 순
+// 검색 컴포넌트의 버튼 색상, 드롭다운 색상, 버튼 라벨, 드롭다운 메뉴 순
 
 const label = "whiteCat"
 const caption = "Cat is white"
@@ -41,24 +42,38 @@ const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
 </script>
 
 <template>
+  <!-- 로그인 후 nav -->
   <loginNavbar></loginNavbar>
   <div>
+    <!-- 로그인 이전 nav -->
     <navbar></navbar>
+
+    <!-- 검색창 -->
     <search :label="label0" :dColor="dColor" :bColor="bColor" :list="list" @search-data="searchData"></search>
+    
+    <!-- 카테고리 -->
     <div class="row q-gutter-md">
       <category></category>
     </div>
+
+    <!-- 인기코치 카드 -->
     <div class="row q-gutter-md">
       <card :label="label" :caption="caption" :img="image" :liked="liked1"></card>
       <card :label="label" :caption="caption" :img="image" :liked="liked1"></card>
     </div>
+
+    <!-- 인기코칭 카드-->
     <div class="row q-gutter-md">
       <coaching :label="label" :caption="caption" :ratio="ratio" :video="video" :liked="liked1"></coaching>
       <coaching :label="label" :caption="caption" :ratio="ratio" :video="video" :liked="liked1"></coaching>
     </div>
+
+    <!-- 캐러셀 -->
     <div>
       <carousel></carousel>
     </div>
+
+    <!-- footer -->
     <div>
       <footerBar></footerBar>
     </div>

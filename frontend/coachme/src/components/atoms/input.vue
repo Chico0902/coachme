@@ -35,7 +35,7 @@ onMounted(() => {
     data.value = e.target.value;
     emit('updateData', data) // 상위 컴포넌트로 입력값 emit
   });
-}); // 한글 바로 갱신을 위한 이벤트리스너
+}); // 한글 갱신을 위한 이벤트리스너
 
 </script>
 

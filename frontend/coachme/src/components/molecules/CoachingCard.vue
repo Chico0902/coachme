@@ -37,20 +37,26 @@ const props = defineProps({
 <template>
   <div class="q-pa-md row items-start q-gutter-md" style="max-width: 300px; min-width: 300px">
     <q-card class="my-card">
+      <!-- 상단 섹션 -->
       <q-item>
+        <!-- 영상 -->
         <q-item-section>
           <q-video :ratio="`${props.ratio}`" :src="`${props.video}`"></q-video>
         </q-item-section>
       </q-item>
       <q-separator></q-separator>
+      <!-- 하단 섹션 -->
       <q-item>
+        <!-- 캡션과 라벨 -->
         <q-item-section>
           <labels :label="`${props.label}`"></labels>
           <labels caption :label="`${props.caption}`"></labels>
         </q-item-section>
+        <!-- 공간 차지-->
         <q-item-section>
           <q-space></q-space>
         </q-item-section>
+        <!-- 찜콩 버튼-->
         <q-item-section>
           <like :clicked="liked"></like>
         </q-item-section>

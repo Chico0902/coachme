@@ -1,5 +1,9 @@
 <!-- 메인 페이지 검색 컴포넌트
 필요한 내용 : 버튼 라벨, 버튼 색, 드롭다운 색, 드롭다운 메뉴 리스트
+label : 버튼 위에 붙을 문구. 문자열. 기본값 없음
+bColor : 버튼 색. 문자열. 기본값 없음
+dColor : 드롭다운 색. 문자열. 기본값 없음. 색상 코드가 아니라, quasar의 컬러파레트 색상 이름 사용.
+list : 드롭다운 메뉴 리스트. object. 기본값 없음
 그 외에는 고정. 그 요소들은 최상단 컴포넌트가 아니라 여기서 바꿀 것
 -->
 <script setup>
@@ -54,6 +58,7 @@ const color = "#FFFFFF"
 
 <template>
   <div id="search">
+    <!-- 드롭다운, 입력폼, 버튼 -->
     <dropdown style="height:56px; min-width: 125px" :color="`${props.dColor}`" :list="props.list" @click-menu="clickMenu"> </dropdown>
     <inputs style="width:500px" @update-data="updateData"></inputs>
     <buttons style="height:56px" :label="`${props.label}`" :background="`${props.bColor}`" :color="color"
