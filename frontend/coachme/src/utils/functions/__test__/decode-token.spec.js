@@ -8,7 +8,7 @@ describe('토큰 디코딩 테스트', () => {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIxMjMiLCJuYW1lIjoi6rOg7JaR7J20IiwicHJpdmlsZWdlIjoiQ09BTUUifQ.el7ZYY5gjG2Jr6Te2cx_Ia-qllT1-hU2Jrz69vr0PYg'
     // when
     const info = {
-      uid: '123',
+      mid: '123',
       name: '고양이',
       privilege: 'COAME'
     }
