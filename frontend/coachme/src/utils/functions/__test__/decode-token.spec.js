@@ -7,9 +7,14 @@ describe('토큰 디코딩 테스트', () => {
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIxMjMiLCJuYW1lIjoi6rOg7JaR7J20IiwicHJpdmlsZWdlIjoiQ09BTUUifQ.el7ZYY5gjG2Jr6Te2cx_Ia-qllT1-hU2Jrz69vr0PYg'
     // when
-    expect(decodeToken(token))
-      // then
-      .toBeTruthy()
+    const info = {
+      uid: '123',
+      name: '고양이',
+      privilege: 'COAME'
+    }
+    // then
+    expect(decodeToken(token)).toBeTruthy()
+    expect(decodeToken(token)).toEqual(info)
   })
 
   it('토큰정보는 비어있을 수 없다', () => {
