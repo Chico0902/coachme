@@ -8,6 +8,9 @@
       <RouterLink :to="{ name: 'test-regist' }">
         <q-btn color="primary" label="회원가입" />
       </RouterLink>
+      <RouterLink :to="{ name: 'test-newpassword' }">
+        <q-btn color="secondary" label="비밀번호 찾기" />
+      </RouterLink>
     </div>
   </div>
 </template>

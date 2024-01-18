@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { postLoginRequest } from '../../utils/api/member-api'
 import { LoginRequestDto } from '../../utils/api/dto/member-dto'
-import { validateChangePassword } from '../../utils/functions/member'
+import { validateId, validateChangePassword } from '../../utils/functions/member'
 import { useRouter } from 'vue-router'
 
 // variables
@@ -11,6 +11,14 @@ const email = ref('')
 const router = useRouter()
 
 // methods
+
+// 아이디 검증
+const isValidId = computed(() => {
+  // 글씨 쓰기전에 작동 안하게 하기(이하 동일)
+  if (id.value === '') return true
+  return validateId(id.value)
+})
+
 const changePassword = (id, email) => {
   try {
     // validation
@@ -35,14 +43,23 @@ const changePassword = (id, email) => {
 </script>
 <template>
   <div class="q-pa-md">
-    <form @submit.prevent="login(id, pw)">
+    <form @submit.prevent="changePassword(id, email)">
       <div class="q-gutter-md" style="max-width: 500px">
-        <q-input standout="bg-teal text-white" v-model="id" label="아이디" maxlength="20" />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="id"
+          label="아이디"
+          hint="영어와 숫자로 4글자 이상 입력하세요."
+          error-message="잘못된 입력입니다."
+          :error="!isValidId"
+          maxlength="20"
+        />
         <q-input
           standout="bg-teal text-white"
           type="email"
           v-model="email"
           label="이메일"
+          hint="이메일 주소를 입력하세요."
           maxlength="50"
         />
         <q-btn type="submit" color="secondary" label="비밀번호 찾기" style="justify-self: center" />
