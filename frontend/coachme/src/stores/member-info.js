@@ -14,7 +14,7 @@ export const useMemberStore = defineStore('member-info', {
     strategies: [
       {
         storage: sessionStorage,
-        paths: ['memberId', 'privilege', 'accessToken', 'refreshToken']
+        paths: ['accessToken', 'refreshToken']
       }
     ]
   }

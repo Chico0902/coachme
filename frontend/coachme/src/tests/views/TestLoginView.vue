@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { postLoginRequest } from '../../utils/api/member-api'
 import { LoginRequestDto } from '../../utils/api/dto/member-dto'
-import { validateLogin } from '../../utils/functions/member'
+import { validateId, validatePassword, validateLogin } from '../../utils/functions/member'
 import { useMemberStore } from '../../stores/member-info'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
@@ -13,6 +13,19 @@ const pw = ref('')
 const memberStore = useMemberStore()
 const { memberId, privilege, accessToken, refreshToken } = storeToRefs(memberStore)
 const router = useRouter()
+
+// 아이디 검증
+const isValidId = computed(() => {
+  // 글씨 쓰기전에 작동 안하게 하기(이하 동일)
+  if (id.value === '') return true
+  return validateId(id.value)
+})
+
+// 비밀번호 검증
+const isValidPassword = computed(() => {
+  if (pw.value === '') return true
+  return validatePassword(pw.value)
+})
 
 // methods
 const login = (id, pw) => {
@@ -45,12 +58,22 @@ const login = (id, pw) => {
   <div class="q-pa-md">
     <form @submit.prevent="login(id, pw)">
       <div class="q-gutter-md" style="max-width: 500px">
-        <q-input standout="bg-teal text-white" v-model="id" label="아이디" maxlength="20" />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="id"
+          label="아이디"
+          hint="영어와 숫자로 4글자 이상 입력하세요."
+          error-message="잘못된 입력입니다."
+          :error="!isValidId"
+          maxlength="20"
+        />
         <q-input
           standout="bg-teal text-white"
           type="password"
           v-model="pw"
           label="비밀번호"
+          error-message="비밀번호는 9글자 이상으로, 대문자와 특수문자를 포함해야 합니다."
+          :error="!isValidPassword"
           maxlength="30"
         />
         <q-btn type="submit" color="secondary" label="로그인" style="justify-self: center" />
