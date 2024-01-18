@@ -1,8 +1,11 @@
 <script setup>
-import { ref } from 'vue'
 import TestProfileImage from '../components/TestProfileImage.vue'
+import { useProfileStore } from '@/stores/profile'
+import { storeToRefs } from 'pinia'
 
-const profileImage = ref('')
+// variables
+const profileStore = useProfileStore()
+const { profileImage } = storeToRefs(profileStore)
 </script>
 <template>
   <div>

@@ -1,7 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { useProfileStore } from '@/stores/profile'
+import { storeToRefs } from 'pinia'
 
-const profileText = ref('')
+// variables
+const profileStore = useProfileStore()
+const { profileText } = storeToRefs(profileStore)
 </script>
 <template>
   <q-input
@@ -18,7 +21,7 @@ const profileText = ref('')
     </template>
 
     <template v-slot:after>
-      <q-btn round dense flat icon="send" @click="$emit('changeTextEmit')" />
+      <q-btn round dense flat icon="send" @click="$emit('changeTextEmit', profileText)" />
     </template>
   </q-input>
 </template>

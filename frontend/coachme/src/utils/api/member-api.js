@@ -196,8 +196,8 @@ export function patchProfileText(uid, dto, success, fail) {
             message : String
           }
  */
-export function patchProfileImage(uid, dto, success, fail) {
-  axios.patch(`/members/profiles/images/${uid}`, dto).then(success).catch(fail)
+export function patchProfileImage(uid, file, success, fail) {
+  axios.patch(`/members/profiles/images/${uid}`, file).then(success).catch(fail)
 }
 
 /**
