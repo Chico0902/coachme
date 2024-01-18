@@ -3,10 +3,6 @@ server:
     context-path: '/'
   port: 80
 
-logging:
-  level:
-    com.ssafy: DEBUG
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,15 +13,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
   redis:
     host: localhost
     port: 6379
-
-jwt:
-  secret: 4850d7ebde9ae79a8e736767b3cd227412a2307701ad67ccf5c23d3ba9df16f1c4bd2c16212e67de81d2786b2a6f82e3d41bcd588294b1055bf54456647083cd
-  access-token-expire: 1800000
-  refresh-token-expire: 86400000
