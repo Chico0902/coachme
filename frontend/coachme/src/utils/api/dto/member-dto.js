@@ -29,3 +29,16 @@ export class MemberRegistRequestDto {
     this.email = email
   }
 }
+
+export class changePasswordRequestDto {
+  /**
+   * API번호 : member-2
+   * 비밀번호 변경 요청을 위한 DTO 클래스
+   * @param {*} id
+   * @param {*} email
+   */
+  constructor(id, email) {
+    this.id = id
+    this.email = email
+  }
+}
