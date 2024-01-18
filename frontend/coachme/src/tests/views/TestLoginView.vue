@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { postLoginRequest } from '../../utils/api/member-api'
 import { LoginRequestDto } from '../../utils/api/dto/member-dto'
 import { validateId, validatePassword, validateLogin } from '../../utils/functions/member'
-import { useMemberStore } from '../../stores/member-info'
+import { useMemberStore } from '../../stores/member'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
