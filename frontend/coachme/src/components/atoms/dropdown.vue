@@ -1,6 +1,6 @@
 <!-- dropdown 컴포넌트 
 필요한 정보 : 라벨, 색상, 크기, 메뉴 리스트
-label : 드롭다운 메뉴 상단에 표시되는 문구. 문자열. 초기값 "선택"
+label : 드롭다운 메뉴 상단에 표시되는 문구. 문자열. 초기값 "분류 선택"
 color : 드롭다운 메뉴 색상. 문자열. 초기값 : "blue-10". 그 외에 추천 값 "amber-7" 프로젝트 색상 기준
 그 외에는 색상표 참고 : https://quasar.dev/style/color-palette/
 size : 드롭다운의 글자 크기. 문자열. 기본값 없음. 추천값 : px, rem, (xs|sm|md|lg|xl) 
@@ -13,7 +13,7 @@ import { ref, onMounted } from 'vue'
 const props = defineProps({
   label : {  // 드롭다운 상단 문구
     type : String,
-    default : "선택"
+    default : "분류 선택"
   },
   color : { // 드롭다운 메뉴 색상
     type : String,
@@ -26,7 +26,7 @@ const props = defineProps({
   list: { // 드롭다운 메뉴 리스트
     type : Object,   
     default: () => {
-      return ["검색하기", "강의 제목", "강의명"]
+      return ["A","B","C"]
     }
   }
 });
@@ -45,7 +45,6 @@ const clickEvent = (menu) => {
 onMounted(() => {
   topLabel.value = props.label
 }) // 최초로 마운트시, 상단 문구를 따로 저장하기
-
 
 </script>
 
