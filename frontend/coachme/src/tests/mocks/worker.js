@@ -2,24 +2,28 @@ import { setupWorker } from 'msw/browser'
 import { HttpResponse, http } from 'msw'
 
 const mockLoginResponseDto = {
-  accessToken: 'mock-access-token',
-  refreshToken: 'mock-refresh-token'
+  data: { accessToken: 'mock-access-token', refreshToken: 'mock-refresh-token' }
 }
 
 const mockMemberRegistResponseDto = {
-  message: '회원가입 성공'
+  data: { message: '회원가입 성공' }
 }
 
 const mockChangePasswordResponseDto = {
-  message: '비밀번호 변경 및 임시 비밀번호 발송 완료'
+  data: { message: '비밀번호 변경 및 임시 비밀번호 발송 완료' }
 }
-
+const mockProfileResponseDto = {
+  data: {
+    profileText: '테스트 프로필입니다. 사진은 랜덤입니다.',
+    profileImageUrl: 'https://picsum.photos/200'
+  }
+}
 const mockProfileImageModifyResponseDto = {
-  message: '프로필 사진 수정 및 기존파일 삭제 완료'
+  data: { message: '프로필 사진 수정 및 기존파일 삭제 완료' }
 }
 
 const mockProfileTextModifyResponseDto = {
-  message: '프로필 변경 완료'
+  data: { message: '프로필 변경 완료' }
 }
 
 const handlers = [
@@ -31,6 +35,10 @@ const handlers = [
   }),
   http.patch('http://localhost/members/passwords', () => {
     return HttpResponse.json(mockChangePasswordResponseDto)
+  }),
+  http.patch('http://localhost/members/profiles/:id', ({ params }) => {
+    console.log('params : ' + params.id)
+    return HttpResponse.json(mockProfileResponseDto)
   }),
   http.patch('http://localhost/members/profiles/images/:id', ({ params }) => {
     console.log('params : ' + params.id)
