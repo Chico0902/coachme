@@ -4,7 +4,7 @@ import { HttpResponse, http } from 'msw'
 const mockLoginResponseDto = {
   data: {
     accessToken:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIxMjMiLCJuYW1lIjoi6rOg7JaR7J20IiwicHJpdmlsZWdlIjoiQ09BTUUifQ.el7ZYY5gjG2Jr6Te2cx_Ia-qllT1-hU2Jrz69vr0PYg',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsIm5hbWUiOiLqs6DslpHsnbQiLCJwcml2aWxlZ2UiOiJDT0FNRSJ9.CJQRuGr5AxmK7Rva0ner_84rHjPc9baBJ3KwD630xRs',
     refreshToken: 'mock-refresh-token'
   }
 }
@@ -23,7 +23,7 @@ const mockProfileResponseDto = {
   }
 }
 const mockProfileImageModifyResponseDto = {
-  data: { message: '프로필 사진 수정 및 기존파일 삭제 완료' }
+  data: { profileImageUrl: 'https://picsum.photos/200/300' }
 }
 
 const mockProfileTextModifyResponseDto = {
@@ -40,7 +40,7 @@ const handlers = [
   http.patch('http://localhost/members/passwords', () => {
     return HttpResponse.json(mockChangePasswordResponseDto)
   }),
-  http.patch('http://localhost/members/profiles/:id', ({ params }) => {
+  http.get('http://localhost/members/profiles/:id', ({ params }) => {
     console.log('params : ' + params.id)
     return HttpResponse.json(mockProfileResponseDto)
   }),

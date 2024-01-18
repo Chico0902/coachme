@@ -1,9 +1,10 @@
 <script setup>
+import { ref } from 'vue'
 import { useProfileStore } from '@/stores/profile'
 
 // variables
 const profileStore = useProfileStore()
-const profileText = profileStore.profileText
+const profileText = ref(profileStore.profileText)
 </script>
 <template>
   <q-input
@@ -16,7 +17,13 @@ const profileText = profileStore.profileText
     maxlength="50"
   >
     <template v-slot:append>
-      <q-icon v-if="profileText == ''" name="draw" />
+      <q-icon
+        v-if="profileText !== ''"
+        name="close"
+        @click.stop.prevent="profileText = null"
+        class="cursor-pointer"
+      />
+      <q-icon v-else name="draw" />
     </template>
 
     <template v-slot:after>

@@ -11,7 +11,7 @@ import { useRouter } from 'vue-router'
 const id = ref('')
 const pw = ref('')
 const memberStore = useMemberStore()
-const { memberId, privilege, accessToken, refreshToken } = storeToRefs(memberStore)
+const { accessToken, refreshToken } = storeToRefs(memberStore)
 const router = useRouter()
 
 // 아이디 검증
@@ -38,10 +38,8 @@ const login = (id, pw) => {
     postLoginRequest(
       dto,
       (success) => {
-        memberId.value = success.data.memberId
-        privilege.value = success.data.privilege
-        accessToken.value = success.data.accessToken
-        refreshToken.value = success.data.refreshToken
+        accessToken.value = success.data.data.accessToken
+        refreshToken.value = success.data.data.refreshToken
         alert('로그인 성공')
         router.push({ name: 'test-index' })
       },
