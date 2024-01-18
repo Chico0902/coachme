@@ -21,6 +21,7 @@ const autoplay = ref(true)
 <template>
       <q-carousel animated v-model="slide" navigation infinite :autoplay="autoplay" arrows transition-prev="slide-right"
         transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true" class="rounded-borders">
+        <!-- 캐러셀 이미지 공간 -->
           <q-carousel-slide v-for="(slide, index) in props.list" :key="slide" :name="index" :img-src="slide"></q-carousel-slide>
       </q-carousel>
 </template>

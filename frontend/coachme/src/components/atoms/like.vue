@@ -18,9 +18,11 @@ const props = defineProps({
   },
 });
 
-incrementCount()
+incrementCount() // 찜콩 버튼 개수 증가
+
 const number = getCount()
 const id = "checkbox" + number
+// 아이디는 checkbox + 찜콩 버튼 개수
 
 </script>
 

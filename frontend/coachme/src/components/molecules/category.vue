@@ -1,3 +1,9 @@
+<!-- 카테고리 컴포넌트 
+필요한 정보 없음
+style은 아이콘을 결정하는 이름 -> 가능하면 수정 x
+label 아이콘 밑에 메뉴 이름
+-->
+
 <script setup>
 
 const category = [
@@ -5,12 +11,14 @@ const category = [
   { style: "sports_and_outdoors", label: "Sport" },
   { style: "terminal", label: "Develop" },
   { style: "favorite", label: "Health" },
-  { style: "grid_view", label: "ETC" },]
+  { style: "grid_view", label: "ETC" },
+]
 
 </script>
 
 <template>
   <q-toolbar class="text-black rounded-borders" style="max-width: 40vw;">
+    <!-- 카테고리에 표시될 메뉴 -->
     <div v-for="menu in category" :key="menu">
       <q-btn flat class="button">
         <span class="material-symbols-outlined">{{ menu.style }}</span>
@@ -23,7 +31,7 @@ const category = [
 <style scoped>
 .material-symbols-outlined {
   font-size: 36px;
-}
+} 
 
 .menu-text {
   margin: 5px;

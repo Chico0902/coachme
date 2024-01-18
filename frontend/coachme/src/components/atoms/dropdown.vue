@@ -51,6 +51,7 @@ onMounted(() => {
 <template>
     <q-btn-dropdown to="/start/pick-quasar-flavour" :color="`${props.color}`" :label="topLabel" :size="`${props.size}`">
       <q-list>
+        <!-- 드롭다운 메뉴 -->
         <div v-for="menu in props.list" :key="menu">
           <q-item clickable v-close-popup>
             <q-item-section @click=clickEvent(menu)>
