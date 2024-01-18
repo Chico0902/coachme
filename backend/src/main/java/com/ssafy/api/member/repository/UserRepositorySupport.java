@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserRepositorySupport {
 
-//  @Autowired
+  @Autowired
   UserRepository userRepository;
 
 
