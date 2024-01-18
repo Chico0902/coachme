@@ -238,7 +238,7 @@ export default {
         success: {
           description: '프로필 사진 등록 완료',
           code: '200',
-          data: { message: 'String' }
+          data: { profileImageUrl: 'String' }
         },
         fail: {
           description: '잘못된 요청',
@@ -290,7 +290,7 @@ export default {
         success: {
           description: '프로필 사진 수정 및 기존파일 삭제 완료',
           code: '200',
-          data: { message: 'String' }
+          data: { profileImageUrl: 'String' }
         },
         fail: {
           description: '잘못된 요청',
