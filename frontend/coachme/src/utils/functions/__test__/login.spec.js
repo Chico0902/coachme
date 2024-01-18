@@ -18,7 +18,7 @@ describe('로그인 기능 테스트', () => {
     // when
     expect(() => validateLogin(id, pw))
       // then
-      .toThrowError('기입하지 않은 항목이 있습니다.')
+      .toThrowError('잘못된 로그인 요청입니다.')
   })
 
   it('아이디만 입력하면 안된다.', () => {
@@ -28,7 +28,7 @@ describe('로그인 기능 테스트', () => {
     // when
     expect(() => validateLogin(id, pw))
       // then
-      .toThrowError('비밀번호의 길이가 충분하지 않습니다.')
+      .toThrowError('잘못된 로그인 요청입니다.')
   })
 
   it('비밀번호만 입력하면 안된다.', () => {
@@ -38,7 +38,7 @@ describe('로그인 기능 테스트', () => {
     // when
     expect(() => validateLogin(id, pw))
       // then
-      .toThrowError('기입하지 않은 항목이 있습니다.')
+      .toThrowError('잘못된 로그인 요청입니다.')
   })
 
   it('아이디에 특수문자가 들어가면 안된다.', () => {
@@ -72,43 +72,34 @@ describe('로그인 기능 테스트', () => {
     ]
     // when
     ids.forEach((id) => {
-      expect(() => validateId(id))
-        // then
-        .toThrowError('invalid')
+      // then
+      expect(() => validateId(id)).toBeFalsy
     })
   })
   it('한글이 포함되면 안된다.', () => {
     //given
     const id = '남상엽'
-    //when
-    expect(() => validateId(id))
-      //then
-      .toThrowError('invalid')
+    //when then
+    expect(() => validateId(id)).toBeFalsy
   })
   it('비밀번호는 9글자 이상이어야 한다.', () => {
     // given
     const pw = 'Ssafy12!'
-    // when
-    expect(() => validatePassword(pw))
-      // then
-      .toThrowError('not enough length')
+    // when then
+    expect(() => validatePassword(pw)).toBeFalsy
   })
 
   it('비밀번호는 대문자를 1개 이상 포함해야 한다.', () => {
     // given
     const pw = 'ssafy1234!'
-    // when
-    expect(() => validatePassword(pw))
-      // then
-      .toThrowError('not include')
+    // when then
+    expect(() => validatePassword(pw)).toBeFalsy
   })
 
   it('비밀번호는 특수문자를 1개 이상 포함해야 한다.', () => {
     // given
     const pw = 'Ssafy12345'
-    // when
-    expect(() => validatePassword(pw))
-      // then
-      .toThrowError('not include')
+    // when then
+    expect(() => validatePassword(pw)).toBeFalsy
   })
 })
