@@ -14,7 +14,7 @@ const router = useRouter()
 
 // 아이디 검증
 const isValidId = computed(() => {
-  // 글씨 쓰기전에 작동 안하게 하기(이하 동일)
+  // 글씨 쓰기전에 작동 안하게 하기
   if (id.value === '') return true
   return validateId(id.value)
 })
