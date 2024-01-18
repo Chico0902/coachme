@@ -30,7 +30,7 @@ const login = (id, pw) => {
         accessToken.value = success.data.accessToken
         refreshToken.value = success.data.refreshToken
         alert('로그인 성공')
-        router.push({ name: 'home' })
+        router.push({ name: 'test-index' })
       },
       // API 호출 실패 시 오류메시지 콘솔에 출력
       (fail) => console.log(fail)
