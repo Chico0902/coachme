@@ -1,11 +1,10 @@
 <script setup>
 import TestProfileImage from '../components/TestProfileImage.vue'
-import { useProfileStore } from '@/stores/profile'
-import { storeToRefs } from 'pinia'
+import { useProfileStore } from '../../stores/profile'
 
 // variables
 const profileStore = useProfileStore()
-const { profileImage } = storeToRefs(profileStore)
+const profileImage = profileStore.profileImage
 </script>
 <template>
   <div>
@@ -24,12 +23,12 @@ const { profileImage } = storeToRefs(profileStore)
 
       <template v-slot:append>
         <q-icon
-          v-if="profileImage !== null"
+          v-if="profileImage !== ''"
           name="close"
           @click.stop.prevent="profileImage = null"
           class="cursor-pointer"
         />
-        <q-icon name="create_new_folder" @click.stop.prevent />
+        <q-icon v-else name="create_new_folder" @click.stop.prevent />
       </template>
 
       <template v-slot:after>

@@ -1,10 +1,9 @@
 <script setup>
 import { useProfileStore } from '@/stores/profile'
-import { storeToRefs } from 'pinia'
 
 // variables
 const profileStore = useProfileStore()
-const { profileText } = storeToRefs(profileStore)
+const profileText = profileStore.profileText
 </script>
 <template>
   <q-input
