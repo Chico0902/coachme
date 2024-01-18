@@ -1,7 +1,7 @@
 /**
  * 아이디를 입력받아서 해당 요청이 유효한지 확인하는 함수
- * @param {String} id 계정 이름
- * @returns
+ * @param {String} id 계정 아이디
+ * @returns true : 유효한 아이디 / false : 잘못된 아이디
  */
 export function validateId(id) {
   // Exception : not empty
@@ -20,7 +20,7 @@ export function validateId(id) {
 /**
  * 비밀번호를 입력받아서 해당 요청이 유효한지 확인하는 함수
  * @param {String} pw 계정 비밀번호
- * @returns
+ * @returns true : 유효한 비밀번호 / false : 잘못된 비밀번호
  */
 export function validatePassword(pw) {
   // Exception : password not enough length
@@ -42,7 +42,7 @@ export function validatePassword(pw) {
  * 비밀번호와 확인값을 입력받아서 해당 요청이 유효한지 확인하는 함수
  * @param {String} pw 계정 비밀번호
  * @param {String} pwConfirm 계정 비밀번호 확인
- * @returns
+ * @returns true : 유효한 비밀번호 확인 / false : 잘못된 비밀번호 확인
  */
 export function validatePasswordConfirm(pw, pwConfirm) {
   // Exception : password not same
@@ -54,7 +54,7 @@ export function validatePasswordConfirm(pw, pwConfirm) {
 /**
  * 이름을 입력받아서 해당 요청이 유효한지 확인하는 함수
  * @param {String} name 계정 이름
- * @returns
+ * @returns true : 유효한 이름 / false : 잘못된 이름
  */
 export function validateName(name) {
   // Exception : not empty
@@ -70,7 +70,7 @@ export function validateName(name) {
 /**
  * 닉네임을 입력받아서 해당 요청이 유효한지 확인하는 함수
  * @param {String} nick 계정 닉네임
- * @returns
+ * @returns true : 유효한 닉네임 / false : 잘못된 닉네임
  */
 export function validateNickName(nick) {
   // Exception : not empty
@@ -95,14 +95,20 @@ export function validateEmail(email) {
 }
 /**
  * 계정정보를 입력받아서 해당 회원가입 요청이 유효한지 확인하는 함수
- * @param {String} id 계정 id
- * @param {String} pw 계정 pw
- * @returns
+ * @param {String} id 계정 아이디
+ * @param {String} pw 계정 비밀번호
+ * @param {String} pwConfirm 비밀번호 확인
+ * @param {String} name 계정 이름
+ * @param {String} nick 계정 닉네임
+ * @param {String} email 계정 이메일
+ * @returns true : 유효한 회원가입 요청
+ * @throws '잘못된 회원가입 요청입니다.'
  */
 export function validateRegist(id, pw, pwConfirm, name, nick, email) {
   if (
     validateId(id) &&
     validatePassword(pw) &&
+    validatePassword(pwConfirm) &&
     validateName(name) &&
     validateNickName(nick) &&
     validateEmail(email)
@@ -112,11 +118,23 @@ export function validateRegist(id, pw, pwConfirm, name, nick, email) {
 }
 /**
  * 아이디와 비밀번호를 입력받아서 해당 로그인 요청이 유효한지 확인하는 함수
- * @param {String} id 계정 id
- * @param {String} pw 계정 pw
- * @returns
+ * @param {String} id 계정 아이디
+ * @param {String} pw 계정 비밀번호
+ * @returns true : 유효한 로그인 요청
+ * @throws '잘못된 로그인 요청입니다.'
  */
 export function validateLogin(id, pw) {
   if (validateId(id) && validatePassword(pw)) return true
   else throw new Error('잘못된 로그인 요청입니다.')
+}
+/**
+ * 아이디와 이메일을 입력받아서 해당 비밀번호 변경 요청이 유효한지 확인하는 함수
+ * @param {String} id 계정 아이디
+ * @param {String} email 계정 이메일
+ * @returns true : 유효한 비밀번호 찾기 요청
+ * @throws '잘못된 비밀번호 변경 요청입니다.'
+ */
+export function validateChangePassword(id, email) {
+  if (validateId(id) && validateEmail(email)) return true
+  else throw new Error('잘못된 비밀번호 변경 요청입니다.')
 }
