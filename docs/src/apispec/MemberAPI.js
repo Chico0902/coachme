@@ -65,13 +65,20 @@ export default {
     {
       id: 'member-3',
       spec: '1-4',
-      method: 'GET',
-      uri: '/members?id={아이디}&email={email주소}',
+      method: 'PATCH',
+      uri: '/members/passwords',
       privilege: '0',
-      description: '비밀번호 찾기 요청 시 해당 아이디와 이메일이 유효한지 확인하고, 이메일로 임시 비밀번호를 발송한다.',
-      request: {},
+      description:
+        '비밀번호 찾기(change password) 요청 시 해당 아이디와 이메일이 유효한지 확인하고, 비밀번호 변경 후 이메일로 임시 비밀번호를 발송한다.',
+      request: {
+        name: 'changePasswordRequestDto',
+        data: {
+          id: 'String(max : 20)',
+          email: 'String(max : 50)'
+        }
+      },
       response: {
-        name: 'FindPwResponseDto',
+        name: 'changePasswordResponseDto',
         success: {
           description: '비밀번호 변경 및 임시 비밀번호 발송 완료',
           code: '200',
