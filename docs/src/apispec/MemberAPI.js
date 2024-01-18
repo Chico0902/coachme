@@ -203,7 +203,7 @@ export default {
       privilege: '1',
       description: '코치나 코미가 프로필 글을 등록한다.',
       request: {
-        name: 'ProfileTextRegistRequestDto',
+        name: 'ProfileTextRequestDto',
         data: {
           profileText: 'String'
         }
@@ -230,7 +230,7 @@ export default {
       privilege: '1',
       description: '코치나 코미가 프로필 사진을 등록한다.',
       request: {
-        name: 'ProfileImageRegistRequestDto',
+        name: 'ProfileImageRequestDto',
         data: { type: 'FormData' }
       },
       response: {
@@ -255,7 +255,7 @@ export default {
       privilege: '1',
       description: '코치나 코미가 프로필 글을 수정한다.',
       request: {
-        name: 'ProfileTextModifyRequestDto',
+        name: 'ProfileTextRequestDto',
         data: {
           profileText: 'String'
         }
@@ -282,7 +282,7 @@ export default {
       privilege: '1',
       description: '코치나 코미가 프로필 사진을 수정한다. 기존 프로필 사진은 삭제한다.',
       request: {
-        name: 'ProfileImageModifyRequestDto',
+        name: 'ProfileImageRequestDto',
         data: { type: 'FormData' }
       },
       response: {
@@ -311,6 +311,28 @@ export default {
         name: 'ProfileTextDeleteResponseDto',
         success: {
           description: '프로필 글 삭제 완료',
+          code: '200',
+          data: { message: 'String' }
+        },
+        fail: {
+          description: '잘못된 요청',
+          code: '403',
+          data: { message: 'String' }
+        }
+      }
+    },
+    {
+      id: 'member-13',
+      spec: '1-6',
+      method: 'DELETE',
+      uri: '/members/{멤버 pk}',
+      privilege: '1',
+      description: '회원을 탈퇴한다.',
+      request: {},
+      response: {
+        name: 'MemberResignResponseDto',
+        success: {
+          description: '회원탈퇴 완료',
           code: '200',
           data: { message: 'String' }
         },
