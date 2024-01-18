@@ -1,4 +1,3 @@
-<!-- layout/MainLayout.vue -->
 
 <template>
   <div class="all">
@@ -10,22 +9,41 @@
         <div class="crusell">크루셀</div>
       </div>
       <div class="search-outside">
+        <div class="search-title">타이틀</div>
         <div class="search">
-          <div class="search-title">타이틀</div>
           검색창
         </div>
       </div>
       <div class="category-outside">
-        <div class="category">
-          <div class="category-title">카테고리 문구</div>
-          카테고리 이모지
+        <div class="category-title">카테고리 문구
+          </div>
+        <div class="category-imoji">
+          카테고리 이모지          
         </div>
       </div>
-      <div class="coach">
+      <div class="coach-outside">
+        <div class="coach-title">
         코치
-        <div class="coach-detail">코치카드</div>
-        <div class="coach-detail">코치카드</div>
-        <div class="coach-detail">코치카드</div>
+        </div>
+        <div class="coach-card-outside">
+        <div class="coach-card">코치카드</div>
+        <div class="coach-card">코치카드</div>
+        <div class="coach-card">코치카드</div>
+      </div>
+      </div>
+      
+      <div class="coaching-outside">
+        <div class="coaching-title">
+        코칭
+        </div>
+        <div class="coaching-card-outside">
+        <div class="coaching-card">코칭카드</div>
+        <div class="coaching-card">코칭카드</div>
+        <div class="coaching-card">코칭카드</div>
+      </div>
+      </div>
+      <div class="footer">
+        푸터자리
       </div>
     </div>
   </div>
@@ -36,6 +54,8 @@ export default {}
 </script>
 
 <style scoped>
+
+
 .all {
   display: flex;
   justify-content: center;
@@ -54,7 +74,6 @@ export default {}
   width: 100%;
   height: 50px;
   margin-bottom: 100px;
-
   background-color: aqua;
   justify-content: center;
   text-align: center;
@@ -77,41 +96,108 @@ export default {}
 }
 
 .search-title {
-  width: 100%;
+  width: 70%;
   height: 71px;
   background-color: tomato;
+  margin: auto;
   /* display: block; */
 }
 
 .search-outside {
   display: flex;
   justify-content: center;
-  margin: 50px;
+  flex-direction: column;
+  margin: 200px;
 }
 .search {
-  width: 821px;
+  width: 70%;
   height: 290px;
-  
- 
   background-color: skyblue;
- 
+  margin: auto;
   
 }
 
 .category-outside {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin: 300PX;
 }
-.category {
-  width: 100%;
-  height: 71px;
+.category-imoji {
+  width: 80%;
+  height: 150px;
   background-color: tomato;
+  margin: auto;
   /* display: block; */
 }
 
 .category-title {
-  width: 30%;
+  width: 80%;
   height: 80px;
   background-color: yellow;
+  margin: auto;
 }
+
+.coach-card-outside {
+  background-color: cornflowerblue;
+  display: flex;
+  justify-content: space-around;
+}
+.coach-outside{
+  width: 80%;
+  height:370px;
+  background-color: greenyellow;
+  margin: 100px auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.coach-card {
+  width: 200px;
+  height: 200px;
+  background-color: burlywood;
+  margin: 30px;
+}
+.coach-title {
+  height: 70px;
+  width: 70%;
+  background-color: rebeccapurple;
+  }
+
+.coaching-card-outside {
+  background-color: cornflowerblue;
+  display: flex;
+  justify-content: space-around;
+}
+.coaching-outside{
+  width: 80%;
+  height:370px;
+  background-color: greenyellow;
+  margin: 100px auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.coaching-card {
+  width: 200px;
+  height: 200px;
+  background-color: burlywood;
+  margin: 30px;
+}
+.coaching-title {
+  height: 70px;
+  width: 70%;
+  background-color: rebeccapurple;
+  }
+
+.footer {
+  width: 100%;
+  height: 50px;
+  background-color: #333;
+  color: white;
+  text-align: center;
+}
+
 </style>
