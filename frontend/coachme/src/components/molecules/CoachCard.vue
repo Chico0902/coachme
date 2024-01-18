@@ -7,9 +7,9 @@
 -->
 
 <script setup>
-import profile from '../atoms/profile_image.vue'
-import labels from '../atoms/card-label.vue'
-import like from '../atoms/like.vue'
+import profile from '../atoms/ProfileImage.vue'
+import labels from '../atoms/CardLabel.vue'
+import like from '../atoms/Like.vue'
 const props = defineProps({
   label : {
     type : String,
@@ -31,7 +31,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="q-pa-md row items-start q-gutter-md" style="max-width: 300px; min-width: 270px">
+  <div class="q-pa-md row items-start q-gutter-md" style="max-width: 300px; min-width: 300px">
     <q-card class="my-card">
       <q-item>
         <q-item-section avatar>
