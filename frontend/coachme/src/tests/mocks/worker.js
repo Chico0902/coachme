@@ -2,7 +2,8 @@ import { setupWorker } from 'msw/browser'
 import { HttpResponse, http } from 'msw'
 
 const mockLoginResponseDto = {
-  accessToken: 'mock-access-token',
+  accessToken:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIxMjMiLCJuYW1lIjoi6rOg7JaR7J20IiwicHJpdmlsZWdlIjoiQ09BTUUifQ.el7ZYY5gjG2Jr6Te2cx_Ia-qllT1-hU2Jrz69vr0PYg',
   refreshToken: 'mock-refresh-token'
 }
 

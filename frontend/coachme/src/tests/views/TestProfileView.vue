@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import TestProfileImage from '../components/TestProfileImage.vue'
 import TestProfileImageUpload from '../components/TestProfileImageUpload.vue'
 import TestProfileTextUpload from '../components/TestProfileTextUpload.vue'
@@ -9,8 +8,7 @@ import { useProfileStore } from '@/stores/profile'
 import { storeToRefs } from 'pinia'
 
 // variables
-const name = ref('고양이')
-// const profileText = ref('안녕하세요. 강아지입니다.')
+const name = '고양이'
 const profileStore = useProfileStore()
 const { profileImage, profileText } = storeToRefs(profileStore)
 
@@ -18,15 +16,15 @@ const { profileImage, profileText } = storeToRefs(profileStore)
 const changeProfileImage = (newImage) => {
   try {
     if (validateProfileImage(newImage)) {
-      const uid = 1
+      const mid = 1
       patchProfileImage(
-        uid,
+        mid,
         newImage,
-        () => {
+        (success) => {
           alert('이미지 업로드 완료')
-          profileImage.value = newImage
+          profileImage.value = success.data.data.profileImageUrl
         },
-        (err) => console.log(err)
+        (fail) => console.log(fail)
       )
     }
   } catch (e) {
@@ -37,15 +35,15 @@ const changeProfileImage = (newImage) => {
 const changeProfileText = (newText) => {
   try {
     if (validateProfileText(newText)) {
-      const uid = 1
+      const mid = 1
       patchProfileText(
-        uid,
+        mid,
         newText,
         () => {
           alert('프로필 업로드 완료')
           profileText.value = newText
         },
-        (err) => console.log(err)
+        (fail) => console.log(fail)
       )
     }
   } catch (e) {
@@ -55,7 +53,7 @@ const changeProfileText = (newText) => {
 </script>
 <template>
   <div class="q-mb-lg">
-    <q-card class="my-card">
+    <q-card class="my-card q-ma-lg">
       <q-item>
         <q-item-section avatar>
           <q-avatar>
@@ -72,9 +70,9 @@ const changeProfileText = (newText) => {
         </q-item-section>
       </q-item>
     </q-card>
-  </div>
-  <div role="프로필 사진, 글 업로드 검증">
-    <TestProfileImageUpload @changeImageEmit="changeProfileImage" />
-    <TestProfileTextUpload @changeTextEmit="changeProfileText" />
+    <div role="프로필 사진, 글 업로드 검증">
+      <TestProfileImageUpload @changeImageEmit="changeProfileImage" />
+      <TestProfileTextUpload @changeTextEmit="changeProfileText" />
+    </div>
   </div>
 </template>
