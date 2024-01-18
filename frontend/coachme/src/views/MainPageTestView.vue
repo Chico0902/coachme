@@ -12,7 +12,7 @@ import category from '../components/molecules/Category.vue'
 import { reactive } from "vue";
 
 const input = reactive({})
-// 선택한 메뉴와 입력값
+// 선택한 드롭다운 메뉴와 입력값
 
 const searchData = (data) => {
   input.value = data
@@ -23,7 +23,7 @@ const searchData = (data) => {
 const liked1 = () => {
   console.log("Heart1")
 }
-// 하트 버튼에 보낼 함수, 클릭시 발생시킬 이벤트 작성
+// 찜콩 버튼에 보낼 함수, 클릭시 발생시킬 이벤트 작성
 
 const bColor = "#FCBF17"
 const dColor = "blue-10"
@@ -34,11 +34,11 @@ const list = ["코치명", "코칭제목"]
 const label = "whiteCat"
 const caption = "Cat is white"
 const image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq75DiUEnXV_lTKsYK7oLxdoj0cyTeSp6329bGs93wHQ&s"
-// 카드 라벨, 카드 캡션, 카드 이미지
+// 코치(+코칭) 카드 라벨, 카드 캡션, 카드 이미지
 
 const ratio = 16 / 9
 const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
-// 코칭 카드용 영상 비율, 주소
+// 코칭 카드 영상 비율, 주소
 </script>
 
 <template>
