@@ -124,6 +124,7 @@ export function validateRegist(id, pw, pwConfirm, name, nick, email) {
  * @throws '잘못된 로그인 요청입니다.'
  */
 export function validateLogin(id, pw) {
+  // Exception : 아이디 혹은 비밀번호 오류
   if (validateId(id) && validatePassword(pw)) return true
   else throw new Error('잘못된 로그인 요청입니다.')
 }
@@ -135,6 +136,42 @@ export function validateLogin(id, pw) {
  * @throws '잘못된 비밀번호 변경 요청입니다.'
  */
 export function validateChangePassword(id, email) {
+  // Exception : 아이디 혹은 이메일 오류
   if (validateId(id) && validateEmail(email)) return true
   else throw new Error('잘못된 비밀번호 변경 요청입니다.')
+}
+
+/**
+ * 프로필 정보(글)를 입력받아서 해당 프로필 글이 유효한지 확인하는 함수
+ * @param {String} profileText 프로필 글
+ * @returns true : 유효한 프로필 파일
+ * @throws 길이 오류 : '프로필 글은 50자를 넘을 수 없습니다.'
+ */
+export function validateProfileText(profileText) {
+  // Exception : 프로필 길이 오류
+  if (profileText.length > 50) {
+    throw new Error('프로필 글은 50자를 넘을 수 없습니다.')
+  }
+  return true
+}
+/**
+ * 프로필 사진 파일을 입력받아서 해당 파일이 유효한지 확인하는 함수
+ * @param {FormData} file 프로필 사진파일
+ * @returns true : 유효한 프로필 파일
+ * @throws 형식 오류 : '잘못된 파일 형식입니다.' / 용량 오류 : '프로필 사진은 10MB를 초과할 수 없습니다.'
+ */
+export function validateProfileImage(file) {
+  // Exception : 프로필 사진 확장자 오류
+  const fileLength = file.name.length
+  const lastDot = file.name.lastIndexOf('.')
+  const extension = file.name.substring(lastDot + 1, fileLength)
+  if (!(extension === 'png' || extension === 'jpg' || extension === 'jpeg')) {
+    throw new Error('잘못된 파일 형식입니다.')
+  }
+
+  // Exception : 프로필 사진 크기 오류(10MB 이상)
+  if (file.size > 10 * 1024 * 1024) {
+    throw new Error('프로필 사진은 10MB를 초과할 수 없습니다.')
+  }
+  return true
 }
