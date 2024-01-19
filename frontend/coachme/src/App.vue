@@ -6,9 +6,10 @@ import myPage from './views/MyPageTest.vue'
 <template>
   <testPage></testPage>
   <myPage></myPage>
+
 </template>
 
-<style scoped>
+<style>
 
 </style>
 

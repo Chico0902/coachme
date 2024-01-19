@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia'
 
-export const useMemberStore = defineStore('member-info', {
+export const useMemberStore = defineStore('member', {
   state: () => {
     return {
-      memberId: '',
-      privilege: '',
       accessToken: '',
       refreshToken: ''
     }
