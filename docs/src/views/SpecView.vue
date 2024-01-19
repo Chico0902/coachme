@@ -86,6 +86,14 @@ const specs = [
     stories: [
       {
         category: '명세 필수',
+        description: '코치(coach)는 코칭(coaching)을 개설할 수 있어야 한다.'
+      },
+      {
+        category: '명세 필수',
+        description: '코치(coach)는 코칭(coaching)을 조회 및 수정할 수 있어야 한다.'
+      },
+      {
+        category: '명세 필수',
         description:
           '코미(coame)는 코칭(coaching) 리스트(list)를 확인해서 원하는 코칭(coaching)을 선택할 수 있어야 한다.'
       },
@@ -144,6 +152,14 @@ const specs = [
       {
         category: '기타 부가',
         description: '코치(coach)는 코칭(coaching) 영상(video)을 AI를 통해 빠르게 편집(edit)할 수 있어야 한다.'
+      },
+      {
+        category: '기타 부가',
+        description: '코치(coach)는 코미(coame)에게 영상(video)을 공유할 수 있어야 한다.'
+      },
+      {
+        category: '기타 부가',
+        description: '코미(coame)는 공유된 코칭(coaching) 영상(video)을 조회할 수 있어야 한다.'
       }
     ]
   },
