@@ -40,7 +40,7 @@ const sideMenu = ['Home', 'About', 'Service', 'Contact']
 
       <!-- 로고 -->
       <q-btn flat>
-        <img src="../icons/4.png" width="150px">
+        <img src="../icons/2.png" width="150px">
       </q-btn>
       <q-space></q-space>
 
