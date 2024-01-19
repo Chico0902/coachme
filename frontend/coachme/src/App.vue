@@ -1,7 +1,22 @@
-<script setup></script>
+<!-- App.vue -->
 
 <template>
-  <RouterView />
+  <div id="app">
+    <MainLayout></MainLayout>
+  </div>
 </template>
 
-<style scoped></style>
+<script>
+import MainLayout from '@/layout/MypageLayout.vue';
+
+export default {
+  components: {
+    MainLayout
+  }
+};
+</script>
+
+<style>
+
+</style>
+

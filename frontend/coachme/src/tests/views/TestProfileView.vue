@@ -77,9 +77,7 @@ const changeProfileText = (newText) => {
 
         <q-item-section>
           <q-item-label>{{ name }}</q-item-label>
-          <q-item-label v-if="profileText.length === 0" caption>
-            등록된 프로필이 없습니다.
-          </q-item-label>
+          <q-item-label v-if="profileText.length === 0" caption> 등록된 프로필이 없습니다. </q-item-label>
           <q-item-label v-else caption>{{ profileText }}</q-item-label>
         </q-item-section>
       </q-item>

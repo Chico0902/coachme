@@ -12,6 +12,7 @@ describe('토큰 디코딩 테스트', () => {
       privilege: 'COAME'
     }
     // then
+    expect(decodeToken(token)).toBeTruthy()
     expect(decodeToken(token)).toEqual(info)
   })
 
