@@ -1,7 +1,8 @@
 <!-- input 컴포넌트 
-필요한 정보 : 라벨, 힌트, input 규칙
+필요한 정보 : 라벨, 힌트, 문자 크기, input 규칙
 label : input 위에 작성될 문자열. 기본값 빈값
 hint : input 아래에 작성될 문자열. 기본값 빈값
+size : input에 입력되는 문자의 크기
 rule : input validation 규칙. Object값 받음. 기본값 없음
 -->
 
@@ -16,6 +17,9 @@ const props = defineProps({
   hint : {  // input 아래에 표시될 문구
     type : String,
     default: ""
+  }, size : {
+    type : String,
+    default: "20px"
   },
   rule : { // validation 규칙
     type: Object,
@@ -40,7 +44,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-input ref="nameRef" filled :label="`${props.label}`" :rules="[rule]" :hint="`${props.hint}`"
-  :input-style="{ fontSize: '35px' }" ></q-input>
+  <q-input ref="nameRef" :label="`${props.label}`" :rules="[rule]" :hint="`${props.hint}`"
+  :input-style="{ fontSize: `${props.size}` }" ></q-input>
 </template>
 <style scoped></style>
