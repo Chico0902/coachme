@@ -60,7 +60,7 @@ const color = "#FFFFFF"
   <div id="search">
     <!-- 드롭다운, 입력폼, 버튼 -->
     <dropdown style="height:56px; min-width: 125px" :color="`${props.dColor}`" :list="props.list" @click-menu="clickMenu"> </dropdown>
-    <inputs filled style="width:500px" @update-data="updateData"></inputs>
+    <inputs filled style="width:500px" @update-data="updateData" hide-bottom-space="true"></inputs>
     <buttons style="height:56px" :label="`${props.label}`" :background="`${props.bColor}`" :color="color"
     @click="searchData"></buttons>   
   </div>

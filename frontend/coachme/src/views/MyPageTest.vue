@@ -6,7 +6,7 @@ import uploadButton from '../components/molecules/UploadImageButton.vue'
 import editButton from '../components/molecules/EditButton.vue'
 
 const sideMenu = ["정보수정", "코칭일정", "관심강의", "영상보기", "탈퇴하기"]
-
+const label = "소개글을 입력해주세요"
 </script>
 
 <template>
@@ -15,13 +15,14 @@ const sideMenu = ["정보수정", "코칭일정", "관심강의", "영상보기"
 
   <!-- textarea -->
   <inputs filled type="textarea" style="max-width: 300px;"></inputs>
-  <inputs style="width:150px"></inputs>
+  <inputs clearable style="width:150px" placeholder="Placeholder"></inputs>
 
   <deleteButton></deleteButton>
 
   <uploadButton></uploadButton>
 
   <editButton></editButton>
+
 </template>
 
 <style scoped></style>

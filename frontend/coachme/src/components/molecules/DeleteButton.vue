@@ -6,7 +6,7 @@
 <template>
   <q-btn flat>
     <span class="material-symbols-outlined">
-      delete
+      delete_forever
     </span>
   </q-btn>
 </template>
