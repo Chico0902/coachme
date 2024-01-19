@@ -39,6 +39,7 @@ const image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq75DiUEnXV
 const ratio = 16 / 9
 const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
 // 코칭 카드 영상 비율, 주소
+
 </script>
 
 <template>
@@ -50,7 +51,7 @@ const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
 
     <!-- 검색창 -->
     <search :label="label0" :dColor="dColor" :bColor="bColor" :list="list" @search-data="searchData"></search>
-    
+
     <!-- 카테고리 -->
     <div class="row q-gutter-md">
       <category></category>
@@ -80,4 +81,5 @@ const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
