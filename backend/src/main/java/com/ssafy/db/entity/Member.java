@@ -1,6 +1,7 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,11 +13,30 @@ import java.util.Collection;
 
 @Entity
 @Getter
+@Builder
+@Table(name = "members")
 public class Member implements UserDetails {
+  public Member() {
+  }
 
-  @Id
-  @Column(name = "member_id")
-  private String memberId;
+  public Member(String memberId, String password, String privilege, String name, String nickname, String phone, String email, String description, LocalDateTime modifyDate, LocalDateTime createDate, int elevation, Portfolio portfolio) {
+    this.memberId = memberId;
+    this.password = password;
+    this.privilege = privilege;
+    this.name = name;
+    this.nickname = nickname;
+    this.phone = phone;
+    this.email = email;
+    this.description = description;
+    this.modifyDate = modifyDate;
+    this.createDate = createDate;
+    this.elevation = elevation;
+    this.portfolio = portfolio;
+  }
+
+    @Id
+    @Column(name = "member_id")
+    private String memberId;
 
   @Column
   private String password;
