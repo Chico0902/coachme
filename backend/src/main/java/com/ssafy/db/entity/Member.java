@@ -1,5 +1,7 @@
 package com.ssafy.db.entity;
 
+import com.ssafy.api.member.request.MemberRegistDto;
+import com.ssafy.api.member.request.UpdateMemberDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,16 +13,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+@Table(name = "members")
+@Builder
 @Entity
 @Getter
-@Builder
-@Table(name = "members")
 public class Member implements UserDetails {
-  public Member() {
+
+  protected Member() {
   }
 
-  public Member(String memberId, String password, String privilege, String name, String nickname, String phone, String email, String description, LocalDateTime modifyDate, LocalDateTime createDate, int elevation, Portfolio portfolio) {
+  public Member(Long memberId, String id, String password, String privilege, String name, String nickname, String phone, String email, String description, LocalDateTime modifyDate, LocalDateTime createDate, int elevation, Portfolio portfolio) {
     this.memberId = memberId;
+    this.id = id;
     this.password = password;
     this.privilege = privilege;
     this.name = name;
@@ -34,9 +38,12 @@ public class Member implements UserDetails {
     this.portfolio = portfolio;
   }
 
-    @Id
-    @Column(name = "member_id")
-    private String memberId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long memberId;
+
+  @Column
+  private String id;
 
   @Column
   private String password;
@@ -81,7 +88,7 @@ public class Member implements UserDetails {
 
   @Override
   public String getUsername() {
-    return memberId;
+    return id;
   }
 
   @Override
@@ -103,4 +110,11 @@ public class Member implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
+  public void changeMemberInfo(UpdateMemberDto updateMemberDto) {
+    this.name = updateMemberDto.getName();
+    this.email = updateMemberDto.getEmail();
+    this.nickname = updateMemberDto.getNick();
+  }
+
 }
