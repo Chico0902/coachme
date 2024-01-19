@@ -1,3 +1,4 @@
+
 package com.ssafy.api.member.request;
 
 import lombok.Data;
