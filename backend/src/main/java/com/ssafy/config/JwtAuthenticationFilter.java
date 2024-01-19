@@ -32,7 +32,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     List<String> anyList = Arrays.asList(
         "/auth/login",
         "/members/ssafy",
-        "/admin/members"
+        "/admin/members",
+        "/members/profiles/images/ssafy"
     );
 
     // 토큰이 필요하지 않은 API URL의 경우 => 로직 처리 없이 다음 필터로 이동
