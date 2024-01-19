@@ -1,15 +1,14 @@
 package com.ssafy.api.member.controller;
 
-import com.ssafy.api.member.dto.UploadProfileRequestDto;
 import com.ssafy.api.member.dto.RegistMemberDto;
-import com.ssafy.api.member.service.MemberService;
+import com.ssafy.api.member.request.MemberRegistDto;
+import com.ssafy.api.member.request.UpdateMemberDto;
 import com.ssafy.api.member.service.FileService;
+import com.ssafy.api.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,37 +25,59 @@ public class MemberController {
   private final MemberService memberService;
   private final FileService fileService;
 
+
+  // 명세 1-3 회원가입 요청 시 해당 정보를 DB에 저장한다.
   @PostMapping
-  public ResponseEntity<Map<String, Object>> registMember(@RequestBody @Validated RegistMemberDto registMemberDto) {
-    Map<String, Object> responseMessage = new HashMap<>();
-    HttpStatus status;
+  public ResponseEntity<String> regist(@RequestBody RegistMemberDto memberRegistDto) {
     try {
-      memberService.regist(registMemberDto);
-      responseMessage.put("message", "Regist Done !");
-      status = HttpStatus.OK;
+      log.info("memberRegistDto : {}", memberRegistDto);
+
+      memberService.regist(memberRegistDto);
+
+
+      return new ResponseEntity<>("Regist Done !", HttpStatus.CREATED);
     } catch (Exception e) {
-      responseMessage.put("message", "Error !");
-      status = HttpStatus.INTERNAL_SERVER_ERROR;
+      e.printStackTrace();
+      return new ResponseEntity<>("Error registering member", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return new ResponseEntity<Map<String, Object>>(responseMessage, status);
   }
 
+  // 명세 1-6 기본 회원정보 조회
   @GetMapping("/{id}")
-  public ResponseEntity<Map<String, Object>> findMember(@PathVariable String id) {
-    Map<String, Object> responseMessage = new HashMap<>();
-    HttpStatus status;
-    try {
-      RegistMemberDto registMemberDto = memberService.find(id);
-      responseMessage.put("data", registMemberDto);
-      status = HttpStatus.OK;
-    } catch (Exception e) {
-      responseMessage.put("message", "Error !");
-      status = HttpStatus.INTERNAL_SERVER_ERROR;
+  public ResponseEntity<RegistMemberDto> getMemberByUsername(@PathVariable("id") Long memberId) {
+    RegistMemberDto member = memberService.findByMemberId(memberId);
+
+    if (member != null) {
+//      log.info("memberId : {}", member.getId());
+      return new ResponseEntity<>(member, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<Map<String, Object>>(responseMessage, status);
   }
 
-  // 프로필 사진 등록 api
+  @DeleteMapping("/{id}")
+  public ResponseEntity<String> deleteMember(@PathVariable("id") Long memberId) {
+    try {
+      memberService.deleteMember(memberId);
+      return new ResponseEntity<>("Member deleted successfully", HttpStatus.OK);
+    } catch (Exception e) {
+      // 예외 발생 시 로그 출력
+      e.printStackTrace();
+      return new ResponseEntity<>("Error deleting member", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  //회원정보 수정
+  @PatchMapping("/{id}")
+  public ResponseEntity<String> UpdateMember(@PathVariable("id") Long memberId, @RequestBody UpdateMemberDto updateMemberDto) {
+    try {
+      memberService.updateMember(memberId, updateMemberDto);
+      return new ResponseEntity<>("Member information updated successfully", HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new ResponseEntity<>("Error updating member information", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   // 프로필 사진 등록 api
   @PostMapping("/profiles/images/{id}")
