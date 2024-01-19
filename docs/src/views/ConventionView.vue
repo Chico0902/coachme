@@ -109,11 +109,12 @@ const frontTree = `
     │   ├── layouts : 페이지 레이아웃 설정
     │   │   └── ex) MainLayout.vue : 메인 레이아웃
     │   ├── main.js : App.vue를 생성하고 필요한 하위 앱들을 탑재한 후 마운트하는 js파일
-    │   ├── middlewares : router에 필요한 미들웨어 저장(특정 요청에 대한 필터링 작업)
     │   ├── router : vue-router 모음 경로
     │   │   ├── index.js : 라우터 세팅정보, url 매핑정보 등으로로 router 생성
-    │   │   └── indexes : 라우터 url mapping에 사용할 인덱스 모음
-    │   │       └── ex) test-index.js : 테스트를 위한 경로정보 모음
+    │   │   ├── indexes : 라우터 url mapping에 사용할 인덱스 모음
+    │   │   │   └── ex) test-index.js : 테스트를 위한 경로정보 모음
+    │   │   └── middlewares : router에 필요한 미들웨어 저장(특정 요청에 대한 필터링 작업)
+    │   │   │   └── ex) before-guard-privilege.js : 권한을 확인해서 특정 권한만 입장하게 하는 미들웨어
     │   ├── stores : 피니아 저장소 모음
     │   │   └── ex) member-store.js : 로그인한 멤버정보를 저장하는 저장소(id, 토큰 등) 
     │   ├── tests : 테스트를 위한 각종 요소 모음
