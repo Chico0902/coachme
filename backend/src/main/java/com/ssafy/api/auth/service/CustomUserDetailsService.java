@@ -3,6 +3,7 @@ package com.ssafy.api.auth.service;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
 
   private final MemberRepository memberRepository;
@@ -26,5 +28,15 @@ public class CustomUserDetailsService implements UserDetailsService {
   public Member loadUserByUsername(String username) throws UsernameNotFoundException {
 
     return memberRepository.findByMemberId(username).orElseThrow(() -> new UsernameNotFoundException("등록되지 않은 회원 입니다."));
+
+  }
+
+  public void isValidMember(String memberId, String password) throws Exception {
+    log.info("input Password : {}", password);
+    Member member = loadUserByUsername(memberId);
+    log.info("load Password : {}", member.getPassword());
+    if(!member.getPassword().equals(password)) {
+      throw new Exception("Password Error");
+    }
   }
 }
