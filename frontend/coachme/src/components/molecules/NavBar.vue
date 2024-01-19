@@ -15,7 +15,7 @@ const label = ["코치찾기", "코칭찾기", "강의장", "로그인", "로그
   <q-toolbar class="text-black rounded-borders" style="width: 80vw;">
     <!-- 로고 -->
     <q-btn flat>
-      <img src="../icons/4.png" width="150px">
+      <img src="../icons/5.png" width="150px">
     </q-btn>
     <!-- 코치찾기, 코칭찾기, 강의장 -->
     <buttons flat :name="`${name[0]}`" :label="`${label[0]}`"></buttons>
