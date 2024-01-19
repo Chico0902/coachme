@@ -12,4 +12,5 @@ public class CoachMeApplication {
   public static void main(String[] args) {
     SpringApplication.run(CoachMeApplication.class, args);
   }
+
 }
