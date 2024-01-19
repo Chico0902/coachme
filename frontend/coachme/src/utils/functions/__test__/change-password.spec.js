@@ -12,7 +12,7 @@ describe('비밀번호 찾기 요청 유효성 검증 테스트', () => {
       .toBeTruthy()
   })
 
-  it('아이디는 4글자 이상이어야 합니다.', () => {
+  it('아이디는 4글자 이상이어야 한다.', () => {
     // given
     const id = 'ssa'
     const email = 'ssafy@ssafy.com'
