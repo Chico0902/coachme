@@ -132,7 +132,7 @@ export default {
         success: {
           description: '기본 회원정보 데이터 전송',
           code: '200',
-          data: { message: 'String' }
+          data: { id: 'String', name: 'String', nick: 'String', email: 'String' }
         },
         fail: {
           description: '잘못된 요청',
@@ -229,7 +229,7 @@ export default {
       method: 'POST',
       uri: '/members/profiles/images/{회원 pk}',
       privilege: '1',
-      description: '코치나 코미가 프로필 사진을 등록한다.',
+      description: '코치나 코미가 프로필 사진을 등록한다.(기존에 사진이 있으면 삭제)',
       request: {
         name: 'ProfileImageRequestDto',
         data: { type: 'FormData' }
@@ -281,7 +281,7 @@ export default {
       method: 'PATCH',
       uri: '/members/profiles/images/{회원 pk}',
       privilege: '1',
-      description: '코치나 코미가 프로필 사진을 수정한다. 기존 프로필 사진은 삭제한다.',
+      description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {
         name: 'ProfileImageRequestDto',
         data: { type: 'FormData' }
@@ -339,6 +339,31 @@ export default {
         },
         fail: {
           description: '잘못된 요청',
+          code: '403',
+          data: { message: 'String' }
+        }
+      }
+    },
+    {
+      id: 'member-14',
+      spec: '1-3',
+      method: 'POST',
+      uri: '/members/duplicate/id',
+      privilege: '0',
+      description: '회원 ID를 중복검사한다.',
+      request: {
+        name: 'MemberDuplicateRequestDto',
+        data: { id: 'String' }
+      },
+      response: {
+        name: 'MemberDuplicateResponseDto',
+        success: {
+          description: '사용 가능한 아이디',
+          code: '200',
+          data: { message: 'String' }
+        },
+        fail: {
+          description: '잘못된 요청(중복)',
           code: '403',
           data: { message: 'String' }
         }
