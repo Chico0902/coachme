@@ -1,12 +1,22 @@
-<script setup>
-import testPage from './views/MainPageTestView.vue'
-</script>
+<!-- App.vue -->
 
 <template>
-  <testPage></testPage>
+  <div id="app">
+    <MainLayout></MainLayout>
+  </div>
 </template>
 
-<style scoped>
+<script>
+import MainLayout from '@/layout/MypageLayout.vue';
+
+export default {
+  components: {
+    MainLayout
+  }
+};
+</script>
+
+<style>
 
 </style>
 
