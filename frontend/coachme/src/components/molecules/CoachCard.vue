@@ -11,60 +11,58 @@ import profile from '../atoms/ProfileImage.vue'
 import labels from '../atoms/CardLabel.vue'
 import like from '../atoms/Like.vue'
 const props = defineProps({
-  label : { // 카드 라벨
-    type : String,
-    default : ""
+  label: {
+    // 카드 라벨
+    type: String,
+    default: ''
   }, // 카드 캡션
-  caption : {
-    type : String,
-    default : ""
+  caption: {
+    type: String,
+    default: ''
   }, // 프로필 사진 주소
-  img : {
-    type : String,
-    default : ""
+  img: {
+    type: String,
+    default: ''
   }, // 찜콩버튼 함수
-  liked : {
-    type : Function,
-    default : () => { }
+  liked: {
+    type: Function,
+    default: () => {}
   }
-});
+})
 </script>
 
 <template>
-  <div class="q-pa-md row items-start q-gutter-md" style="max-width: 300px; min-width: 300px">
-    <q-card class="my-card">
-      <!-- 상단 섹션 -->
-      <q-item>
-        <!-- 프로필 사진-->
-        <q-item-section avatar>
-          <profile :img="`${props.img}`"></profile>
-        </q-item-section>
-        <!-- 공간 차지 -->
-        <q-item-section>
-          <q-space></q-space>
-        </q-item-section>
-        <!-- 찜콩 버튼 -->
-        <q-item-section>
-          <like :clicked="liked"></like>
-        </q-item-section>
-      </q-item>
-      <q-separator></q-separator>
-      <!-- 하단 섹션 -->
-      <q-item>
-        <q-item-section>
-          <!-- 라벨과 캡션 -->
-          <labels :label="`${props.label}`"></labels>
-          <labels caption :label="`${props.caption}`"></labels>
-        </q-item-section>
-      </q-item>
-    </q-card>
-  </div>
+  <q-card class="my-card">
+    <!-- 상단 섹션 -->
+    <q-item>
+      <!-- 프로필 사진-->
+      <q-item-section avatar>
+        <profile :img="`${props.img}`"></profile>
+      </q-item-section>
+      <!-- 공간 차지 -->
+      <q-item-section>
+        <q-space></q-space>
+      </q-item-section>
+      <!-- 찜콩 버튼 -->
+      <q-item-section>
+        <like :clicked="liked"></like>
+      </q-item-section>
+    </q-item>
+    <q-separator></q-separator>
+    <!-- 하단 섹션 -->
+    <q-item>
+      <q-item-section>
+        <!-- 라벨과 캡션 -->
+        <labels :label="`${props.label}`"></labels>
+        <labels caption :label="`${props.caption}`"></labels>
+      </q-item-section>
+    </q-item>
+  </q-card>
 </template>
 
 <style scoped>
 .my-card {
   width: 100%;
-  max-width: 250px
+  max-width: 250px;
 }
 </style>
-
