@@ -1,11 +1,10 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { postLoginRequest } from '../utils/api/member-api'
 import { LoginRequestDto } from '../utils/api/dto/member-dto'
 import { validateId, validateChangePassword } from '../utils/functions/member'
 import { useRouter } from 'vue-router'
 import navbar from '../components/molecules/LoginNavBar.vue'
-import CustomInput from '../components/atoms/CustomInput.vue'
 import CustomButton from '../components/atoms/CustomButton.vue'
 import footerBar from '../components/molecules/CustomFooter.vue'
 
@@ -13,6 +12,9 @@ import footerBar from '../components/molecules/CustomFooter.vue'
 const id = ref('')
 const email = ref('')
 const router = useRouter()
+const alert = ref(false)
+const alertIcon = ref('')
+const alertMessage = ref('')
 
 // methods
 
@@ -25,8 +27,6 @@ const isValidId = computed(() => {
 
 const changePassword = (id, email) => {
   try {
-    // 변경여부 확인
-    if (!confirm('비밀번호를 변경하시겠습니까?')) return
     // validation
     validateChangePassword(id, email)
 
@@ -35,15 +35,28 @@ const changePassword = (id, email) => {
     postLoginRequest(
       dto,
       () => {
-        alert('비밀번호 변경이 완료되었습니다. 임시 비밀번호는 이메일로 전송됩니다.')
-        router.push('/login')
+        alert.value = true
+        alertIcon.value = 'check'
+        alertMessage.value = '비밀번호 변경이 완료되었습니다. 임시 비밀번호는 이메일로 전송됩니다.'
+        watch(
+          () => alert.value,
+          () => {
+            router.push('/login')
+          }
+        )
       },
-      // API 호출 실패 시 오류메시지 콘솔에 출력
-      (fail) => console.log(fail)
+      // API 호출 실패 시 오류메시지 출력
+      () => {
+        alert.value = true
+        alertIcon.value = 'warning'
+        alertMessage.value = '잘못된 요청입니다.'
+      }
     )
     // 검증 실패 시 오류메시지 출력
   } catch (e) {
-    alert(e.message)
+    alert.value = true
+    alertIcon.value = 'warning'
+    alertMessage.value = e.message
   }
 }
 </script>
@@ -57,14 +70,12 @@ const changePassword = (id, email) => {
       <div class="find-outside shadow-3">
         <form @submit.prevent="changePassword(id, email)">
           <div class="find-title">
-            <q-btn flat @click="router.push('/')">
-              <img src="../assets/img/logo.png" width="150px" />
-            </q-btn>
+            <div class="regist-title"><h1>비밀번호 찾기</h1></div>
           </div>
           <div class="find-input">
             <div class="id-input">
               <div class="id-input-title">
-                <CustomInput
+                <q-input
                   v-model="id"
                   label="아이디"
                   error-message="영어와 숫자로 4글자 이상 입력하세요."
@@ -75,7 +86,7 @@ const changePassword = (id, email) => {
             </div>
             <div class="email-input">
               <div class="email-input-title">
-                <CustomInput
+                <q-input
                   type="email"
                   v-model="email"
                   label="이메일"
@@ -110,8 +121,32 @@ const changePassword = (id, email) => {
     </div>
   </div>
   <div class="footer"><footerBar /></div>
+
+  <!-- 경고 메시지 -->
+  <q-dialog v-model="alert">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">
+          <q-icon :name="alertIcon"></q-icon>
+        </div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        {{ alertMessage }}
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="OK" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <style scoped>
+h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  margin-bottom: 1rem;
+}
 .all {
   display: flex;
   justify-content: center;

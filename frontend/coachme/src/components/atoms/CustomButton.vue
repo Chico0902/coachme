@@ -45,7 +45,9 @@ const styleObject = reactive({
 </script>
 
 <template>
-  <q-btn :size="`${props.size}`" :name="`${props.name}`" :style="styleObject" :label="`${props.label}`"> </q-btn>
+  <q-btn :size="`${props.size}`" :name="`${props.name}`" :style="styleObject" :label="`${props.label}`">
+    <slot name:append></slot>
+  </q-btn>
 </template>
 
 <style scoped></style>
