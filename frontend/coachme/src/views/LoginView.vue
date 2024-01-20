@@ -85,7 +85,7 @@ const login = (id, pw) => {
                 type="password"
                 v-model="pw"
                 label="비밀번호"
-                error-message="비밀번호는 9글자 이상으로, 대문자와 특수문자를 포함해야 합니다."
+                error-message="9글자 이상으로, 대문자와 특수문자를 포함해야 합니다."
                 :error="!isValidPassword"
                 maxlength="30"
               />
@@ -179,6 +179,9 @@ h2 {
   margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
+}
+.id-input {
+  margin-bottom: 1rem;
 }
 .login-and-new {
   width: 50%;
