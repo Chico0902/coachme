@@ -8,6 +8,13 @@ const mockLoginResponseDto = {
     refreshToken: 'mock-refresh-token'
   }
 }
+const mockAdminLoginResponseDto = {
+  data: {
+    accessToken:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAiLCJuYW1lIjoi6rSA66as7J6QIiwicHJpdmlsZWdlIjoiQURNSU4ifQ.wxFYo1hPdzVdE56oUkbbqRTxqoXOshHhK-GiI8TDQeY',
+    refreshToken: 'mock-refresh-token'
+  }
+}
 
 const mockMemberRegistResponseDto = {
   data: { message: '회원가입 성공' }
@@ -35,7 +42,11 @@ const mockMemberDuplicateRequestDto = {
 }
 
 const handlers = [
-  http.post('http://localhost/members/login', () => {
+  http.post('http://localhost/members/login', async ({ request }) => {
+    const newPost = await request.json()
+    if (newPost.id === 'admin') {
+      return HttpResponse.json(mockAdminLoginResponseDto)
+    }
     return HttpResponse.json(mockLoginResponseDto)
   }),
   http.post('http://localhost/members', () => {

@@ -71,9 +71,11 @@ const logout = () => {
         <template #welcome>
           <div class="welcome">
             <p>{{ token.name }}님 환영합니다!</p>
-            <q-btn flat>
-              <profile></profile>
-            </q-btn>
+            <RouterLink to="/mypage">
+              <q-btn flat>
+                <profile></profile>
+              </q-btn>
+            </RouterLink>
           </div>
         </template>
         <template #logout>
@@ -92,7 +94,7 @@ const logout = () => {
       <div class="search-outside">
         <div class="search-title"><MainSearchTitle /></div>
         <div class="search">
-          <search :label="label0" :dColor="dColor" :bColor="bColor" :list="list" @search-data="searchData"></search>
+          <search :label="label0" :dColor="dColor" :bColor="bColor" :list="list"></search>
         </div>
       </div>
       <div class="category-outside">
@@ -105,10 +107,10 @@ const logout = () => {
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
           <div class="coach-card">
-            <card :label="label" :caption="caption" :img="image" :liked="liked1"></card>
+            <card :label="label" :caption="caption" :img="image"></card>
           </div>
-          <div class="coach-card"><card :label="label" :caption="caption" :img="image" :liked="liked1"></card></div>
-          <div class="coach-card"><card :label="label" :caption="caption" :img="image" :liked="liked1"></card></div>
+          <div class="coach-card"><card :label="label" :caption="caption" :img="image"></card></div>
+          <div class="coach-card"><card :label="label" :caption="caption" :img="image"></card></div>
         </div>
       </div>
 
@@ -116,13 +118,13 @@ const logout = () => {
         <div class="coaching-title"><MainCoachingTitle /></div>
         <div class="coaching-card-outside">
           <div class="coaching-card">
-            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video" :liked="liked1"></coaching>
+            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
           </div>
           <div class="coaching-card">
-            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video" :liked="liked1"></coaching>
+            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
           </div>
           <div class="coaching-card">
-            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video" :liked="liked1"></coaching>
+            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
           </div>
         </div>
       </div>
