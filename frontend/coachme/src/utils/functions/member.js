@@ -9,7 +9,6 @@ export function validateId(id) {
 
   // Exception : too short
   if (id.length < '4') return false
-
   // Exception : invalid input
   const re = new RegExp(/^[a-zA-Z0-9]*$/)
   if (!re.test(id)) return false
