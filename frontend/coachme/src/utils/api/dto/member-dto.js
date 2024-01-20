@@ -64,3 +64,14 @@ export class ProfileImageRequestDto {
     this.profileImage = profileImage
   }
 }
+
+export class MemberDuplicateRequestDto {
+  /**
+   * API번호 : member-14
+   * 사용자 ID검증을 위한 DTO 클래스
+   * @param {String} id 사용자 ID
+   */
+  constructor(id) {
+    this.id = id
+  }
+}

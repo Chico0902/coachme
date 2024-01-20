@@ -30,6 +30,10 @@ const mockProfileTextModifyResponseDto = {
   data: { message: '프로필 변경 완료' }
 }
 
+const mockMemberDuplicateRequestDto = {
+  data: { message: '사용가능한 아이디입니다.' }
+}
+
 const handlers = [
   http.post('http://localhost/members/login', () => {
     return HttpResponse.json(mockLoginResponseDto)
@@ -51,6 +55,9 @@ const handlers = [
   http.patch('http://localhost/members/profiles/texts/:id', ({ params }) => {
     console.log('params : ' + params.id)
     return HttpResponse.json(mockProfileTextModifyResponseDto)
+  }),
+  http.post('http://localhost/members/duplicate/id', () => {
+    return HttpResponse.json(mockMemberDuplicateRequestDto)
   })
 ]
 
