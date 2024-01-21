@@ -27,13 +27,13 @@ public class CustomUserDetailsService implements UserDetailsService {
   @Override
   public Member loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    return memberRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException("등록되지 않은 회원 입니다."));
+    return memberRepository.findByMemberId(username).orElseThrow(() -> new UsernameNotFoundException("등록되지 않은 회원 입니다."));
 
   }
 
-  public void isValidMember(String memberId, String password) throws Exception {
+  public void isValidMember(String id, String password) throws Exception {
     log.info("input Password : {}", password);
-    Member member = loadUserByUsername(memberId);
+    Member member = loadUserByUsername(id);
     log.info("load Password : {}", member.getPassword());
     if(!member.getPassword().equals(password)) {
       throw new Exception("Password Error");

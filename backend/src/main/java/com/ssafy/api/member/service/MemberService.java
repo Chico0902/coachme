@@ -24,7 +24,7 @@ public class MemberService {
   public void regist(RegistMemberDto RegistMemberDto) {
 
     Member member = Member.builder()
-        .id(RegistMemberDto.getId())
+        .memberId(RegistMemberDto.getId())
         .password(RegistMemberDto.getPw())
         .name(RegistMemberDto.getName())
         .nickname(RegistMemberDto.getNick())
@@ -37,7 +37,7 @@ public class MemberService {
   @Transactional(readOnly = true)
   public RegistMemberDto findByMemberId(Long memberId) {
 //    log.info("memberId : {}", memberId);
-    Member member = memberRepository.findByMemberId(memberId).orElseThrow(()->new UsernameNotFoundException("User Not Found"));
+    Member member = memberRepository.findById(memberId);
     RegistMemberDto RegistMemberDto = MemberMapper.instance.memberToRegistMemberDto(member);
     if(member != null) {
 //      log.info("memberId : {}", memberId);
@@ -49,7 +49,7 @@ public class MemberService {
 
   //member 1-13 회원 삭제
   public void deleteMember(Long memberId) {
-    Member existingMember = memberRepository.findByMemberId(memberId).orElseThrow(()->new UsernameNotFoundException("User Not Found"));;
+    Member existingMember = memberRepository.findById(memberId);;
 
     if (existingMember != null) {
       memberRepository.delete(existingMember);
@@ -60,7 +60,7 @@ public class MemberService {
 
   //member 1-6 회원정보 수정
   public void updateMember(Long memberId, UpdateMemberDto updateMemberDto) {
-    Member existingMember = memberRepository.findByMemberId(memberId).orElseThrow(()->new UsernameNotFoundException("User Not Found"));
+    Member existingMember = memberRepository.findById(memberId);
     String password1 = existingMember.getPassword();
     String password2 = updateMemberDto.getPw();
 
