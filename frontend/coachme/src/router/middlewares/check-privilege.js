@@ -18,9 +18,9 @@ export function checkPrivilege(to, from, next) {
     // 권한 매칭하는 로직
     switch (decodeToken(token).privilege) {
       case 'COAME':
-        return next({ name: 'Desktop-5' })
+        return next({ name: 'Desktop-5-1' })
       case 'COACH':
-        return next({ name: 'Desktop-5' })
+        return next({ name: 'Desktop-5-1' })
       case 'ADMIN':
         return next({ name: 'Desktop-11' })
       default:

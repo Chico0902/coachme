@@ -295,7 +295,6 @@ h1 {
   margin-bottom: 5vh;
   border-radius: 5%;
   display: flex;
-  /* justify-content: center; */
   flex-direction: column;
   overflow: scroll;
 }
