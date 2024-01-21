@@ -1,6 +1,5 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.api.member.request.MemberRegistDto;
 import com.ssafy.api.member.request.UpdateMemberDto;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -13,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-@Table(name = "members")
 @Builder
 @Entity
 @Getter
@@ -22,7 +20,7 @@ public class Member implements UserDetails {
   protected Member() {
   }
 
-  public Member(Long memberId, String id, String password, String privilege, String name, String nickname, String phone, String email, String description, LocalDateTime modifyDate, LocalDateTime createDate, int elevation, Portfolio portfolio) {
+  public Member(Long id, String memberId, String password, String privilege, String name, String nickname, String phone, String email, String description, LocalDateTime modifyDate, LocalDateTime createDate, int elevation, Portfolio portfolio) {
     this.memberId = memberId;
     this.id = id;
     this.password = password;
@@ -40,10 +38,10 @@ public class Member implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long memberId;
+  private Long id;
 
-  @Column
-  private String id;
+  @Column(name = "member_id")
+  private String memberId;
 
   @Column
   private String password;
@@ -88,7 +86,7 @@ public class Member implements UserDetails {
 
   @Override
   public String getUsername() {
-    return id;
+    return memberId;
   }
 
   @Override
