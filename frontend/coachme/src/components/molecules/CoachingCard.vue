@@ -11,64 +11,61 @@ liked : 찜콩버튼 클릭시 발생할 함수. function. 기본값 없음
 import labels from '../atoms/CardLabel.vue'
 import like from '../atoms/Like.vue'
 const props = defineProps({
-  label : {
-    type : String,
-    default : ""
+  label: {
+    type: String,
+    default: ''
   },
-  caption : {
-    type : String,
-    default : ""
+  caption: {
+    type: String,
+    default: ''
   },
-  ratio : {
-    type : Number,
-    default : 16/9
+  ratio: {
+    type: Number,
+    default: 16 / 9
   },
-  video : { 
-    type : String,
-    default : ""
-  }, 
-  liked : {
-    type : Function,
-    default : () => { }
+  video: {
+    type: String,
+    default: ''
+  },
+  liked: {
+    type: Function,
+    default: () => {}
   }
-});
+})
 </script>
 
 <template>
-  <div class="q-pa-md row items-start q-gutter-md" style="max-width: 300px; min-width: 300px">
-    <q-card class="my-card">
-      <!-- 상단 섹션 -->
-      <q-item>
-        <!-- 영상 -->
-        <q-item-section>
-          <q-video :ratio="`${props.ratio}`" :src="`${props.video}`"></q-video>
-        </q-item-section>
-      </q-item>
-      <q-separator></q-separator>
-      <!-- 하단 섹션 -->
-      <q-item>
-        <!-- 캡션과 라벨 -->
-        <q-item-section>
-          <labels :label="`${props.label}`"></labels>
-          <labels caption :label="`${props.caption}`"></labels>
-        </q-item-section>
-        <!-- 공간 차지-->
-        <q-item-section>
-          <q-space></q-space>
-        </q-item-section>
-        <!-- 찜콩 버튼-->
-        <q-item-section>
-          <like :clicked="liked"></like>
-        </q-item-section>
-      </q-item>
-    </q-card>
-  </div>
+  <q-card class="my-card">
+    <!-- 상단 섹션 -->
+    <q-item>
+      <!-- 영상 -->
+      <q-item-section>
+        <q-video :ratio="`${props.ratio}`" :src="`${props.video}`"></q-video>
+      </q-item-section>
+    </q-item>
+    <q-separator></q-separator>
+    <!-- 하단 섹션 -->
+    <q-item>
+      <!-- 캡션과 라벨 -->
+      <q-item-section>
+        <labels :label="`${props.label}`"></labels>
+        <labels caption :label="`${props.caption}`"></labels>
+      </q-item-section>
+      <!-- 공간 차지-->
+      <q-item-section>
+        <q-space></q-space>
+      </q-item-section>
+      <!-- 찜콩 버튼-->
+      <q-item-section>
+        <like :clicked="liked"></like>
+      </q-item-section>
+    </q-item>
+  </q-card>
 </template>
 
 <style scoped>
 .my-card {
   width: 100%;
-  max-width: 250px
+  max-width: 250px;
 }
 </style>
-

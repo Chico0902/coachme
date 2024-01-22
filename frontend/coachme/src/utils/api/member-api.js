@@ -223,3 +223,27 @@ export function patchProfileImage(id, file, success, fail) {
 export function deleteProfileText(id, dto, success, fail) {
   axios.delete(`/members/profiles/texts/${id}`, dto).then(success).catch(fail)
 }
+
+/**
+ * API번호 : member-14
+ * METHOD : POST
+ * URI : /members/duplicate/id
+ * 권한 : 1
+ * 설명 : 회원가입 시 사용자 ID가 중복되는지 검증한다.
+ * @param {Number} id 멤버 id(pk)
+ * @param {Promise} success
+ * 설명 : 프로필 글 삭제 완료
+ * 코드 : 200
+ * body : {
+            message : String
+          }
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청
+ * 코드 : 403
+ * body : {
+            message : String
+          }
+ */
+export function validateDuplicateMember(dto, success, fail) {
+  axios.post(`/members/duplicate/id`, dto).then(success).catch(fail)
+}
