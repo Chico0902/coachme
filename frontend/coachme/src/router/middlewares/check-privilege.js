@@ -20,7 +20,7 @@ export function checkPrivilege(to, from, next) {
       case 'COAME':
         return next({ name: 'Desktop-5-1' })
       case 'COACH':
-        return next({ name: 'Desktop-5-1' })
+        return next({ name: 'Desktop-5-2' })
       case 'ADMIN':
         return next({ name: 'Desktop-11' })
       default:

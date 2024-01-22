@@ -8,6 +8,13 @@ const mockLoginResponseDto = {
     refreshToken: 'mock-refresh-token'
   }
 }
+const mockCoachLoginResponseDto = {
+  data: {
+    accessToken:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoi6rOg7L2U7LmYIiwicHJpdmlsZWdlIjoiQ09BQ0gifQ.2eJI-xdV3-jFXBQ5FaZmqcE2qQXNCgwo-G1BUS3pEJ4',
+    refreshToken: 'mock-refresh-token'
+  }
+}
 const mockAdminLoginResponseDto = {
   data: {
     accessToken:
@@ -44,10 +51,14 @@ const mockMemberDuplicateRequestDto = {
 const handlers = [
   http.post('http://localhost/members/login', async ({ request }) => {
     const newPost = await request.json()
-    if (newPost.id === 'admin') {
-      return HttpResponse.json(mockAdminLoginResponseDto)
+    switch (newPost.id) {
+      case 'coach':
+        return HttpResponse.json(mockCoachLoginResponseDto)
+      case 'admin':
+        return HttpResponse.json(mockAdminLoginResponseDto)
+      default:
+        return HttpResponse.json(mockLoginResponseDto)
     }
-    return HttpResponse.json(mockLoginResponseDto)
   }),
   http.post('http://localhost/members', () => {
     return HttpResponse.json(mockMemberRegistResponseDto)

@@ -5,11 +5,11 @@ const props = defineProps({ buttonList: Object })
 const buttonList = props.buttonList
 </script>
 <template>
-  <div class="sidebar">
+  <div class="topbar">
     <div
       v-for="button in buttonList"
       :key="button.name"
-      class="sidebar-button shadow-3"
+      class="top-button"
       :class="button.cssClass"
       @click="router.push(button.link)"
     >
@@ -23,12 +23,12 @@ p {
   font-size: 1rem;
   letter-spacing: 0.1rem;
 }
-.sidebar {
-  width: 12%;
-  height: 70vh;
-  margin: auto;
+.topbar {
+  width: 100%;
+  height: 10vh;
+  display: flex;
 }
-.sidebar-button {
+.top-button {
   width: 100%;
   height: 8vh;
   border-radius: 1rem;
@@ -38,26 +38,14 @@ p {
   justify-content: center;
   align-items: center;
 }
-
-.selected-button {
-  background-color: #034c8c;
-  opacity: 90%;
-  color: #fff;
-}
-.sidebar-button:hover {
-  background-color: #034c8c;
-  opacity: 100%;
-  color: #fff;
+.top-button:hover {
+  background-color: #fcbf17;
   cursor: pointer;
 }
-.manage-button {
-  background-color: #bd58d9;
-  opacity: 90%;
-  color: #fff;
+.selected-button {
+  background-color: #fcbf17;
 }
-.manage-button:hover {
-  background-color: #bd58d9;
-  opacity: 100%;
-  color: #fff;
+.selected-button:hover {
+  opacity: 90%;
 }
 </style>

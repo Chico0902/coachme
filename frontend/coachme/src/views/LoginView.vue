@@ -66,7 +66,7 @@ const login = (id, pw) => {
       <div class="login-outside shadow-3">
         <div class="login-title">
           <q-btn flat @click="router.push('/')">
-            <img src="../assets/img/logo.png" width="150px" />
+            <img src="../assets/img/logo.png" />
           </q-btn>
         </div>
         <form @submit.prevent="login(id, pw)">
@@ -115,6 +115,10 @@ const login = (id, pw) => {
 </template>
 
 <style scoped>
+img {
+  width: 10vw;
+  max-height: 15vh;
+}
 a {
   text-decoration: none;
   color: #034c8c;
