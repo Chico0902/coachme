@@ -8,6 +8,20 @@ const mockLoginResponseDto = {
     refreshToken: 'mock-refresh-token'
   }
 }
+const mockCoachLoginResponseDto = {
+  data: {
+    accessToken:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoi6rOg7L2U7LmYIiwicHJpdmlsZWdlIjoiQ09BQ0gifQ.2eJI-xdV3-jFXBQ5FaZmqcE2qQXNCgwo-G1BUS3pEJ4',
+    refreshToken: 'mock-refresh-token'
+  }
+}
+const mockAdminLoginResponseDto = {
+  data: {
+    accessToken:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAiLCJuYW1lIjoi6rSA66as7J6QIiwicHJpdmlsZWdlIjoiQURNSU4ifQ.wxFYo1hPdzVdE56oUkbbqRTxqoXOshHhK-GiI8TDQeY',
+    refreshToken: 'mock-refresh-token'
+  }
+}
 
 const mockChangePasswordResponseDto = {
   data: { message: '비밀번호 변경 및 임시 비밀번호 발송 완료' }
@@ -26,17 +40,21 @@ const mockProfileTextModifyResponseDto = {
   data: { message: '프로필 변경 완료' }
 }
 
-const mockMemberRegistResponseDto = {
-  message: '회원가입 성공'
-}
-
-const mockchangePasswordResponseDto = {
-  message: '비밀번호 변경 및 임시 비밀번호 발송 완료'
+const mockMemberDuplicateRequestDto = {
+  data: { message: '사용가능한 아이디입니다.' }
 }
 
 const handlers = [
-  http.post('http://localhost/members/login', () => {
-    return HttpResponse.json(mockLoginResponseDto)
+  http.post('http://localhost/members/login', async ({ request }) => {
+    const newPost = await request.json()
+    switch (newPost.id) {
+      case 'coach':
+        return HttpResponse.json(mockCoachLoginResponseDto)
+      case 'admin':
+        return HttpResponse.json(mockAdminLoginResponseDto)
+      default:
+        return HttpResponse.json(mockLoginResponseDto)
+    }
   }),
   http.post('http://localhost/members', () => {
     return HttpResponse.json(mockMemberRegistResponseDto)
@@ -55,6 +73,9 @@ const handlers = [
   http.patch('http://localhost/members/profiles/texts/:id', ({ params }) => {
     console.log('params : ' + params.id)
     return HttpResponse.json(mockProfileTextModifyResponseDto)
+  }),
+  http.post('http://localhost/members/duplicate/id', () => {
+    return HttpResponse.json(mockMemberDuplicateRequestDto)
   })
 ]
 
