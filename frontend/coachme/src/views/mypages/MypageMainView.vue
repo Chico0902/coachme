@@ -52,6 +52,13 @@ onBeforeMount(() => {
 </template>
 
 <style scoped>
+
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal; 
+}
 .all {
   display: flex;
   justify-content: center;
@@ -86,6 +93,7 @@ onBeforeMount(() => {
   margin-top: 5vh;
   margin-bottom: 5vh;
   border-radius: 1.5rem;
+  overflow: scroll;
 }
 .footer {
   height: 10vh;
