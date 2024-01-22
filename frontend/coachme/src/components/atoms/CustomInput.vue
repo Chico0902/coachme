@@ -7,24 +7,24 @@ rule : input validation 규칙. Object값 받음. 기본값 없음
 -->
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted } from 'vue'
 
 const props = defineProps({
-  label : {  // input 위에 표시될 문구
-    type : String,
-    default : ""
+  label: {
+    // input 위에 표시될 문구
+    type: String,
+    default: ''
   },
-  hint : {  // input 아래에 표시될 문구
-    type : String,
-    default: ""
-  }, size : {
-    type : String,
-    default: "20px"
+  hint: {
+    // input 아래에 표시될 문구
+    type: String,
+    default: ''
   },
-  rule : { // validation 규칙
-    type: Object,
+  rule: {
+    // validation 규칙
+    type: Object
   }
-});
+})
 
 const data = ref('') // 갱신되는 값
 const nameRef = ref('') // input ref 대상
@@ -33,18 +33,23 @@ const emit = defineEmits(['updateData'])
 // input 창에서 입력된 내용을 부모 컴포넌트로 보내기 위한 emit
 
 onMounted(() => {
-  const el = nameRef.value.getNativeElement();
-  el.addEventListener('input', e => {
+  const el = nameRef.value.getNativeElement()
+  el.addEventListener('input', (e) => {
     // console.log('input', e.target.value);
-    data.value = e.target.value;
+    data.value = e.target.value
     emit('updateData', data) // 상위 컴포넌트로 입력값 emit
-  });
-}); // 한글 갱신을 위한 이벤트리스너
-
+  })
+}) // 한글 갱신을 위한 이벤트리스너
 </script>
 
 <template>
-  <q-input ref="nameRef" :label="`${props.label}`" :rules="[rule]" :hint="`${props.hint}`"
-  :input-style="{ fontSize: `${props.size}` }" ></q-input>
+  <q-input
+    ref="nameRef"
+    filled
+    :label="`${props.label}`"
+    :rules="[rule]"
+    :hint="`${props.hint}`"
+    :input-style="{ fontSize: '1rem' }"
+  ></q-input>
 </template>
 <style scoped></style>

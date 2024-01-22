@@ -6,14 +6,14 @@
 <script setup>
 import profile from '../atoms/ProfileImage.vue'
 import sidebar from '../atoms/Sidebar.vue'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const sidebarOpen = ref(false);
+const sidebarOpen = ref(false)
 // 사이드바 오픈 여부
 
 const toggleSidebar = () => {
-  sidebarOpen.value = !sidebarOpen.value;
-}; // 햄버거 버튼 클릭시 오픈 여부 변경
+  sidebarOpen.value = !sidebarOpen.value
+} // 햄버거 버튼 클릭시 오픈 여부 변경
 
 const closeSidebar = () => {
   sidebarOpen.value = false
@@ -22,25 +22,25 @@ const closeSidebar = () => {
 
 const sideMenu = ['Home', 'About', 'Service', 'Contact']
 // 사이드바 메뉴는 여기서 변경
-
 </script>
 
 <template>
   <div class="menu-container">
-    <q-toolbar class="text-black rounded-borders" style="width: 80vw;">
+    <q-toolbar class="text-black rounded-borders" style="width: 80vw">
       <!-- 햄버거 버튼 -->
       <q-btn flat class="burger_button" @click="toggleSidebar">
         <div class="navbar_burger">
-          <span class="material-symbols-outlined">
-            menu
-          </span>
+          <span class="material-symbols-outlined"> menu </span>
         </div>
       </q-btn>
       <q-space></q-space>
 
       <!-- 로고 -->
       <q-btn flat>
-        <img src="../icons/2.png" width="150px">
+
+        <router-link to="/">
+          <img src="../icons/4.png" width="150px" />
+        </router-link>
       </q-btn>
       <q-space></q-space>
 

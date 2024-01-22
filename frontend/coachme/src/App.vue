@@ -1,15 +1,10 @@
-<script setup>
-import testPage from './views/MainPageTestView.vue'
-import myPage from './views/MyPageTest.vue'
-</script>
-
 <template>
-  <testPage></testPage>
-  <myPage></myPage>
-
+  <div id="app">
+    <RouterView />
+  </div>
 </template>
 
-<style>
+<script setup></script>
 
-</style>
 
+<style></style>

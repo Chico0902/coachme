@@ -8,6 +8,7 @@ label 아이콘 밑에 메뉴 이름
 
 const category = [
   { style: "home", label: "Life" },
+  { style: "palette", label: "Creation" },
   { style: "sports_and_outdoors", label: "Sport" },
   { style: "terminal", label: "Develop" },
   { style: "favorite", label: "Health" },
@@ -17,7 +18,7 @@ const category = [
 </script>
 
 <template>
-  <q-toolbar class="text-black rounded-borders" style="max-width: 40vw;">
+  <q-toolbar class="text-black rounded-borders category" style="max-width: 100%;">
     <!-- 카테고리에 표시될 메뉴 -->
     <div v-for="menu in category" :key="menu">
       <q-btn flat class="button">
@@ -42,5 +43,9 @@ const category = [
   max-width: 6vw;
   min-width: 6vw;
   margin-right: 2.8rem;
+}
+
+.category {
+  justify-content: center;
 }
 </style>
