@@ -151,6 +151,22 @@ import { RouterLink } from 'vue-router'
       </RouterLink>
     </li>
     <li class="nav-item" role="presentation">
+      <RouterLink to="/server">
+        <button
+          class="nav-link"
+          id="server-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#server-tab-pane"
+          type="button"
+          role="tab"
+          aria-controls="server-tab-pane"
+          aria-selected="false"
+        >
+          서버
+        </button>
+      </RouterLink>
+    </li>
+    <li class="nav-item" role="presentation">
       <RouterLink to="/erd">
         <button
           class="nav-link"

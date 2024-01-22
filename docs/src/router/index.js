@@ -9,6 +9,7 @@ import ApiView from '../views/ApiView.vue'
 import GitView from '../views/GitView.vue'
 import AgileView from '../views/AgileView.vue'
 import ConventionView from '../views/ConventionView.vue'
+import ServerView from '../views/ServerView.vue'
 import ErdView from '../views/ErdView.vue'
 import MinutesView from '../views/MinutesView.vue'
 
@@ -59,6 +60,11 @@ const router = createRouter({
       path: '/convention',
       name: 'convention',
       components: { default: ConventionView, nav: RouterButtonView }
+    },
+    {
+      path: '/server',
+      name: 'server',
+      components: { default: ServerView, nav: RouterButtonView }
     },
     {
       path: '/erd',
