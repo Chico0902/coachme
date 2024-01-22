@@ -26,8 +26,11 @@ p {
 .sidebar {
   width: 12%;
   height: 70vh;
-  margin: auto;
+  margin: 0px auto;
+  position: sticky;
+  top: 100px;
 }
+
 .sidebar-button {
   width: 100%;
   height: 8vh;
@@ -37,6 +40,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 .selected-button {
