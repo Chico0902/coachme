@@ -22,7 +22,7 @@ const specs = [
       { category: '명세 필수', description: '방문자(visitor)는 비밀번호를 찾을 수 있어야 한다.' },
       {
         category: '핵심 부가',
-        description: '코미(coame)는 코치(coach)로 권한(privilege)상승을 요청할 수 있어야 한다.'
+        description: '코미(coame)는 코치(coach)로 포트폴리오와 함께 권한(privilege) 요청할 수 있어야 한다.'
       },
       {
         category: '핵심 부가',
@@ -60,7 +60,7 @@ const specs = [
       },
       {
         category: '핵심 부가',
-        description: '코치(coach)는 포트폴리오(portfolio)를 작성할 수 있어야 한다.'
+        description: '코치(coach)는 포트폴리오(portfolio)를 조회 및 수정할 수 있어야 한다.'
       },
       {
         category: '핵심 부가',
