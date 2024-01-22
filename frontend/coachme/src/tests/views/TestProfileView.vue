@@ -6,20 +6,18 @@ import TestProfileTextUpload from '../components/TestProfileTextUpload.vue'
 import { validateProfileImage, validateProfileText } from '../../utils/functions/member'
 import { decodeToken } from '../../utils/functions/auth'
 import { getProfile, patchProfileImage, patchProfileText } from '../../utils/api/member-api'
-import { useMemberStore } from '@/stores/member'
 import { useProfileStore } from '@/stores/profile'
 import { storeToRefs } from 'pinia'
 
 // variables
 const name = ref('고양이')
-const memberStore = useMemberStore()
 const profileStore = useProfileStore()
-const accessToken = memberStore.accessToken
+const token = JSON.parse(sessionStorage.getItem('auth'))
 const { profileImageUrl, profileText } = storeToRefs(profileStore)
 
 // methods
 onBeforeMount(() => {
-  const memberId = decodeToken(accessToken).id
+  const memberId = decodeToken(token.accessToken).id
   getProfile(
     memberId,
     (success) => {
@@ -32,7 +30,7 @@ onBeforeMount(() => {
 const changeProfileImage = (newImage) => {
   try {
     if (validateProfileImage(newImage)) {
-      const memberId = decodeToken(accessToken).id
+      const memberId = decodeToken(token.accessToken).id
       patchProfileImage(
         memberId,
         newImage,
@@ -51,7 +49,7 @@ const changeProfileImage = (newImage) => {
 const changeProfileText = (newText) => {
   try {
     if (validateProfileText(newText)) {
-      const memberId = decodeToken(accessToken).id
+      const memberId = decodeToken(token.accessToken).id
       patchProfileText(
         memberId,
         newText,
@@ -79,9 +77,7 @@ const changeProfileText = (newText) => {
 
         <q-item-section>
           <q-item-label>{{ name }}</q-item-label>
-          <q-item-label v-if="profileText.length === 0" caption>
-            등록된 프로필이 없습니다.
-          </q-item-label>
+          <q-item-label v-if="profileText.length === 0" caption> 등록된 프로필이 없습니다. </q-item-label>
           <q-item-label v-else caption>{{ profileText }}</q-item-label>
         </q-item-section>
       </q-item>
