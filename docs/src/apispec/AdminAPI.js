@@ -14,7 +14,15 @@ export default {
         success: {
           description: '모든 회원정보 리스트로 반환',
           code: '200',
-          data: { dtos: 'List<AdminMembersResponseDto>' }
+          data: {
+            id: 'String',
+            priv: 'String',
+            name: 'String',
+            nick: 'String',
+            email: 'String',
+            cdate: 'LocalDateTime',
+            elev: 'Integer'
+          }
         },
         fail: {
           description: '잘못된 요청',
