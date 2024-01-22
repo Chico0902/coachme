@@ -20,11 +20,10 @@
 
 <style scoped>
 .footer-container {
-  height: 18vh;
+  height: 20vh;
 }
 img {
-  margin-top: 3vh;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem;
 }
 p {
   margin-top: 0.5rem;

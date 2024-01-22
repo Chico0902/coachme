@@ -1,14 +1,40 @@
 <script setup>
+import { getAccessToken, decodeToken } from '@/utils/functions/auth'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
-const buttonList = [
-  { name: '코치등록', link: '/mypage/coach/regist', cssClass: 'regist-button' },
+import { ref, onBeforeMount } from 'vue'
+import router from '@/router'
+const SideButtonList = ref([
+  { name: '코치등록', link: '/mypage/coach/regist', cssClass: 'manage-button' },
   { name: '정보수정', link: '/mypage/profile' },
   { name: '코칭일정', link: '/mypage/coaching/coame' },
   { name: '관심강의', link: '/mypage/interest' },
   { name: '영상보기', link: '/mypage/video' },
   { name: '회원탈퇴', link: '/mypage/resign' }
-]
+])
+
+// 코치, 코미인지 확인해서 버튼 바꾸기
+onBeforeMount(() => {
+  try {
+    switch (decodeToken(getAccessToken()).privilege) {
+      case 'COAME':
+        break
+      case 'COACH':
+        SideButtonList.value[0] = {
+          name: '코치관리',
+          link: '/mypage/coach/manage/portfolio',
+          cssClass: 'manage-button'
+        }
+        break
+      default:
+        // Exception : 권한 형식이 잘못되었을 경우
+        throw new Error('잘못된 권한 형식입니다.')
+    }
+  } catch (e) {
+    alert(e.message + ' 로그인 페이지로 이동합니다.')
+    router.push('/login')
+  }
+})
 </script>
 <template>
   <div class="nav-bar">
@@ -17,8 +43,10 @@ const buttonList = [
   <div class="all">
     <div class="main-layout">
       <div class="mypage-outside">
-        <MypageSidebar :button-list="buttonList" />
-        <div class="mainpage shadow-3"><h1>Regist Form</h1></div>
+        <MypageSidebar :button-list="SideButtonList" />
+        <div class="mainpage shadow-3">
+          <h1>Coach Regist View</h1>
+        </div>
       </div>
     </div>
   </div>
@@ -63,7 +91,6 @@ const buttonList = [
   display: flex;
   text-align: center;
   flex-direction: column;
-  overflow: scroll;
 }
 .footer {
   height: 10vh;

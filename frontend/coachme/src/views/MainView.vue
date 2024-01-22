@@ -150,17 +150,15 @@ export default {}
   overflow-y: auto;
   position: relative;
 }
-
 .nav-bar {
   position: sticky;
   top: 0;
   z-index: 128;
   background-color: white;
-  margin-bottom: 10vh;
+  margin-bottom: 5vh;
   display: flex;
   justify-content: center;
 }
-
 .welcome {
   display: flex;
   align-items: center;
@@ -172,50 +170,41 @@ export default {}
   display: flex;
   justify-content: center;
 }
-
 .carousel {
-  width: 1150px;
-  height: 30vh;
+  width: 70%;
   margin-bottom: 5vh;
   flex-shrink: 0;
   background: #fff;
   justify-content: center;
   text-align: center;
 }
-
 .search-title {
   margin: auto;
-  /* display: block; */
 }
-
 .search-outside {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-top: 20vh;
   margin-bottom: 10vh;
 }
 .search {
   margin: auto;
   margin-top: 5vh;
 }
-
 .category-outside {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 10vh;
+  margin: 15vh;
+  margin-bottom: 50vh;
 }
 .category-imoji {
   margin: auto;
   margin-top: 5vh;
-  /* display: block; */
 }
-
 .category-title {
   margin: auto;
 }
-
 .coach-card-outside {
   display: flex;
   justify-content: space-around;
@@ -224,11 +213,12 @@ export default {}
   width: 80%;
   height: 30vh;
   margin: 15vh auto;
+  margin-bottom: 25vh;
+
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
-
 .coach-card {
   width: 200px;
   height: 200px;
@@ -238,7 +228,6 @@ export default {}
   height: 70px;
   width: 70%;
 }
-
 .coaching-card-outside {
   display: flex;
   justify-content: space-around;
@@ -251,7 +240,6 @@ export default {}
   justify-content: center;
   flex-direction: column;
 }
-
 .coaching-card {
   width: 200px;
   height: 200px;
@@ -261,7 +249,6 @@ export default {}
   height: 70px;
   width: 70%;
 }
-
 .footer {
   margin-top: 30vh;
   background-color: #fcbf17;

@@ -4,6 +4,7 @@ export default [
     path: '/mypage',
     beforeEnter: checkPrivilege,
     children: [
+      { path: '', name: 'mypage' },
       {
         path: 'coach',
         children: [
