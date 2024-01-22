@@ -42,16 +42,7 @@ onBeforeMount(() => {
 })
 </script>
 <template>
-  <div class="nav-bar">
-    <navbar />
-  </div>
-  <div class="all">
-    <div class="main-layout">
-      <div class="mypage-outside">
         
-          <MypageSidebar :button-list="SideButtonList" />
-        
-        <div class="mainpage shadow-3">
           <div class="coach-register outside">
           <div class="coach-register maintitle">
             코치 등록
@@ -103,11 +94,9 @@ onBeforeMount(() => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  </div>
-  <div class="footer"><footerBar /></div>
+        
+        
+
 </template>
 
 <style scoped>

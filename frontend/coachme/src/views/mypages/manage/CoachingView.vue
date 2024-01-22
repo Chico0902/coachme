@@ -1,4 +1,5 @@
 <script setup>
+<<<<<<< HEAD
 import { getAccessToken, decodeToken } from '@/utils/functions/auth'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
@@ -13,11 +14,16 @@ const SideButtonList = ref([
   { name: '영상보기', link: '/mypage/video' },
   { name: '회원탈퇴', link: '/mypage/resign' }
 ])
+=======
+import MypageTopBar from '@/components/molecules/MypageTopBar.vue'
+
+>>>>>>> feature/Mypage-중복코드-제거
 const TopButtonList = [
   { name: '포트폴리오', link: '/mypage/coach/manage/portfolio' },
   { name: '코칭관리', link: '/mypage/coach/manage/coaching', cssClass: 'selected-button' },
   { name: '영상관리', link: '/mypage/coach/manage/video' }
 ]
+<<<<<<< HEAD
 
 // 코치, 코미인지 확인해서 버튼 바꾸기
 onBeforeMount(() => {
@@ -105,3 +111,11 @@ onBeforeMount(() => {
   text-align: center;
 }
 </style>
+=======
+</script>
+<template>
+  <MypageTopBar :button-list="TopButtonList" />
+</template>
+
+<style scoped></style>
+>>>>>>> feature/Mypage-중복코드-제거

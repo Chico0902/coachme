@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script setup>
 import { getAccessToken, decodeToken } from '@/utils/functions/auth'
 import navbar from '@/components/molecules/LoginNavBar.vue'
@@ -99,3 +100,11 @@ onBeforeMount(() => {
   text-align: center;
 }
 </style>
+=======
+<script setup></script>
+<template>
+  <h1>Resign View</h1>
+</template>
+
+<style scoped></style>
+>>>>>>> feature/Mypage-중복코드-제거
