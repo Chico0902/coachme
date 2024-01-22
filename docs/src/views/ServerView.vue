@@ -58,7 +58,12 @@ const sshDocument = [
   {
     title: 'PuTTY 실행',
     imgNo: '7',
-    details: ['PuTTY실행 후 다음과 같이 설정합니다.', 'Host Name : ubuntu@i10a403.p.ssafy.io', 'Port : 22', 'SSH']
+    details: [
+      'PuTTY실행 후 다음과 같이 설정합니다.',
+      'Host Name : ubuntu@i10a403.p.ssafy.io',
+      'Port : 22',
+      'Connection type : SSH'
+    ]
   },
   {
     title: 'Category 설정 - 1',
