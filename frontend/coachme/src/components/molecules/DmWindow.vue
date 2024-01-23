@@ -9,7 +9,7 @@ otherId : 코치(상대)의 아이디
 const props = defineProps({
   chatList: {
     type: Object,
-    // 주의 chatList의 chat 부분은 []로 쌓인 배열이어야 함
+    // 주의 chatList의 chat 부분은 []로 싸인 배열이어야 함
   },
   myId: {
     type: String
