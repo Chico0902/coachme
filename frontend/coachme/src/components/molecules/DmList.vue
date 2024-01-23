@@ -16,7 +16,7 @@ const props = defineProps({
 <template>
   <q-list bordered class="rounded-borders" style="max-width: 760px">
     <q-item-label header>주고 받은 DM</q-item-label>
-
+    <q-separator spaced></q-separator>
     <div v-for="(dm, index) in props.dmList" :key="dm">
       <q-item clickable v-ripple>
         <!-- 프로필 사진 영역 -->

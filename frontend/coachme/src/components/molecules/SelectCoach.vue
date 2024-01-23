@@ -1,33 +1,21 @@
 <script setup>
+import SearchCoachCard from './SearchCoachCard.vue';
+import TinderLikeCoach from './TinderLikeCoach.vue';
+
 const test = () => {
   console.log("test");
 };
+
+const img = "https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg"
+const label = "김코치"
+
 </script>
 
 <template>
-  <div class="select-coach">
-    <div class="flex-container">
-      <q-card class="my-card" style="width: 260px; height: 490px;">
-        <q-btn flat style="width: 100%; height: 100%;">
-          <span class="material-symbols-outlined">navigate_before</span>
-        </q-btn>
-      </q-card>
-
-      <div class="coach-card">
-        <q-card class="my-card" style="width: 260px; height: 490px;">
-          <q-btn flat style="width: 100%; height: 100%;">
-            check
-          </q-btn>
-        </q-card>
-      </div>
-
-      <q-card class="my-card" style="width: 260px; height: 490px;">
-        <q-btn flat style="width: 100%; height: 100%;">
-          <span class="material-symbols-outlined">navigate_next</span>
-        </q-btn>
-      </q-card>
-    </div>
+  <div class="coach-card">
+    <SearchCoachCard class="my-card" style="width: 360px; height: 450px;" :img="img" :label="label"></SearchCoachCard>
   </div>
+  <TinderLikeCoach></TinderLikeCoach>
 </template>
 
 <style scoped>
@@ -35,21 +23,11 @@ const test = () => {
   font-size: 50px;
 }
 
-.select-coach {
+.category-imoji {
+  margin: auto;
+  margin-top: 5vh;
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100%;
-}
-
-.coach-card {
-  position: absolute;
-  left: 50%; /* 가운데 정렬을 위한 조정 */
-  transform: translateX(-50%); /* 가운데 정렬을 위한 조정 */
-  z-index: 1;
-}
-
-.flex-container {
-  display: flex;
 }
 </style>

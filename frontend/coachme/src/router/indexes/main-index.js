@@ -24,6 +24,6 @@ export default [
   {
     path: '/search-coach',
     name: 'Desktop-13',
-    component: () => import('../../views/SearchCoach.vue')
+    component: () => import('../../views/searchCoach.vue')
   }
 ]
