@@ -1,8 +1,7 @@
 package com.ssafy.api.member.controller;
 
 import com.ssafy.api.member.dto.RegistMemberDto;
-import com.ssafy.api.member.request.MemberRegistDto;
-import com.ssafy.api.member.request.UpdateMemberDto;
+import com.ssafy.api.member.dto.UpdateMemberDto;
 import com.ssafy.api.member.service.FileService;
 import com.ssafy.api.member.service.MemberService;
 import lombok.RequiredArgsConstructor;

@@ -35,7 +35,7 @@ public class AuthController {
     HttpStatus status;
     try {
       Member member = customUserDetailsService.loadUserByUsername(loginRequestDto.getId());
-      log.info("input id : {}",member.getMemberId());
+      log.info("input id : {}", member.getMemberId());
       customUserDetailsService.isValidMember(member.getMemberId(), loginRequestDto.getPw());
       TokenResponseDto tokenResponseDto = new TokenResponseDto();
       String memberId = member.getMemberId();
