@@ -11,14 +11,20 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['clickDm'])
+
+const clickDm = (index) => {
+  emit('clickDm', index)
+}
+
 </script>
 
 <template>
-  <q-list bordered class="rounded-borders" style="max-width: 760px">
+  <q-list bordered class="rounded-borders" style="width: 100%; max-width: 400px">
     <q-item-label header>주고 받은 DM</q-item-label>
     <q-separator spaced></q-separator>
     <div v-for="(dm, index) in props.dmList" :key="dm">
-      <q-item clickable v-ripple>
+      <q-item clickable v-ripple @click="clickDm(index)">
         <!-- 프로필 사진 영역 -->
         <q-item-section avatar>
           <profile :img="`${dm.img}`"></profile>
