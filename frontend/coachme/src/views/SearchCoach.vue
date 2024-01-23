@@ -1,7 +1,5 @@
 <script setup>
-import chatButton from '../components/materialIcon/ChatButton.vue'
-
-import DmWindow from '../components/molecules/DmWindow.vue';
+import chatButton from '../components/molecules/ChatButton.vue'
 import CustomCategory from '@/components/molecules/CustomCategory.vue';
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
@@ -15,20 +13,6 @@ const SideButtonList = ref([
   { name: '영상보기' },
   { name: '회원탈퇴' }
 ])
-
-const chat = [{
-  "id": "coame",
-  "chat": ["hey, how are you?", "I'm so so these day"]
-}, {
-  "id": "coach",
-  "chat": ["doing fine, how r you?"]
-}, {
-  "id": "coach",
-  "chat": ["I just feel like typing a really, really, REALLY long message to annoy you..."]
-}]
-
-const myId = "coame"
-const otherId = "coach"
 
 </script>
 
@@ -52,8 +36,6 @@ const otherId = "coach"
   <div class="footer">
     <footerBar />
   </div>
-
-  <DmWindow :chatList="chat" :myId="myId" :otherId="otherId"></DmWindow>
 </template>
 
 <style scoped>

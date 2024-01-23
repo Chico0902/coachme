@@ -19,10 +19,21 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['closeDm'])
+
+const closeDm = () => {
+  emit('closeDm')
+}
+
 </script>
 
 <template>
   <div class="q-pa-md row justify-center chat-box">
+    <q-btn flat @click="closeDm">
+    <span class="material-symbols-outlined">
+      Home
+    </span>
+  </q-btn>
     <div style="width: 100%; max-width: 400px">
       <div v-for="list in props.chatList" :key="list">
         <!-- 자신이 보낸 부분-->
@@ -42,9 +53,12 @@ const props = defineProps({
 
 <style scoped>
 .chat-box {
-
   background-color: #FFEEC1;
   max-width: 380px;
   max-height: 500px;
+}
+
+.material-symbols-outlined {
+  font-size: 25px;
 }
 </style>
