@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     log.info("input Password : {}", password);
     Member member = loadUserByUsername(id);
     log.info("load Password : {}", member.getPassword());
-    if(!member.getPassword().equals(password)) {
+    if (!member.getPassword().equals(password)) {
       throw new Exception("Password Error");
     }
   }

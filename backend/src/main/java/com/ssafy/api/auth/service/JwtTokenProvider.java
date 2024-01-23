@@ -115,10 +115,10 @@ public class JwtTokenProvider {
         .setSigningKey(key)
         .build()
         .parseClaimsJws(token).getBody();
-    map.put("memberId",claims.getSubject());
+    map.put("memberId", claims.getSubject());
     map.put("privilege", claims.get("privilege"));
     map.put("name", claims.get("name"));
-    if(claims.get("type").equals("access")) {
+    if (claims.get("type").equals("access")) {
       map.put("isAccess", true);
     } else {
       map.put("isAccess", false);

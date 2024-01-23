@@ -1,6 +1,6 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.api.member.request.UpdateMemberDto;
+import com.ssafy.api.member.dto.UpdateMemberDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

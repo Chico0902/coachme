@@ -13,6 +13,7 @@ import java.util.List;
 public class AdminService {
 
   private final MemberRepository memberRepository;
+
   public List<MemberListResponseDto> getMemberList() {
     return MemberMapper.instance.memberToMemberListResponseDto(memberRepository.findAll());
   }
