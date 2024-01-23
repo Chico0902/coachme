@@ -13,7 +13,7 @@ import MainCoachTitle from '../components/texts/MainCoachTitle.vue'
 import MainCoachingTitle from '../components/texts/MainCoachingTitle.vue'
 import profile from '../components/atoms/ProfileImage.vue'
 import { onBeforeMount } from 'vue'
-import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { logout, decodeToken, getAccessToken } from '@/utils/functions/auth'
 
 // 검색 컴포넌트의 버튼 색상, 드롭다운 색상, 버튼 라벨, 드롭다운 메뉴 순
 const bColor = '#FCBF17'
@@ -42,10 +42,11 @@ onBeforeMount(() => {
 
   // 토큰 있으면 빼서 디코딩
   token = decodeToken(getAccessToken())
+  console.log(token)
 })
-const logout = () => {
+const logoutWithConfirm = () => {
   if (!confirm('로그아웃 하시겠습니까?')) return
-  sessionStorage.setItem('auth', '')
+  logout()
   alert('로그아웃 되었습니다.')
   window.location.reload()
 }
@@ -79,7 +80,7 @@ const logout = () => {
           </div>
         </template>
         <template #logout>
-          <buttons flat :name="`logout`" :label="`로그아웃`" @click="logout"></buttons>
+          <buttons flat :name="`logout`" :label="`로그아웃`" @click="logoutWithConfirm"></buttons>
         </template>
       </navbar>
     </template>

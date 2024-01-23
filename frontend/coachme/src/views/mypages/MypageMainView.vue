@@ -12,6 +12,8 @@ const SideButtonList = ref([
   { name: '영상보기', link: '/mypage/video' },
   { name: '회원탈퇴', link: '/mypage/resign' }
 ])
+
+// 메인페이지 진입 시 권한 확인해서 로그인 버튼 변경
 onBeforeMount(() => {
   try {
     switch (decodeToken(getAccessToken()).privilege) {
@@ -24,6 +26,13 @@ onBeforeMount(() => {
           cssClass: 'manage-button'
         }
         break
+      case 'ADMIN': {
+        SideButtonList.value = [
+          { name: '권한요청', link: '/mypage/admin/elevations', cssClass: 'manage-button' },
+          { name: '회원목록', link: '/mypage/admin/list' }
+        ]
+        break
+      }
       default:
         // Exception : 권한 형식이 잘못되었을 경우
         throw new Error('잘못된 권한 형식입니다.')
