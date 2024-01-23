@@ -1,9 +1,6 @@
 <script setup>
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
-<<<<<<< HEAD
-import router from '@/router'
-=======
 import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
 import { getAllMemberInfo } from '@/utils/api/admin-api'
 import { ref, onBeforeMount } from 'vue'
@@ -40,7 +37,6 @@ onBeforeMount(() => {
     }
   )
 })
->>>>>>> feature/Mypage-중복코드-제거
 </script>
 <template>
   <div class="nav-bar">
@@ -49,13 +45,6 @@ onBeforeMount(() => {
   <div class="all">
     <div class="main-layout">
       <div class="mypage-outside">
-<<<<<<< HEAD
-        <div class="sidebar">
-          <div class="sidebar-button shadow-3"><p>회원목록</p></div>
-          <div class="sidebar-button shadow-3" @click="router.push('/mypage/admin/elevations')"><p>권한요청</p></div>
-        </div>
-        <div class="mainpage shadow-3">메인</div>
-=======
         <MypageSidebar :button-list="SideButtonList" />
         <div class="mainpage shadow-3">
           <h1>전체 회원목록</h1>
@@ -70,7 +59,6 @@ onBeforeMount(() => {
             row-key="name"
           />
         </div>
->>>>>>> feature/Mypage-중복코드-제거
       </div>
     </div>
   </div>
@@ -78,17 +66,12 @@ onBeforeMount(() => {
 </template>
 
 <style scoped>
-<<<<<<< HEAD
-p {
-  margin: 0;
-=======
 h1 {
   font-size: 1.5rem;
   margin: 0;
   margin-bottom: 1rem;
   padding: 0;
   line-height: normal;
->>>>>>> feature/Mypage-중복코드-제거
 }
 .all {
   display: flex;
@@ -102,10 +85,6 @@ h1 {
   overflow-y: auto;
   position: relative;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> feature/Mypage-중복코드-제거
 .nav-bar {
   width: 100%;
   height: 70px;
@@ -120,40 +99,6 @@ h1 {
   display: flex;
   justify-content: space-between;
 }
-<<<<<<< HEAD
-.sidebar {
-  width: 15%;
-  height: 70vh;
-  margin: auto;
-}
-
-.sidebar-button {
-  width: 100%;
-  height: 8vh;
-  border-radius: 1rem;
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sidebar-button p {
-  font-size: 1rem;
-  letter-spacing: 0.1rem;
-}
-.sidebar-button:first-child {
-  background-color: #bd58d9;
-  opacity: 90%;
-  color: #fff;
-}
-.sidebar-button:hover {
-  background-color: #bd58d9;
-  opacity: 100%;
-  color: #fff;
-  cursor: pointer;
-}
-=======
->>>>>>> feature/Mypage-중복코드-제거
 .mainpage {
   background-color: white;
   width: 80%;
@@ -161,17 +106,9 @@ h1 {
   margin: auto;
   margin-top: 5vh;
   margin-bottom: 5vh;
-<<<<<<< HEAD
-  border-radius: 1.5rem;
-  display: flex;
-  /* justify-content: center; */
-  flex-direction: column;
-  overflow: scroll;
-=======
   padding: 3rem;
   text-align: center;
   border-radius: 1.5rem;
->>>>>>> feature/Mypage-중복코드-제거
 }
 .footer {
   height: 10vh;
