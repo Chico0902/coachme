@@ -14,9 +14,9 @@ const SideButtonList = ref([
   { name: '영상보기', link: '/mypage/video' },
   { name: '회원탈퇴', link: '/mypage/resign' }
 ])
-const color = "#fcbf17"
-const label = "등록신청"
-const textcolor = "black"
+const color = '#fcbf17'
+const label = '등록신청'
+const textcolor = 'black'
 
 // 코치, 코미인지 확인해서 버튼 바꾸기
 onBeforeMount(() => {
@@ -42,70 +42,53 @@ onBeforeMount(() => {
 })
 </script>
 <template>
-        
-          <div class="coach-register outside">
-          <div class="coach-register maintitle">
-            코치 등록
-          </div>
-          <div class="coach-register detail">
-            코치 정보를 등록하고 나만의 코칭을 시작하세요!
-          </div>
-        </div>
-        <div class="intropage outside">
-          <div class="intropage title">
-            소개글
-          </div>
-          <div class="intropage box">
-            <CustomInput type = "textarea" placeholder="소개글을 입력해주세요."/>
-          </div>
-        </div>
-        <div class="career outside">
-          <div class="career title">
-            이력
-          </div>
-          <div class="career box">
-            <CustomInput type = "textarea" placeholder="이력을 입력해주세요."/>
-          </div>
-        </div>
-        <div class="coaching-detail outside">
-          <div class="coaching-detail title">
-            코칭내용
-          </div>
-          <div class="coaching-detail box">
-            <CustomInput type = "textarea" placeholder="코칭 내용을 입력해주세요."/>
-          </div>
-        </div>
-        <div class="curriculum outside">
-          <div class="curriculum title">
-            커리큘럼
-          </div>
-          <div class="curriculum box">
-            <CustomInput type = "textarea" placeholder="커리큘럼을 입력해주세요."/>
-          </div>
-          <div class="button-div">
-            <div class="button">
-              <CustomButton
-                style="height: 56px"
-                :label="label"
-                :background="color"
-                :color="textcolor"
-                @click="searchData"
-              ></CustomButton>
-            </div>
-          </div>
-        </div>
-        
-        
-
+  <div class="coach-register outside">
+    <div class="coach-register maintitle">코치 등록</div>
+    <div class="coach-register detail">코치 정보를 등록하고 나만의 코칭을 시작하세요!</div>
+  </div>
+  <div class="intropage outside">
+    <div class="intropage title">소개글</div>
+    <div class="intropage box">
+      <CustomInput type="textarea" placeholder="소개글을 입력해주세요." />
+    </div>
+  </div>
+  <div class="career outside">
+    <div class="career title">이력</div>
+    <div class="career box">
+      <CustomInput type="textarea" placeholder="이력을 입력해주세요." />
+    </div>
+  </div>
+  <div class="coaching-detail outside">
+    <div class="coaching-detail title">코칭내용</div>
+    <div class="coaching-detail box">
+      <CustomInput type="textarea" placeholder="코칭 내용을 입력해주세요." />
+    </div>
+  </div>
+  <div class="curriculum outside">
+    <div class="curriculum title">커리큘럼</div>
+    <div class="curriculum box">
+      <CustomInput type="textarea" placeholder="커리큘럼을 입력해주세요." />
+    </div>
+    <div class="button-div">
+      <div class="button">
+        <CustomButton
+          style="height: 56px"
+          :label="label"
+          :background="color"
+          :color="textcolor"
+          @click="searchData"
+        ></CustomButton>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-
 @font-face {
-    font-family: 'TheJamsil5Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal; 
+  font-family: 'TheJamsil5Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
 }
 
 .all {
@@ -150,7 +133,7 @@ onBeforeMount(() => {
   overflow: scroll;
 }
 
-.outside{
+.outside {
   width: 80%;
   margin: 20px auto;
   text-align: left;
@@ -166,17 +149,17 @@ onBeforeMount(() => {
 .detail {
   font-size: x-large;
 }
-.title{
+.title {
   padding-left: 10px;
   display: inline-block;
   font-size: large;
-  margin: 20px 10px; 
+  margin: 20px 10px;
 }
 
-.box{
-  background-color: rgb(236, 236, 236); 
+.box {
+  background-color: rgb(236, 236, 236);
 }
-.button-div{ 
+.button-div {
   display: flex;
   justify-content: center;
 }
