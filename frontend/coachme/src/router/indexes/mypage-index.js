@@ -142,11 +142,23 @@ export default [
       {
         path: 'admin',
         children: [
-          { path: 'list', name: 'Desktop-11', component: () => import('@/views/mypages/admin/MemberListView.vue') },
+          {
+            path: 'list',
+            name: 'Desktop-11',
+            props: true,
+            components: {
+              sidebar: () => import('@/components/molecules/MypageSidebar.vue'),
+              main: () => import('@/views/mypages/admin/MemberListView.vue')
+            }
+          },
           {
             path: 'elevations',
             name: 'Desktop-12',
-            component: () => import('@/views/mypages/admin/ElevationListView.vue')
+            props: true,
+            components: {
+              sidebar: () => import('@/components/molecules/MypageSidebar.vue'),
+              main: () => import('@/views/mypages/admin/ElevationListView.vue')
+            }
           }
         ]
       }
