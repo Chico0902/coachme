@@ -22,6 +22,7 @@
 .footer-container {
   display: flex;
   justify-content: center;
+  background-color: #fcbf17;
 }
 img {
   margin-top: 3vh;
