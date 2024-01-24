@@ -19,7 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@CrossOrigin({"http://localhost:5173", "http://localhost:80", "http://localhost"})
+@CrossOrigin( {"http://localhost:5173", "http://localhost:80", "http://localhost"} )
 @Slf4j
 public class AuthController {
 
