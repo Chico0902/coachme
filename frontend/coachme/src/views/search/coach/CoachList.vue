@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import CoachCardList from '@/components/molecules/CoachCardList.vue'
+</script>
 <template>
-  <h1>Coach List</h1>
+  <CoachCardList />
 </template>
