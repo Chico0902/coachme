@@ -52,7 +52,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-btn-dropdown to="/start/pick-quasar-flavour" :color="`${props.color}`" :label="topLabel" :size="`${props.size}`">
+  <q-btn-dropdown :color="`${props.color}`" :label="topLabel" :size="`${props.size}`">
     <q-list>
       <!-- 드롭다운 메뉴 -->
       <div v-for="menu in props.list" :key="menu">
