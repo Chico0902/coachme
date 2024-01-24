@@ -1,3 +1,5 @@
+<!-- 코치 리스트 페이지-->
+
 <script setup>
 import CoachCardList from '@/components/molecules/CoachCardList.vue'
 import chatButton from '@/components/molecules/ChatButton.vue'
@@ -8,6 +10,7 @@ import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
 import { ref } from 'vue'
 
 const selectButton = ref(0)
+// 선택한 카테고리 index
 
 const SideButtonList = [[
   { name: 'House', },
@@ -35,25 +38,32 @@ const SideButtonList = [[
   { name: 'Running' },
   { name: 'Crossfit' },
 ],]
+// 선택한 카테고리에 따라 변경될 사이드 메뉴 리스트
 
 const selectedCategory = ref([])
+// 선택된 상단 메뉴 리스트. props로 전달되는 리스트
 
 const clickCategory = (index) => {
   selectButton.value = index
   selectedCategory.value = SideButtonList[selectButton.value]
 }
+// 카테고리 클릭시 상단 사이드 메뉴 변경
 
 </script>
 <template>
+  <!-- nav -->
   <div class="nav-bar">
     <navbar />
   </div>
   <div class="all">
     <div class="main-layout">
+      <!-- 카테고리 -->
       <CustomCategory style="margin-top: 3vh;" @click-category="clickCategory"></CustomCategory>
       <div class="mypage-outside">
+        <!-- 사이드메뉴 -->
         <MypageSidebar :button-list="selectedCategory" />
         <div class="mainpage">
+          <!-- 코치 리스트와 채팅 버튼 -->
           <CoachCardList />
           <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
           </chatButton>
@@ -61,8 +71,7 @@ const clickCategory = (index) => {
       </div>
     </div>
   </div>
-  <!-- <chatButton style="margin-left: 80vw; margin-bottom: 5vh; width: 50px; height: 50px;">
-  </chatButton> -->
+  <!-- footer 위치 -->
   <div class="footer">
   </div>
 </template>

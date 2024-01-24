@@ -1,3 +1,9 @@
+<!-- 코치 리스트 카드(틴더라이크)
+  주의할 사항 : 갱신해야하는 것은 cards 배열임에 주의하기
+  배열에 필요한 사항 
+  name, category, rating, desc, img
+ -->
+
 <script setup>
 import selectCoachCard from '../molecules/SelectCoachCard.vue'
 
@@ -13,12 +19,6 @@ const cards = ref([
 
 let imgCount = 0
 const cloudUrl = 'https://djjjk9bjm164h.cloudfront.net/'
-const data = [
-  { img: `${cloudUrl}tender01.jpg`, name: 'Korean Fried', price: '20', distance: '2' },
-  { img: `${cloudUrl}tender02.jpg`, name: 'Grilled', price: '23', distance: '5' },
-  { img: `${cloudUrl}tender03.jpg`, name: 'Fried', price: '25', distance: '11' },
-  { img: `${cloudUrl}tender04.jpg`, name: 'Deep Fried', price: '23', distance: '6' }
-]
 
 let like
 let likeText
@@ -29,7 +29,6 @@ let MAX_DEFAULT_MOVE
 onMounted(() => {
   frame = document.querySelector('.frame')
   console.log(frame)
-  // data.forEach((_data) => appendCard(_data))
   like = document.querySelector('#like')
   hate = document.querySelector('#hate')
 
@@ -76,17 +75,17 @@ function animateFirstCard(timestamp) {
   lastTimestamp = timestamp
 }
 
-const appendCard = (data) => {
-  const newCard = {
-    id: imgCount++,
-    img: data.img,
-    name: data.name,
-    price: data.price,
-    distance: data.distance,
-  };
+// const appendCard = (data) => {
+//   const newCard = {
+//     id: imgCount++,
+//     img: data.img,
+//     name: data.name,
+//     price: data.price,
+//     distance: data.distance,
+//   };
 
-  cards.value.unshift(newCard);
-};
+//   cards.value.unshift(newCard);
+// };
 
 function initCard(card) {
   if (!firstCardAnimated) animateFirstCard()
@@ -148,12 +147,16 @@ function cancel() {
 <template>
   <section>
     <div class="frame">
+      <!-- 코치 선택 리스트 -->
       <q-card v-for="card in cards" :key="card.id" class="card coach" style="background-color: white;">
+        <!-- 지우지 말 것-->
         <div class="is-like">좋아요</div>
+        <!-- 코치 카드 영역 -->
         <selectCoachCard :name="card.name" :category="card.category" :rating="card.rating" :desc="card.desc" :img="card.img"></selectCoachCard>
       </q-card>
     </div>
 
+    <!-- 버튼 영역 -->
     <div class="icons">
       <svg id="hate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128.07 127.89">
         <path class="a"
@@ -170,6 +173,7 @@ function cancel() {
     </div>
   </section>
 </template>
+
 <style scoped>
 section {
   display: flex;
@@ -180,15 +184,15 @@ section {
   height: 100%;
   overflow: hidden;
   font-family: 'Nunito', sans-serif;
-  background-color: #edeef3;
+  /* background-color: #edeef3; */
 }
 
 .coach {
   display: flex;
-      flex-wrap: wrap;
-      flex-direction: column; /*수직 정렬*/
-      align-items: center;
-      justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column; /*수직 정렬*/
+  align-items: center;
+  justify-content: center;
 }
 
 .frame {
