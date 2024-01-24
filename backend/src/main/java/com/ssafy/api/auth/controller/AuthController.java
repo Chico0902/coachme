@@ -35,13 +35,13 @@ public class AuthController {
     HttpStatus status;
     try {
       Member member = customUserDetailsService.loadUserByUsername(loginRequestDto.getId());
-      log.info("input id : {}",member.getMemberId());
+      log.info("input id : {}", member.getMemberId());
       customUserDetailsService.isValidMember(member.getMemberId(), loginRequestDto.getPw());
       TokenResponseDto tokenResponseDto = new TokenResponseDto();
       String memberId = member.getMemberId();
-      String accessToken = jwtTokenProvider.generateToken(member.getMemberId(), member.getPrivilege(), member.getName(), true);
+      String accessToken = jwtTokenProvider.generateToken(member.getId(), memberId, member.getPrivilege(), member.getName(), true);
       tokenResponseDto.setAccessToken(accessToken);
-      String refreshToken = jwtTokenProvider.generateToken(member.getMemberId(), member.getPrivilege(), member.getName(), false);
+      String refreshToken = jwtTokenProvider.generateToken(member.getId(), memberId, member.getPrivilege(), member.getName(), false);
       tokenResponseDto.setRefreshToken(refreshToken);
       stringRedisTemplate.opsForValue().set(memberId, refreshToken);
       responseMessage.put("data", tokenResponseDto);

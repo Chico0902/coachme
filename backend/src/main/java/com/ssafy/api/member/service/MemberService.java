@@ -1,13 +1,12 @@
 package com.ssafy.api.member.service;
 
 import com.ssafy.api.member.dto.RegistMemberDto;
+import com.ssafy.api.member.dto.UpdateMemberDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.api.member.request.UpdateMemberDto;
 import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +38,7 @@ public class MemberService {
 //    log.info("memberId : {}", memberId);
     Member member = memberRepository.findById(memberId);
     RegistMemberDto RegistMemberDto = MemberMapper.instance.memberToRegistMemberDto(member);
-    if(member != null) {
+    if (member != null) {
 //      log.info("memberId : {}", memberId);
       return RegistMemberDto;
     } else {
@@ -49,7 +48,8 @@ public class MemberService {
 
   //member 1-13 회원 삭제
   public void deleteMember(Long memberId) {
-    Member existingMember = memberRepository.findById(memberId);;
+    Member existingMember = memberRepository.findById(memberId);
+    ;
 
     if (existingMember != null) {
       memberRepository.delete(existingMember);
@@ -64,7 +64,7 @@ public class MemberService {
     String password1 = existingMember.getPassword();
     String password2 = updateMemberDto.getPw();
 
-    if(existingMember != null && password1.equals(password2)) {
+    if (existingMember != null && password1.equals(password2)) {
       existingMember.changeMemberInfo(updateMemberDto);
     } else {
       throw new RuntimeException("Invalid username or password");

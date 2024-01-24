@@ -1,6 +1,7 @@
 package com.ssafy.api.member.mapper;
 
 import com.ssafy.api.admin.dto.MemberListResponseDto;
+import com.ssafy.api.admin.dto.PortfolioResponseDto;
 import com.ssafy.api.member.dto.RegistMemberDto;
 import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
@@ -27,4 +28,9 @@ public interface MemberMapper {
   MemberListResponseDto memberToMemberListResponseDto(Member member);
 
   List<MemberListResponseDto> memberToMemberListResponseDto(List<Member> memberList);
+
+  @Mapping(source = "portfolio.description", target = "description")
+  PortfolioResponseDto memberToPortfolioResponseDto(Member member);
+
+  List<PortfolioResponseDto> memberToPortfolioResponseDto(List<Member> member);
 }
