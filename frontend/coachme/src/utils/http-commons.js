@@ -1,10 +1,10 @@
 import axios from 'axios'
-import { decodeToken, getAccessToken } from './functions/auth'
+import { getAccessToken } from './functions/auth'
 
 const { VITE_BACKEND_URL } = import.meta.env
 let accessToken
 try {
-  accessToken = decodeToken(getAccessToken())
+  accessToken = getAccessToken()
 } catch (e) {
   console.log('엑세스 토큰이 없습니다.')
 }

@@ -1,84 +1,149 @@
 <script setup>
-import CustomButton from '@/components/atoms/CustomButton.vue';
-import CustomInput from '@/components/atoms/CustomInput.vue';
-import ProfileImage from '@/components/atoms/ProfileImage.vue';
+import CustomButton from '@/components/atoms/CustomButton.vue'
+import CustomInput from '@/components/atoms/CustomInput.vue'
+import ProfileImage from '@/components/atoms/ProfileImage.vue'
+import { validatePassword, validateName, validateNickName } from '@/utils/functions/member'
+import { patchMemberInfo } from '@/utils/api/member-api'
+import { MemberInfoChangeRequestDto } from '@/utils/api/dto/member-dto'
+import { computed, ref } from 'vue'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 
-const color = '#fcbf17'
-const label = '수정 완료'
-const textcolor = 'black'
-const size = '100px'
+// variables
+const openModal = ref(false)
+const pw = ref('')
+const name = ref('')
+const nick = ref('')
+const email = ref('')
+
+// token에서 받아옴
+const token = decodeToken(getAccessToken())
+const stringId = token.id
+const longId = token.id
+
+// methods
+
+// 비밀번호 검증
+const isValidPassword = computed(() => {
+  if (pw.value === '') return true
+  return validatePassword(pw.value)
+})
+
+// 이름 검증
+const isValidName = computed(() => {
+  if (name.value === '') return true
+  return validateName(name.value)
+})
+
+// 닉네임 검증
+const isValidNickName = computed(() => {
+  if (nick.value === '') return true
+  return validateNickName(nick.value)
+})
+
+const changeMemberInfo = (id, name, nick, email) => {
+  try {
+    // dto 생성 및 호출
+    const dto = new MemberInfoChangeRequestDto(id, name, nick, email)
+    patchMemberInfo(
+      dto,
+      (success) => {
+        alert(success.data.message)
+        window.location.reload()
+      },
+      // API 호출 실패 시 오류메시지 콘솔에 출력
+      (fail) => console.log(fail)
+    )
+    // 검증 실패 시 오류메시지 출력
+  } catch (e) {
+    alert(e.message)
+  }
+}
 </script>
 <template>
   <div>
-  <div class="main-profile">
-    <div class="profile-img">
-      <div><ProfileImage :size="size" /></div>
-      <div class="profile-img-icon">
-        아이콘 2개
+    <div class="main-profile">
+      <div class="profile-img">
+        <div><ProfileImage size="100px" /></div>
+        <div class="profile-img-icon">아이콘 2개</div>
+      </div>
+      <div class="profile-detail">
+        <CustomInput type="textarea" placeholder="소개글을 입력해주세요." />
       </div>
     </div>
-    <div class="profile-detail">
-      <CustomInput type="textarea" placeholder="소개글을 입력해주세요." />
-    </div>
-  </div>
-  <div class="detail-profile">
-    <div class="detail-div">
-      <div class="detail-title">
-        이름
+    <div class="detail-member-info">
+      <h6 class="detail-member-info-id">{{ stringId }}</h6>
+      <div class="detail-member-info-input">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="name"
+          label="이름"
+          hint="한글만 가능합니다."
+          error-message="한글을 제외한 문자는 입력할 수 없습니다."
+          :error="!isValidName"
+          maxlength="10"
+        />
       </div>
-      <div class="detail-input">
-        <q-input v-model="text" :dense="dense" />
+      <div class="detail-member-info-input">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="nick"
+          label="닉네임"
+          hint="영어, 숫자, 한글만 가능합니다."
+          error-message="닉네임은 특수문자를 포함할 수 없습니다."
+          :error="!isValidNickName"
+          maxlength="10"
+        />
       </div>
-    </div>
-    <div class="detail-div">
-      <div class="detail-title">
-        닉네임
+      <div class="detail-member-info-input">
+        <q-input
+          standout="bg-teal text-white"
+          type="email"
+          v-model="email"
+          label="이메일"
+          hint="이메일 주소를 입력하세요."
+          maxlength="50"
+        />
       </div>
-      <div class="detail-input">
-        <q-input v-model="text" :dense="dense" />
-      </div>
-    </div>
-    <div class="detail-div">
-      <div class="detail-title">
-        이메일
-      </div>
-      <div class="detail-input">
-        <q-input v-model="text" :dense="dense" />
-      </div>
-    </div>
-    <div class="detail-div">
-      <div class="detail-title">
-        비밀번호 변경
-      </div>
-      <div class="detail-input">
-        <q-input v-model="text" :dense="dense" />
-      </div>
-    </div>
-    <div class="detail-div">
-      <div class="detail-title">
-        비밀번호 변경확인
-      </div>
-      <div class="detail-input">
-        <q-input v-model="text" :dense="dense" />
-      </div>
-    </div>
-  </div>
-</div>
-  <div class="button-div">
-    <div>
+      <div class="btn-container">
         <CustomButton
           style="height: 56px"
-          :label="label"
-          :background="color"
-          :color="textcolor"
-          @click="searchData"
+          label="회원정보 수정"
+          background="#fcbf17"
+          color="black"
+          @click="openModal = true"
         ></CustomButton>
       </div>
     </div>
+  </div>
+
+  <q-dialog v-model="openModal">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">회원정보 수정</div>
+      </q-card-section>
+      <div class="editor-detail">회원정보를 변경하기 위해 비밀번호를 올바르게 입력하세요.</div>
+
+      <q-card-section class="q-pt-none">
+        <q-input
+          standout="bg-teal text-white"
+          type="password"
+          v-model="pw"
+          label="비밀번호"
+          error-message="비밀번호는 9글자 이상으로, 대문자와 특수문자를 포함해야 합니다."
+          :error="!isValidPassword"
+          maxlength="30"
+        />
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="수정하기" color="primary" @click="changeMemberInfo(longId, name, nick, email)" />
+        <q-btn flat label="취소" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style scoped>
-
 .main-profile {
   width: 80%;
   background-color: aliceblue;
@@ -89,9 +154,11 @@ const size = '100px'
 }
 .profile-img {
   display: inline-block;
-  
 }
-
+.editor-detail {
+  color: #034c8c;
+  margin: 0.5rem 1rem;
+}
 .detail-div {
   display: flex;
   justify-content: left;
@@ -99,23 +166,19 @@ const size = '100px'
   align-items: center;
 }
 
-.profile-detail {
-  display: inline-block;
+.detail-member-info {
   width: 60%;
-  margin-top: 20px;
-}
-.detail-title {
-  display: inline-block;
-  width: 100px;
-  margin: 0 30px;
+  margin: auto;
 }
 
-.detail-input{
-  display: inline-block;
-  margin: 30px;
+.detail-member-info-id {
+  font-size: 1.2rem;
+  margin: 1rem 0.5rem;
 }
-
-.button-div {
+.detail-member-info-input {
+  margin-bottom: 1rem;
+}
+.btn-container {
   display: flex;
   justify-content: center;
   margin: 50px;
