@@ -1,7 +1,8 @@
 <!-- input 컴포넌트 
-필요한 정보 : 라벨, 힌트, input 규칙
+필요한 정보 : 라벨, 힌트, 문자 크기, input 규칙
 label : input 위에 작성될 문자열. 기본값 빈값
 hint : input 아래에 작성될 문자열. 기본값 빈값
+size : input에 입력되는 문자의 크기
 rule : input validation 규칙. Object값 받음. 기본값 없음
 -->
 

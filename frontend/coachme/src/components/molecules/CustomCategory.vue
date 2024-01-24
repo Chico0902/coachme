@@ -5,33 +5,45 @@ label 아이콘 밑에 메뉴 이름
 -->
 
 <script setup>
+import { ref } from 'vue'
 
 const category = [
   { style: "home", label: "Life" },
+  { style: "palette", label: "Creation" },
   { style: "sports_and_outdoors", label: "Sport" },
   { style: "terminal", label: "Develop" },
   { style: "favorite", label: "Health" },
   { style: "grid_view", label: "ETC" },
 ]
 
+const emit = defineEmits(['clickCategory'])
+
+const clickCategory = (index) => {
+  emit('clickCategory', index)
+}
+
+const tab = ref('')
+
 </script>
 
 <template>
-  <q-toolbar class="text-black rounded-borders" style="max-width: 40vw;">
+  <q-toolbar class="text-black rounded-borders category justify-evenly" style="max-width: 100%;">
     <!-- 카테고리에 표시될 메뉴 -->
-    <div v-for="menu in category" :key="menu">
-      <q-btn flat class="button">
-        <span class="material-symbols-outlined">{{ menu.style }}</span>
-        <div class="menu-text">{{ menu.label }}</div>
-      </q-btn>
-    </div>
+    <q-tabs v-model="tab" shrink>
+      <div v-for="(menu, index) in category" :key="menu">
+        <q-tab flat class="button" @click="clickCategory(index)">
+          <span class="material-symbols-outlined">{{ menu.style }}</span>
+          <div class="menu-text">{{ menu.label }}</div>
+        </q-tab>
+      </div>
+    </q-tabs>
   </q-toolbar>
 </template>
 
 <style scoped>
 .material-symbols-outlined {
   font-size: 36px;
-} 
+}
 
 .menu-text {
   margin: 5px;
@@ -39,8 +51,10 @@ const category = [
 }
 
 .button {
-  max-width: 6vw;
-  min-width: 6vw;
   margin-right: 2.8rem;
+}
+
+.category {
+  justify-content: center;
 }
 </style>

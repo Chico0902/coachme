@@ -71,7 +71,7 @@ const logoutWithConfirm = () => {
           </RouterLink>
         </template>
         <template #login>
-          <RouterLink to="/login">
+          <RouterLink to="/search-coach">
             <buttons flat :name="`login`" :label="`로그인`"></buttons>
           </RouterLink>
         </template>
@@ -232,6 +232,9 @@ export default {}
 .category-imoji {
   margin: auto;
   margin-top: 5vh;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 .category-title {
   margin: auto;

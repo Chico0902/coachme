@@ -32,7 +32,7 @@ watch(() => props.open, (newState) => {
 </script>
 
 <template>
-  <div class="sidebar" :class="{ 'sidebar-open': sidebarOpen }">
+  <div class="sidebar" :class="{ 'sidebar-open': sidebarOpen }" style="max-width : 400px">
     <!-- 사이드바 닫기 버튼-->
     <button @click="closeSidebar">
       <span class="material-symbols-outlined">
@@ -45,10 +45,6 @@ watch(() => props.open, (newState) => {
 </template>
 
 <style scoped>
-button {
-  font-size: 20px;
-  cursor: pointer;
-}
 
 .sidebar {
   position: fixed;
@@ -65,11 +61,12 @@ button {
 }
 
 .sidebar button {
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   background: none;
   border: none;
   color: #fff;
+  margin-left: 75%;
 }
 
 .sidebar-open {
