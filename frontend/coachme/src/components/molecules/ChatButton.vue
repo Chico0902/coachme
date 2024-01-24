@@ -1,5 +1,4 @@
 <script setup>
-import { is } from 'quasar';
 import DmList from '.././molecules/DmList.vue'
 import DmWindow from '.././molecules/DmWindow.vue';
 
@@ -46,6 +45,10 @@ const closeDm = () => {
   isChatList.value = !isChatList.value
 }
 
+const closeChat = () => {
+  isChatList.value = !isChatList.value
+}
+
 const reset = () => {
   isChatList.value = true
 }
@@ -54,10 +57,10 @@ const reset = () => {
 
 <template>
   <q-btn round size="30px" color="amber-7" icon="chat" @click="reset">
-    <q-menu>
+    <q-menu style="max-height: 400px; max-width: 400px;">
       <div class="row no-wrap q-pa-md">
         <DmList v-if="isChatList" :dm-list="dm" @click-dm="clickDm"></DmList>
-        <DmWindow v-else :chatList="chat" :myId="myId" :otherId="otherId" @close-dm="closeDm"></DmWindow>
+        <DmWindow v-else :chatList="chat" :myId="myId" :otherId="otherId" @close-dm="closeDm" @close-chat="closeChat"></DmWindow>
       </div>
     </q-menu>
   </q-btn>

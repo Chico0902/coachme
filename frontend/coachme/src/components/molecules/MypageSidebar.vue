@@ -1,13 +1,15 @@
 <script setup>
 import router from '@/router'
+import { reactive, watch } from 'vue'
 
 const props = defineProps({ buttonList: Object })
-const buttonList = props.buttonList
+
 </script>
+
 <template>
   <div class="sidebar">
     <div
-      v-for="button in buttonList"
+      v-for="button in props.buttonList"
       :key="button.name"
       class="sidebar-button shadow-3"
       :class="button.cssClass"

@@ -3,16 +3,44 @@ import chatButton from '../components/molecules/ChatButton.vue'
 import CustomCategory from '@/components/molecules/CustomCategory.vue';
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
+
 import { ref } from 'vue'
 
-const SideButtonList = ref([
-  { name: '코치등록' },
-  { name: '정보수정' },
-  { name: '코칭일정' },
-  { name: '관심강의' },
-  { name: '영상보기' },
-  { name: '회원탈퇴' }
-])
+const selectButton = ref(0)
+
+const SideButtonList = [[
+  { name: 'House', },
+  { name: 'Furniture' },
+  { name: 'Lifestyle' },
+  { name: 'Design' },
+], [
+  { name: 'Cocking' },
+  { name: 'Knitting' },
+  { name: 'Art' },
+  { name: 'Beauty' },
+], [
+  { name: 'Soccer' },
+  { name: 'Basketball' },
+  { name: 'Tennis' },
+  { name: 'Golf' },
+], [
+  { name: 'Frontend' },
+  { name: 'Backend' },
+  { name: 'Database' },
+  { name: 'Devops' },
+], [
+  { name: 'Yoga' },
+  { name: 'Weight' },
+  { name: 'Running' },
+  { name: 'Crossfit' },
+],]
+
+const selectedCategory = ref([])
+
+const clickCategory = (index) => {
+  selectButton.value = index
+  selectedCategory.value = SideButtonList[selectButton.value]
+}
 
 </script>
 
@@ -22,19 +50,17 @@ const SideButtonList = ref([
   </div>
   <div class="all">
     <div class="main-layout">
-      <CustomCategory style="margin-top: 3vh;"></CustomCategory>
+      <CustomCategory style="margin-top: 3vh;" @click-category="clickCategory"></CustomCategory>
       <div class="mypage-outside">
-        <MypageSidebar :button-list="SideButtonList" />
+        <MypageSidebar :button-list="selectedCategory" />
         <div class="mainpage">
           <chatButton style="margin-left: 60vw; margin-top: 55vh; width: 50px; height: 50px;" >
           </chatButton>
         </div>
       </div>
-
     </div>
   </div>
   <div class="footer">
-    <footerBar />
   </div>
 </template>
 
