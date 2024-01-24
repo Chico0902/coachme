@@ -9,5 +9,4 @@ public interface FileRepository extends JpaRepository<File, Integer> {
   File findByMemberAndType(Member member, String type);
 
 
-
 }

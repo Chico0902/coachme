@@ -42,15 +42,17 @@ public class JwtTokenProvider {
   /**
    * isAccess 파라미터로 access/refresh 구분하여 토큰을 생성하는 메서드.
    *
+   * @param id        : Member 테이블 PK
    * @param memberId  : 회원 ID
    * @param privilege : 회원 권한 (COAME, COACH, ADMIN)
    * @param name      : 회원 이름
    * @param isAccess  : Access / Refresh 토큰 구분
    * @return : token
    */
-  public String generateToken(String memberId, String privilege, String name, boolean isAccess) {
+  public String generateToken(Long id, String memberId, String privilege, String name, boolean isAccess) {
 
     Claims claims = Jwts.claims().setSubject(memberId);
+    claims.put("id", id);
     claims.put("privilege", privilege);
     claims.put("name", name);
     Date now = new Date();
@@ -115,10 +117,11 @@ public class JwtTokenProvider {
         .setSigningKey(key)
         .build()
         .parseClaimsJws(token).getBody();
-    map.put("memberId",claims.getSubject());
+    map.put("memberId", claims.getSubject());
+    map.put("id", claims.get("id"));
     map.put("privilege", claims.get("privilege"));
     map.put("name", claims.get("name"));
-    if(claims.get("type").equals("access")) {
+    if (claims.get("type").equals("access")) {
       map.put("isAccess", true);
     } else {
       map.put("isAccess", false);
