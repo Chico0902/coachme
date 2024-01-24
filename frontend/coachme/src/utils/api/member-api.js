@@ -1,6 +1,7 @@
-import { backendAxios } from '@/utils/http-commons'
+import { backendAxios, authBackendAxios } from '@/utils/http-commons'
 
 const axios = backendAxios()
+const axiosWithToken = authBackendAxios()
 
 /**
  * API번호 : member-1
@@ -77,6 +78,30 @@ export function patchPassword(dto, success, fail) {
 }
 
 /**
+ * API번호 : member-6
+ * METHOD : PATCH
+ * URI : /members/{회원 pk}
+ * 권한 : 0
+ * 설명 : 회원정보 수정 시 입력한 비밀번호를 검증한 후, 회원정보 변경
+ * @param {MemberInfoChangeRequestDto} dto 수정할 회원정보를 포함하는 dto
+ * @param {Promise} success
+ * 설명 : 기본 회원정보 수정 완료
+ * 코드 : 200
+ * body : {
+            message : String
+          }
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청
+ * 코드 : 403
+ * body : {
+            message : String
+          }
+ */
+export function patchMemberInfo(id, dto, success, fail) {
+  axiosWithToken.patch(`/members/${id}`, dto).then(success).catch(fail)
+}
+
+/**
  * API번호 : member-7
  * METHOD : GET
  * URI : /members/profiles/{멤버 pk}
@@ -97,7 +122,7 @@ export function patchPassword(dto, success, fail) {
           }
  */
 export function getProfile(id, success, fail) {
-  axios.get(`/members/profiles/${id}`).then(success).catch(fail)
+  axiosWithToken.get(`/members/profiles/${id}`).then(success).catch(fail)
 }
 
 /**
@@ -122,7 +147,7 @@ export function getProfile(id, success, fail) {
           }
  */
 export function postProfileText(id, dto, success, fail) {
-  axios.post(`/members/profiles/texts/${id}`, dto).then(success).catch(fail)
+  axiosWithToken.post(`/members/profiles/texts/${id}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -147,7 +172,7 @@ export function postProfileText(id, dto, success, fail) {
           }
  */
 export function postProfileImage(id, dto, success, fail) {
-  axios.post(`/members/profiles/images/${id}`, dto).then(success).catch(fail)
+  axiosWithToken.post(`/members/profiles/images/${id}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -172,7 +197,7 @@ export function postProfileImage(id, dto, success, fail) {
           }
  */
 export function patchProfileText(id, dto, success, fail) {
-  axios.patch(`/members/profiles/texts/${id}`, dto).then(success).catch(fail)
+  axiosWithToken.patch(`/members/profiles/texts/${id}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -197,7 +222,7 @@ export function patchProfileText(id, dto, success, fail) {
           }
  */
 export function patchProfileImage(id, file, success, fail) {
-  axios.patch(`/members/profiles/images/${id}`, file).then(success).catch(fail)
+  axiosWithToken.patch(`/members/profiles/images/${id}`, file).then(success).catch(fail)
 }
 
 /**
@@ -221,7 +246,7 @@ export function patchProfileImage(id, file, success, fail) {
           }
  */
 export function deleteProfileText(id, dto, success, fail) {
-  axios.delete(`/members/profiles/texts/${id}`, dto).then(success).catch(fail)
+  axiosWithToken.delete(`/members/profiles/texts/${id}`, dto).then(success).catch(fail)
 }
 
 /**
