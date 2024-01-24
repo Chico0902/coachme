@@ -84,4 +84,6 @@ const color = '#FFFFFF'
 #search {
   display: flex;
 }
+
+
 </style>
