@@ -6,6 +6,7 @@ import com.ssafy.api.member.dto.RegistMemberDto;
 import com.ssafy.api.member.dto.UpdateMemberDto;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.member.dto.UpdateMemberDto;
+import com.ssafy.api.member.dto.UpdateMemberDto;
 import com.ssafy.api.member.service.FileService;
 import com.ssafy.api.member.service.MemberService;
 //import com.ssafy.api.member.service.FindPwService;
@@ -28,7 +29,6 @@ import java.util.Map;
 @Slf4j
 public class MemberController {
   private final MemberService memberService;
-  private final MemberRepository memberRepository;
   private final FileService fileService;
 //  private final FindPwService findPwService;
 
