@@ -13,6 +13,7 @@ import { useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
 
 // variables
+const openModal = ref(false)
 const router = useRouter()
 const id = ref('')
 const pw = ref('')
@@ -133,8 +134,24 @@ const regist = (id, pw, pwConfirm, name, nick, email) => {
           hint="이메일 주소를 입력하세요."
           maxlength="50"
         />
-        <q-btn type="submit" color="secondary" label="회원가입" style="justify-self: center" />
+        <q-btn label="회원정보 수정" color="primary" @click="openModal" />
       </div>
     </form>
   </div>
+  <q-dialog v-model="openModal">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">Alert</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro.
+        Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="OK" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>

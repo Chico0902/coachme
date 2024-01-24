@@ -1,85 +1,40 @@
 <script setup>
-import { getAccessToken, decodeToken } from '@/utils/functions/auth'
-import navbar from '@/components/molecules/LoginNavBar.vue'
-import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
-import { ref, onBeforeMount } from 'vue'
-import router from '@/router'
-import CustomInput from '@/components/atoms/CustomInput.vue'
 import CustomButton from '@/components/atoms/CustomButton.vue'
-const SideButtonList = ref([
-  { name: '코치등록', link: '/mypage/coach/regist', cssClass: 'manage-button' },
-  { name: '정보수정', link: '/mypage/profile' },
-  { name: '코칭일정', link: '/mypage/coaching/coame' },
-  { name: '관심강의', link: '/mypage/interest' },
-  { name: '영상보기', link: '/mypage/video' },
-  { name: '회원탈퇴', link: '/mypage/resign' }
-])
+import QuillEditor from '@/components/molecules/QuillEditor.vue'
+
 const color = '#fcbf17'
-const label = '등록신청'
+const label = '등록하기'
 const textcolor = 'black'
 
-// 코치, 코미인지 확인해서 버튼 바꾸기
-onBeforeMount(() => {
-  try {
-    switch (decodeToken(getAccessToken()).privilege) {
-      case 'COAME':
-        break
-      case 'COACH':
-        SideButtonList.value[0] = {
-          name: '코치관리',
-          link: '/mypage/coach/manage/portfolio',
-          cssClass: 'manage-button'
-        }
-        break
-      default:
-        // Exception : 권한 형식이 잘못되었을 경우
-        throw new Error('잘못된 권한 형식입니다.')
-    }
-  } catch (e) {
-    alert(e.message + ' 로그인 페이지로 이동합니다.')
-    router.push('/login')
-  }
-})
+/**
+ * 차후 등록하기 API추가
+ * 이미지/영상 파일 업로드 시 해당 업로드파일 저장하는 로직도 추가
+ */
+const regist = () => {
+  alert('등록 완료!(아직 등록 API 미구현)')
+}
 </script>
 <template>
-  <div class="coach-register outside">
-    <div class="coach-register maintitle">코치 등록</div>
-    <div class="coach-register detail">코치 정보를 등록하고 나만의 코칭을 시작하세요!</div>
+  <div class="main-font-container">
+    <div class="main-title">코치 등록</div>
+    <div class="title-detail">코치 정보를 등록하고 나만의 코칭을 시작하세요!</div>
   </div>
-  <div class="intropage outside">
-    <div class="intropage title">소개글</div>
-    <div class="intropage box">
-      <CustomInput type="textarea" placeholder="소개글을 입력해주세요." />
-    </div>
-  </div>
-  <div class="career outside">
-    <div class="career title">이력</div>
-    <div class="career box">
-      <CustomInput type="textarea" placeholder="이력을 입력해주세요." />
-    </div>
-  </div>
-  <div class="coaching-detail outside">
-    <div class="coaching-detail title">코칭내용</div>
-    <div class="coaching-detail box">
-      <CustomInput type="textarea" placeholder="코칭 내용을 입력해주세요." />
-    </div>
-  </div>
-  <div class="curriculum outside">
-    <div class="curriculum title">커리큘럼</div>
-    <div class="curriculum box">
-      <CustomInput type="textarea" placeholder="커리큘럼을 입력해주세요." />
-    </div>
-    <div class="button-div">
-      <div class="button">
-        <CustomButton
-          style="height: 56px"
-          :label="label"
-          :background="color"
-          :color="textcolor"
-          @click="searchData"
-        ></CustomButton>
+  <div class="editor-container">
+    <div class="editor">
+      <div class="editor-detail">
+        아래 양식에 본인의 포트폴리오를 작성해서 제출하세요. 관리자의 승인 후 코칭 활동이 시작됩니다.
       </div>
+      <QuillEditor theme="snow" />
     </div>
+  </div>
+  <div class="btn-container">
+    <CustomButton
+      style="font-size: 1.1rem; padding: 0.5rem 1rem"
+      :label="label"
+      :background="color"
+      :color="textcolor"
+      @click="regist"
+    ></CustomButton>
   </div>
 </template>
 
@@ -90,81 +45,41 @@ onBeforeMount(() => {
   font-weight: 700;
   font-style: normal;
 }
-
-.all {
-  font-family: 'TheJamsil5Bold', sans-serif;
-  display: flex;
-  justify-content: center;
-}
-.main-layout {
-  width: 1280px;
-  min-height: calc(90vh - 70px);
-  justify-content: center;
-  align-items: flex-start;
-  overflow-y: auto;
-  position: relative;
-}
-.nav-bar {
-  width: 100%;
-  height: 70px;
-  justify-content: center;
-  text-align: center;
-  border-bottom: #034c8c 1px solid;
-  display: flex;
-  justify-content: center;
+.main-font-container {
+  margin-top: 1.5rem;
+  margin-left: 3rem;
+  margin-bottom: 1rem;
 }
 
-.mypage-outside {
-  display: flex;
-  justify-content: space-between;
+.main-title {
+  display: inline-block;
+  font-size: 2rem;
 }
 
-.mainpage {
-  background-color: white;
-  width: 80%;
-  height: 70vh;
+.title-detail {
+  font-size: 1.2rem;
+}
+
+.editor-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  height: 45vh;
+}
+.editor-detail {
+  color: #034c8c;
+  margin-bottom: 0.5rem;
+}
+.editor {
+  width: 90%;
+  height: 32vh;
+  max-height: 32vh;
+}
+
+.btn-container {
   margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
-  border-radius: 1.5rem;
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  overflow: scroll;
-}
-
-.outside {
-  width: 80%;
-  margin: 20px auto;
-  text-align: left;
-}
-
-.maintitle {
-  padding-left: 10px;
-  display: inline-block;
-  font-size: xx-large;
-  margin: 50px 10px 20px;
-}
-
-.detail {
-  font-size: x-large;
-}
-.title {
-  padding-left: 10px;
-  display: inline-block;
-  font-size: large;
-  margin: 20px 10px;
-}
-
-.box {
-  background-color: rgb(236, 236, 236);
-}
-.button-div {
   display: flex;
   justify-content: center;
-}
-.button {
-  margin: 50px;
 }
 .footer {
   height: 10vh;
