@@ -3,13 +3,10 @@ package com.ssafy.api.member.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
-public class UpdateMemberDto {
-  private String pw;
-  private String name;
-  private String nick;
+public class EmailDto {
   private String email;
+  private String title;
+  private String message;
 }
