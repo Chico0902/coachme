@@ -39,6 +39,22 @@ import { RouterLink } from 'vue-router'
       </RouterLink>
     </li>
     <li class="nav-item" role="presentation">
+      <RouterLink to="/sa">
+        <button
+          class="nav-link"
+          id="sa-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#sa-tab-pane"
+          type="button"
+          role="tab"
+          aria-controls="sa-tab-pane"
+          aria-selected="false"
+        >
+          SA
+        </button>
+      </RouterLink>
+    </li>
+    <li class="nav-item" role="presentation">
       <RouterLink to="/dic">
         <button
           class="nav-link"

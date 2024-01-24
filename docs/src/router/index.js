@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import RouterButtonView from '../views/RouterButtonView.vue'
 import MainView from '../views/MainView.vue'
 import ProposalView from '../views/ProposalView.vue'
+import SAView from '../views/SystemArchitectureView.vue'
 import SpecView from '../views/SpecView.vue'
 import WireframeView from '../views/WireframeView.vue'
 import DicView from '../views/DicView.vue'
@@ -25,6 +26,11 @@ const router = createRouter({
       path: '/proposal',
       name: 'proposal',
       components: { default: ProposalView, nav: RouterButtonView }
+    },
+    {
+      path: '/sa',
+      name: 'sa',
+      components: { default: SAView, nav: RouterButtonView }
     },
     {
       path: '/spec',

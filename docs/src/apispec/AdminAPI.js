@@ -45,11 +45,9 @@ export default {
           description: '권한 상승정보 리스트로 반환',
           code: '200',
           data: {
-            dtos: 'List<AdminElevationsResponseDto>',
-            AdminElevationsResponseDto: {
-              name: 'String',
-              elevationMessage: 'String'
-            }
+            id: 'Long(Member PK)',
+            name: 'String',
+            portfolio: 'String(Raw HTML)'
           }
         },
         fail: {
@@ -67,9 +65,9 @@ export default {
       privilege: '3',
       description: '해당 아이디의 권한을 1에서 2로 상승시킨다.',
       request: {
-        name: 'AdminElevateRequestDtos',
+        name: 'AdminElevateRequestDto',
         data: {
-          id: 'Number'
+          id: 'Number(List) - Member PK'
         }
       },
       response: {
