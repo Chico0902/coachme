@@ -4,13 +4,8 @@ import com.ssafy.api.member.dto.MemberDuplicateRequestDto;
 import com.ssafy.api.member.dto.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.RegistMemberDto;
 import com.ssafy.api.member.dto.UpdateMemberDto;
-import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.api.member.dto.UpdateMemberDto;
-import com.ssafy.api.member.dto.UpdateMemberDto;
 import com.ssafy.api.member.service.FileService;
 import com.ssafy.api.member.service.MemberService;
-//import com.ssafy.api.member.service.FindPwService;
-import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -75,7 +70,7 @@ public class MemberController {
 //    RegistMemberDto member = memberService.findByMemberId(id);
     MemberInfoResponseDto dto = memberService.findById(id);
 
-  log.debug("member : {} ", dto);
+    log.debug("member : {} ", dto);
     if (dto != null) {
 //      log.info("memberId : {}", member.getId());
       return new ResponseEntity<>(dto, HttpStatus.OK);

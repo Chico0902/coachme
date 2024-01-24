@@ -5,6 +5,7 @@ import com.ssafy.api.member.dto.MemberDuplicateRequestDto;
 import com.ssafy.api.member.dto.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.RegistMemberDto;
 import com.ssafy.db.entity.Member;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,86 +18,86 @@ import javax.annotation.processing.Generated;
 )
 public class MemberMapperImpl implements MemberMapper {
 
-    @Override
-    public MemberDuplicateRequestDto memberToMemberDuplicateDto(Member member) {
-        if ( member == null ) {
-            return null;
-        }
-
-        MemberDuplicateRequestDto memberDuplicateRequestDto = new MemberDuplicateRequestDto();
-
-        memberDuplicateRequestDto.setId( member.getMemberId() );
-
-        return memberDuplicateRequestDto;
+  @Override
+  public MemberDuplicateRequestDto memberToMemberDuplicateDto(Member member) {
+    if (member == null) {
+      return null;
     }
 
-    @Override
-    public RegistMemberDto memberToRegistMemberDto(Member member) {
-        if ( member == null ) {
-            return null;
-        }
+    MemberDuplicateRequestDto memberDuplicateRequestDto = new MemberDuplicateRequestDto();
 
-        RegistMemberDto registMemberDto = new RegistMemberDto();
+    memberDuplicateRequestDto.setId(member.getMemberId());
 
-        registMemberDto.setId( member.getMemberId() );
-        registMemberDto.setPw( member.getPassword() );
-        registMemberDto.setNick( member.getNickname() );
-        registMemberDto.setName( member.getName() );
-        registMemberDto.setEmail( member.getEmail() );
+    return memberDuplicateRequestDto;
+  }
 
-        return registMemberDto;
+  @Override
+  public RegistMemberDto memberToRegistMemberDto(Member member) {
+    if (member == null) {
+      return null;
     }
 
-    @Override
-    public MemberInfoResponseDto memberToMemberInfoResponseDto(Member member) {
-        if ( member == null ) {
-            return null;
-        }
+    RegistMemberDto registMemberDto = new RegistMemberDto();
 
-        MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto();
+    registMemberDto.setId(member.getMemberId());
+    registMemberDto.setPw(member.getPassword());
+    registMemberDto.setNick(member.getNickname());
+    registMemberDto.setName(member.getName());
+    registMemberDto.setEmail(member.getEmail());
 
-        memberInfoResponseDto.setId( member.getMemberId() );
-        memberInfoResponseDto.setPw( member.getPassword() );
-        memberInfoResponseDto.setNick( member.getNickname() );
-        memberInfoResponseDto.setName( member.getName() );
-        memberInfoResponseDto.setEmail( member.getEmail() );
+    return registMemberDto;
+  }
 
-        return memberInfoResponseDto;
+  @Override
+  public MemberInfoResponseDto memberToMemberInfoResponseDto(Member member) {
+    if (member == null) {
+      return null;
     }
 
-    @Override
-    public MemberListResponseDto memberToMemberListResponseDto(Member member) {
-        if ( member == null ) {
-            return null;
-        }
+    MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto();
 
-        MemberListResponseDto memberListResponseDto = new MemberListResponseDto();
+    memberInfoResponseDto.setId(member.getMemberId());
+    memberInfoResponseDto.setPw(member.getPassword());
+    memberInfoResponseDto.setNick(member.getNickname());
+    memberInfoResponseDto.setName(member.getName());
+    memberInfoResponseDto.setEmail(member.getEmail());
 
-        memberListResponseDto.setId( member.getMemberId() );
-        memberListResponseDto.setNick( member.getNickname() );
-        memberListResponseDto.setPriv( member.getPrivilege() );
-        if ( member.getCreateDate() != null ) {
-            memberListResponseDto.setCdate( DateTimeFormatter.ISO_LOCAL_DATE_TIME.format( member.getCreateDate() ) );
-        }
-        memberListResponseDto.setElev( member.getElevation() );
-        memberListResponseDto.setName( member.getName() );
-        memberListResponseDto.setPhone( member.getPhone() );
-        memberListResponseDto.setEmail( member.getEmail() );
+    return memberInfoResponseDto;
+  }
 
-        return memberListResponseDto;
+  @Override
+  public MemberListResponseDto memberToMemberListResponseDto(Member member) {
+    if (member == null) {
+      return null;
     }
 
-    @Override
-    public List<MemberListResponseDto> memberToMemberListResponseDto(List<Member> memberList) {
-        if ( memberList == null ) {
-            return null;
-        }
+    MemberListResponseDto memberListResponseDto = new MemberListResponseDto();
 
-        List<MemberListResponseDto> list = new ArrayList<MemberListResponseDto>( memberList.size() );
-        for ( Member member : memberList ) {
-            list.add( memberToMemberListResponseDto( member ) );
-        }
-
-        return list;
+    memberListResponseDto.setId(member.getMemberId());
+    memberListResponseDto.setNick(member.getNickname());
+    memberListResponseDto.setPriv(member.getPrivilege());
+    if (member.getCreateDate() != null) {
+      memberListResponseDto.setCdate(DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(member.getCreateDate()));
     }
+    memberListResponseDto.setElev(member.getElevation());
+    memberListResponseDto.setName(member.getName());
+    memberListResponseDto.setPhone(member.getPhone());
+    memberListResponseDto.setEmail(member.getEmail());
+
+    return memberListResponseDto;
+  }
+
+  @Override
+  public List<MemberListResponseDto> memberToMemberListResponseDto(List<Member> memberList) {
+    if (memberList == null) {
+      return null;
+    }
+
+    List<MemberListResponseDto> list = new ArrayList<MemberListResponseDto>(memberList.size());
+    for (Member member : memberList) {
+      list.add(memberToMemberListResponseDto(member));
+    }
+
+    return list;
+  }
 }

@@ -1,9 +1,9 @@
 package com.ssafy.api.member.mapper;
 
 import com.ssafy.api.admin.dto.MemberListResponseDto;
+import com.ssafy.api.admin.dto.PortfolioResponseDto;
 import com.ssafy.api.member.dto.MemberDuplicateRequestDto;
 import com.ssafy.api.member.dto.MemberInfoResponseDto;
-import com.ssafy.api.admin.dto.PortfolioResponseDto;
 import com.ssafy.api.member.dto.RegistMemberDto;
 import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
@@ -14,10 +14,8 @@ import java.util.List;
 
 @Mapper
 public interface MemberMapper {
-  MemberMapper instance = Mappers.getMapper(MemberMapper.class);
 
-  @Mapping(source = "memberId", target = "id")
-  MemberDuplicateRequestDto memberToMemberDuplicateDto(Member member);
+  MemberMapper instance = Mappers.getMapper(MemberMapper.class);
 
   // source = "Entity Field", target = "Dto Field"
   @Mapping(source = "memberId", target = "id")
@@ -43,4 +41,7 @@ public interface MemberMapper {
   PortfolioResponseDto memberToPortfolioResponseDto(Member member);
 
   List<PortfolioResponseDto> memberToPortfolioResponseDto(List<Member> member);
+
+  @Mapping(source = "memberId", target = "id")
+  MemberDuplicateRequestDto memberToMemberDuplicateDto(Member member);
 }
