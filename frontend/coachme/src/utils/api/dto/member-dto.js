@@ -34,11 +34,28 @@ export class changePasswordRequestDto {
   /**
    * API번호 : member-3
    * 비밀번호 변경 요청을 위한 DTO 클래스
-   * @param {*} id
-   * @param {*} email
+   * @param {String} id
+   * @param {String} email
    */
   constructor(id, email) {
     this.id = id
+    this.email = email
+  }
+}
+
+export class MemberInfoChangeRequestDto {
+  /**
+   * API번호 : member-6
+   * 회원정보 수정 시 입력한 비밀번호를 검증한 후, 회원정보 변경
+   * @param {String} pw
+   * @param {String} name
+   * @param {String} nick
+   * @param {String} email
+   */
+  constructor(pw, name, nick, email) {
+    this.pw = pw
+    this.name = name
+    this.nick = nick
     this.email = email
   }
 }
