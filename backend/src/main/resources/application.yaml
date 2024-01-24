@@ -28,6 +28,15 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  spring:
+    mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 본인의 구글 계정 @gmail.com
+    password: 본인의 구글 계정 비밀번호
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 
 jwt:
   secret: 4850d7ebde9ae79a8e736767b3cd227412a2307701ad67ccf5c23d3ba9df16f1c4bd2c16212e67de81d2786b2a6f82e3d41bcd588294b1055bf54456647083cd
