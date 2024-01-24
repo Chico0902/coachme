@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { postLoginRequest } from '../../utils/api/member-api'
-import { LoginRequestDto } from '../../utils/api/dto/member-dto'
+import { postLoginRequest } from '../../utils/api/auth-api'
+import { LoginRequestDto } from '../../utils/api/dto/auth-dto'
 import { validateId, validatePassword, validateLogin } from '../../utils/functions/member'
 import { useAuthStore } from '../../stores/auth'
 import { storeToRefs } from 'pinia'

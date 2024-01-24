@@ -47,17 +47,6 @@ const mockMemberDuplicateRequestDto = {
 }
 
 export default [
-  http.post('http://localhost/members/login', async ({ request }) => {
-    const newPost = await request.json()
-    switch (newPost.id) {
-      case 'coach':
-        return HttpResponse.json(mockCoachLoginResponseDto)
-      case 'admin':
-        return HttpResponse.json(mockAdminLoginResponseDto)
-      default:
-        return HttpResponse.json(mockLoginResponseDto)
-    }
-  }),
   http.post('http://localhost/members', () => {
     return HttpResponse.json(mockMemberRegistResponseDto)
   }),
