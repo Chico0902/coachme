@@ -6,14 +6,11 @@ import com.ssafy.api.member.dto.RegistMemberDto;
 import com.ssafy.api.member.dto.UpdateMemberDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.api.member.dto.UpdateMemberDto;
 import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 
 @Service
@@ -23,7 +20,7 @@ import java.util.Optional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
-//  private final FindPwService findPwService;
+  //  private final FindPwService findPwService;
   private final CustomUserDetailsService customUserDetailsService;
 
   //[member-14] 받은 회원 ID가 존재하는지 확인
@@ -84,7 +81,7 @@ public class MemberService {
     String password2 = updateMemberDto.getPw();
 
     // 회원이 기입한 비밀번호가 저장되어있는 비밀번호와 일치하는지 확인
-    if(password1.equals(password2)) {
+    if (password1.equals(password2)) {
       // 일치하면 회원정보 수정
       existingMember.changeMemberInfo(updateMemberDto);
     } else {

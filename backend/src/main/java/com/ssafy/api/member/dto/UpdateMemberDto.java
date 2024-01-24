@@ -3,8 +3,6 @@ package com.ssafy.api.member.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 public class UpdateMemberDto {

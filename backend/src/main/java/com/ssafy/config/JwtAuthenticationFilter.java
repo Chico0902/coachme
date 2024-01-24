@@ -58,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       jsonMap.put("message", "TokenNotFound");
     } else {
       boolean isAccess = (boolean) jwtTokenProvider.getInfoInToken(token).get("isAccess");
+      Long id = (Long) jwtTokenProvider.getInfoInToken(token).get("id");
       String memberId = (String) jwtTokenProvider.getInfoInToken(token).get("memberId");
       String privilege = (String) jwtTokenProvider.getInfoInToken(token).get("privilege");
       String name = (String) jwtTokenProvider.getInfoInToken(token).get("name");
@@ -77,8 +78,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           // 3-1. 검증되었다면 Access Token과 Refresh Token 재발급
           if (token.equals(retrievedValue)) {
             TokenResponseDto tokenResponseDto = new TokenResponseDto();
-            tokenResponseDto.setAccessToken(jwtTokenProvider.generateToken(memberId, privilege, name, true));
-            tokenResponseDto.setRefreshToken(jwtTokenProvider.generateToken(memberId, privilege, name, false));
+            tokenResponseDto.setAccessToken(jwtTokenProvider.generateToken(id, memberId, privilege, name, true));
+            tokenResponseDto.setRefreshToken(jwtTokenProvider.generateToken(id, memberId, privilege, name, false));
             stringRedisTemplate.opsForValue().set(memberId, tokenResponseDto.getRefreshToken());
 
             // HTTP 응답 설정
