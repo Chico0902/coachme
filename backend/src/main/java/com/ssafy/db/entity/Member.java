@@ -2,8 +2,10 @@ package com.ssafy.db.entity;
 
 import com.ssafy.api.member.dto.UpdateMemberDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,30 +15,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-@Builder
 @Entity
+@Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Member implements UserDetails {
-
-  protected Member() {
-  }
-
-  public Member(Long id, String memberId, String password, String privilege, String name, String nickname, String phone, String email, String description, LocalDateTime modifyDate, LocalDateTime createDate, int elevation, Portfolio portfolio) {
-    this.memberId = memberId;
-    this.id = id;
-    this.password = password;
-    this.privilege = privilege;
-    this.name = name;
-    this.nickname = nickname;
-    this.phone = phone;
-    this.email = email;
-    this.description = description;
-    this.modifyDate = modifyDate;
-    this.createDate = createDate;
-    this.elevation = elevation;
-    this.portfolio = portfolio;
-  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
