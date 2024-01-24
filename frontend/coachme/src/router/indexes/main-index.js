@@ -20,10 +20,4 @@ export default [
     name: 'Desktop-4',
     component: () => import('../../views/FindPasswordView.vue')
   }
-  ,
-  {
-    path: '/search-coach',
-    name: 'Desktop-13',
-    component: () => import('../../views/searchCoach.vue')
-  }
 ]

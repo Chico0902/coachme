@@ -73,33 +73,39 @@ describe('로그인 기능 테스트', () => {
     // when
     ids.forEach((id) => {
       // then
-      expect(() => validateId(id)).toBeFalsy
+      expect(validateId(id)).toBeFalsy()
     })
   })
   it('한글이 포함되면 안된다.', () => {
     //given
     const id = '남상엽'
     //when then
-    expect(() => validateId(id)).toBeFalsy
+    expect(validateId(id)).toBeFalsy()
+  })
+  it('정상 비밀번호 요청', () => {
+    // given
+    const pw = 'sdfhjk!@#DS'
+    // when then
+    expect(validatePassword(pw)).toBeTruthy()
   })
   it('비밀번호는 9글자 이상이어야 한다.', () => {
     // given
     const pw = 'Ssafy12!'
     // when then
-    expect(() => validatePassword(pw)).toBeFalsy
+    expect(validatePassword(pw)).toBeFalsy()
   })
 
   it('비밀번호는 대문자를 1개 이상 포함해야 한다.', () => {
     // given
     const pw = 'ssafy1234!'
     // when then
-    expect(() => validatePassword(pw)).toBeFalsy
+    expect(validatePassword(pw)).toBeFalsy()
   })
 
   it('비밀번호는 특수문자를 1개 이상 포함해야 한다.', () => {
     // given
     const pw = 'Ssafy12345'
     // when then
-    expect(() => validatePassword(pw)).toBeFalsy
+    expect(validatePassword(pw)).toBeFalsy()
   })
 })

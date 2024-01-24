@@ -1,6 +1,7 @@
 <script setup>
-import chatButton from '../components/molecules/ChatButton.vue'
-import CustomCategory from '@/components/molecules/CustomCategory.vue';
+import CoachCardList from '@/components/molecules/CoachCardList.vue'
+import chatButton from '@/components/molecules/ChatButton.vue'
+import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
 
@@ -43,7 +44,6 @@ const clickCategory = (index) => {
 }
 
 </script>
-
 <template>
   <div class="nav-bar">
     <navbar />
@@ -54,12 +54,15 @@ const clickCategory = (index) => {
       <div class="mypage-outside">
         <MypageSidebar :button-list="selectedCategory" />
         <div class="mainpage">
-          <chatButton style="margin-left: 60vw; margin-top: 55vh; width: 50px; height: 50px;" >
+          <CoachCardList />
+          <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
           </chatButton>
         </div>
       </div>
     </div>
   </div>
+  <!-- <chatButton style="margin-left: 80vw; margin-bottom: 5vh; width: 50px; height: 50px;">
+  </chatButton> -->
   <div class="footer">
   </div>
 </template>
@@ -104,7 +107,7 @@ const clickCategory = (index) => {
   border-radius: 1.5rem;
   display: flex;
   text-align: center;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .footer {
@@ -114,3 +117,5 @@ const clickCategory = (index) => {
   text-align: center;
 }
 </style>
+
+
