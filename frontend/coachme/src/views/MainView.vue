@@ -71,7 +71,7 @@ const logoutWithConfirm = () => {
           </RouterLink>
         </template>
         <template #login>
-          <RouterLink to="/search-coach">
+          <RouterLink to="/login">
             <buttons flat :name="`login`" :label="`로그인`"></buttons>
           </RouterLink>
         </template>
