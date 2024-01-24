@@ -3,7 +3,18 @@ import router from '@/router'
 import { reactive, watch } from 'vue'
 
 const props = defineProps({ buttonList: Object })
+const buttonList = props.buttonList
 
+// 클릭하면 Button List에서 해당 버튼 색 변경하고 라우터링크 이동하는 로직
+const changeView = (link, event) => {
+  const clickedButton = event.target.innerText
+  buttonList.forEach((button, index) => {
+    if (index === 0) return
+    else if (button.name === clickedButton) button.cssClass = 'selected-button'
+    else button.cssClass = ''
+  })
+  router.push(link)
+}
 </script>
 
 <template>
@@ -13,7 +24,7 @@ const props = defineProps({ buttonList: Object })
       :key="button.name"
       class="sidebar-button shadow-3"
       :class="button.cssClass"
-      @click="router.push(button.link)"
+      @click="changeView(button.link, $event)"
     >
       <p>{{ button.name }}</p>
     </div>

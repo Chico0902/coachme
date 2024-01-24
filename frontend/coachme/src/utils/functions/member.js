@@ -26,7 +26,7 @@ export function validatePassword(pw) {
   if (pw.length < '9') return false
 
   // Exception : not include upper characters
-  const upper = new RegExp(/^[A-Z]/)
+  const upper = new RegExp(/[A-Z]/)
   if (!upper.test(pw)) return false
 
   // Exception : not include special characters

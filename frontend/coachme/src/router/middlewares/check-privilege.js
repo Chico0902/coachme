@@ -1,4 +1,4 @@
-import { getAccessToken, decodeToken } from '../../utils/functions/auth'
+import { getAccessToken, decodeToken, logout } from '../../utils/functions/auth'
 /**
  * 현재 JWT의 권한 정보를 확인해서 권한별로 다른 페이지로 보내주는 함수
  * @param {route} to 대상 Route 객체로 이동합니다.
@@ -6,7 +6,7 @@ import { getAccessToken, decodeToken } from '../../utils/functions/auth'
  * @param {function} next 훅을 해결하기 위한 호출입니다.(참고 : https://v3.router.vuejs.org/kr/guide/advanced/navigation-guards.html)
  */
 export function checkPrivilege(to, from, next) {
-  // infinite recursive 방지를 위해 redirected되는 호출과 mypage 간의 이동은 승인
+  // infinite recursive 방지를 위해 mypage 간의 redirected되는 이동은 승인
   if (to.redirectedFrom != undefined) {
     const beforeBaseUrl = to.redirectedFrom.path.split('/')[1]
     if (beforeBaseUrl === 'mypage') {
@@ -22,13 +22,14 @@ export function checkPrivilege(to, from, next) {
       case 'COACH':
         return next({ name: 'Desktop-5-2' })
       case 'ADMIN':
-        return next({ name: 'Desktop-11' })
+        return next({ name: 'Desktop-12' })
       default:
         // Exception : 권한 형식이 잘못되었을 경우
         throw new Error('잘못된 권한 형식입니다.')
     }
   } catch (e) {
-    alert(e.message + ' 로그인 페이지로 이동합니다.')
+    alert(e.message + ' 로그인 페이지로 이동합니다!')
+    logout()
     return next('/login')
   }
 }

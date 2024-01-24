@@ -1,102 +1,186 @@
 <script setup>
-import { getAccessToken, decodeToken } from '@/utils/functions/auth'
-import navbar from '@/components/molecules/LoginNavBar.vue'
-import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
-import { ref, onBeforeMount } from 'vue'
-import router from '@/router'
+import CustomButton from '@/components/atoms/CustomButton.vue'
+import CustomInput from '@/components/atoms/CustomInput.vue'
+import ProfileImage from '@/components/atoms/ProfileImage.vue'
+import { validatePassword, validateName, validateNickName } from '@/utils/functions/member'
+import { patchMemberInfo } from '@/utils/api/member-api'
+import { MemberInfoChangeRequestDto } from '@/utils/api/dto/member-dto'
+import { computed, ref } from 'vue'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 
-const SideButtonList = ref([
-  { name: '코치등록', link: '/mypage/coach/regist', cssClass: 'manage-button' },
-  { name: '정보수정', link: '/mypage/profile', cssClass: 'selected-button' },
-  { name: '코칭일정', link: '/mypage/coaching/coame' },
-  { name: '관심강의', link: '/mypage/interest' },
-  { name: '영상보기', link: '/mypage/video' },
-  { name: '회원탈퇴', link: '/mypage/resign' }
-])
+// variables
+const openModal = ref(false)
+const pw = ref('')
+const name = ref('')
+const nick = ref('')
+const email = ref('')
 
-// 코치, 코미인지 확인해서 버튼 바꾸기
-onBeforeMount(() => {
-  try {
-    switch (decodeToken(getAccessToken()).privilege) {
-      case 'COAME':
-        break
-      case 'COACH':
-        SideButtonList.value[0] = {
-          name: '코치관리',
-          link: '/mypage/coach/manage/portfolio',
-          cssClass: 'manage-button'
-        }
-        break
-      default:
-        // Exception : 권한 형식이 잘못되었을 경우
-        throw new Error('잘못된 권한 형식입니다.')
-    }
-  } catch (e) {
-    alert(e.message + ' 로그인 페이지로 이동합니다.')
-    router.push('/login')
-  }
+// token에서 받아옴
+const token = decodeToken(getAccessToken())
+const stringId = token.id
+const longId = token.id
+
+// methods
+
+// 비밀번호 검증
+const isValidPassword = computed(() => {
+  if (pw.value === '') return true
+  return validatePassword(pw.value)
 })
+
+// 이름 검증
+const isValidName = computed(() => {
+  if (name.value === '') return true
+  return validateName(name.value)
+})
+
+// 닉네임 검증
+const isValidNickName = computed(() => {
+  if (nick.value === '') return true
+  return validateNickName(nick.value)
+})
+
+const changeMemberInfo = (id, name, nick, email) => {
+  try {
+    // dto 생성 및 호출
+    const dto = new MemberInfoChangeRequestDto(id, name, nick, email)
+    patchMemberInfo(
+      dto,
+      (success) => {
+        alert(success.data.message)
+        window.location.reload()
+      },
+      // API 호출 실패 시 오류메시지 콘솔에 출력
+      (fail) => console.log(fail)
+    )
+    // 검증 실패 시 오류메시지 출력
+  } catch (e) {
+    alert(e.message)
+  }
+}
 </script>
 <template>
-  <div class="nav-bar">
-    <navbar />
-  </div>
-  <div class="all">
-    <div class="main-layout">
-      <div class="mypage-outside">
-        <MypageSidebar :button-list="SideButtonList" />
-        <div class="mainpage shadow-3">
-          <h1>Profile View</h1>
-        </div>
+  <div>
+    <div class="main-profile">
+      <div class="profile-img">
+        <div><ProfileImage size="100px" /></div>
+        <div class="profile-img-icon">아이콘 2개</div>
+      </div>
+      <div class="profile-detail">
+        <CustomInput type="textarea" placeholder="소개글을 입력해주세요." />
+      </div>
+    </div>
+    <div class="detail-member-info">
+      <h6 class="detail-member-info-id">{{ stringId }}</h6>
+      <div class="detail-member-info-input">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="name"
+          label="이름"
+          hint="한글만 가능합니다."
+          error-message="한글을 제외한 문자는 입력할 수 없습니다."
+          :error="!isValidName"
+          maxlength="10"
+        />
+      </div>
+      <div class="detail-member-info-input">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="nick"
+          label="닉네임"
+          hint="영어, 숫자, 한글만 가능합니다."
+          error-message="닉네임은 특수문자를 포함할 수 없습니다."
+          :error="!isValidNickName"
+          maxlength="10"
+        />
+      </div>
+      <div class="detail-member-info-input">
+        <q-input
+          standout="bg-teal text-white"
+          type="email"
+          v-model="email"
+          label="이메일"
+          hint="이메일 주소를 입력하세요."
+          maxlength="50"
+        />
+      </div>
+      <div class="btn-container">
+        <CustomButton
+          style="height: 56px"
+          label="회원정보 수정"
+          background="#fcbf17"
+          color="black"
+          @click="openModal = true"
+        ></CustomButton>
       </div>
     </div>
   </div>
-  <div class="footer"><footerBar /></div>
+
+  <q-dialog v-model="openModal">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">회원정보 수정</div>
+      </q-card-section>
+      <div class="editor-detail">회원정보를 변경하기 위해 비밀번호를 올바르게 입력하세요.</div>
+
+      <q-card-section class="q-pt-none">
+        <q-input
+          standout="bg-teal text-white"
+          type="password"
+          v-model="pw"
+          label="비밀번호"
+          error-message="비밀번호는 9글자 이상으로, 대문자와 특수문자를 포함해야 합니다."
+          :error="!isValidPassword"
+          maxlength="30"
+        />
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="수정하기" color="primary" @click="changeMemberInfo(longId, name, nick, email)" />
+        <q-btn flat label="취소" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style scoped>
-.all {
+.main-profile {
+  width: 80%;
+  background-color: aliceblue;
+  margin: 30px auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
 }
-.main-layout {
-  width: 1280px;
-  min-height: calc(90vh - 70px);
-  justify-content: center;
-  align-items: flex-start;
-  overflow-y: auto;
-  position: relative;
+.profile-img {
+  display: inline-block;
 }
-.nav-bar {
-  width: 100%;
-  height: 70px;
-  justify-content: center;
-  text-align: center;
-  border-bottom: #034c8c 1px solid;
+.editor-detail {
+  color: #034c8c;
+  margin: 0.5rem 1rem;
+}
+.detail-div {
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  margin: 10px 0 10px 100px;
+  align-items: center;
 }
 
-.mypage-outside {
-  display: flex;
-  justify-content: space-between;
-}
-.mainpage {
-  background-color: white;
-  width: 80%;
-  height: 70vh;
+.detail-member-info {
+  width: 60%;
   margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
-  border-radius: 1.5rem;
-  display: flex;
-  text-align: center;
-  flex-direction: column;
 }
-.footer {
-  height: 10vh;
-  background-color: #fcbf17;
-  color: #034c8c;
-  text-align: center;
+
+.detail-member-info-id {
+  font-size: 1.2rem;
+  margin: 1rem 0.5rem;
+}
+.detail-member-info-input {
+  margin-bottom: 1rem;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin: 50px;
 }
 </style>

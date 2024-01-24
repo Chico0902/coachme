@@ -13,7 +13,7 @@ import MainCoachTitle from '../components/texts/MainCoachTitle.vue'
 import MainCoachingTitle from '../components/texts/MainCoachingTitle.vue'
 import profile from '../components/atoms/ProfileImage.vue'
 import { onBeforeMount } from 'vue'
-import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { logout, decodeToken, getAccessToken } from '@/utils/functions/auth'
 
 // 검색 컴포넌트의 버튼 색상, 드롭다운 색상, 버튼 라벨, 드롭다운 메뉴 순
 const bColor = '#FCBF17'
@@ -42,10 +42,11 @@ onBeforeMount(() => {
 
   // 토큰 있으면 빼서 디코딩
   token = decodeToken(getAccessToken())
+  console.log(token)
 })
-const logout = () => {
+const logoutWithConfirm = () => {
   if (!confirm('로그아웃 하시겠습니까?')) return
-  sessionStorage.setItem('auth', '')
+  logout()
   alert('로그아웃 되었습니다.')
   window.location.reload()
 }
@@ -54,6 +55,21 @@ const logout = () => {
   <div class="nav-bar">
     <template v-if="token === ''">
       <navbar>
+        <template #search-coach>
+          <RouterLink :to="{ name: 'Desktop-13' }">
+            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
+          </RouterLink>
+        </template>
+        <template #search-coaching>
+          <RouterLink :to="{ name: 'Desktop-14' }">
+            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
+          </RouterLink>
+        </template>
+        <template #live>
+          <RouterLink :to="{ name: 'Desktop-17-1' }">
+            <buttons flat :name="`live`" :label="`강의장`"></buttons>
+          </RouterLink>
+        </template>
         <template #login>
           <RouterLink to="/search-coach">
             <buttons flat :name="`login`" :label="`로그인`"></buttons>
@@ -68,6 +84,21 @@ const logout = () => {
     </template>
     <template v-else>
       <navbar>
+        <template #search-coach>
+          <RouterLink :to="{ name: 'Desktop-13' }">
+            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
+          </RouterLink>
+        </template>
+        <template #search-coaching>
+          <RouterLink :to="{ name: 'Desktop-14' }">
+            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
+          </RouterLink>
+        </template>
+        <template #live>
+          <RouterLink :to="{ name: 'Desktop-17-1' }">
+            <buttons flat :name="`live`" :label="`강의장`"></buttons>
+          </RouterLink>
+        </template>
         <template #welcome>
           <div class="welcome">
             <p>{{ token.name }}님 환영합니다!</p>
@@ -79,7 +110,7 @@ const logout = () => {
           </div>
         </template>
         <template #logout>
-          <buttons flat :name="`logout`" :label="`로그아웃`" @click="logout"></buttons>
+          <buttons flat :name="`logout`" :label="`로그아웃`" @click="logoutWithConfirm"></buttons>
         </template>
       </navbar>
     </template>
