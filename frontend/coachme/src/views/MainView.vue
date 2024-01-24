@@ -60,13 +60,11 @@ const logoutWithConfirm = () => {
             <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
           </RouterLink>
         </template>
-
         <template #search-coaching>
           <RouterLink :to="{ name: 'Desktop-14' }">
             <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
           </RouterLink>
         </template>
-
         <template #live>
           <RouterLink :to="{ name: 'Desktop-17-1' }">
             <buttons flat :name="`live`" :label="`강의장`"></buttons>
@@ -86,6 +84,21 @@ const logoutWithConfirm = () => {
     </template>
     <template v-else>
       <navbar>
+        <template #search-coach>
+          <RouterLink :to="{ name: 'Desktop-13' }">
+            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
+          </RouterLink>
+        </template>
+        <template #search-coaching>
+          <RouterLink :to="{ name: 'Desktop-14' }">
+            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
+          </RouterLink>
+        </template>
+        <template #live>
+          <RouterLink :to="{ name: 'Desktop-17-1' }">
+            <buttons flat :name="`live`" :label="`강의장`"></buttons>
+          </RouterLink>
+        </template>
         <template #welcome>
           <div class="welcome">
             <p>{{ token.name }}님 환영합니다!</p>
