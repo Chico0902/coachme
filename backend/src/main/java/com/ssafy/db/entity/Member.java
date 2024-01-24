@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,6 +16,7 @@ import java.util.Collection;
 @Builder
 @Entity
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class Member implements UserDetails {
 
   protected Member() {
@@ -69,7 +71,7 @@ public class Member implements UserDetails {
   private LocalDateTime modifyDate;
 
   @CreatedDate
-  @Column(name = "create_date")
+  @Column(name = "create_date", nullable = false, updatable = false)
   private LocalDateTime createDate;
 
   @Column(columnDefinition = "INT DEFAULT 0")
