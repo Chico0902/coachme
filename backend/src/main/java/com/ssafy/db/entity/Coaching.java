@@ -3,6 +3,7 @@ package com.ssafy.db.entity;
 import com.ssafy.db.entity.type.CoachingType;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,30 +13,34 @@ public class Coaching extends BaseEntity {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "member_id")
-  private Member member;
+  @JoinColumn(name = "coach_id")
+  private Member coach;
+
+  @ManyToOne
+  @JoinColumn(name = "coame_id")
+  private Member coame;
 
   // 코미의 리스트인지 코치의 리스트인지 확인하는 타입
   @Column
   @Enumerated(EnumType.STRING)
   private CoachingType coachingType;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "main_category_id")
   private Category mainCategory;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "sub_category_id")
   private Category subCategory;
 
   @Column
   private String name;
 
   @OneToMany(mappedBy = "coaching")
-  @Column
-  private List<CoameCoaching> coameCoachings;
+  private List<CoameCoaching> coameCoachings = new ArrayList<>();
 
   @OneToMany(mappedBy = "coaching")
-  @Column
-  private List<VideoCoaching> videoCoachings;
+  private List<VideoCoaching> videoCoachings = new ArrayList<>();
 
   @Column
   private Integer price;
@@ -47,13 +52,11 @@ public class Coaching extends BaseEntity {
   @Column
   private String summary;
 
-  @OneToMany
-  @JoinColumn()
-  private List<Like> receivedLikes;
+  @OneToMany(mappedBy = "coaching")
+  private List<Like> receivedLikes = new ArrayList<>();
 
-  @OneToMany
-  @JoinColumn()
-  private List<Review> receivedReviews;
+  @OneToMany(mappedBy = "coaching")
+  private List<Review> receivedReviews = new ArrayList<>();
 
   // method
 

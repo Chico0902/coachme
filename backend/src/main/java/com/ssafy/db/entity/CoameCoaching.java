@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,6 @@ public class CoameCoaching extends BaseEntity{
   @JoinColumn(name = "coaching_id")
   private Coaching coaching;
 
-  @OneToMany
-  @JoinColumn(name ="live_coaching_id")
-  private List<LiveCoaching> liveCoachings;
+  @OneToMany(mappedBy = "coameCoaching")
+  private List<LiveCoaching> liveCoachings = new ArrayList<>();
 }

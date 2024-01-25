@@ -23,6 +23,6 @@ public class Like extends BaseEntity{
   @JoinColumn(name = "coaching_id")
   private Coaching coaching;
 
-  @Column
+  @Enumerated(value = EnumType.STRING)
   private ReviewLikeType likeType;
 }

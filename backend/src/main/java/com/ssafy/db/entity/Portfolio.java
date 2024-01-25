@@ -10,10 +10,6 @@ public class Portfolio extends BaseEntity {
   @Column(name = "portfolio_id")
   private Long id;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "member_id")
-  private Member member;
-
   @Column
   private String htmlDocs;
 }
