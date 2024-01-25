@@ -4,7 +4,7 @@ import com.ssafy.api.auth.dto.LoginRequestDto;
 import com.ssafy.api.auth.dto.TokenResponseDto;
 import com.ssafy.api.auth.service.CustomUserDetailsService;
 import com.ssafy.api.auth.service.JwtTokenProvider;
-import com.ssafy.db.entity.Member;
+import com.ssafy.db.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -33,15 +33,21 @@ public class AuthController {
     HttpStatus status;
     try {
       Member member = customUserDetailsService.loadUserByUsername(loginRequestDto.getId());
-      log.info("input id : {}", member.getMemberId());
-      customUserDetailsService.isValidMember(member.getMemberId(), loginRequestDto.getPw());
+      log.info("input id : {}", member.getStringId());
+      customUserDetailsService.isValidMember(member.getStringId(), loginRequestDto.getPw());
       TokenResponseDto tokenResponseDto = new TokenResponseDto();
-      String memberId = member.getMemberId();
-      String accessToken = jwtTokenProvider.generateToken(member.getId(), memberId, member.getPrivilege(), member.getName(), true);
+      String stringId = member.getStringId();
+
+      // access token 생성
+      String accessToken = jwtTokenProvider.generateToken(member.getLongId(), stringId, member.getPrivilege(), member.getName(), true);
       tokenResponseDto.setAccessToken(accessToken);
-      String refreshToken = jwtTokenProvider.generateToken(member.getId(), memberId, member.getPrivilege(), member.getName(), false);
+
+      // refresh token 생성
+      String refreshToken = jwtTokenProvider.generateToken(member.getLongId(), stringId, member.getPrivilege(), member.getName(), false);
       tokenResponseDto.setRefreshToken(refreshToken);
-      stringRedisTemplate.opsForValue().set(memberId, refreshToken);
+
+
+      stringRedisTemplate.opsForValue().set(stringId, refreshToken);
       responseMessage.put("data", tokenResponseDto);
       status = HttpStatus.OK;
     } catch (Exception e) {

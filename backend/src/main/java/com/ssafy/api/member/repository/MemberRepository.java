@@ -1,6 +1,6 @@
 package com.ssafy.api.member.repository;
 
-import com.ssafy.db.entity.Member;
+import com.ssafy.db.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

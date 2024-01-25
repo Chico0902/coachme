@@ -3,32 +3,27 @@ package com.ssafy.db.entity;
 import com.ssafy.db.entity.coaching.Coaching;
 import com.ssafy.db.entity.member.Member;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-public class Review extends BaseEntity {
+public class CoameCoaching extends BaseEntity{
+
   @Id @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "review_id")
+  @Column(name = "coame_coaching_id")
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   @JoinColumn(name = "member_id")
   private Member coame;
 
   @ManyToOne
-  @JoinColumn(name = "member_id")
-  private Member coach;
-
-  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "coaching_id")
   private Coaching coaching;
 
-  @Column
-  @Enumerated(EnumType.STRING)
-  private ReviewLikeType reviewType;
-
-  @Column
-  private String comment;
-
-  @Column
-  private Integer score;
+  @OneToMany
+  @JoinColumn(name ="live_coaching_id")
+  private List<LiveCoaching> liveCoachings;
 }

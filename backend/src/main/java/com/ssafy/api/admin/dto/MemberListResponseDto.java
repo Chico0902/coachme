@@ -12,6 +12,6 @@ public class MemberListResponseDto {
   private String phone;
   private String email;
   private String cdate;
-  private int elev;
+  private boolean elev;
 
 }

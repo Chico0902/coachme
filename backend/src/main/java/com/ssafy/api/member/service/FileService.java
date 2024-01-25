@@ -7,7 +7,7 @@ import com.ssafy.api.auth.service.CustomUserDetailsService;
 import com.ssafy.api.member.repository.FileRepository;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.File;
-import com.ssafy.db.entity.Member;
+import com.ssafy.db.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

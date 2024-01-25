@@ -1,5 +1,6 @@
 package com.ssafy.db.entity;
 
+import com.ssafy.db.entity.member.Member;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 

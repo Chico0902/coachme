@@ -1,6 +1,6 @@
 package com.ssafy.api.member.dto;
 
-import com.ssafy.db.entity.Member;
+import com.ssafy.db.entity.member.Member;
 import lombok.Data;
 
 @Data

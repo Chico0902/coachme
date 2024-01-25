@@ -3,11 +3,14 @@ package com.ssafy.db.entity;
 import com.ssafy.db.entity.coaching.Coaching;
 import com.ssafy.db.entity.member.Member;
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
-public class Review extends BaseEntity {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "review_id")
+public class Like extends BaseEntity{
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "like_id")
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -23,12 +26,5 @@ public class Review extends BaseEntity {
   private Coaching coaching;
 
   @Column
-  @Enumerated(EnumType.STRING)
-  private ReviewLikeType reviewType;
-
-  @Column
-  private String comment;
-
-  @Column
-  private Integer score;
+  private ReviewLikeType likeType;
 }
