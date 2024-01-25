@@ -23,9 +23,15 @@ public class Category {
     private CategoryType categoryType;
 
     @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent")
+    @JoinColumn(name = "parent_id")
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
     private List<Category> children = new ArrayList<>();
+
+    @OneToMany(mappedBy = "mainCategory")
+    private List<Coaching> mainCategoryCoachings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "subCategory")
+    private List<Coaching> subCategoryCoachings = new ArrayList<>();
 }

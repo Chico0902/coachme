@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -59,35 +60,29 @@ public class Member extends BaseEntity implements UserDetails  {
   @JoinColumn(name = "portfolio_id")
   private Portfolio portfolio;
 
-  // 차후 코칭이랑 연관관계 다시 확인!!
-
   // 코치가 개설한 강의목록
-  @OneToMany
-  @JoinColumn(name = "coaching_id")
-  private List<Coaching> coachings;
+  @OneToMany(mappedBy = "coach")
+  private List<Coaching> coachTeachCourses = new ArrayList<>();
 
   // 코미가 수강하는 목록
-  @OneToMany
-  @JoinColumn(name = "coaching_id")
-  private List<Coaching> coameCourses;
+  @OneToMany(mappedBy = "coame")
+  private List<Coaching> coameTaughtCourses = new ArrayList<>();
 
   // 코미가 누른 좋아요
-  @OneToMany
-  @JoinColumn()
-  private List<Like> sendLikes;
+  @OneToMany(mappedBy = "coame")
+  private List<Like> sendLikes = new ArrayList<>();
 
   // 코치가 코미에게 받은 좋아요
-  @OneToMany
-  @JoinColumn()
-  private List<Like> receivedLikes;
+  @OneToMany(mappedBy = "coach")
+  private List<Like> receivedLikes = new ArrayList<>();
 
-  @OneToMany
-  @JoinColumn()
-  private List<Review> sendReviews;
+  // 코미가 남긴 리뷰
+  @OneToMany(mappedBy = "coame")
+  private List<Review> sendReviews = new ArrayList<>();
 
-  @OneToMany
-  @JoinColumn()
-  private List<Review> receivedReviews;
+  // 코치가 받은 리뷰
+  @OneToMany(mappedBy = "coach")
+  private List<Review> receivedReviews = new ArrayList<>();
 
   // method
 

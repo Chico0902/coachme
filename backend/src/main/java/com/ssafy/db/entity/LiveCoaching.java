@@ -15,6 +15,10 @@ public class LiveCoaching extends BaseEntity {
   @JoinColumn(name = "coaching_id")
   private Coaching coaching;
 
+  @ManyToOne
+  @JoinColumn(name = "coame_coaching_id")
+  private CoameCoaching coameCoaching;
+
   @Column
   private LocalDateTime coachingDate;
 }
