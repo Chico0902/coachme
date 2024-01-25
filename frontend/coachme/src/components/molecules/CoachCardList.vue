@@ -200,7 +200,7 @@ section {
   width: 36vh;
   height: 84vh;
   max-width: 400px;
-  max-height: 600px;
+  max-height: 700px;
   z-index: 1;
 }
 
@@ -246,7 +246,7 @@ section {
   background-repeat: no-repeat;
   background-position: center;
   touch-action: none;
-  margin-top: 3vh;
+  margin-top: 2vh;
 }
 
 .card .is-like {
