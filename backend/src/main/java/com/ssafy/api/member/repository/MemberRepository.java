@@ -9,15 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, String> {
-
-  Optional<Member> findByMemberId(String memberId);
-
-  Member findById(Long id);
-
-  @Query("select m from Member m where elevation = 1")
-  List<Member> findElevationMember();
-
-  Member findByMemberIdAndEmail(String memberId, String email);
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    List<Member> findByStringId(String stringId);
 
 }

@@ -46,6 +46,10 @@ public class Member extends BaseEntity implements UserDetails  {
   @Column
   private String email;
 
+  @OneToOne
+  @JoinColumn(name = "profile_image_id")
+  private File profileImage;
+
   @Column
   private String profileText;
 
@@ -70,11 +74,11 @@ public class Member extends BaseEntity implements UserDetails  {
 
   // 코미가 누른 좋아요
   @OneToMany(mappedBy = "coame")
-  private List<Like> sendLikes = new ArrayList<>();
+  private List<Likes> sendLikes = new ArrayList<>();
 
   // 코치가 코미에게 받은 좋아요
   @OneToMany(mappedBy = "coach")
-  private List<Like> receivedLikes = new ArrayList<>();
+  private List<Likes> receivedLikes = new ArrayList<>();
 
   // 코미가 남긴 리뷰
   @OneToMany(mappedBy = "coame")
