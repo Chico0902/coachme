@@ -5,7 +5,7 @@
 //
 //import com.ssafy.api.member.repository.MemberRepository;
 //import com.ssafy.api.member.dto.UpdateMemberDto;
-//import com.ssafy.db.entity.Member;
+//import com.ssafy.db.entity.member.Member;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.stereotype.Service;

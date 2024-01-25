@@ -1,9 +1,7 @@
 package com.ssafy.db.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.ssafy.db.entity.member.Member;
+import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -11,16 +9,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class Portfolio {
-  @Id
-  @GeneratedValue
+public class Portfolio extends BaseEntity {
+  @Id @GeneratedValue
   @Column(name = "portfolio_id")
-  private int portfolioId;
+  private Long id;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id")
+  @Column
+  private Member member;
 
   @Column
-  private String description;
-
-  @CreatedDate
-  @Column(name = "create_date")
-  private LocalDateTime createDate;
+  private String htmlDocs;
 }
