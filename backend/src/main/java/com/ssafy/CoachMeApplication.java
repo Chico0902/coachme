@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-//@ComponentScan(basePackages = "com.ssafy")
 public class CoachMeApplication {
 
   public static void main(String[] args) {

@@ -1,7 +1,7 @@
 package com.ssafy.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.api.dto.request.TokenResponseDto;
+import com.ssafy.api.auth.dto.response.TokenResponseDto;
 import com.ssafy.api.auth.service.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

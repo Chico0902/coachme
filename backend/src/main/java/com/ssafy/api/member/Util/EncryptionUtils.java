@@ -1,6 +1,5 @@
 package com.ssafy.api.member.Util;
 
-
 import java.security.MessageDigest;
 
 public class EncryptionUtils {
