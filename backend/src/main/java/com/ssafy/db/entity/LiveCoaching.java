@@ -1,8 +1,6 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.coaching.Coaching;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 

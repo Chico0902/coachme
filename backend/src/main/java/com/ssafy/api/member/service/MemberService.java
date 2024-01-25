@@ -6,7 +6,7 @@ import com.ssafy.api.member.dto.RegistMemberDto;
 import com.ssafy.api.member.dto.UpdateMemberDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.db.entity.member.Member;
+import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,12 +34,13 @@ public class MemberService {
   public void regist(RegistMemberDto RegistMemberDto) { //? 두번째 RegistMemberDto를 registMemberDto로 변경해야 하는지
 
     Member member = Member.builder()
-        .memberId(RegistMemberDto.getId())
+        .stringId(RegistMemberDto.getId())
         .password(RegistMemberDto.getPw())
         .name(RegistMemberDto.getName())
-        .nickname(RegistMemberDto.getNick())
+        .nickName(RegistMemberDto.getNick())
         .email(RegistMemberDto.getEmail())
         .build();
+
     memberRepository.save(member);
   }
 
@@ -83,7 +84,7 @@ public class MemberService {
     // 회원이 기입한 비밀번호가 저장되어있는 비밀번호와 일치하는지 확인
     if (password1.equals(password2)) {
       // 일치하면 회원정보 수정
-      existingMember.changeMemberInfo(updateMemberDto);
+      existingMember.changeMemberStatus(updateMemberDto.getNick(), updateMemberDto.getEmail());
     } else {
       throw new RuntimeException("Invalid username or password");
     }
