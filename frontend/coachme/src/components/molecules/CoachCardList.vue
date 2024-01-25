@@ -14,7 +14,7 @@ const cards = ref([
   { name: 'Grilled', category: '그릴', rating: '4.6', desc: '그릴 치킨', img: `${cloudUrl}tender02.jpg` },
   { name: 'Fried', category: '튀김', rating: '4.6', desc: '치킨', img: `${cloudUrl}tender03.jpg` },
   { name: 'Deep Fried', category: '아무튼 치킨', rating: '4.6', desc: 
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet ante at nisi imperdiet venenatis. Vivamus lacinia faucibus elit, vitae semper enim sagittis in. Vivamus porta congue vulputate.', img: `${cloudUrl}tender04.jpg` }
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet ante at nisi imperdiet venenatis.', img: `${cloudUrl}tender04.jpg` }
 ]);
 
 let imgCount = 0

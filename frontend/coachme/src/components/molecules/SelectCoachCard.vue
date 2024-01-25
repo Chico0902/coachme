@@ -10,6 +10,7 @@ img : 프로필 사진 링크. 문자열. 기본값 없음.
 <script setup>
 import profile from '../atoms/ProfileImage.vue'
 import labels from '../atoms/CardLabel.vue'
+import Button from '@/components/atoms/CustomButton.vue'
 import { ref, onMounted, watch } from 'vue'
 
 const props = defineProps({
@@ -89,7 +90,7 @@ watch(() => stars.value, (newState) => {
   <!-- 하단 공간 확보 -->
   <q-item>
     <q-item-section>
-      <q-space></q-space>
+      <Button label="채팅하기" style="margin-top: 2vh; background-color: #1a66da; color: white"></Button>
     </q-item-section>
   </q-item>
 </template>
