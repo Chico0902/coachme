@@ -15,7 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
@@ -37,7 +39,8 @@ public class SecurityConfig {
     http
         // CSRF 기능 비활성화
         .csrf(CsrfConfigurer::disable)
-        .cors(AbstractHttpConfigurer::disable)
+        // CORS 설정
+        .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
         // JWT 인증을 사용하기 위해 세션을 비활성화 (STATELESS)
         .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         // Security에서 제공되는 Form Login 기능을 비홠성화
@@ -54,4 +57,13 @@ public class SecurityConfig {
     return http.build();
   }
 
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList("*"));
+    configuration.setAllowedMethods(Arrays.asList("*"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
 }
