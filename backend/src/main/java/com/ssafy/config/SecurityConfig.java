@@ -37,6 +37,7 @@ public class SecurityConfig {
     http
         // CSRF 기능 비활성화
         .csrf(CsrfConfigurer::disable)
+        .cors(AbstractHttpConfigurer::disable)
         // JWT 인증을 사용하기 위해 세션을 비활성화 (STATELESS)
         .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         // Security에서 제공되는 Form Login 기능을 비홠성화
