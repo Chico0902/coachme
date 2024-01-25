@@ -1,7 +1,7 @@
 package com.ssafy.api.auth.service;
 
 import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.db.entity.member.Member;
+import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;

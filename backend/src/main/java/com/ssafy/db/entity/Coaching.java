@@ -1,12 +1,8 @@
-package com.ssafy.db.entity.coaching;
+package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.*;
-import com.ssafy.db.entity.category.Category;
-import com.ssafy.db.entity.member.Member;
+import com.ssafy.db.entity.type.CoachingType;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -24,22 +20,20 @@ public class Coaching extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private CoachingType coachingType;
 
-  @Column
+  @OneToOne(fetch = FetchType.LAZY)
   private Category mainCategory;
 
-  @Column
+  @OneToOne(fetch = FetchType.LAZY)
   private Category subCategory;
 
   @Column
   private String name;
 
-  @OneToMany
-  @JoinColumn(name = "coame_coaching_id")
+  @OneToMany(mappedBy = "coaching")
   @Column
   private List<CoameCoaching> coameCoachings;
 
-  @OneToMany
-  @JoinColumn(name = "video_coaching_id")
+  @OneToMany(mappedBy = "coaching")
   @Column
   private List<VideoCoaching> videoCoachings;
 

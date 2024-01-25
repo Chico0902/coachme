@@ -4,7 +4,7 @@ import com.ssafy.api.auth.dto.LoginRequestDto;
 import com.ssafy.api.auth.dto.TokenResponseDto;
 import com.ssafy.api.auth.service.CustomUserDetailsService;
 import com.ssafy.api.auth.service.JwtTokenProvider;
-import com.ssafy.db.entity.member.Member;
+import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -39,11 +39,11 @@ public class AuthController {
       String stringId = member.getStringId();
 
       // access token 생성
-      String accessToken = jwtTokenProvider.generateToken(member.getLongId(), stringId, member.getPrivilege(), member.getName(), true);
+      String accessToken = jwtTokenProvider.generateToken(member.getLongId(), stringId, member.getPrivilege().name(), member.getName(), true);
       tokenResponseDto.setAccessToken(accessToken);
 
       // refresh token 생성
-      String refreshToken = jwtTokenProvider.generateToken(member.getLongId(), stringId, member.getPrivilege(), member.getName(), false);
+      String refreshToken = jwtTokenProvider.generateToken(member.getLongId(), stringId, member.getPrivilege().name(), member.getName(), false);
       tokenResponseDto.setRefreshToken(refreshToken);
 
 

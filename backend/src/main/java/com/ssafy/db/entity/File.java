@@ -1,13 +1,8 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)  // ?
 @Entity @Table(name = "Files")

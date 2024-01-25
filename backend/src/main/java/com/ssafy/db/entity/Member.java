@@ -1,10 +1,7 @@
-package com.ssafy.db.entity.member;
+package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.BaseEntity;
-import com.ssafy.db.entity.Like;
-import com.ssafy.db.entity.Review;
-import com.ssafy.db.entity.coaching.Coaching;
-import com.ssafy.db.entity.Portfolio;
+import com.ssafy.db.entity.type.Privilege;
+import com.ssafy.db.entity.status.MemberStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,6 +52,7 @@ public class Member extends BaseEntity implements UserDetails  {
   private boolean isElevated;
 
   @Column
+  @Enumerated(EnumType.STRING)
   private MemberStatus status;
 
   @OneToOne

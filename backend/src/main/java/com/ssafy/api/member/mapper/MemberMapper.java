@@ -5,7 +5,7 @@ import com.ssafy.api.admin.dto.PortfolioResponseDto;
 import com.ssafy.api.member.dto.MemberDuplicateRequestDto;
 import com.ssafy.api.member.dto.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.RegistMemberDto;
-import com.ssafy.db.entity.member.Member;
+import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

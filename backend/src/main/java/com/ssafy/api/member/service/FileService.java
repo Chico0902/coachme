@@ -7,7 +7,7 @@ import com.ssafy.api.auth.service.CustomUserDetailsService;
 import com.ssafy.api.member.repository.FileRepository;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.File;
-import com.ssafy.db.entity.member.Member;
+import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,17 +55,13 @@ public class FileService {
       objectMetadata.setContentType(file.getContentType());
 
       Member member = customUserDetailsService.loadUserByUsername(memberId);
-
       File newFile = File.builder()
           .name(fileName)
           .url(amazonS3.getUrl(bucket, fileName).toString())
-          .format(file.getContentType())
-          .member(member)
-          .type(fileType)
+          .uploader(member)
           .build();
 
       log.info("profile : {}", newFile);
-
 
       try {
         fileRepository.save(newFile);
@@ -98,7 +94,7 @@ public class FileService {
       try {
         // S3에서 객체 삭제
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, file.getName()));
-        fileRepository.deleteById(file.getFileId());
+        fileRepository.delete(file);
         log.info("Object deleted successfully. {}", file);
       } catch (Exception e) {
         log.error("Error deleting object: {}", e.getMessage());

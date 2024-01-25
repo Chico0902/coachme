@@ -1,9 +1,7 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.coaching.Coaching;
-import com.ssafy.db.entity.member.Member;
+import com.ssafy.db.entity.type.ReviewLikeType;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 public class Like extends BaseEntity{
@@ -14,11 +12,11 @@ public class Like extends BaseEntity{
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "member_id")
+  @JoinColumn(name = "coame_member_id")
   private Member coame;
 
   @ManyToOne
-  @JoinColumn(name = "member_id")
+  @JoinColumn(name = "coach_member_id")
   private Member coach;
 
   @ManyToOne(fetch = FetchType.LAZY)
