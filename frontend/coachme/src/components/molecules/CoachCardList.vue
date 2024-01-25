@@ -210,7 +210,7 @@ section {
   z-index: 1;
 }
 
-.icons>svg {
+.icons > svg {
   width: 10vh;
   height: 10vh;
   max-width: 60px;
@@ -220,16 +220,14 @@ section {
   cursor: pointer;
 }
 
-.icons>svg:nth-child(1) {
+.icons > svg:nth-child(1) {
   fill: #fb4f68;
   margin-right: 2vh;
 }
-
-.icons>svg:nth-child(2) {
+.icons > svg:nth-child(2) {
   fill: #4dca93;
 }
-
-.icons>svg>path:nth-child(1) {
+.icons > svg > path:nth-child(1) {
   fill: #fff;
 }
 
@@ -298,17 +296,17 @@ section {
   font-weight: 400;
 }
 
-.card .bottom .title>span:nth-child(1) {
+.card .bottom .title > span:nth-child(1) {
   font-size: 2em;
   font-weight: 700;
   margin-right: 0.2em;
 }
 
-.card .bottom .title>span:nth-child(2) {
+.card .bottom .title > span:nth-child(2) {
   font-size: clamp(13px, 1.5em, 25px);
 }
 
-.card .bottom .title>span:nth-child(2)>b {
+.card .bottom .title > span:nth-child(2) > b {
   font-size: 0.6em;
   margin-right: 0.2em;
 }
