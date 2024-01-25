@@ -1,4 +1,13 @@
-<script setup></script>
+<script setup>
+
+</script>
+
 <template>
-  <h1>Coach Details</h1>
+  <div>
+    
+  </div>
 </template>
+
+<style scoped>
+
+</style>

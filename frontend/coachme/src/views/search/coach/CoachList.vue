@@ -64,7 +64,7 @@ const clickCategory = (index) => {
         <MypageSidebar :button-list="selectedCategory" />
         <div class="mainpage">
           <!-- 코치 리스트와 채팅 버튼 -->
-          <CoachCardList />
+          <CoachCardList></CoachCardList>
           <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
           </chatButton>
         </div>
@@ -111,7 +111,7 @@ const clickCategory = (index) => {
   width: 80%;
   height: 70vh;
   margin: auto;
-  margin-top: 5vh;
+  margin-top: 0.5vh;
   margin-bottom: 5vh;
   border-radius: 1.5rem;
   display: flex;

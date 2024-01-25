@@ -12,46 +12,52 @@ import profile from '../atoms/ProfileImage.vue'
 import labels from '../atoms/CardLabel.vue'
 import Button from '@/components/atoms/CustomButton.vue'
 import { ref, onMounted, watch } from 'vue'
+import { useCounterStore } from "../../stores/chat-status";
+
+const store = useCounterStore();
+
+const { requestDm } = store
+// 피니아에 저장된 채팅 활성화 함수
 
 const props = defineProps({
   name: {
     type: String,
     default: ''
-  }, 
+  }, // 코치 이름
   category: {
     type: String,
     default: ''
-  },
+  }, // 제공 코칭
   rating: {
     type: String, 
     default: ''
-  },
+  }, // 별점
   desc: {
     type: String,
     default: ''
-  }, 
+  }, // 코치 소개
   img: {
     type: String,
     default: ''
-  }
+  } // 코치 프로필 사진
 })
 
 const stars = ref(0)
 
 onMounted(() => {
   stars.value = props.rating
-})
+}) // 별점을 props의 값으로 바꾸기
 
 watch(() => stars.value, (newState) => {
   stars.value = newState;
-});
+}); // 별점 값이 바뀌면 갱신하기
 
 </script>
 
 <template>
   <!-- 프로필 사진 영역 -->
   <q-item>
-    <q-item-section avatar style="padding-right: 0px;">
+    <q-item-section avatar style="padding-right: 0px;" class="flex flex-center">
       <profile :img="props.img" size="150px"></profile>
     </q-item-section>
   </q-item>
@@ -59,7 +65,7 @@ watch(() => stars.value, (newState) => {
   <!-- 코치 이름 영역 -->
   <q-item>
     <q-item-section>
-      <labels :label="`${props.name}`" class="text-black text-bold"></labels>
+      <labels :label="`${props.name}`" class="text-black text-bold" style="padding: -2vw;"></labels>
     </q-item-section>
   </q-item>
 
@@ -87,10 +93,10 @@ watch(() => stars.value, (newState) => {
     </q-item-section>
   </q-item>
 
-  <!-- 하단 공간 확보 -->
+  <!-- 채팅하기 버튼 -->
   <q-item>
     <q-item-section>
-      <Button label="채팅하기" style="margin-top: 2vh; background-color: #1a66da; color: white"></Button>
+      <Button label="채팅하기" style="margin-top: 2vh; background-color: #1a66da; color: white" @click="requestDm()"></Button>
     </q-item-section>
   </q-item>
 </template>

@@ -13,7 +13,7 @@
     <!-- 정보 -->
     <div class="address">
       <p>서울 강남구 테헤란로 212 역삼 멀티캠퍼스 12층 403</p>
-      <p>© SSAFT A403 All Rights Reserved.</p>
+      <p>© SSAFY A403 All Rights Reserved.</p>
     </div>
   </div>
 </template>

@@ -3,11 +3,13 @@
 <script setup>
 import DmList from '.././molecules/DmList.vue'
 import DmWindow from '.././molecules/DmWindow.vue';
+import { useCounterStore } from "../../stores/chat-status";
+import { storeToRefs } from 'pinia'
 
-import { ref } from 'vue'
+const store = useCounterStore();
 
-const isChatList = ref(true)
-// 채팅 목록이 켜져있는지 여부
+const { isChatList, showChat } = storeToRefs(store)
+const { selectDm, backToList, closeDmWindow, resetDm, } = store
 
 const myId = "coame"
 const otherId = "coach"
@@ -48,19 +50,19 @@ const dm = [{
 */
 
 const clickDm = () => {
-  isChatList.value = !isChatList.value
+  selectDm()
 } // dm리스트에서 하나의 방을 골랐을 때
 
 const closeDm = () => {
-  isChatList.value = !isChatList.value
+  backToList()
 } // 1:1dm의 홈버튼을 눌렀을 때
 
 const closeChat = () => {
-  isChatList.value = !isChatList.value
+  closeDmWindow()
 } // 개선 예정
 
 const reset = () => {
-  isChatList.value = true
+  resetDm()
 } // dm 창 자체가 닫혔을 때, 리스트로 돌아가도록 설정
 
 </script>
@@ -69,7 +71,7 @@ const reset = () => {
   <!-- dm 버튼 -->
   <q-btn round size="30px" color="amber-7" icon="chat" @click="reset">
     <!-- dm 영역 -->
-    <q-menu style="max-height: 400px; max-width: 400px;">
+    <q-menu style="max-height: 400px; max-width: 400px;" v-model="showChat">
       <div class="row no-wrap q-pa-md">
         <!-- dm리스트와 1:1dm을 번갈아가면서 렌더링 -->
         <DmList v-if="isChatList" :dm-list="dm" @click-dm="clickDm"></DmList>

@@ -68,6 +68,10 @@ const closeChat = () => {
 </template>
 
 <style scoped>
+.window-box {
+  max-width: min-content;
+  max-height: max-content;
+}
 .chat-box {
   background-color: #FFEEC1;
   max-width: 400px;
