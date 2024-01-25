@@ -12,11 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 @RestController
 @RequestMapping("/members")
@@ -114,10 +113,8 @@ public class MemberController {
 
   // 프로필 사진 등록 api
   @PostMapping("/profiles/images/{id}")
-  public ResponseEntity<Map<String, String>> uploadProfile(@RequestParam("file") MultipartFile file, @PathVariable("id") String memberId) {
-    log.debug("Upload Profile Image : {}", file);
-    log.debug("Upload MemberId : {}", memberId);
-
+  public ResponseEntity<?> uploadProfile(@RequestParam("file") MultipartFile file, @PathVariable("id") String memberId) {
+    try{
     List<MultipartFile> fileList = new ArrayList<>();
     fileList.add(file);
     fileService.uploadFileList(fileList, memberId, "profile");
@@ -125,32 +122,60 @@ public class MemberController {
     Map<String, String> responseMap = new HashMap<>();
     responseMap.put("message", "Success!");
 
-    return ResponseEntity.ok(responseMap);
+    return new ResponseEntity<>(responseMap, HttpStatus.OK);
+    }catch (IOException e) {
+      // 파일 업로드 중 예외 처리
+      log.error("Error uploading files: {}", e.getMessage());
+      return new ResponseEntity<>("File upload failed", HttpStatus.INTERNAL_SERVER_ERROR);
+    } catch (Exception e) {
+      // 그 외 예외 처리
+      log.error("Unexpected error: {}", e.getMessage());
+      return new ResponseEntity<>("Unexpected error", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
 
-  // 프로필 사진 조회 api
   @GetMapping("/profiles/images/{id}")
-  public ResponseEntity<Map<String, String>> getProfiles(@PathVariable("id") String memberId) {
-
-    String readImageUri = fileService.getProfile(memberId);
-    log.info("Read Profile Image : file uri - {}", readImageUri);
-
+  public ResponseEntity<?> getProfiles(@PathVariable("id") String memberId) {
     Map<String, String> responseMap = new HashMap<>();
-    responseMap.put("profileImageUrl", readImageUri);
+    try {
+      String readImageUri = fileService.getProfile(memberId);
 
-    return ResponseEntity.ok(responseMap);
+      log.info("Read Profile Image: file uri - {}", readImageUri);
+      responseMap.put("profileImageUrl", readImageUri);
+      return new ResponseEntity<>(responseMap, HttpStatus.OK);
+    } catch (ResponseStatusException e) {
+      log.error("Error handling profile image request: {}", e.getMessage());
+      responseMap.put("error", e.getReason());
+      return new ResponseEntity<>(responseMap, e.getStatusCode());
+    } catch (Exception e) {
+      // 그 외 예외에 대한 처리
+      log.error("Unexpected error handling profile image request: {}", e.getMessage());
+      responseMap.put("error", "Unexpected error");
+      return new ResponseEntity<>(responseMap, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @DeleteMapping("/profiles/images/{id}")
   public ResponseEntity<Map<String, String>> deleteFile(@PathVariable("id") String memberId) {
-    log.info("Delete Profile Image : {}", memberId);
-    fileService.deleteProfile(memberId);
-
+    log.info("Deleting profile image: {}", memberId);
     Map<String, String> responseMap = new HashMap<>();
-    responseMap.put("message", "Success!");
+    try {
+      fileService.deleteProfile(memberId);
 
-    return ResponseEntity.ok(responseMap);
+      responseMap.put("message", "Success!");
+      return ResponseEntity.ok(responseMap);
+    } catch (ResponseStatusException e) {
+      // ResponseStatusException already contains response information for the client.
+      log.error("Error deleting profile image: {}", e.getMessage());
+      responseMap.put("error", e.getReason());
+      return new ResponseEntity<>(responseMap, e.getStatusCode());
+    } catch (Exception e) {
+      // Handle other exceptions
+      log.error("Unexpected error deleting profile image: {}", e.getMessage());
+      responseMap.put("error", "An unexpected error occurred");
+      return new ResponseEntity<>(responseMap, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   //Email과 name의 일치여부를 check하는 컨트롤러

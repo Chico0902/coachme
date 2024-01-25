@@ -66,6 +66,10 @@ dependencies {
   // aws s3
   implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+  // Web Socket
+  implementation 'org.springframework.boot:spring-boot-starter-websocket'
+  implementation 'org.webjars:stomp-websocket:2.3.3-1'
+
   // send Email(PW)
   implementation 'org.springframework.boot:spring-boot-starter-mail'
 }

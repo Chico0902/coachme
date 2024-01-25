@@ -13,6 +13,8 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
   Optional<Member> findByMemberId(String memberId);
 
+  List<Member> findByIdIn(List<Long> idList);
+
   Member findById(Long id);
 
   @Query("select m from Member m where elevation = 1")
