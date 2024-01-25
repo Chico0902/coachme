@@ -1,8 +1,8 @@
 package com.ssafy.api.member.controller;
 
-import com.ssafy.api.dto.request.MemberDuplicateRequestDto;
-import com.ssafy.api.dto.request.MemberRegistRequestDto;
-import com.ssafy.api.dto.response.MessageDto;
+import com.ssafy.api.dto.MessageDto;
+import com.ssafy.api.member.dto.request.MemberDuplicateRequestDto;
+import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.api.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +23,16 @@ public class MemberController {
   @PostMapping
   public ResponseEntity<MessageDto> registMember(@RequestBody MemberRegistRequestDto dto) {
     try {
-      // 회원 등록
+      // 회원 등록(service)
       memberService.regist(dto);
 
-      // 정상 등록완료
-      MessageDto messageDto = new MessageDto("Member registered successfully");
-      return ResponseEntity.ok(messageDto);
+      // 정상 등록완료(200)
+      return ResponseEntity.ok(new MessageDto("Member registered successfully"));
 
-      // 오류 발생
     } catch (Exception e) {
-      log.debug("Error : ", e);
-      MessageDto messageDto = new MessageDto("Error registering member");
-      return ResponseEntity.badRequest().body(messageDto);
+
+      // 런타임 오류(500)
+      return ResponseEntity.internalServerError().body(new MessageDto("Error registering member"));
     }
   }
 
@@ -42,26 +40,26 @@ public class MemberController {
   @PostMapping("/duplicate/id")
   public ResponseEntity<MessageDto> duplicateMember(@RequestBody MemberDuplicateRequestDto dto) {
     try {
-      // 중복여부 확인
+
+      // dto안의 id가 null이라면 오류 호출
+      if (dto.getStringId() == null) throw new IllegalStateException();
+
+      // 중복여부 확인(service)
       boolean duplicated = memberService.isDuplicated(dto);
 
-      // 중복 안되었을 때
-      if (!duplicated) {
-        MessageDto messageDto = new MessageDto("Member is not duplicated");
-        return ResponseEntity.ok(messageDto);
-      }
+      // 중복 안되었을 때 사용 가능한 아이디(200)
+      if (!duplicated) return ResponseEntity.ok(new MessageDto("Member is not duplicated, Usable id."));
 
-      // 중복 되었을 때
-      else {
-        MessageDto messageDto = new MessageDto("Member is duplicated");
-        return ResponseEntity.badRequest().body(messageDto);
-      }
+      // 중복 되었을 때 client 오류(400)
+      else return ResponseEntity.badRequest().body(new MessageDto("Member is duplicated"));
 
-      // 오류 발생
     } catch (Exception e) {
-      log.debug("Error : ", e);
-      MessageDto messageDto = new MessageDto("Error registering member");
-      return ResponseEntity.status(500).body(messageDto);
+
+      // IllegelStateException : 클라이언트 오류(400)
+      if (e.getClass() == IllegalStateException.class) return ResponseEntity.badRequest().body(new MessageDto("Illegal String Id"));
+
+      // 이외 런타임 오류는 server 오류(500)
+      return ResponseEntity.internalServerError().body(new MessageDto("Server Internal Error"));
     }
   }
 }

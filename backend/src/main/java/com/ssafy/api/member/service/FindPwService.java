@@ -3,7 +3,7 @@
 //import com.ssafy.api.member.Util.EncryptionUtils;
 //import com.ssafy.api.member.dto.EmailDto;
 //
-//import com.ssafy.api.member.repository.MemberRepository;
+//import com.ssafy.db.repository.MemberRepository;
 //import com.ssafy.api.member.dto.UpdateMemberDto;
 //import com.ssafy.db.entity.Member;
 //import lombok.RequiredArgsConstructor;

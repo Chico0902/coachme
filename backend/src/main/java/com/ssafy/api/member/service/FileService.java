@@ -5,7 +5,7 @@
 //import com.amazonaws.services.s3.model.ObjectMetadata;
 //import com.ssafy.api.auth.service.CustomUserDetailsService;
 //import com.ssafy.api.member.repository.FileRepository;
-//import com.ssafy.api.member.repository.MemberRepository;
+//import com.ssafy.db.repository.MemberRepository;
 //import com.ssafy.db.entity.File;
 //import com.ssafy.db.entity.Member;
 //import lombok.RequiredArgsConstructor;

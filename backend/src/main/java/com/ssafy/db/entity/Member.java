@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,23 +28,22 @@ public class Member extends BaseEntity implements UserDetails  {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long longId;
 
-  @Column(name = "string_member_id")
+  @Column(nullable = false)
   private String stringId;
 
-  @Column
+  @Column(nullable = false)
   private String password;  // 암호화 저장
 
-  @Column
   @Enumerated(EnumType.STRING)
-  private Privilege privilege;
+  private Privilege privilege = Privilege.COAME;  // 생성 시 코미
 
-  @Column
+  @Column(nullable = false)
   private String name;
 
-  @Column
+  @Column(nullable = false)
   private String nickName;
 
-  @Column
+  @Column(nullable = false)
   private String email;
 
   @OneToOne
@@ -56,9 +56,8 @@ public class Member extends BaseEntity implements UserDetails  {
   @Column
   private boolean isElevated;
 
-  @Column
   @Enumerated(EnumType.STRING)
-  private MemberStatus status;
+  private MemberStatus status = MemberStatus.CREATED; // 생성 상태
 
   @OneToOne
   @JoinColumn(name = "portfolio_id")
