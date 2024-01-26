@@ -18,7 +18,7 @@ export default {
           description: '로그인 성공',
           code: '200',
           data: {
-            memberId: 'Long',
+            LongId: 'Long',
             privilege: 'String',
             accessToken: 'String',
             refreshToken: 'String'
@@ -41,7 +41,7 @@ export default {
       request: {
         name: 'MemberRegistRequestDto',
         data: {
-          id: 'String(max : 20)',
+          stringId: 'String(max : 20)',
           pw: 'String(max : 30)',
           name: 'String(max : 50)',
           nick: 'String(max : 10)',
@@ -73,7 +73,7 @@ export default {
       request: {
         name: 'changePasswordRequestDto',
         data: {
-          id: 'String(max : 20)',
+          stringId: 'String(max : 20)',
           email: 'String(max : 50)'
         }
       },
@@ -101,7 +101,7 @@ export default {
       request: {
         name: 'ElevationRequestDto',
         data: {
-          id: 'String',
+          LongId: 'Long',
           message: 'String'
         }
       },
@@ -123,7 +123,7 @@ export default {
       id: 'member-5',
       spec: '1-6',
       method: 'GET',
-      uri: '/members/{회원 pk}',
+      uri: '/members/{longId}',
       privilege: '1',
       description: '기본 회원정보 조회',
       request: {},
@@ -132,7 +132,7 @@ export default {
         success: {
           description: '기본 회원정보 데이터 전송',
           code: '200',
-          data: { id: 'String', name: 'String', nick: 'String', email: 'String' }
+          data: { stringId: 'String', name: 'String', nick: 'String', email: 'String' }
         },
         fail: {
           description: '잘못된 요청',
@@ -145,7 +145,7 @@ export default {
       id: 'member-6',
       spec: '1-6',
       method: 'PATCH',
-      uri: '/members/{회원 pk}',
+      uri: '/members/{longId}',
       privilege: '1',
       description: '회원정보 수정 시 입력한 비밀번호를 검증한 후, 회원정보 변경',
       request: {
@@ -175,7 +175,7 @@ export default {
       id: 'member-7',
       spec: '1-7',
       method: 'GET',
-      uri: '/members/profiles/{회원 pk}',
+      uri: '/members/profiles/{longId}',
       privilege: '1',
       description: '코미나 코치의 프로필 글과 사진에 대한 조회결과를 전송한다.',
       request: {},
@@ -200,7 +200,7 @@ export default {
       id: 'member-8',
       spec: '1-7',
       method: 'POST',
-      uri: '/members/profiles/texts/{회원 pk}',
+      uri: '/members/profiles/texts/{longId}',
       privilege: '1',
       description: '코치나 코미가 프로필 글을 등록한다.',
       request: {
@@ -227,7 +227,7 @@ export default {
       id: 'member-9',
       spec: '1-7',
       method: 'POST',
-      uri: '/members/profiles/images/{회원 pk}',
+      uri: '/members/profiles/images/{longId}',
       privilege: '1',
       description: '코치나 코미가 프로필 사진을 등록한다.(기존에 사진이 있으면 삭제)',
       request: {
@@ -252,7 +252,7 @@ export default {
       id: 'member-10',
       spec: '1-7',
       method: 'PATCH',
-      uri: '/members/profiles/texts/{회원 pk}',
+      uri: '/members/profiles/texts/{longId}',
       privilege: '1',
       description: '코치나 코미가 프로필 글을 수정한다.',
       request: {
@@ -279,7 +279,7 @@ export default {
       id: 'member-11',
       spec: '1-7',
       method: 'PATCH',
-      uri: '/members/profiles/images/{회원 pk}',
+      uri: '/members/profiles/images/{longId}',
       privilege: '1',
       description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {
@@ -304,7 +304,7 @@ export default {
       id: 'member-12',
       spec: '1-7',
       method: 'DELETE',
-      uri: '/members/profiles/texts/{회원 pk}',
+      uri: '/members/profiles/texts/{longId}',
       privilege: '1',
       description: '코치나 코미가 프로필 글을 삭제한다.',
       request: {},
@@ -326,7 +326,7 @@ export default {
       id: 'member-13',
       spec: '1-6',
       method: 'DELETE',
-      uri: '/members/{회원 pk}',
+      uri: '/members/{longId}',
       privilege: '1',
       description: '회원을 탈퇴한다.',
       request: {},
@@ -353,7 +353,7 @@ export default {
       description: '회원 ID를 중복검사한다.',
       request: {
         name: 'MemberDuplicateRequestDto',
-        data: { id: 'String' }
+        data: { stringId: 'String' }
       },
       response: {
         name: 'MemberDuplicateResponseDto',
