@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,34 +28,40 @@ public class Member extends BaseEntity implements UserDetails  {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long longId;
 
-  @Column(name = "string_member_id")
+  @Column(nullable = false, unique = true, length = 20)
   private String stringId;
 
-  @Column
+  @Column(nullable = false, unique = true, length = 100)
   private String password;  // 암호화 저장
 
-  @Column
   @Enumerated(EnumType.STRING)
-  private Privilege privilege;
+  @ColumnDefault(value = "'COAME'")
+  @Column(nullable = false)
+  private Privilege privilege = Privilege.COAME;  // 생성 시 코미
 
-  @Column
+  @Column(nullable = false, length = 50)
   private String name;
 
-  @Column
+  @Column(nullable = false, length = 10)
   private String nickName;
 
-  @Column
+  @Column(nullable = false, length = 50)
   private String email;
 
-  @Column
+  @Column(length = 100)
   private String profileText;
 
-  @Column
+  @ColumnDefault("0")
   private boolean isElevated;
 
-  @Column
   @Enumerated(EnumType.STRING)
-  private MemberStatus status;
+  @ColumnDefault(value = "'CREATED'")
+  @Column(nullable = false)
+  private MemberStatus status = MemberStatus.CREATED; // 생성 상태
+
+  @OneToOne
+  @JoinColumn(name = "profile_image_id")
+  private File profileImage;
 
   @OneToOne
   @JoinColumn(name = "portfolio_id")
@@ -70,11 +77,11 @@ public class Member extends BaseEntity implements UserDetails  {
 
   // 코미가 누른 좋아요
   @OneToMany(mappedBy = "coame")
-  private List<Like> sendLikes = new ArrayList<>();
+  private List<Likes> sendLikes = new ArrayList<>();
 
   // 코치가 코미에게 받은 좋아요
   @OneToMany(mappedBy = "coach")
-  private List<Like> receivedLikes = new ArrayList<>();
+  private List<Likes> receivedLikes = new ArrayList<>();
 
   // 코미가 남긴 리뷰
   @OneToMany(mappedBy = "coame")
@@ -85,8 +92,11 @@ public class Member extends BaseEntity implements UserDetails  {
   private List<Review> receivedReviews = new ArrayList<>();
 
   // method
-
-  // 연관관계 편의 메서드
+  // 회원정보 생성 시 권한을 설정하고 상태를 생성으로 바꾼다.
+  public void initMemberPrivilegeAndStatus() {
+      this.status = MemberStatus.CREATED;
+      this.privilege = Privilege.COAME;
+  }
 
   // 회원정보 수정 시 이름과 이메일을 변경하고 상태를 변경으로 바꾼다.
   public void changeMemberStatus(String nickName, String email) {
@@ -94,6 +104,8 @@ public class Member extends BaseEntity implements UserDetails  {
     this.nickName = nickName;
     this.email = email;
   }
+
+  // 연관관계 편의 메서드
 
   // 스프링 시큐리티 설정파일
   @Override

@@ -53,7 +53,7 @@ public class Coaching extends BaseEntity {
   private String summary;
 
   @OneToMany(mappedBy = "coaching")
-  private List<Like> receivedLikes = new ArrayList<>();
+  private List<Likes> receivedLikes = new ArrayList<>();
 
   @OneToMany(mappedBy = "coaching")
   private List<Review> receivedReviews = new ArrayList<>();

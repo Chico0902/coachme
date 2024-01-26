@@ -1,60 +1,41 @@
 package com.ssafy.api.auth.controller;
 
-import com.ssafy.api.auth.dto.LoginRequestDto;
-import com.ssafy.api.auth.dto.TokenResponseDto;
-import com.ssafy.api.auth.service.CustomUserDetailsService;
-import com.ssafy.api.auth.service.JwtTokenProvider;
-import com.ssafy.db.entity.Member;
+import com.ssafy.api.auth.dto.request.LoginRequestDto;
+import com.ssafy.api.auth.dto.response.TokenResponseDto;
+import com.ssafy.api.auth.service.AuthService;
+import com.ssafy.api.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@CrossOrigin( {"http://localhost:5173", "http://localhost:80", "http://localhost"} )
 @Slf4j
 public class AuthController {
 
-  private final CustomUserDetailsService customUserDetailsService;
-  private final JwtTokenProvider jwtTokenProvider;
-  private final StringRedisTemplate stringRedisTemplate;
+  private final AuthService authService;
 
   @PostMapping("/login")
-  public ResponseEntity<Map<String, Object>> login(@RequestBody @Validated LoginRequestDto loginRequestDto) {
-    Map<String, Object> responseMessage = new HashMap<>();
-    HttpStatus status;
+  public ResponseEntity<?> login(@RequestBody @Validated LoginRequestDto loginRequestDto) {
     try {
-      Member member = customUserDetailsService.loadUserByUsername(loginRequestDto.getId());
-      log.info("input id : {}", member.getStringId());
-      customUserDetailsService.isValidMember(member.getStringId(), loginRequestDto.getPw());
-      TokenResponseDto tokenResponseDto = new TokenResponseDto();
-      String stringId = member.getStringId();
 
-      // access token 생성
-      String accessToken = jwtTokenProvider.generateToken(member.getLongId(), stringId, member.getPrivilege().name(), member.getName(), true);
-      tokenResponseDto.setAccessToken(accessToken);
+      // 토큰 발송
+      TokenResponseDto tokenResponseDto = authService.getTokenResponseDto(loginRequestDto);
+      return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
 
-      // refresh token 생성
-      String refreshToken = jwtTokenProvider.generateToken(member.getLongId(), stringId, member.getPrivilege().name(), member.getName(), false);
-      tokenResponseDto.setRefreshToken(refreshToken);
-
-
-      stringRedisTemplate.opsForValue().set(stringId, refreshToken);
-      responseMessage.put("data", tokenResponseDto);
-      status = HttpStatus.OK;
     } catch (Exception e) {
-      responseMessage.put("message", e.getMessage());
-      status = HttpStatus.FORBIDDEN;
+
+      // 잘못된 접근
+      if (e.getClass() == UsernameNotFoundException.class) return new ResponseEntity<>(new MessageDto(e.getMessage()), HttpStatus.FORBIDDEN);
+
+      log.debug("error message : {}", e.getMessage());
+      return new ResponseEntity<>(new MessageDto(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return new ResponseEntity<Map<String, Object>>(responseMessage, status);
   }
 
 }
