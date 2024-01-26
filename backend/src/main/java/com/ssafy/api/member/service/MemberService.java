@@ -8,6 +8,7 @@ import com.ssafy.db.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,26 +32,28 @@ public class MemberService {
   public void regist(MemberRegistRequestDto dto) {
 
     // 비밀번호 암호화
-    String encryptedPw = encryptSHA256(dto.getPw());
-    dto.setPw(encryptedPw);
+    dto.setPw(encryptSHA256(dto.getPw()));
 
-    // Member -> DTO 변환
+    // DTO -> 멤버 변환
     Member member = MemberMapper.instance.memberRegistRequestDtoToMember(dto);
 
+    // member 상태와 권한 초기화
+    member.initMemberPrivilegeAndStatus();
+
+    // member 저장
     memberRepository.save(member);
   }
 
   /**
    * [member-14] 아이디를 입력받아서 해당 아이디가 사용중인지 검증
-   * @Returns true : 아이디 사용중 / false : 사용가능
+   * @return true : 아이디 사용중 / false : 사용가능
    */
   @Transactional(readOnly = true)
-  public boolean isDuplicated(MemberDuplicateRequestDto dto) {
-    List<Member> members = memberRepository.findByStringId(dto.getStringId());
-    if (members == null || members.isEmpty()) {
-      return false;
-    } else {
-      return true;
-    }
+  public boolean isDuplicated(String stringId) {
+
+    // db에서 찾은 멤버
+    List<Member> membersInDB = memberRepository.findByStringId(stringId);
+    if (membersInDB == null || membersInDB.isEmpty()) return false;
+    return true;
   }
 }

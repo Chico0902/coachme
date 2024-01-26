@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,36 +28,40 @@ public class Member extends BaseEntity implements UserDetails  {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long longId;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true, length = 20)
   private String stringId;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true, length = 100)
   private String password;  // 암호화 저장
 
   @Enumerated(EnumType.STRING)
+  @ColumnDefault(value = "'COAME'")
+  @Column(nullable = false)
   private Privilege privilege = Privilege.COAME;  // 생성 시 코미
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 50)
   private String name;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 10)
   private String nickName;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 50)
   private String email;
+
+  @Column(length = 100)
+  private String profileText;
+
+  @ColumnDefault("0")
+  private boolean isElevated;
+
+  @Enumerated(EnumType.STRING)
+  @ColumnDefault(value = "'CREATED'")
+  @Column(nullable = false)
+  private MemberStatus status = MemberStatus.CREATED; // 생성 상태
 
   @OneToOne
   @JoinColumn(name = "profile_image_id")
   private File profileImage;
-
-  @Column
-  private String profileText;
-
-  @Column
-  private boolean isElevated;
-
-  @Enumerated(EnumType.STRING)
-  private MemberStatus status = MemberStatus.CREATED; // 생성 상태
 
   @OneToOne
   @JoinColumn(name = "portfolio_id")
@@ -88,8 +92,11 @@ public class Member extends BaseEntity implements UserDetails  {
   private List<Review> receivedReviews = new ArrayList<>();
 
   // method
-
-  // 연관관계 편의 메서드
+  // 회원정보 생성 시 권한을 설정하고 상태를 생성으로 바꾼다.
+  public void initMemberPrivilegeAndStatus() {
+      this.status = MemberStatus.CREATED;
+      this.privilege = Privilege.COAME;
+  }
 
   // 회원정보 수정 시 이름과 이메일을 변경하고 상태를 변경으로 바꾼다.
   public void changeMemberStatus(String nickName, String email) {
@@ -97,6 +104,8 @@ public class Member extends BaseEntity implements UserDetails  {
     this.nickName = nickName;
     this.email = email;
   }
+
+  // 연관관계 편의 메서드
 
   // 스프링 시큐리티 설정파일
   @Override
