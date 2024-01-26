@@ -13,7 +13,7 @@ export default {
         data: { id: 'String(max : 20)', pw: 'String(max : 30)' }
       },
       response: {
-        name: 'LoginResponseDto',
+        name: 'TokenResponseDto',
         success: {
           description: '해당 로그인 요청 유효함',
           code: '200',
