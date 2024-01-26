@@ -66,7 +66,7 @@
                       </div>
                       <div class="col d-flex text-white">
                         <div class="align-self-center">
-                          <h5>역할 : 프론트엔드, FE팀장, 컴포넌트 제작</h5>
+                          <h5>역할 : 프론트엔드, FE팀장, 컴포넌트 관리, Atomic Design</h5>
                           <p>다짐 : 적당히 넘기지 않고, 최선을 다하여 개발할 수 있도록 노력하겠습니다!</p>
                         </div>
                       </div>
@@ -86,7 +86,7 @@
                       </div>
                       <div class="col d-flex text-white">
                         <div class="align-self-center">
-                          <h5>역할 : 프론트엔드, 회의록 관리, 레이아웃 설계</h5>
+                          <h5>역할 : 프론트엔드, 회의록 관리, 레이아웃 설계, Wireframe 관리</h5>
                           <p>다짐 : 팀원 모두가 즐겁게 할 수 있도록 밝은 모습으로 노력하겠습니다!</p>
                         </div>
                       </div>
@@ -106,7 +106,7 @@
                       </div>
                       <div class="col d-flex text-white">
                         <div class="align-self-center">
-                          <h5>역할 : 백엔드, 인프라, 발표</h5>
+                          <h5>역할 : 백엔드, DB 및 API 관리, 발표</h5>
                           <p>다짐 : 많은 고민과 생각이 녹여진 프로젝트를 만들기 위해 노력하겠습니다.</p>
                         </div>
                       </div>
@@ -126,7 +126,7 @@
                       </div>
                       <div class="col d-flex text-white">
                         <div class="align-self-center">
-                          <h5>역할 : 백엔드, BE팀장, API설계</h5>
+                          <h5>역할 : 백엔드, BE팀장, 인프라 관리, AI 연구</h5>
                           <p>다짐 : 효율적이고 안정적인 백엔드를 제공하겠습니다.</p>
                         </div>
                       </div>
@@ -146,7 +146,7 @@
                       </div>
                       <div class="col d-flex text-white">
                         <div class="align-self-center">
-                          <h5>역할 : 백엔드, 인프라, 지라 관리</h5>
+                          <h5>역할 : 백엔드, 지라 관리, Socket 및 WebRTC 통신</h5>
                           <p>다짐 : 백엔드를 잘 설계하고 나아가 최적화 하겠습니다.</p>
                         </div>
                       </div>
