@@ -106,7 +106,7 @@
                       </div>
                       <div class="col d-flex text-white">
                         <div class="align-self-center">
-                          <h5>역할 : 백엔드, DB 및 API 관리, 발표</h5>
+                          <h5>역할 : 백엔드, 발표자, Database관리, API 관리</h5>
                           <p>다짐 : 많은 고민과 생각이 녹여진 프로젝트를 만들기 위해 노력하겠습니다.</p>
                         </div>
                       </div>
@@ -146,7 +146,7 @@
                       </div>
                       <div class="col d-flex text-white">
                         <div class="align-self-center">
-                          <h5>역할 : 백엔드, 지라 관리, Socket 및 WebRTC 통신</h5>
+                          <h5>역할 : 백엔드, Jira 관리, Socket 및 WebRTC 통신</h5>
                           <p>다짐 : 백엔드를 잘 설계하고 나아가 최적화 하겠습니다.</p>
                         </div>
                       </div>
