@@ -6,6 +6,7 @@ import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.api.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,12 +28,13 @@ public class MemberController {
       memberService.regist(dto);
 
       // 정상 등록완료(200)
-      return ResponseEntity.ok(new MessageDto("Member registered successfully"));
+      return new ResponseEntity<>(new MessageDto("Member registered successfully"), HttpStatus.OK);
 
     } catch (Exception e) {
 
       // 런타임 오류(500)
-      return ResponseEntity.internalServerError().body(new MessageDto("Error registering member"));
+      log.info("error : {}", e.getMessage());
+      return new ResponseEntity<>(new MessageDto("Error registering member"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -45,21 +47,23 @@ public class MemberController {
       if (dto.getStringId() == null) throw new IllegalStateException();
 
       // 중복여부 확인(service)
-      boolean duplicated = memberService.isDuplicated(dto);
+      boolean duplicated = memberService.isDuplicated(dto.getStringId());
 
       // 중복 안되었을 때 사용 가능한 아이디(200)
-      if (!duplicated) return ResponseEntity.ok(new MessageDto("Member is not duplicated, Usable id."));
+      if (!duplicated)
+        return new ResponseEntity<>(new MessageDto("Member is not duplicated, Usable id."), HttpStatus.OK);
 
       // 중복 되었을 때 client 오류(400)
-      else return ResponseEntity.badRequest().body(new MessageDto("Member is duplicated"));
+      else return new ResponseEntity<>(new MessageDto("Member is duplicated"), HttpStatus.BAD_REQUEST);
 
     } catch (Exception e) {
 
       // IllegelStateException : 클라이언트 오류(400)
-      if (e.getClass() == IllegalStateException.class) return ResponseEntity.badRequest().body(new MessageDto("Illegal String Id"));
+      if (e.getClass() == IllegalStateException.class)
+        new ResponseEntity<>(new MessageDto("Illegal String Id"), HttpStatus.BAD_REQUEST);
 
       // 이외 런타임 오류는 server 오류(500)
-      return ResponseEntity.internalServerError().body(new MessageDto("Server Internal Error"));
+      return new ResponseEntity<>(new MessageDto(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

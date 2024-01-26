@@ -1,5 +1,6 @@
 package com.ssafy.api.auth.service;
 
+import com.ssafy.db.entity.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -40,21 +41,20 @@ public class JwtTokenProvider {
   }
 
   /**
-   * isAccess 파라미터로 access/refresh 구분하여 토큰을 생성하는 메서드.
+   * 엔티티를 받아 isAccess 파라미터로 access/refresh 구분하여 토큰을 생성하는 메서드.
    *
-   * @param id        : Member 테이블 PK
-   * @param memberId  : 회원 ID
-   * @param privilege : 회원 권한 (COAME, COACH, ADMIN)
-   * @param name      : 회원 이름
+   * @param member    : Member 엔티티
    * @param isAccess  : Access / Refresh 토큰 구분
    * @return : token
    */
-  public String generateToken(Long id, String memberId, String privilege, String name, boolean isAccess) {
+  public String generateTokenByEntity(Member member, boolean isAccess) {
 
-    Claims claims = Jwts.claims().setSubject(memberId);
-    claims.put("id", id);
-    claims.put("privilege", privilege);
-    claims.put("name", name);
+    Claims claims = Jwts.claims().setSubject(member.getStringId());
+
+    claims.put("stringId", member.getStringId());
+    claims.put("longId", member.getLongId());
+    claims.put("privilege", member.getPrivilege());
+    claims.put("name", member.getName());
     Date now = new Date();
 
     if (isAccess) {
@@ -73,6 +73,46 @@ public class JwtTokenProvider {
           .setExpiration(new Date(now.getTime() + refreshTokenExpire))
           .signWith(key, SignatureAlgorithm.HS256)
           .compact();
+    }
+  }
+
+  /**
+   * 값을 직접 입력받아 isAccess 파라미터로 access/refresh 구분하여 토큰을 생성하는 메서드.
+   *
+   * @param longId        : Member 테이블 PK
+   * @param stringId  : 회원 ID
+   * @param privilege : 회원 권한 (COAME, COACH, ADMIN)
+   * @param name      : 회원 이름
+   * @param isAccess  : Access / Refresh 토큰 구분
+
+   * @return : token
+   */
+  public String generateTokenByValue(Long longId, String stringId, String privilege, String name, boolean isAccess) {
+
+    Claims claims = Jwts.claims().setSubject(stringId);
+
+    claims.put("stringId", stringId);
+    claims.put("longId", longId);
+    claims.put("privilege", privilege);
+    claims.put("name", name);
+    Date now = new Date();
+
+    if (isAccess) {
+      claims.put("type", "access");
+      return Jwts.builder()
+              .setClaims(claims)
+              .setIssuedAt(now)
+              .setExpiration(new Date(now.getTime() + accessTokenExpire))
+              .signWith(key, SignatureAlgorithm.HS256)
+              .compact();
+    } else {
+      claims.put("type", "refresh");
+      return Jwts.builder()
+              .setClaims(claims)
+              .setIssuedAt(now)
+              .setExpiration(new Date(now.getTime() + refreshTokenExpire))
+              .signWith(key, SignatureAlgorithm.HS256)
+              .compact();
     }
   }
 
@@ -117,8 +157,8 @@ public class JwtTokenProvider {
         .setSigningKey(key)
         .build()
         .parseClaimsJws(token).getBody();
-    map.put("memberId", claims.getSubject());
-    map.put("id", claims.get("id"));
+    map.put("stringId", claims.getSubject());
+    map.put("longId", claims.get("longId"));
     map.put("privilege", claims.get("privilege"));
     map.put("name", claims.get("name"));
     if (claims.get("type").equals("access")) {
