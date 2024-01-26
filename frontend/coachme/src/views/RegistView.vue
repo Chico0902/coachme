@@ -78,7 +78,8 @@ const regist = (id, pw, pwConfirm, name, nick, email) => {
     const dto = new MemberRegistRequestDto(id, pw, name, nick, email)
     postMember(
       dto,
-      () => {
+      (success) => {
+        console.log(success)
         alert.value = true
         alertIcon.value = 'check'
         alertMessage.value = '회원가입 완료! 로그인 페이지로 이동합니다.'
@@ -90,7 +91,8 @@ const regist = (id, pw, pwConfirm, name, nick, email) => {
         )
       },
       // API 호출 실패 시 오류메시지 출력
-      () => {
+      (fail) => {
+        console.log(fail)
         alert.value = true
         alertIcon.value = 'warning'
         alertMessage.value = '잘못된 요청입니다.'
@@ -117,13 +119,15 @@ const confirm = (id) => {
     validateDuplicateMember(
       dto,
       (success) => {
+        console.log(success.data.messate)
         idCheck.value = true
         alert.value = true
         alertIcon.value = 'check'
-        alertMessage.value = success.data.data.message
+        alertMessage.value = '사용 가능한 아이디입니다.'
       },
       // API 호출 실패 시 오류메시지 콘솔에 출력
-      () => {
+      (fail) => {
+        console.log(fail)
         alert.value = true
         alertIcon.value = 'warning'
         alertMessage.value = '이미 사용중인 아이디입니다. 다른 아이디를 사용하세요.'
