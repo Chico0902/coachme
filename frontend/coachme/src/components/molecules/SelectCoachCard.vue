@@ -58,19 +58,19 @@ watch(() => stars.value, (newState) => {
   <!-- 프로필 사진 영역 -->
   <q-item>
     <q-item-section avatar style="padding-right: 0px;" class="flex flex-center">
-      <profile :img="props.img" size="150px"></profile>
+      <profile :img="props.img" size="135px"></profile>
     </q-item-section>
   </q-item>
 
   <!-- 코치 이름 영역 -->
-  <q-item>
+  <q-item style="margin-top: -1vh;">
     <q-item-section>
       <labels :label="`${props.name}`" class="text-black text-bold" style="padding: -2vw;"></labels>
     </q-item-section>
   </q-item>
 
   <!-- 제공 코칭과 별점 영역-->
-  <q-item class="justify-evenly">
+  <q-item class="justify-evenly" style="margin-top: -1vh;">
     <!-- 제공 코칭 -->
     <q-item-section style="min-width: fit-content;">
       <labels :label="`${props.category}`" class="text-black text-bold"></labels>
@@ -89,14 +89,14 @@ watch(() => stars.value, (newState) => {
   <!-- 코치 소개 영역 -->
   <q-item>
     <q-item-section>
-      <labels caption :label="`${props.desc}`" style="max-height: 5vh;" class="text-black"></labels>
+      <labels caption :label="`${props.desc}`" style="max-height: 7vh;" class="text-black"></labels>
     </q-item-section>
   </q-item>
 
   <!-- 채팅하기 버튼 -->
   <q-item>
     <q-item-section>
-      <Button label="채팅하기" style="margin-top: 2vh; background-color: #1a66da; color: white" @click="requestDm()"></Button>
+      <Button label="채팅하기" style="margin-top: 3vh; background-color: #1a66da; color: white" @click="requestDm()"></Button>
     </q-item-section>
   </q-item>
 </template>
