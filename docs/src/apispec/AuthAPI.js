@@ -10,7 +10,7 @@ export default {
       description: '로그인 요청 시 해당 id와 pw가 유효한지 여부를 응답한다.',
       request: {
         name: 'LoginRequestDto',
-        data: { id: 'String(max : 20)', pw: 'String(max : 30)' }
+        data: { stringId: 'String(max : 20)', pw: 'String(max : 30)' }
       },
       response: {
         name: 'TokenResponseDto',
