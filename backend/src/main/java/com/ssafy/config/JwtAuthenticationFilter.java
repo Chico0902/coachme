@@ -1,7 +1,7 @@
 package com.ssafy.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.api.auth.dto.TokenResponseDto;
+import com.ssafy.api.auth.dto.response.TokenResponseDto;
 import com.ssafy.api.auth.service.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -77,8 +77,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           // 3-1. 검증되었다면 Access Token과 Refresh Token 재발급
           if (token.equals(retrievedValue)) {
             TokenResponseDto tokenResponseDto = new TokenResponseDto();
-            tokenResponseDto.setAccessToken(jwtTokenProvider.generateToken(id, memberId, privilege, name, true));
-            tokenResponseDto.setRefreshToken(jwtTokenProvider.generateToken(id, memberId, privilege, name, false));
+            tokenResponseDto.setAccessToken(jwtTokenProvider.generateTokenByValue(id, memberId, privilege, name, true));
+            tokenResponseDto.setRefreshToken(jwtTokenProvider.generateTokenByValue(id, memberId, privilege, name, false));
             stringRedisTemplate.opsForValue().set(memberId, tokenResponseDto.getRefreshToken());
 
             // HTTP 응답 설정
