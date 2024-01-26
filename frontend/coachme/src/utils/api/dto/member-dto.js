@@ -2,14 +2,14 @@ export class MemberRegistRequestDto {
   /**
    * API번호 : member-2
    * 회원가입 요청을 위한 DTO 클래스
-   * @param {*} id
+   * @param {*} stringId
    * @param {*} pw
    * @param {*} name
    * @param {*} nick
    * @param {*} email
    */
-  constructor(id, pw, name, nick, email) {
-    this.id = id
+  constructor(stringId, pw, name, nick, email) {
+    this.stringId = stringId
     this.pw = pw
     this.name = name
     this.nick = nick
@@ -21,11 +21,11 @@ export class changePasswordRequestDto {
   /**
    * API번호 : member-3
    * 비밀번호 변경 요청을 위한 DTO 클래스
-   * @param {String} id
+   * @param {String} stringId
    * @param {String} email
    */
-  constructor(id, email) {
-    this.id = id
+  constructor(stringId, email) {
+    this.stringId = stringId
     this.email = email
   }
 }
@@ -73,9 +73,9 @@ export class MemberDuplicateRequestDto {
   /**
    * API번호 : member-14
    * 사용자 ID검증을 위한 DTO 클래스
-   * @param {String} id 사용자 ID
+   * @param {String} stringId 사용자 ID
    */
-  constructor(id) {
-    this.id = id
+  constructor(stringId) {
+    this.stringId = stringId
   }
 }
