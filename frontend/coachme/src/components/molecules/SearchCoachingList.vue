@@ -1,53 +1,37 @@
+<!-- 코칭 리스트 컴포넌트 
+필요한 정보는 코칭 정보
+coaching : 코칭 정보. object. 기본 값 없음
+
+object에 필용한 정보 : 코칭 이름, 별점, 프로필 사진 주소
+coachingName : 코칭 이름
+rating : 별점
+img : 프로필 사진 주소
+-->
+
 <script setup>
 import profileImage from '../atoms/ProfileImage.vue';
 import labels from '../atoms/CardLabel.vue';
 import buttons from '../atoms/CustomButton.vue';
-import { ref, computed, reactive } from 'vue';
+import { ref, computed } from 'vue';
 import { useCounterStore } from "../../stores/chat-status.js"
 
 const store = useCounterStore();
 const { requestDm } = store
 // 피니아에 저장된 채팅 활성화 함수
 
+const props = defineProps({
+  coaching : {  
+    type : Object,
+  },
+})
+
 const currentPage = ref(1)
 const cardPerPage = 3
 // 현재 페이지, 페이지 당 보여줄 코칭 개수
 
-const coaching = reactive([
-  {
-    coachingName: "title one",
-    rating: "4.7",
-    img: "https://cdn.quasar.dev/img/avatar1.jpg"
-  }, {
-    coachingName: "title two",
-    rating: "4.6",
-    img: "https://cdn.quasar.dev/img/avatar2.jpg"
-  }, {
-    coachingName: "title three",
-    rating: "4.5",
-    img: "https://cdn.quasar.dev/img/avatar3.jpg"
-  }, {
-    coachingName: "title four",
-    rating: "3.9",
-    img: "https://cdn.quasar.dev/img/avatar4.jpg"
-  }, {
-    coachingName: "title five",
-    rating: "4",
-    img: "https://cdn.quasar.dev/img/avatar5.jpg"
-  }, {
-    coachingName: "title six",
-    rating: "4.9",
-    img: "https://cdn.quasar.dev/img/avatar6.jpg"
-  }, {
-    coachingName: "title seven",
-    rating: "4.1",
-    img: "https://cdn.quasar.dev/img/avatar1.jpg"
-  }
-])
-
 // 현재 페이지 데이터만 가져오기
 const getData = computed(() =>
-  coaching.slice((currentPage.value - 1) * cardPerPage, (currentPage.value - 1) * cardPerPage + cardPerPage)
+  props.coaching.slice((currentPage.value - 1) * cardPerPage, (currentPage.value - 1) * cardPerPage + cardPerPage)
 )
 
 </script>
@@ -119,7 +103,7 @@ const getData = computed(() =>
 }
 
 .material-symbols-outlined {
-  font-size: 36px;
+  font-size: 38px;
   color: #FCBF17;
   margin-right: 0.3vw;
 }
@@ -130,6 +114,6 @@ const getData = computed(() =>
 
 .ratingForm {
   display: inline-flex;
-  vertical-align: top;
+  vertical-align: center;
 }
 </style>

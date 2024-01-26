@@ -7,7 +7,7 @@ import navbar from '@/components/molecules/LoginNavBar.vue'
 import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
 import SearchCoachingList from '@/components/molecules/SearchCoachingList.vue'
 
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 const selectButton = ref(0)
 // 선택한 카테고리 index
@@ -17,28 +17,65 @@ const SideButtonList = [[
   { name: 'Furniture' },
   { name: 'Lifestyle' },
   { name: 'Design' },
+  { name : 'Etc'},
 ], [
   { name: 'Cocking' },
   { name: 'Knitting' },
   { name: 'Art' },
   { name: 'Beauty' },
+  { name : 'Etc'},
 ], [
   { name: 'Soccer' },
   { name: 'Basketball' },
   { name: 'Tennis' },
   { name: 'Golf' },
+  { name : 'Etc'},
 ], [
   { name: 'Frontend' },
   { name: 'Backend' },
   { name: 'Database' },
   { name: 'Devops' },
+  { name : 'Etc'},
 ], [
   { name: 'Yoga' },
   { name: 'Weight' },
   { name: 'Running' },
   { name: 'Crossfit' },
+  { name : 'Etc'},
 ],]
-// 선택한 카테고리에 따라 변경될 사이드 메뉴 리스트
+// 선택한 카테고리에 따라 변경될 사이드 메뉴 리스트, 소분류
+
+const coaching = reactive([
+  {
+    coachingName: "title one",
+    rating: "4.7",
+    img: "https://cdn.quasar.dev/img/avatar1.jpg"
+  }, {
+    coachingName: "title two",
+    rating: "4.6",
+    img: "https://cdn.quasar.dev/img/avatar2.jpg"
+  }, {
+    coachingName: "title three",
+    rating: "4.5",
+    img: "https://cdn.quasar.dev/img/avatar3.jpg"
+  }, {
+    coachingName: "title four",
+    rating: "3.9",
+    img: "https://cdn.quasar.dev/img/avatar4.jpg"
+  }, {
+    coachingName: "title five",
+    rating: "4",
+    img: "https://cdn.quasar.dev/img/avatar5.jpg"
+  }, {
+    coachingName: "title six",
+    rating: "4.9",
+    img: "https://cdn.quasar.dev/img/avatar6.jpg"
+  }, {
+    coachingName: "title seven",
+    rating: "4.1",
+    img: "https://cdn.quasar.dev/img/avatar1.jpg"
+  }
+]) // 코칭 목록 예시
 
 const selectedCategory = ref([])
 // 선택된 상단 메뉴 리스트. props로 전달되는 리스트
@@ -64,7 +101,7 @@ const clickCategory = (index) => {
         <MypageSidebar :button-list="selectedCategory" />
         <div class="mainpage">
           <!-- 코칭 목록과 채팅 버튼-->
-          <SearchCoachingList></SearchCoachingList>
+          <SearchCoachingList :coaching="coaching"></SearchCoachingList>
           <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
           </chatButton>
         </div>
