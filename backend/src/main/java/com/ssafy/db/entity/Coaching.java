@@ -8,8 +8,8 @@ import java.util.List;
 
 @Entity
 public class Coaching extends BaseEntity {
-  @Id @Column(name = "coaching_id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "coaching_id")
   private Long id;
 
   @ManyToOne
@@ -21,8 +21,8 @@ public class Coaching extends BaseEntity {
   private Member coame;
 
   // 코미의 리스트인지 코치의 리스트인지 확인하는 타입
-  @Column
   @Enumerated(EnumType.STRING)
+  @Column(nullable = false, updatable = false)
   private CoachingType coachingType;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -33,7 +33,7 @@ public class Coaching extends BaseEntity {
   @JoinColumn(name = "sub_category_id")
   private Category subCategory;
 
-  @Column
+  @Column(nullable = false, length = 50)
   private String name;
 
   @OneToMany(mappedBy = "coaching")
@@ -42,14 +42,14 @@ public class Coaching extends BaseEntity {
   @OneToMany(mappedBy = "coaching")
   private List<VideoCoaching> videoCoachings = new ArrayList<>();
 
-  @Column
+  @Column(length = 100)
   private Integer price;
 
   // RAW HTML로 들어온 해당 코칭에 대한 설명 페이지
-  @Column
+  @Column(nullable = false, length = 5000)
   private String htmlDocs;
 
-  @Column
+  @Column(nullable = false, length = 100)
   private String summary;
 
   @OneToMany(mappedBy = "coaching")
