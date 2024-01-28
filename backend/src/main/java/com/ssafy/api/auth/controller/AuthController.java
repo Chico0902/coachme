@@ -3,12 +3,10 @@ package com.ssafy.api.auth.controller;
 import com.ssafy.api.auth.dto.request.LoginRequestDto;
 import com.ssafy.api.auth.dto.response.TokenResponseDto;
 import com.ssafy.api.auth.service.AuthService;
-import com.ssafy.api.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,22 +18,20 @@ public class AuthController {
 
   private final AuthService authService;
 
+  /**
+   * [auth-1] 로그인 요청 시 해당 id와 pw가 유효한지 여부를 응답한다.
+   * privilege : ALL
+   * @return [200] 토큰정보 발송
+   * @throws Exception : handleUsernameNotFoundException, handleBadCredentialsException
+   */
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody @Validated LoginRequestDto loginRequestDto) {
-    try {
+  public ResponseEntity<?> login(@RequestBody @Validated LoginRequestDto loginRequestDto) throws Exception{
 
-      // 토큰 발송
+      // service에서 토큰 생성
       TokenResponseDto tokenResponseDto = authService.getTokenResponseDto(loginRequestDto);
+
+      // [200] 토큰정보 발송
       return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
-
-    } catch (Exception e) {
-
-      // 잘못된 접근
-      if (e.getClass() == UsernameNotFoundException.class) return new ResponseEntity<>(new MessageDto(e.getMessage()), HttpStatus.FORBIDDEN);
-
-      log.debug("error message : {}", e.getMessage());
-      return new ResponseEntity<>(new MessageDto(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
   }
 
 }
