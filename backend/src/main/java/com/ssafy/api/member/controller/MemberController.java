@@ -1,6 +1,7 @@
 package com.ssafy.api.member.controller;
 
-import com.ssafy.api.dto.MessageDto;
+import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
+import com.ssafy.dto.MessageDto;
 import com.ssafy.api.member.dto.request.MemberDuplicateRequestDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.api.member.service.MemberService;
@@ -8,10 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/members")
@@ -20,124 +19,60 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
   private final MemberService memberService;
 
-  // [member-2] 회원가입 요청 시 해당 정보를 DB에 저장한다.
+  /**
+   * [member-2] 회원가입 요청 시 해당 정보를 DB에 저장한다.
+   * privilege : ALL
+   * @return [200] 정상 등록완료
+   */
   @PostMapping
-  public ResponseEntity<MessageDto> registMember(@RequestBody MemberRegistRequestDto dto) {
-    try {
+  public ResponseEntity<MessageDto> registMember(@RequestBody MemberRegistRequestDto dto) throws Exception {
+
       // 회원 등록(service)
       memberService.regist(dto);
 
       // 정상 등록완료(200)
-      return new ResponseEntity<>(new MessageDto("Member registered successfully"), HttpStatus.OK);
-
-    } catch (Exception e) {
-
-      // 런타임 오류(500)
-      log.info("error : {}", e.getMessage());
-      return new ResponseEntity<>(new MessageDto("Error registering member"), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+      return new ResponseEntity<>(new MessageDto("Member registered successfully"), HttpStatus.CREATED);
   }
 
-  // [member-14] 회원 ID를 중복검사한다.
-  @PostMapping("/duplicate/id")
-  public ResponseEntity<MessageDto> duplicateMember(@RequestBody MemberDuplicateRequestDto dto) {
-    try {
+    /**
+     * [member-6] 회원정보 수정 시 입력한 비밀번호를 검증한 후, 회원정보 변경
+     * privilege : COAME
+     * @return [200] 정상 수정완료
+     */
+    @PatchMapping("/{longId}")
+    public ResponseEntity<MessageDto> modifyMember(
+            @PathVariable(value = "longId") Long longId,
+            @RequestBody MemberInfoChangeRequestDto dto) throws Exception {
 
-      // dto안의 id가 null이라면 오류 호출
-      if (dto.getStringId() == null) throw new IllegalStateException();
+        // 회원정보 수정(service)
+        memberService.modify(longId, dto);
+
+        // 정상 수정완료(200)
+        return new ResponseEntity<>(new MessageDto("Member modified successfully"), HttpStatus.OK);
+    }
+
+  /**
+   * [member-14] 회원 ID를 중복검사한다.
+   * privilege : ALL
+   * @return [200] 사용 가능한 아이디
+   */
+
+  @PostMapping("/duplicate/id")
+  public ResponseEntity<MessageDto> duplicateMember(@Validated @RequestBody MemberDuplicateRequestDto dto) throws Exception {
 
       // 중복여부 확인(service)
       boolean duplicated = memberService.isDuplicated(dto.getStringId());
 
+      // 중복 되었을 때 client 오류(409)
+      if (duplicated) return new ResponseEntity<>(
+              new MessageDto("Member is duplicated"), HttpStatus.CONFLICT);
+
       // 중복 안되었을 때 사용 가능한 아이디(200)
-      if (!duplicated)
-        return new ResponseEntity<>(new MessageDto("Member is not duplicated, Usable id."), HttpStatus.OK);
+      return new ResponseEntity<>(
+              new MessageDto("Member is not duplicated, Usable id."), HttpStatus.OK);
 
-      // 중복 되었을 때 client 오류(400)
-      else return new ResponseEntity<>(new MessageDto("Member is duplicated"), HttpStatus.BAD_REQUEST);
-
-    } catch (Exception e) {
-
-      // IllegelStateException : 클라이언트 오류(400)
-      if (e.getClass() == IllegalStateException.class)
-        new ResponseEntity<>(new MessageDto("Illegal String Id"), HttpStatus.BAD_REQUEST);
-
-      // 이외 런타임 오류는 server 오류(500)
-      return new ResponseEntity<>(new MessageDto(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
   }
 }
-
-////  private final FindPwService findPwService;
-//
-//  // [member-14] 회원 ID를 중복검사한다.
-//  @PostMapping("/duplicate/id")
-//  public ResponseEntity<Map<String, String>> checkMemberId(@RequestBody MemberDuplicateRequestDto memberDuplicateRequestDto) {
-//    String memberId = memberDuplicateRequestDto.getId();
-//    memberService.checkMemberId(memberId);
-//
-//    try {
-////      Map<String, String> responseMap = new HashMap<>();
-////      responseMap.put("message", "Member registered successfully");
-//      return new ResponseEntity<>(HttpStatus.CREATED);
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//  }
-//
-//
-//
-//
-//  // [member-5] 기본 회원정보 조회
-//  @GetMapping("/{id}")
-//  public ResponseEntity<MemberInfoResponseDto> getMemberByUsername(@PathVariable(name = "id") Long id) {
-////  public void getMemberByUsername(@PathVariable(name = "id") Long id) {
-////    RegistMemberDto member = memberService.findByMemberId(id);
-//    MemberInfoResponseDto dto = memberService.findById(id);
-//
-//    log.debug("member : {} ", dto);
-//    if (dto != null) {
-////      log.info("memberId : {}", member.getId());
-//      return new ResponseEntity<>(dto, HttpStatus.OK);
-//    } else {
-//      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-//  }
-//
-//  // [member-13] 회원을 탈퇴한다
-//  @DeleteMapping("/{id}")
-//  public ResponseEntity<Map<String, String>> deleteMember(@PathVariable("id") Long id) {
-//    try {
-//      memberService.deleteMember(id);
-//      Map<String, String> responseMap = new HashMap<>();
-//      responseMap.put("message", "Member deleted successfully");
-//      return new ResponseEntity<>(responseMap, HttpStatus.OK);
-//    } catch (Exception e) {
-//      // 예외 발생 시 로그 출력
-//      e.printStackTrace();
-//      Map<String, String> errorMap = new HashMap<>();
-//      errorMap.put("error", "Error delete member");
-//      return new ResponseEntity<>(errorMap, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//  }
-//
-//  // [member-6] 회원정보 수정
-//  @PatchMapping("/{id}")
-//  public ResponseEntity<Map<String, String>> UpdateMember(@PathVariable("id") Long id, @RequestBody UpdateMemberDto updateMemberDto) {
-//    try {
-//      memberService.updateMember(id, updateMemberDto);
-//      Map<String, String> responseMap = new HashMap<>();
-//      responseMap.put("message", "Member information updated successfully");
-//      return new ResponseEntity<>(responseMap, HttpStatus.OK);
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      Map<String, String> errorMap = new HashMap<>();
-//      errorMap.put("error", "Error updating member information");
-//      return new ResponseEntity<>(errorMap, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//  }
-////
 ////  // 프로필 사진 등록 api
 ////  @PostMapping("/profiles/images/{id}")
 ////  public ResponseEntity<Map<String, String>> uploadProfile(@RequestParam("file") MultipartFile file, @PathVariable("id") String memberId) {
