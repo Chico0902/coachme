@@ -15,11 +15,11 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 
-    @Column
+    @Column(nullable = false, unique = true, length = 50) // unique?
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(nullable = false) // null이면 검색을 못함
     private CategoryType categoryType;
 
     @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)

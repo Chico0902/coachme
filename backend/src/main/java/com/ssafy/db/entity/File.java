@@ -22,10 +22,10 @@ public class File extends BaseEntity {
   @JoinColumn(name = "member_id")
   private Member uploader;
 
-  @Column
+  @Column(nullable = false, length = 50) //?null이 가능한지
   private String name;
 
-  @Column
+  @Column(nullable = false, unique = true, length = 500) //?url이라서 길이가 길 것 같다.
   private String url;
 
   // methods
