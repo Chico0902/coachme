@@ -24,8 +24,8 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class Member extends BaseEntity implements UserDetails  {
 
-  @Id @Column(name = "member_id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "member_id")
   private Long longId;
 
   @Column(nullable = false, unique = true, length = 20)

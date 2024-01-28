@@ -10,6 +10,6 @@ public class Portfolio extends BaseEntity {
   @Column(name = "portfolio_id")
   private Long id;
 
-  @Column
+  @Column(nullable = false, length = 5000)
   private String htmlDocs;
 }

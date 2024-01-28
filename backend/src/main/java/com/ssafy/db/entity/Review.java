@@ -21,13 +21,13 @@ public class Review extends BaseEntity {
   @JoinColumn(name = "coaching_id")
   private Coaching coaching;
 
-  @Column
   @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
   private ReviewLikeType reviewType;
 
-  @Column
+  @Column(nullable = false, length = 500)
   private String comment;
 
-  @Column
+  @Column(nullable = false)
   private Integer score;
 }
