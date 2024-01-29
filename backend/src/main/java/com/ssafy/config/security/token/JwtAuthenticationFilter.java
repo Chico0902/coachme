@@ -27,7 +27,7 @@ import java.util.Arrays;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtTokenProvider jwtTokenProvider;
-
+  private final StringRedisTemplate stringRedisTemplate;
   private final ObjectMapper objectMapper;
 
   /**
