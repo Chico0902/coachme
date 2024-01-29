@@ -63,14 +63,14 @@ watch(() => stars.value, (newState) => {
   </q-item>
 
   <!-- 코치 이름 영역 -->
-  <q-item style="margin-top: -1vh;">
+  <q-item style="padding-top: -1vh;">
     <q-item-section>
       <labels :label="`${props.name}`" class="text-black text-bold" style="padding: -2vw;"></labels>
     </q-item-section>
   </q-item>
 
   <!-- 제공 코칭과 별점 영역-->
-  <q-item class="justify-evenly" style="margin-top: -1vh;">
+  <q-item class="justify-evenly" style="padding-top: -1vh;">
     <!-- 제공 코칭 -->
     <q-item-section style="min-width: fit-content;">
       <labels :label="`${props.category}`" class="text-black text-bold"></labels>

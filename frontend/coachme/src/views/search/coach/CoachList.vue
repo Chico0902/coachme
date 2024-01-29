@@ -1,7 +1,7 @@
 <!-- 코치 리스트 페이지-->
 
 <script setup>
-import CoachCardList from '@/components/molecules/CoachCardList.vue'
+import CoachCardList from '@/components/molecules/SearchCoachCardList.vue'
 import chatButton from '@/components/molecules/ChatButton.vue'
 import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
@@ -134,7 +134,7 @@ const clickCategory = (index) => {
 .chat-button {
   position:fixed;
   bottom:60px;
-  right:14vw;
+  right:10vw;
   color:#FFF;
   text-align:center;
 }
