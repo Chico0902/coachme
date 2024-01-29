@@ -10,60 +10,67 @@ img : 프로필 사진 링크. 문자열. 기본값 없음.
 <script setup>
 import profile from '../atoms/ProfileImage.vue'
 import labels from '../atoms/CardLabel.vue'
+import Button from '@/components/atoms/CustomButton.vue'
 import { ref, onMounted, watch } from 'vue'
+import { useCounterStore } from "../../stores/chat-status";
+
+const store = useCounterStore();
+
+const { requestDm } = store
+// 피니아에 저장된 채팅 활성화 함수
 
 const props = defineProps({
   name: {
     type: String,
     default: ''
-  }, 
+  }, // 코치 이름
   category: {
     type: String,
     default: ''
-  },
+  }, // 제공 코칭
   rating: {
     type: String, 
     default: ''
-  },
+  }, // 별점
   desc: {
     type: String,
     default: ''
-  }, 
+  }, // 코치 소개
   img: {
     type: String,
     default: ''
-  }
+  } // 코치 프로필 사진
 })
 
 const stars = ref(0)
 
 onMounted(() => {
   stars.value = props.rating
-})
+}) // 별점을 props의 값으로 바꾸기
 
 watch(() => stars.value, (newState) => {
   stars.value = newState;
-});
+}); // 별점 값이 바뀌면 갱신하기
 
 </script>
 
 <template>
   <!-- 프로필 사진 영역 -->
   <q-item>
-    <q-item-section avatar style="padding-right: 0px;">
-      <profile :img="props.img" size="150px"></profile>
+    <q-item-section avatar style="padding-right: 0px;" class="flex flex-center">
+      <profile :img="props.img" size="135px"></profile>
     </q-item-section>
   </q-item>
 
   <!-- 코치 이름 영역 -->
-  <q-item>
+  <q-item style="margin-top: -1vh;">
     <q-item-section>
-      <labels :label="`${props.name}`" class="text-black text-bold"></labels>
+      <labels :label="`${props.name}`" class="text-black text-bold" style="padding: -2vw;"></labels>
     </q-item-section>
   </q-item>
 
   <!-- 제공 코칭과 별점 영역-->
-  <q-item class="justify-evenly">
+  <q-item class="justify-evenly" style="margin-top: -1vh;">
     <!-- 제공 코칭 -->
     <q-item-section style="min-width: fit-content;">
       <labels :label="`${props.category}`" class="text-black text-bold"></labels>
@@ -82,14 +89,14 @@ watch(() => stars.value, (newState) => {
   <!-- 코치 소개 영역 -->
   <q-item>
     <q-item-section>
-      <labels caption :label="`${props.desc}`" style="max-height: 5vh;" class="text-black"></labels>
+      <labels caption :label="`${props.desc}`" style="max-height: 7vh;" class="text-black"></labels>
     </q-item-section>
   </q-item>
 
-  <!-- 하단 공간 확보 -->
+  <!-- 채팅하기 버튼 -->
   <q-item>
     <q-item-section>
-      <q-space></q-space>
+      <Button label="채팅하기" style="margin-top: 3vh; background-color: #1a66da; color: white" @click="requestDm()"></Button>
     </q-item-section>
   </q-item>
 </template>
