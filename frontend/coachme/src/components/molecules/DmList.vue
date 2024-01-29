@@ -4,6 +4,11 @@ dm 리스트에 필요한 정보 : 프로필 사진 링크, 이름, 마지막 dm
 -->
 <script setup>
 import profile from '../atoms/ProfileImage.vue';
+import { useCounterStore } from "../../stores/chat-status";
+
+const store = useCounterStore();
+
+const { closeDmWindow } = store
 
 const props = defineProps({
   dmList: {
@@ -21,7 +26,15 @@ const clickDm = (index) => {
 
 <template>
   <q-list bordered class="rounded-borders" style="width: 100%; max-width: 400px">
-    <q-item-label header>주고 받은 DM</q-item-label>
+    <q-item>
+      <q-item-label header>주고 받은 DM</q-item-label>
+      <!-- 닫기 버튼 -->
+        <q-btn flat @click="closeDmWindow()" style="margin-right: -2vw; margin-left: 5vw;">
+          <span class="material-symbols-outlined">
+            Close
+          </span>
+        </q-btn>
+    </q-item>
     <q-separator spaced></q-separator>
     <div v-for="(dm, index) in props.dmList" :key="dm">
       <q-item clickable v-ripple @click="clickDm(index)">
@@ -47,4 +60,8 @@ const clickDm = (index) => {
   </q-list>
 </template>
 
-<style scoped></style>
+<style scoped>
+.material-symbols-outlined {
+  font-size: 24px;
+}
+</style>
