@@ -10,7 +10,7 @@ public class DMRoom {
   @Id
   @GeneratedValue
   @Column(name = "dmroom_id")
-  private Long dmroomId; // ?int였는데 혹시 이유가 있었는지 확인
+  private Long dmroomId;
 
   @ManyToOne
   @JoinColumn(name = "coame_member_id")
@@ -22,5 +22,5 @@ public class DMRoom {
 
   @CreatedDate
   @Column(name = "create_date", nullable = false, updatable = false)
-  private LocalDateTime createDate; //BaseEntity 넣는게 나을 것 같음.
+  private LocalDateTime createDate;
 }

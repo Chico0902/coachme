@@ -1,6 +1,5 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.type.CoachingType;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -20,11 +19,6 @@ public class Coaching extends BaseEntity {
   @JoinColumn(name = "coame_id")
   private Member coame;
 
-  // 코미의 리스트인지 코치의 리스트인지 확인하는 타입
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false, updatable = false)
-  private CoachingType coachingType;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "main_category_id")
   private Category mainCategory;
@@ -42,7 +36,7 @@ public class Coaching extends BaseEntity {
   @OneToMany(mappedBy = "coaching")
   private List<VideoCoaching> videoCoachings = new ArrayList<>();
 
-  @Column(length = 100)
+  @Column
   private Integer price;
 
   // RAW HTML로 들어온 해당 코칭에 대한 설명 페이지
