@@ -169,6 +169,7 @@ export default {}
 </script>
 
 <style scoped>
+
 .all {
   display: flex;
   justify-content: center;

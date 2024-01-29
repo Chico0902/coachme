@@ -102,6 +102,8 @@ const clickCategory = (index) => {
         <div class="mainpage">
           <!-- 코칭 목록과 채팅 버튼-->
           <SearchCoachingList :coaching="coaching"></SearchCoachingList>
+        </div>
+        <div class="chat-button">
           <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
           </chatButton>
         </div>
@@ -161,6 +163,14 @@ const clickCategory = (index) => {
   background-color: #fcbf17;
   color: #034c8c;
   text-align: center;
+}
+
+.chat-button {
+  position:fixed;
+  bottom:60px;
+  right:14vw;
+  color:#FFF;
+  text-align:center;
 }
 </style>
 

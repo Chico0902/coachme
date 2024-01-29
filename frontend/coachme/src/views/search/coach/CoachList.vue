@@ -17,31 +17,31 @@ const SideButtonList = [[
   { name: 'Furniture' },
   { name: 'Lifestyle' },
   { name: 'Design' },
-  { name : 'Etc'},
+  { name: 'Etc' },
 ], [
   { name: 'Cocking' },
   { name: 'Knitting' },
   { name: 'Art' },
   { name: 'Beauty' },
-  { name : 'Etc'},
+  { name: 'Etc' },
 ], [
   { name: 'Soccer' },
   { name: 'Basketball' },
   { name: 'Tennis' },
   { name: 'Golf' },
-  { name : 'Etc'},
+  { name: 'Etc' },
 ], [
   { name: 'Frontend' },
   { name: 'Backend' },
   { name: 'Database' },
   { name: 'Devops' },
-  { name : 'Etc'},
+  { name: 'Etc' },
 ], [
   { name: 'Yoga' },
   { name: 'Weight' },
   { name: 'Running' },
   { name: 'Crossfit' },
-  { name : 'Etc'},
+  { name: 'Etc' },
 ],]
 // 선택한 카테고리에 따라 변경될 사이드 메뉴 리스트, 소뷴류
 
@@ -70,6 +70,8 @@ const clickCategory = (index) => {
         <div class="mainpage">
           <!-- 코치 리스트와 채팅 버튼 -->
           <CoachCardList style="margin-left: 7vw;"></CoachCardList>
+        </div>
+        <div class="chat-button">
           <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
           </chatButton>
         </div>
@@ -123,12 +125,18 @@ const clickCategory = (index) => {
   text-align: center;
   flex-direction: row;
 }
-
 .footer {
   height: 10vh;
   background-color: #fcbf17;
   color: #034c8c;
   text-align: center;
+}
+.chat-button {
+  position:fixed;
+  bottom:60px;
+  right:14vw;
+  color:#FFF;
+  text-align:center;
 }
 </style>
 

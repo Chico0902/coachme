@@ -39,7 +39,7 @@ const reset = () => {
 
 <template>
   <!-- dm 버튼 -->
-  <q-btn round size="30px" color="amber-7" icon="chat" @click="reset">
+  <q-btn round size="20px" color="amber-7" icon="chat" @click="reset">
     <!-- dm 영역 -->
     <q-menu style="max-height: 400px; max-width: 400px;" v-model="showChat">
       <div class="row no-wrap q-pa-md">
@@ -51,4 +51,5 @@ const reset = () => {
   </q-btn>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
