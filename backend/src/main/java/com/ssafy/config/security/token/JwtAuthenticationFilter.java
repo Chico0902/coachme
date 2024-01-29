@@ -43,7 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (Arrays.asList(
             "/api/auth/login",
             "/api/members",
-            "/api/members/duplicate/id"
+            "/api/members/duplicate/id",
+            "/api/members/privileges/elevations"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;

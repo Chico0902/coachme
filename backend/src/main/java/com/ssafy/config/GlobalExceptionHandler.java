@@ -1,6 +1,7 @@
 package com.ssafy.config;
 
 import com.ssafy.dto.ExceptionDto;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,6 +18,12 @@ public class GlobalExceptionHandler {
     // [400]잘못된 요청일때(validate 시 null이거나, 빈칸 등)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ExceptionDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return new ResponseEntity<>(new ExceptionDto(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    // [400]Entity를 PK로 조회시 찾을 수 없을 때
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<ExceptionDto> handleEntityNotFoundException(EntityNotFoundException e) {
         return new ResponseEntity<>(new ExceptionDto(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 

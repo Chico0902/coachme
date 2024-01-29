@@ -1,5 +1,6 @@
 package com.ssafy.api.member.service;
 
+import com.ssafy.api.member.dto.request.ElevationRequestDto;
 import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.api.member.mapper.MemberMapper;
@@ -8,6 +9,7 @@ import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +26,7 @@ public class MemberService {
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   /**
-   * TODO 회원정보 요청을 받아서 비밀번호를 암호화하고 Member 엔티티로 저장
+   * 회원정보 요청을 받아서 비밀번호를 암호화하고 Member 엔티티로 저장
    */
   public void regist(MemberRegistRequestDto dto) {
 
@@ -43,7 +45,7 @@ public class MemberService {
 
 
   /**
-   * TODO 회원정보 수정 요청을 받아서 비밀번호를 검증하고 회원정보 수정
+   * 회원정보 수정 요청을 받아서 비밀번호를 검증하고 회원정보 수정
    */
   public void modify(Long longId, MemberInfoChangeRequestDto dto) {
 
@@ -59,6 +61,20 @@ public class MemberService {
   }
 
   /**
+   * id와 htmlDocs를 입력받아서 해당 id의 멤버의 포트폴리오 업데이트 및 권한상승 요청리스트에 추가
+   */
+  public void requestElevation(ElevationRequestDto dto) {
+
+    // 멤버 찾기
+    Member memberInDB = memberRepository.getReferenceById(dto.getLongId());
+
+      // 포트폴리오 업데이트, 권한상승 요청리스트에 추가
+    memberInDB.elevateRequest(dto.getHtmlDocs());
+
+    log.info("계정 권한상승 요청 성공");
+  }
+
+  /**
    * 아이디를 입력받아서 해당 아이디가 사용중인지 검증
    * @return true : 아이디 사용중 / false : 사용가능
    */
@@ -70,4 +86,6 @@ public class MemberService {
     if (membersInDB == null || membersInDB.isEmpty()) return false;
     return true;
   }
+
+
 }
