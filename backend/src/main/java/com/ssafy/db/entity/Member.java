@@ -63,7 +63,7 @@ public class Member extends BaseEntity implements UserDetails  {
   @JoinColumn(name = "profile_image_id")
   private File profileImage;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "portfolio_id")
   private Portfolio portfolio;
 
@@ -103,6 +103,12 @@ public class Member extends BaseEntity implements UserDetails  {
     this.status = MemberStatus.MODIFIED;
     this.nickName = nickName;
     this.email = email;
+  }
+
+  // 코치 등록 시 권한상승 리스트에 추가한다.
+  public void elevateRequest(String newHtmlDocs) {
+    this.isElevated = true;
+    this.portfolio = new Portfolio(newHtmlDocs);
   }
 
   // 연관관계 편의 메서드

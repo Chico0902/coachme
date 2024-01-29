@@ -1,5 +1,6 @@
 package com.ssafy.api.member.controller;
 
+import com.ssafy.api.member.dto.request.ElevationRequestDto;
 import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
 import com.ssafy.dto.MessageDto;
 import com.ssafy.api.member.dto.request.MemberDuplicateRequestDto;
@@ -33,6 +34,21 @@ public class MemberController {
       // 정상 등록완료(200)
       return new ResponseEntity<>(new MessageDto("Member registered successfully"), HttpStatus.CREATED);
   }
+
+    /**
+     * [member-4] 회원정보 권한 상승 요청 시, 유효한 요청인지 확인 후 권한 상승 목록에 추가한다.
+     * privilege : 1
+     * @return [200] 정상 등록완료
+     */
+    @PostMapping("privileges/elevations")
+    public ResponseEntity<MessageDto> updateMemberToElevations(@RequestBody @Validated ElevationRequestDto dto) throws Exception {
+
+        // 회원 등록(service)
+        memberService.requestElevation(dto);
+
+        // 정상 등록완료(200)
+        return new ResponseEntity<>(new MessageDto("Member request elevation successfully finished"), HttpStatus.OK);
+    }
 
     /**
      * [member-6] 회원정보 수정 시 입력한 비밀번호를 검증한 후, 회원정보 변경
