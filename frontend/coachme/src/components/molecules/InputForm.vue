@@ -39,7 +39,7 @@ const inputData = () => {
 
 <template>
   <div id="input">
-    <inputs hide-bottom-space style="width: 100%" @update-data="updateData"></inputs>
+    <inputs hide-bottom-space autogrow style="width: 100%" @update-data="updateData"></inputs>
     <buttons
       style="height: 56px;"
       icon="send"
