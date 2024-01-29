@@ -39,8 +39,7 @@ const getData = computed(() =>
 <template>
   <div>
     <q-card v-for="(coaching, index) in getData" :key="index"
-      style="margin-bottom: 3vh; min-width: 50vw; min-height:17vh;
-      background-color: #f9efd3;" rounded>
+      style="margin-bottom: 3vh; min-width: 50vw; min-height:17vh;" rounded>
       <q-item>
         <!-- 프로필 사진 -->
         <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 2vh; margin-right: 2vw;">
@@ -74,7 +73,7 @@ const getData = computed(() =>
               <!-- 강의 신청과 문의하기 버튼 섹션-->
               <div>
                 <buttons label="강의 신청" style="margin-right: 1vw; background-color: #004C98; color: white;"></buttons>
-                <buttons label="문의하기" style="background-color: white;" @click="requestDm()"></buttons>
+                <buttons label="문의하기" style="background-color: #FCBF17;" @click="requestDm()"></buttons>
               </div>
             </q-item-section>
           </q-item-section>
