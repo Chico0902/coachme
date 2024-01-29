@@ -1,19 +1,12 @@
 import { defineStore } from 'pinia'
 
-export const useAuthStore = defineStore('auth', {
+export const useMemberStore = defineStore('member', {
   state: () => {
     return {
-      accessToken: '',
-      refreshToken: ''
+      longId: Number,
+      stringId: '',
+      name: '',
+      privilege: ''
     }
-  },
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        storage: sessionStorage,
-        paths: ['accessToken', 'refreshToken']
-      }
-    ]
   }
 })
