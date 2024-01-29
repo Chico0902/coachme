@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findByStringId(String stringId);
+    List<Member> findByIsElevatedTrue();
 
 }
