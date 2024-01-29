@@ -128,9 +128,15 @@ const confirm = (id) => {
       // API 호출 실패 시 오류메시지 콘솔에 출력
       (fail) => {
         console.log(fail)
-        alert.value = true
-        alertIcon.value = 'warning'
-        alertMessage.value = '이미 사용중인 아이디입니다. 다른 아이디를 사용하세요.'
+        if (fail.response.status === 409) {
+          alert.value = true
+          alertIcon.value = 'warning'
+          alertMessage.value = '이미 사용중인 아이디입니다. 다른 아이디를 사용하세요.'
+        } else {
+          alert.value = true
+          alertIcon.value = 'warning'
+          alertMessage.value = '잘못된 요청입니다.'
+        }
       }
     )
     // 검증 실패 시 오류메시지 출력
