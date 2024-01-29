@@ -43,7 +43,7 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue';
           <ChatBox></ChatBox>
         </div>
         <div class="chat-button">
-          <ChatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
+          <ChatButton style="width: 50px; height: 50px;">
           </ChatButton>
         </div>
       </div>
@@ -119,7 +119,6 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue';
   position:fixed;
   bottom:13vh;
   right:14vw;
-  color:#FFF;
   text-align:center;
 }
 

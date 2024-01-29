@@ -44,4 +44,5 @@ const lastDate = ref("최종 수정 일시 : " + lastEdit.value)
   width: 100%;
   max-width: max-content;
 }
+
 </style>

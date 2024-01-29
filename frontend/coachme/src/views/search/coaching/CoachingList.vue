@@ -111,7 +111,7 @@ const clickCategory = (index) => {
           <SearchCoachingList :coaching="coaching"></SearchCoachingList>
         </div>
         <div class="chat-button">
-          <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
+          <chatButton style="width: 50px; height: 50px;">
           </chatButton>
         </div>
       </div>
@@ -160,9 +160,17 @@ const clickCategory = (index) => {
   margin-top: 5vh;
   margin-bottom: 5vh;
   border-radius: 1.5rem;
+  overflow: scroll;
   display: flex;
   text-align: center;
   flex-direction: row;
+}
+
+.mainpage{
+  -ms-overflow-style: none;
+}
+.mainpage::-webkit-scrollbar{
+  display:none;
 }
 
 .footer {

@@ -21,7 +21,7 @@ const chatLabel = ref(coach.value + "님께 문의해보세요.")
         <q-item-section>
           <div class="buttons card-padding" >
             <Like></Like>
-            <CustomButton style="width: 100px; height: 20px" @click="requestDm">채팅하기</CustomButton>
+            <CustomButton style="width: 100px; height: 20px" @click="requestDm()">채팅하기</CustomButton>
           </div>
         </q-item-section>
       </q-item-section>

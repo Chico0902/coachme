@@ -68,11 +68,12 @@ const clickCategory = (index) => {
         <!-- 사이드메뉴 -->
         <MypageSidebar :button-list="selectedCategory" />
         <div class="mainpage">
-          <!-- 코치 리스트와 채팅 버튼 -->
+          <!-- 코치 리스트 -->
           <CoachCardList style="margin-left: 7vw;"></CoachCardList>
         </div>
+        <!-- 채팅 버튼 -->
         <div class="chat-button">
-          <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
+          <chatButton style="width: 50px; height: 50px;">
           </chatButton>
         </div>
       </div>
@@ -118,9 +119,10 @@ const clickCategory = (index) => {
   width: 80%;
   height: 70vh;
   margin: auto;
-  margin-top: 0.5vh;
+  margin-top: 5vh;
   margin-bottom: 5vh;
   border-radius: 1.5rem;
+  overflow: scroll;
   display: flex;
   text-align: center;
   flex-direction: row;
