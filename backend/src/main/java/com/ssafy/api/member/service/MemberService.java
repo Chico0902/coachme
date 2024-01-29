@@ -3,17 +3,15 @@ package com.ssafy.api.member.service;
 import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.api.member.mapper.MemberMapper;
-import com.ssafy.db.repository.MemberRepository;
+import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service

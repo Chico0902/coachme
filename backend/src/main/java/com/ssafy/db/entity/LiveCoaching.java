@@ -19,6 +19,6 @@ public class LiveCoaching extends BaseEntity {
   @JoinColumn(name = "coame_coaching_id")
   private CoameCoaching coameCoaching;
 
-  @Column(name = "coaching_date", nullable = false) //? null 가능한지
-  private LocalDateTime coachingDate; //?BaseEntity 추가
+  @Column(name = "coaching_date", nullable = false)
+  private LocalDateTime coachingDate;
 }
