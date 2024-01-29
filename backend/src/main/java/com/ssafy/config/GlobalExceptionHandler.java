@@ -44,4 +44,9 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ExceptionDto> handleInternalServerException(Exception e) {
         return new ResponseEntity<>(new ExceptionDto(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    protected ResponseEntity<ExceptionDto> handleIllegalStateException(Exception e) {
+        return new ResponseEntity<>(new ExceptionDto(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }

@@ -111,6 +111,13 @@ public class Member extends BaseEntity {
     this.portfolio = new Portfolio(newHtmlDocs);
   }
 
+  // 권한 상승 요청시, 권한을 1에서 2로 수정한다.
+  public void elevatePermissionRequest() {
+    this.isElevated = false;
+    this.privilege = Privilege.COACH;
+    this.status = MemberStatus.MODIFIED;
+  }
+
   // 연관관계 편의 메서드
 
 
