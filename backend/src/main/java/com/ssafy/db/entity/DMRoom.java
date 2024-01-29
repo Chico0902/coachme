@@ -10,7 +10,7 @@ public class DMRoom {
   @Id
   @GeneratedValue
   @Column(name = "dmroom_id")
-  private Long dmroomId;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "coame_member_id")
