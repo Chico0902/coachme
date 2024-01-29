@@ -35,8 +35,6 @@ const inputData = () => {
   emit('inputData', data)
 } // input에서 입력한 입력 데이터
 
-const color = 'gray'
-const background = '#FFFFFF'
 </script>
 
 <template>
@@ -45,8 +43,8 @@ const background = '#FFFFFF'
     <buttons
       style="height: 56px;"
       icon="send"
-      :background="background"
-      :color="color"
+      :background="props.background"
+      :color="props.color"
       @click="inputData"
     ></buttons>
   </div>
@@ -57,7 +55,7 @@ const background = '#FFFFFF'
 #input {
   display: flex;  
   width: 340px;
-  margin-bottom: 0px;
+  padding-bottom: 0px;
 }
 
 </style>

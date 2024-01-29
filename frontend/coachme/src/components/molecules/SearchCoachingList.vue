@@ -3,6 +3,7 @@
 coaching : 코칭 정보. object. 기본 값 없음
 
 object에 필용한 정보 : 코칭 이름, 별점, 프로필 사진 주소
+coachId : 코치의 id ->
 coachingName : 코칭 이름
 rating : 별점
 img : 프로필 사진 주소
