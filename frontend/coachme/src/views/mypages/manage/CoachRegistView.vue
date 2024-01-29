@@ -1,17 +1,38 @@
 <script setup>
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
+import { requestElevation } from '@/utils/api/member-api'
+import { ElevationRequestDto } from '@/utils/api/dto/member-dto'
+import { useMemberStore } from '@/stores/member'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 
 const color = '#fcbf17'
 const label = '등록하기'
 const textcolor = 'black'
+const memberStore = useMemberStore()
+const { longId } = storeToRefs(memberStore)
+const contentHTML = ref('')
 
 /**
  * 차후 등록하기 API추가
  * 이미지/영상 파일 업로드 시 해당 업로드파일 저장하는 로직도 추가
  */
 const regist = () => {
-  alert('등록 완료!(아직 등록 API 미구현)')
+  longId.value = 1
+  const dto = new ElevationRequestDto(longId.value, contentHTML.value)
+  console.log(dto)
+  requestElevation(
+    dto,
+    (success) => {
+      console.log(success)
+      alert('등록 완료!')
+    },
+    (fail) => {
+      console.log(fail)
+      alert('등록 실패!')
+    }
+  )
 }
 </script>
 <template>
@@ -24,7 +45,7 @@ const regist = () => {
       <div class="editor-detail">
         아래 양식에 본인의 포트폴리오를 작성해서 제출하세요. 관리자의 승인 후 코칭 활동이 시작됩니다.
       </div>
-      <QuillEditor theme="snow" />
+      <QuillEditor theme="snow" v-model:content="contentHTML" contentType="html" />
     </div>
   </div>
   <div class="btn-container">
