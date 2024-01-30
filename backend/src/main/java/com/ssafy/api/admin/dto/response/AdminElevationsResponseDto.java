@@ -1,11 +1,7 @@
 package com.ssafy.api.admin.dto.response;
 
 import com.ssafy.db.entity.Member;
-import com.ssafy.db.entity.Portfolio;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class AdminElevationsResponseDto {

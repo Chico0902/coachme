@@ -29,7 +29,7 @@ public class AdminService {
   public List<AdminElevationsResponseDto> getRequestedElevationList() throws EntityNotFoundException {
 
     // db에서 찾은 멤버
-    List<Member> membersInDB = memberRepository.findByIsElevatedTrue();
+    List<Member> membersInDB = memberRepository.findByIsElevatedTrue(); // bach fetch = 50
     if (membersInDB == null || membersInDB.isEmpty()) throw new EntityNotFoundException();
     List<AdminElevationsResponseDto> list = new ArrayList<>();
     for (Member memberInDB : membersInDB) {

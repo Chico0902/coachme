@@ -39,6 +39,8 @@ public class MemberService {
     // member 상태와 권한 초기화
     member.initMemberPrivilegeAndStatus();
 
+    log.info(member.getEmail());
+
     // member 저장
     memberRepository.save(member);
   }
