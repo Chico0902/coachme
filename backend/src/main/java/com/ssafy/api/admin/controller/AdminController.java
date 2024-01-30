@@ -1,10 +1,14 @@
 package com.ssafy.api.admin.controller;
 
+import com.ssafy.api.admin.dto.request.AdminElevateRequestDto;
 import com.ssafy.api.admin.dto.response.AdminElevationsResponseDto;
 import com.ssafy.api.admin.service.AdminService;
+import com.ssafy.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -32,4 +36,18 @@ public class AdminController {
     // 정상 등록완료(200)
     return ResponseEntity.ok(response);
   }
+
+  /**
+   * [admin-3] 해당 아이디의 권한을 1에서 2로 상승
+   * privilege : 3
+   * @return [200] 정상 요청완료
+   */
+  @PatchMapping("/privileges/elevations")
+  public ResponseEntity<MessageDto> showElevationList(@Validated @RequestBody AdminElevateRequestDto dto) throws Exception{
+    // 권한 요청 등록(service)
+    adminService.requestElevatePermission(dto);
+
+    return new ResponseEntity<>(new MessageDto("Permission elevation request successfully completed"), HttpStatus.OK);
+  }
 }
+
