@@ -39,11 +39,12 @@ const login = (id, pw) => {
 
     // 검증 끝나면 dto 생성 후 API 호출
     const dto = new LoginRequestDto(id, pw)
+    console.log(dto)
     postLoginRequest(
       dto,
       (success) => {
-        accessToken.value = success.data.data.accessToken
-        refreshToken.value = success.data.data.refreshToken
+        accessToken.value = success.data.accessToken
+        refreshToken.value = success.data.refreshToken
         alert('로그인 성공')
         router.push('/')
       },

@@ -1,4 +1,5 @@
 <script setup>
+<<<<<<< HEAD
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import CoachDetailCard from '@/components/molecules/CoachDetailCard.vue';
 import ChatBox from '@/components/molecules/ChatBox.vue';
@@ -51,10 +52,19 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue';
   </div>
 
   <div class="footer">
+=======
+
+</script>
+
+<template>
+  <div>
+    
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
   </div>
 </template>
 
 <style scoped>
+<<<<<<< HEAD
 .all {
   display: flex;
   justify-content: center;
@@ -137,4 +147,7 @@ h2 {
   color: #034c8c;
   text-align: center;
 }
+=======
+
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
 </style>

@@ -2,7 +2,7 @@
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import CustomInput from '@/components/atoms/CustomInput.vue'
 import ProfileImage from '@/components/atoms/ProfileImage.vue'
-import { validatePassword, validateName, validateNickName } from '@/utils/functions/member'
+import { validatePassword, validateNickName } from '@/utils/functions/member'
 import { patchMemberInfo } from '@/utils/api/member-api'
 import { MemberInfoChangeRequestDto } from '@/utils/api/dto/member-dto'
 import { computed, ref } from 'vue'
@@ -11,14 +11,13 @@ import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 // variables
 const openModal = ref(false)
 const pw = ref('')
-const name = ref('')
 const nick = ref('')
 const email = ref('')
 
 // token에서 받아옴
 const token = decodeToken(getAccessToken())
-const stringId = token.id
-const longId = token.id
+const stringId = token.sub
+const longId = token.longId
 
 // methods
 
@@ -28,30 +27,27 @@ const isValidPassword = computed(() => {
   return validatePassword(pw.value)
 })
 
-// 이름 검증
-const isValidName = computed(() => {
-  if (name.value === '') return true
-  return validateName(name.value)
-})
-
 // 닉네임 검증
 const isValidNickName = computed(() => {
   if (nick.value === '') return true
   return validateNickName(nick.value)
 })
 
-const changeMemberInfo = (id, name, nick, email) => {
+const changeMemberInfo = (pw, nick, email) => {
   try {
     // dto 생성 및 호출
-    const dto = new MemberInfoChangeRequestDto(id, name, nick, email)
+    const dto = new MemberInfoChangeRequestDto(pw, nick, email)
     patchMemberInfo(
+      longId,
       dto,
       (success) => {
         alert(success.data.message)
         window.location.reload()
       },
       // API 호출 실패 시 오류메시지 콘솔에 출력
-      (fail) => console.log(fail)
+      (fail) => {
+        console.log(fail)
+      }
     )
     // 검증 실패 시 오류메시지 출력
   } catch (e) {
@@ -72,17 +68,7 @@ const changeMemberInfo = (id, name, nick, email) => {
     </div>
     <div class="detail-member-info">
       <h6 class="detail-member-info-id">{{ stringId }}</h6>
-      <div class="detail-member-info-input">
-        <q-input
-          standout="bg-teal text-white"
-          v-model="name"
-          label="이름"
-          hint="한글만 가능합니다."
-          error-message="한글을 제외한 문자는 입력할 수 없습니다."
-          :error="!isValidName"
-          maxlength="10"
-        />
-      </div>
+
       <div class="detail-member-info-input">
         <q-input
           standout="bg-teal text-white"
@@ -136,7 +122,7 @@ const changeMemberInfo = (id, name, nick, email) => {
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="수정하기" color="primary" @click="changeMemberInfo(longId, name, nick, email)" />
+        <q-btn flat label="수정하기" color="primary" @click="changeMemberInfo(pw, nick, email)" />
         <q-btn flat label="취소" color="primary" v-close-popup />
       </q-card-actions>
     </q-card>

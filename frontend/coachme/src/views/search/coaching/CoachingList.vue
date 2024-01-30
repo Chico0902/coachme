@@ -47,37 +47,58 @@ const SideButtonList = [[
 
 const coaching = reactive([
   {
+<<<<<<< HEAD
     coachId: "1",
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     coachingName: "title one",
     rating: "4.7",
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
   }, {
+<<<<<<< HEAD
     coachId: "2",
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     coachingName: "title two",
     rating: "4.6",
     img: "https://cdn.quasar.dev/img/avatar2.jpg"
   }, {
+<<<<<<< HEAD
     coachId: "3",
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     coachingName: "title three",
     rating: "4.5",
     img: "https://cdn.quasar.dev/img/avatar3.jpg"
   }, {
+<<<<<<< HEAD
     coachId: "4",
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     coachingName: "title four",
     rating: "3.9",
     img: "https://cdn.quasar.dev/img/avatar4.jpg"
   }, {
+<<<<<<< HEAD
     coachId: "5",
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     coachingName: "title five",
     rating: "4",
     img: "https://cdn.quasar.dev/img/avatar5.jpg"
   }, {
+<<<<<<< HEAD
     coachId: "6",
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     coachingName: "title six",
     rating: "4.9",
     img: "https://cdn.quasar.dev/img/avatar6.jpg"
   }, {
+<<<<<<< HEAD
     coachId: "1",
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     coachingName: "title seven",
     rating: "4.1",
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
@@ -111,7 +132,11 @@ const clickCategory = (index) => {
           <SearchCoachingList :coaching="coaching"></SearchCoachingList>
         </div>
         <div class="chat-button">
+<<<<<<< HEAD
           <chatButton style="width: 50px; height: 50px;">
+=======
+          <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
           </chatButton>
         </div>
       </div>
@@ -160,12 +185,16 @@ const clickCategory = (index) => {
   margin-top: 5vh;
   margin-bottom: 5vh;
   border-radius: 1.5rem;
+<<<<<<< HEAD
   overflow: scroll;
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
   display: flex;
   text-align: center;
   flex-direction: row;
 }
 
+<<<<<<< HEAD
 .mainpage{
   -ms-overflow-style: none;
 }
@@ -173,6 +202,8 @@ const clickCategory = (index) => {
   display:none;
 }
 
+=======
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
 .footer {
   height: 10vh;
   background-color: #fcbf17;
