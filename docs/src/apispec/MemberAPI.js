@@ -95,14 +95,14 @@ export default {
       id: 'member-4',
       spec: '1-5',
       method: 'POST',
-      uri: '/members/privileges/elevataions',
+      uri: '/members/privileges/elevations',
       privilege: '1',
       description: '회원정보 권한 상승 요청 시, 유효한 요청인지 확인 후 권한 상승 목록에 추가한다.',
       request: {
         name: 'ElevationRequestDto',
         data: {
-          LongId: 'Long',
-          message: 'String'
+          longId: 'Long',
+          htmlDocs: 'String'
         }
       },
       response: {
