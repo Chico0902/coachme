@@ -1,48 +1,85 @@
 <script setup>
-<<<<<<< HEAD
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import CoachDetailCard from '@/components/molecules/CoachDetailCard.vue';
 import ChatBox from '@/components/molecules/ChatBox.vue';
 import DetailTopBar from '@/components/molecules/DetailTopBar.vue';
 import ChatButton from '@/components/molecules/ChatButton.vue';
 import Reviews from '@/components/molecules/ReviewDetailCard.vue';
+import { ref } from 'vue'
+
+const coachings = ["soccer", "soccer2", "football"]
+
+const name = ref("고코치")
+const ratingModel = ref(4.3)
+const review = ref(124)
+const lastEdit = ref("2024. 01. 29")
+
+const reviews = [{
+  name : "고양이",
+  reviewDate : "2024/01/30 11:26 AM", 
+  ratingModel : 4.5,
+  review : "좋은 강의입니다."
+}, {
+  name : "고코미",
+  reviewDate : "2024/01/30 02:50 PM", 
+  ratingModel : 4.0,
+  review : "마음에 들었습니다."
+}]
+
 </script>
 
 <template>
   <!-- nav -->
   <div class="nav-bar">
-    <navbar />
+    <navbar></navbar>
   </div>
   <div class="all">
     <div class="main-layout">
       <div class="mypage-outside">
         <div class="mainpage">
           <div class="profile">
-            <CoachDetailCard></CoachDetailCard>
+            <!-- 코치 상세 정보 -->
+            <CoachDetailCard :coach="name" :rating-model="ratingModel" :review-count="review" :last-edit-date="lastEdit"></CoachDetailCard>
             <q-separator></q-separator>
-
+        
+            <!-- 코치 포트폴리오 중단 메뉴 -->
             <div class="portfolio-menu">
               <DetailTopBar></DetailTopBar>
             </div>
 
+            <!-- 코치 소개. 직접 작성한 부분이 이곳에 들어감 -->
             <div class="coach-introduction">
               <h2>코치 소개</h2>
             </div>
+
             <q-separator></q-separator>
+
+            <!-- 제공 코칭 목록 -->
             <div class="coaching-category">
               <h2>제공 코칭</h2>
+              <div style="margin-left: 0.8vw;">
+                <q-chip icon="book" class="row no-wrap items-center" v-for="coaching in coachings" :key="coaching">
+                  {{ coaching }}
+                </q-chip> 
+              </div>
             </div>
+
             <q-separator></q-separator>
+
+            <!-- 리뷰 -->
             <div class="coach-review">
               <h2>리뷰</h2>
-              <Reviews></Reviews>
+              <Reviews :reviews="reviews" :rating-model="ratingModel" v-bind:review-count="review"></Reviews>
             </div>
             
           </div>
         </div>
+        <!-- 우측 안내창 -->
         <div class="chat-box">
-          <ChatBox></ChatBox>
+          <ChatBox :coach="name"></ChatBox>
         </div>
+
+        <!-- 채팅 플로팅 버튼 -->
         <div class="chat-button">
           <ChatButton style="width: 50px; height: 50px;">
           </ChatButton>
@@ -52,19 +89,10 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue';
   </div>
 
   <div class="footer">
-=======
-
-</script>
-
-<template>
-  <div>
-    
->>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
   </div>
 </template>
 
 <style scoped>
-<<<<<<< HEAD
 .all {
   display: flex;
   justify-content: center;
@@ -121,8 +149,8 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue';
 
 .chat-box {
   max-height: fit-content;
-  padding-top: 30vh;
-  padding-right: 3vw;
+  margin-top: 30vh;
+  margin-right: 3vw;
 }
 
 .chat-button {
@@ -137,8 +165,17 @@ h2 {
   font-size: 1.5rem;
   padding: 0;
   margin: 0;
-  padding-left: 1vw;
+  margin-left: 1vw;
   text-align: left;
+}
+
+.coaching-category {
+  text-align: left;
+  margin-bottom: 2vh;
+}
+
+.coach-review {
+  
 }
 
 .footer {
@@ -147,7 +184,4 @@ h2 {
   color: #034c8c;
   text-align: center;
 }
-=======
-
->>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
 </style>
