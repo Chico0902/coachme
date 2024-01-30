@@ -23,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Member extends BaseEntity implements UserDetails  {
+public class Member extends BaseEntity {
 
   @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "member_id")
@@ -113,31 +113,14 @@ public class Member extends BaseEntity implements UserDetails  {
     this.portfolio = new Portfolio(newHtmlDocs);
   }
 
+  // 권한 상승 요청시, 권한을 1에서 2로 수정한다.
+  public void elevatePermissionRequest() {
+    this.isElevated = false;
+    this.privilege = Privilege.COACH;
+    this.status = MemberStatus.MODIFIED;
+  }
+
   // 연관관계 편의 메서드
 
-  // 스프링 시큐리티 설정파일
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
-  }
-  @Override
-  public String getUsername() {
-    return stringId;
-  }
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
-  @Override
-  public boolean isEnabled() {
-    return true;
-  }
+
 }
