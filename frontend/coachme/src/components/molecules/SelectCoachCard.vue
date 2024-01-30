@@ -63,14 +63,22 @@ watch(() => stars.value, (newState) => {
   </q-item>
 
   <!-- 코치 이름 영역 -->
+<<<<<<< HEAD
   <q-item style="padding-top: -1vh;">
+=======
+  <q-item style="margin-top: -1vh;">
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     <q-item-section>
       <labels :label="`${props.name}`" class="text-black text-bold" style="padding: -2vw;"></labels>
     </q-item-section>
   </q-item>
 
   <!-- 제공 코칭과 별점 영역-->
+<<<<<<< HEAD
   <q-item class="justify-evenly" style="padding-top: -1vh;">
+=======
+  <q-item class="justify-evenly" style="margin-top: -1vh;">
+>>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
     <!-- 제공 코칭 -->
     <q-item-section style="min-width: fit-content;">
       <labels :label="`${props.category}`" class="text-black text-bold"></labels>
