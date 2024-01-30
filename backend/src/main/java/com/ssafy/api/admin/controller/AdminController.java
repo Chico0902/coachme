@@ -29,7 +29,7 @@ public class AdminController {
    * @return [200] 정상 조회완료
    */
   @GetMapping("/privileges/elevations")
-  public ResponseEntity<Map<String, List<AdminElevationsResponseDto>>> showElevationList() throws Exception {
+  public ResponseEntity<?> showElevationList() throws Exception {
     Map<String, List<AdminElevationsResponseDto>> response = new HashMap<>();
     // 코치 상승요청 리스트 담기(service)
     response.put("data", adminService.getRequestedElevationList());
@@ -49,5 +49,7 @@ public class AdminController {
 
     return new ResponseEntity<>(new MessageDto("Permission elevation request successfully completed"), HttpStatus.OK);
   }
+
+
 }
 
