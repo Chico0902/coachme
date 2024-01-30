@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class MemberDuplicateRequestDto {
-    @NotBlank
+    @NotBlank()
     private String stringId;
 }
