@@ -49,4 +49,5 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ExceptionDto> handleIllegalStateException(Exception e) {
         return new ResponseEntity<>(new ExceptionDto(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
 }
