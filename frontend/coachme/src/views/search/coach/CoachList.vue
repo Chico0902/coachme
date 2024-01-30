@@ -68,20 +68,12 @@ const clickCategory = (index) => {
         <!-- 사이드메뉴 -->
         <MypageSidebar :button-list="selectedCategory" />
         <div class="mainpage">
-<<<<<<< HEAD
           <!-- 코치 리스트 -->
           <CoachCardList style="margin-left: 7vw;"></CoachCardList>
         </div>
         <!-- 채팅 버튼 -->
         <div class="chat-button">
           <chatButton style="width: 50px; height: 50px;">
-=======
-          <!-- 코치 리스트와 채팅 버튼 -->
-          <CoachCardList style="margin-left: 7vw;"></CoachCardList>
-        </div>
-        <div class="chat-button">
-          <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
->>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
           </chatButton>
         </div>
       </div>
@@ -127,11 +119,7 @@ const clickCategory = (index) => {
   width: 80%;
   height: 70vh;
   margin: auto;
-<<<<<<< HEAD
   margin-top: 2vh;
-=======
-  margin-top: 0.5vh;
->>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
   margin-bottom: 5vh;
   border-radius: 1.5rem;
   overflow: scroll;
@@ -148,11 +136,7 @@ const clickCategory = (index) => {
 .chat-button {
   position:fixed;
   bottom:60px;
-<<<<<<< HEAD
   right:10vw;
-=======
-  right:14vw;
->>>>>>> 920e689cd846e7ad323f9896c270487a4414024c
   color:#FFF;
   text-align:center;
 }
