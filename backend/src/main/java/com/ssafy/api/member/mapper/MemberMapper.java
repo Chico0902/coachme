@@ -1,5 +1,6 @@
 package com.ssafy.api.member.mapper;
 
+import com.ssafy.api.admin.dto.response.AdminElevationsResponseDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
@@ -24,6 +25,7 @@ public interface MemberMapper {
   @Mapping(source = "pw", target = "password")
   @Mapping(source = "nick", target = "nickName")
   Member memberRegistRequestDtoToMember(MemberRegistRequestDto dto);
+
 
 //  @Mapping(source = "stringId", target = "id")
 //  @Mapping(source = "password", target = "pw")
