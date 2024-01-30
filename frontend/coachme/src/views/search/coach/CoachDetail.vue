@@ -119,6 +119,7 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue';
   position:fixed;
   bottom:13vh;
   right:14vw;
+  color:#FFF;
   text-align:center;
 }
 
