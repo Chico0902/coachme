@@ -26,9 +26,6 @@ public interface MemberMapper {
   @Mapping(source = "nick", target = "nickName")
   Member memberRegistRequestDtoToMember(MemberRegistRequestDto dto);
 
-  @Mapping(source = "pw", target = "password")
-  @Mapping(source = "nick", target = "nickName")
-  Member adminElevationsResponseDto(AdminElevationsResponseDto dto);
 
 //  @Mapping(source = "stringId", target = "id")
 //  @Mapping(source = "password", target = "pw")

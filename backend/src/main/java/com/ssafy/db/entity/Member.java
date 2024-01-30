@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -63,7 +64,8 @@ public class Member extends BaseEntity implements UserDetails  {
   @JoinColumn(name = "profile_image_id")
   private File profileImage;
 
-  @OneToOne(cascade = CascadeType.ALL)
+
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "portfolio_id")
   private Portfolio portfolio;
 
