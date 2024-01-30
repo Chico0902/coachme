@@ -23,7 +23,7 @@ public class MemberController {
   /**
    * [member-2] 회원가입 요청 시 해당 정보를 DB에 저장한다.
    * privilege : ALL
-   * @return [200] 정상 등록완료
+   * @return [201] 정상 등록완료
    */
   @PostMapping
   public ResponseEntity<MessageDto> registMember(@RequestBody MemberRegistRequestDto dto) throws Exception {
