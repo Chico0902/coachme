@@ -119,7 +119,7 @@ const clickCategory = (index) => {
   width: 80%;
   height: 70vh;
   margin: auto;
-  margin-top: 5vh;
+  margin-top: 2vh;
   margin-bottom: 5vh;
   border-radius: 1.5rem;
   overflow: scroll;
