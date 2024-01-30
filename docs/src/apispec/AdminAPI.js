@@ -15,13 +15,14 @@ export default {
           description: '모든 회원정보 리스트로 반환',
           code: '200',
           data: {
-            id: 'String',
+            stringId: 'String',
             priv: 'String',
             name: 'String',
             nick: 'String',
             email: 'String',
             cdate: 'LocalDateTime',
-            elev: 'Integer'
+            mdate: 'LocalDateTime',
+            status: 'String'
           }
         },
         fail: {
@@ -52,7 +53,7 @@ export default {
         },
         fail: {
           description: '잘못된 요청',
-          code: '403',
+          code: '400(요청정보 오류), 403(권한 없음)',
           data: { message: 'String' }
         }
       }
@@ -61,7 +62,7 @@ export default {
       id: 'admin-3',
       spec: '2-3',
       method: 'PATCH',
-      uri: '/admin/privileges/elevations/1',
+      uri: '/admin/privileges/elevations',
       privilege: '3',
       description: '해당 아이디의 권한을 1에서 2로 상승시킨다.',
       request: {
@@ -79,7 +80,7 @@ export default {
         },
         fail: {
           description: '잘못된 요청',
-          code: '403',
+          code: '400(요청정보 오류), 403(권한 없음)',
           data: { message: 'String' }
         }
       }

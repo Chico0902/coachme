@@ -2,7 +2,7 @@
   <h1 class="mt-3 mb-3">ER Diagram</h1>
   <hr />
   <div class="container">
-    <img src="../assets/img/erd.png" style="width: 100%" onclick="window.open(this.src)" />
+    <img src="../assets/img/erd2.png" style="width: 100%" onclick="window.open(this.src)" />
   </div>
 </template>
 <style scoped>
