@@ -81,6 +81,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 토큰 만료 시 리프레시 토큰 재요청 전송
     String tokenInHeader = jwtTokenProvider.getTokenInHeader(request);
     if (!(jwtTokenProvider.validateToken(tokenInHeader))) {
+      response.setStatus(405);
       objectMapper.writeValueAsString(new ExceptionDto("Access Token Has Been Expired!"));
       chain.doFilter(request, response);
     }
