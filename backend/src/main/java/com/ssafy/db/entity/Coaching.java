@@ -1,11 +1,13 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class Coaching extends BaseEntity {
   @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coaching_id")

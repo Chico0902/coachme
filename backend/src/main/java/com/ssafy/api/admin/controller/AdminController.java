@@ -1,17 +1,15 @@
 package com.ssafy.api.admin.controller;
 
-import com.ssafy.api.admin.dto.request.AdminElevateRequestDto;
+import com.ssafy.api.admin.dto.response.AdminElevationsResponseDto;
 import com.ssafy.api.admin.service.AdminService;
-import com.ssafy.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -21,46 +19,17 @@ public class AdminController {
 
   private final AdminService adminService;
 
-  // [admin-1] 전체 회원 정보 조회
-//  @GetMapping("/members")
-//  public ResponseEntity<Map<String, Object>> showMemberList() {
-//    Map<String, Object> responseMessage = new HashMap<>();
-//    HttpStatus status;
-//    try {
-//      responseMessage.put("data", adminService.getMemberList());
-//      status = HttpStatus.OK;
-//    } catch (Exception e) {
-//      responseMessage.put("message", "Error !!");
-//      status = HttpStatus.INTERNAL_SERVER_ERROR;
-//    }
-//    return new ResponseEntity<Map<String, Object>>(responseMessage, status);
-//  }
-
-  // [admin-2] 권한 상승 요청한 회원 정보 조회
-//  @GetMapping("/privileges/elevations")
-//  public ResponseEntity<Map<String, Object>> showElevationList() {
-//    Map<String, Object> responseMessage = new HashMap<>();
-//    HttpStatus status;
-//    try {
-//      responseMessage.put("data", adminService.getElevList());
-//      status = HttpStatus.OK;
-//    } catch (Exception e) {
-//      responseMessage.put("message", "Error !!");
-//      status = HttpStatus.INTERNAL_SERVER_ERROR;
-//    }
-//    return new ResponseEntity<Map<String, Object>>(responseMessage, status);
-//  }
-
   /**
-   * [admin-3] 해당 아이디의 권한을 1에서 2로 상승
+   * [admin-2] 권한 상승요청 목록을 조회한다.
    * privilege : 3
-   * @return [200] 정상 요청완료
+   * @return [200] 정상 조회완료
    */
-  @PatchMapping("/privileges/elevations")
-  public ResponseEntity<MessageDto> showElevationList(@Validated @RequestBody AdminElevateRequestDto dto) throws Exception{
-    // 권한 요청 등록(service)
-    adminService.requestElevatePermission(dto);
-
-    return new ResponseEntity<>(new MessageDto("Permission elevation request successfully completed"), HttpStatus.OK);
+  @GetMapping("/privileges/elevations")
+  public ResponseEntity<Map<String, List<AdminElevationsResponseDto>>> showElevationList() throws Exception {
+    Map<String, List<AdminElevationsResponseDto>> response = new HashMap<>();
+    // 코치 상승요청 리스트 담기(service)
+    response.put("data", adminService.getRequestedElevationList());
+    // 정상 등록완료(200)
+    return ResponseEntity.ok(response);
   }
 }
