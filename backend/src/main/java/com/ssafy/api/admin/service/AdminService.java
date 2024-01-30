@@ -1,5 +1,6 @@
 package com.ssafy.api.admin.service;
 
+import com.ssafy.api.admin.dto.request.AdminElevateRequestDto;
 import com.ssafy.api.admin.dto.response.AdminElevationsResponseDto;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
@@ -38,5 +39,11 @@ public class AdminService {
     }
 
     return list;
+  }
+  public void requestElevatePermission(AdminElevateRequestDto dto) {
+    for (int i = 0; i < dto.getId().size(); i++) {
+      Member member = memberRepository.getReferenceById(dto.getId().get(i));
+      member.elevatePermissionRequest();
+    }
   }
 }
