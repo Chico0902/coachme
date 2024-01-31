@@ -7,7 +7,6 @@ import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
 import com.ssafy.db.entity.status.ElevateStatus;
-import com.ssafy.db.entity.status.MemberStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +34,9 @@ public class AdminService {
     return list;
   }
 
+  /**
+   * 권한 상승 요청한 id를 입력받아 권한 상승
+   */
   public void requestElevatePermission(AdminElevateRequestDto dto) {
 
     // DTO를 찾아서 요청 ID를 넣어주고, 결과로 반환
@@ -62,5 +64,4 @@ public class AdminService {
 
     return list;
   }
-
 }

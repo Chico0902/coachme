@@ -1,31 +1,23 @@
 package com.ssafy.config.security.token;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.api.auth.dto.request.RefreshTokenRequestDto;
-import com.ssafy.api.auth.dto.response.TokenResponseDto;
 import com.ssafy.db.entity.Member;
 import com.ssafy.dto.ExceptionDto;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -52,7 +44,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/api/members/duplicate/id",
             "/api/members/privileges/elevations",
             "/api/admin/privileges/elevations",
-            "/api/admin/members"
+            "/api/members/profiles/texts/1",
+            "/api/members/profiles/images/1",
+            "/api/members/getfilesTest",
+            "/api/members/profiles/1"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;

@@ -1,7 +1,7 @@
 package com.ssafy.config.security;
 
-import com.ssafy.db.entity.Member;
 import com.ssafy.api.member.repository.MemberRepository;
+import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
