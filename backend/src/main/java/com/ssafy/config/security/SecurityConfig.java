@@ -5,6 +5,7 @@ import com.ssafy.config.security.token.AccessDeniedHandlerImpl;
 import com.ssafy.config.security.token.JwtTokenProvider;
 import com.ssafy.config.security.token.AuthenticationEntryPointImpl;
 import com.ssafy.config.security.token.JwtAuthenticationFilter;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,9 +32,9 @@ public class SecurityConfig {
 
   private final ObjectMapper objectMapper;
   private final JwtTokenProvider jwtTokenProvider;
-  private final StringRedisTemplate stringRedisTemplate;
   private final AuthenticationEntryPointImpl authenticationEntryPoint;
   private final AccessDeniedHandlerImpl accessDeniedHandler;
+  private final EntityManager entityManager;
 
   @Bean
   public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -61,13 +62,11 @@ public class SecurityConfig {
         .httpBasic(AbstractHttpConfigurer::disable)
 
         // 인증절차 전에 Jwt 토큰으로부터 권한 부여(JwtFilter -> JwtTokenProvider -> UserDetailServiceImpl)
-        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, stringRedisTemplate, objectMapper),
+        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, entityManager),
                 UsernamePasswordAuthenticationFilter.class)
 
         // 요청별 권한 인가
         .authorizeHttpRequests((authorize) -> authorize
-
-
 
                 // 전체 허용할 요청
                 .requestMatchers("/**").permitAll()

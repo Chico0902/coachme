@@ -1,11 +1,14 @@
 package com.ssafy.api.member.mapper;
 
 import com.ssafy.api.admin.dto.response.AdminElevationsResponseDto;
+import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper
 public interface MemberMapper {
@@ -26,6 +29,13 @@ public interface MemberMapper {
   @Mapping(source = "nick", target = "nickName")
   Member memberRegistRequestDtoToMember(MemberRegistRequestDto dto);
 
+  @Mapping(source = "privilege.privilegeCode", target = "priv")
+  @Mapping(source = "nickName", target = "nick")
+  @Mapping(source = "createDate", target = "cdate")
+  @Mapping(source = "modifyDate", target = "mdate")
+  AdminMembersResponseDto memberToAdminMemberResponseDto(Member member);
+
+  List<AdminMembersResponseDto> memberToAdminMemberResponseDto(List<Member> memberList);
 
 //  @Mapping(source = "stringId", target = "id")
 //  @Mapping(source = "password", target = "pw")

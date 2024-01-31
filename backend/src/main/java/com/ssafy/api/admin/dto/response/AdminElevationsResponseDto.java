@@ -15,5 +15,4 @@ public class AdminElevationsResponseDto {
     this.name = member.getName();
     this.portfolio = member.getPortfolio().getHtmlDocs();
   };
-
 }
