@@ -2,10 +2,10 @@ export class AdminElevateRequestDto {
   /**
    * API번호 : member-1
    * 권한상승 요청을 위한 DTO 클래스
-   * @param {*} id
+   * @param {*} ids
    */
   constructor(array) {
-    this.data = []
+    this.ids = []
     this.makeArrayToDto(array)
   }
   /**
@@ -14,7 +14,7 @@ export class AdminElevateRequestDto {
    */
   makeArrayToDto(array) {
     array.forEach((member) => {
-      this.data.push(member.id)
+      this.ids.push(member.longId)
     })
   }
 }
