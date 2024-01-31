@@ -15,6 +15,7 @@ export default {
           description: '모든 회원정보 리스트로 반환',
           code: '200',
           data: {
+            '[List Name]': 'result',
             stringId: 'String',
             priv: 'String',
             name: 'String',
@@ -46,6 +47,7 @@ export default {
           description: '권한 상승정보 리스트로 반환',
           code: '200',
           data: {
+            '[List Name]': 'result',
             id: 'Long(Member PK)',
             name: 'String',
             portfolio: 'String(Raw HTML)'
