@@ -3,8 +3,13 @@ package com.ssafy.config.security.token;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.api.auth.dto.request.RefreshTokenRequestDto;
 import com.ssafy.api.auth.dto.response.TokenResponseDto;
+import com.ssafy.db.entity.Member;
 import com.ssafy.dto.ExceptionDto;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -14,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StreamUtils;
@@ -21,14 +27,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtTokenProvider jwtTokenProvider;
-  private final StringRedisTemplate stringRedisTemplate;
-  private final ObjectMapper objectMapper;
+  private final EntityManager entityManager;
 
   /**
    * 요청으로부터 토큰을 확인해서 권한을 부여하는 메서드
@@ -51,29 +57,43 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
 
-    // 토큰 refresh API일 경우 => 토큰 검증 후 새로운 access token Header에 발급
+    // 애러발생 시 전송되는 Response 정보
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+    ObjectMapper objectMapper = new ObjectMapper();
+    HashMap<String, Object> jsonMap = new HashMap<>();
+
+    // Access Token 재발급 API일 경우 => Refresh Token 검증 후 새로운 Access Token Header에 재발급
     if (request.getRequestURI().equals("/api/auth/refresh")) {
 
       // String Id 세팅해서 Auth에 전송한 결과로 Redis 조회 및 토큰 생성
       String refreshTokenInHeader = jwtTokenProvider.getTokenInHeader(request);
+      String stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();
+      String refreshTokenInRedis = jwtTokenProvider.getRefreshTokenInRedis(stringId);
 
-      // refresh token 유효성 검증
-      if (jwtTokenProvider.validateToken(refreshTokenInHeader)) {
+      // Refresh Token 검증
+      if(refreshTokenInRedis != null && refreshTokenInRedis.equals(refreshTokenInHeader)) {
 
-        // Body에 있는 정보 파싱
-        ServletInputStream inputStream = request.getInputStream();
-        String body = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-        RefreshTokenRequestDto refreshTokenRequestDto = objectMapper.readValue(body, RefreshTokenRequestDto.class);
+        // Access Token 생성을 위한 Repository 조회
+        String jpql = "SELECT m FROM Member m WHERE m.stringId = :stringId";
+        TypedQuery<Member> query = entityManager.createQuery(jpql, Member.class);
+        query.setParameter("stringId", stringId);
+        Member newAccessTokenMember = query.getSingleResult();
+        entityManager.close();
 
         // 새로운 Access Token 발급
-        String newAccessToken = jwtTokenProvider.generateAccessToken(refreshTokenRequestDto);
+        String newAccessToken = jwtTokenProvider.generateAccessToken(newAccessTokenMember);
         response.setHeader(HttpHeaders.AUTHORIZATION, newAccessToken);
-        chain.doFilter(request, response);
-
-        // 인증 처리
-        Authentication auth = jwtTokenProvider.getAuthentication(newAccessToken);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        log.info("인증 객체 권한목록: {}", auth.getAuthorities());
+        response.setStatus(HttpStatus.OK.value());
+        return;
+      }
+      // Refresh Token이 만료되었거나, 저장된 Refresh Token과 다를 경우
+      else {
+        log.error("Refresh Token Expired !");
+        jsonMap.put("data", new ExceptionDto("Refresh Token Expired"));
+        String jsonString = objectMapper.writeValueAsString(jsonMap);
+        response.getWriter().write(jsonString);
         return;
       }
     }
@@ -81,15 +101,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 토큰 만료 시 리프레시 토큰 재요청 전송
     String tokenInHeader = jwtTokenProvider.getTokenInHeader(request);
     if (!(jwtTokenProvider.validateToken(tokenInHeader))) {
-      response.setStatus(405);
-      objectMapper.writeValueAsString(new ExceptionDto("Access Token Has Been Expired!"));
-      chain.doFilter(request, response);
+      log.error("Access Token Expired !");
+      jsonMap.put("data", new ExceptionDto("Access Token Expired"));
+      String jsonString = objectMapper.writeValueAsString(jsonMap);
+      response.getWriter().write(jsonString);
+      return;
     }
 
     // 유효한 토큰이면 인증 객체 생성해서 SecurityContext에 저장 후 다음 필터로 이동
     Authentication auth = jwtTokenProvider.getAuthentication(tokenInHeader);
     SecurityContextHolder.getContext().setAuthentication(auth);
-    log.info("인증 객체 권한목록: {}", auth.getAuthorities());
+    log.info("Authorities : {}", auth.getAuthorities());
 
     chain.doFilter(request, response);
   }

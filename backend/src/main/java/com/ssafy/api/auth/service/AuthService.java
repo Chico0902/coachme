@@ -20,7 +20,6 @@ import java.util.List;
 public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final StringRedisTemplate stringRedisTemplate;
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -43,7 +42,7 @@ public class AuthService {
         );
 
         // Redis에 저장
-//        stringRedisTemplate.opsForValue().set(validateMember.getStringId(), tokenResponseDto.getRefreshToken());
+        jwtTokenProvider.setRefreshTokenInRedis(validateMember.getStringId(), tokenResponseDto.getRefreshToken());
 
         return tokenResponseDto;
     }
