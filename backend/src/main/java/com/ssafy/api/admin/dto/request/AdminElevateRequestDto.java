@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 public class AdminElevateRequestDto {
   @NotEmpty
-  private List<Long> id;
+  private List<Long> ids;
 }
