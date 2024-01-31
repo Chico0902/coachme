@@ -109,8 +109,6 @@ export default {
   align-items: center; /* 세로 중앙 정렬 */
   border-color: black;
   border-bottom: solid 3px;
- 
-
   
 }
 .coaching-img {
