@@ -1,17 +1,11 @@
 package com.ssafy.config.security.token;
 
-import com.ssafy.api.auth.dto.request.RefreshTokenRequestDto;
-import com.ssafy.config.security.UserDetailsImpl;
-import com.ssafy.config.security.UserDetailsServiceImpl;
 import com.ssafy.db.entity.Member;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.apache.http.HttpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

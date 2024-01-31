@@ -1,16 +1,15 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.StringTokenizer;
-
-@EntityListeners(AuditingEntityListener.class)  // ?
 @Entity @Table(name = "Files")
-@Builder @Getter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class File extends BaseEntity {
@@ -40,5 +39,11 @@ public class File extends BaseEntity {
     } catch (StringIndexOutOfBoundsException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일" + this.name + ") 입니다.");
     }
+  }
+
+  public File(Member member, String name, String url) {
+    this.uploader = member;
+    this.name = name;
+    this.url = url;
   }
 }
