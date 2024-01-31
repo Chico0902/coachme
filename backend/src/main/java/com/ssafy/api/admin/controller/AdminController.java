@@ -50,6 +50,5 @@ public class AdminController {
     return new ResponseEntity<>(new MessageDto("Permission elevation request successfully completed"), HttpStatus.OK);
   }
 
-
 }
 

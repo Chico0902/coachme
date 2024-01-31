@@ -69,7 +69,7 @@ public class SecurityConfig {
         .authorizeHttpRequests((authorize) -> authorize
 
                 // 전체 허용할 요청
-                //.requestMatchers("/**").permitAll()
+                .requestMatchers("/**").permitAll()
                 .requestMatchers(
                         "/members",
                         "/members/duplicate/id",
