@@ -8,7 +8,7 @@ const columns = [
     required: true,
     label: '아이디',
     align: 'left',
-    field: (row) => row.id,
+    field: (row) => row.stringId,
     format: (val) => `${val}`,
     sortable: true
   },
