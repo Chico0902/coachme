@@ -62,7 +62,7 @@ public class Member extends BaseEntity {
   private Privilege privilege = Privilege.COAME;  // 생성 시 코미
 
 
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "portfolio_id")
   private Portfolio portfolio;
 
@@ -124,9 +124,12 @@ public class Member extends BaseEntity {
 
   // 프로필 글 등록 요청시, 프로필 글 등록
   public void addProfileImage(String fileName, String url) {
-    System.out.println("여기서 문제?");
     this.profileImage = new File(this, fileName, url);
+  }
 
+  // 포트폴리오 수정 요청시 포트폴리오 수정
+  public void updatePortfolio(String htmldocs) {
+    this.portfolio.uploadHtmlDocs(htmldocs);
   }
 
   // 연관관계 편의 메서드
