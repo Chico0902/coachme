@@ -9,25 +9,20 @@ export default {
       privilege: '0',
       description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {
-        name: 'LoginRequestDto',
-        data: { id: 'String(max : 20)', pw: 'String(max : 30)' }
+        name: '',
+        data: {}
       },
       response: {
-        name: 'LoginResponseDto',
+        name: '',
         success: {
-          description: '로그인 성공',
-          code: '200',
-          data: {
-            LongId: 'Long',
-            privilege: 'String',
-            accessToken: 'String',
-            refreshToken: 'String'
-          }
+          description: '',
+          code: '',
+          data: {}
         },
         fail: {
-          description: '잘못된 로그인 요청',
-          code: '403',
-          data: { message: 'String' }
+          description: '',
+          code: '',
+          data: {}
         }
       }
     },
@@ -78,7 +73,7 @@ export default {
         }
       },
       response: {
-        name: 'changePasswordResponseDto',
+        name: 'MessageDto',
         success: {
           description: '비밀번호 변경 및 임시 비밀번호 발송 완료',
           code: '200',
@@ -106,7 +101,7 @@ export default {
         }
       },
       response: {
-        name: 'ElevationResponseDto',
+        name: 'MessageDto',
         success: {
           description: '권한 상승목록에 추가 완료',
           code: '200',
@@ -152,13 +147,12 @@ export default {
         name: 'MemberInfoChangeRequestDto',
         data: {
           pw: 'String',
-          name: 'String',
           nick: 'String',
           email: 'String'
         }
       },
       response: {
-        name: 'MemberInfoChangeResponseDto',
+        name: 'MessageDto',
         success: {
           description: '기본 회원정보 수정 완료',
           code: '200',
@@ -202,7 +196,7 @@ export default {
       method: 'POST',
       uri: '/members/profiles/texts/{longId}',
       privilege: '1',
-      description: '코치나 코미가 프로필 글을 등록한다.',
+      description: '코치나 코미가 프로필 글을 등록한다.(기존 글 덮어쓰기)',
       request: {
         name: 'ProfileTextRequestDto',
         data: {
@@ -210,7 +204,7 @@ export default {
         }
       },
       response: {
-        name: 'ProfileTextRegistResponseDto',
+        name: 'MessageDto',
         success: {
           description: '프로필 글 등록 완료',
           code: '200',
@@ -235,7 +229,7 @@ export default {
         data: { type: 'FormData' }
       },
       response: {
-        name: 'ProfileImageRegistResponseDto',
+        name: 'MessageDto',
         success: {
           description: '프로필 사진 등록 완료',
           code: '200',
@@ -254,7 +248,7 @@ export default {
       method: 'PATCH',
       uri: '/members/profiles/texts/{longId}',
       privilege: '1',
-      description: '코치나 코미가 프로필 글을 수정한다.',
+      description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {
         name: 'ProfileTextRequestDto',
         data: {
@@ -262,16 +256,16 @@ export default {
         }
       },
       response: {
-        name: 'ProfileTextModifyResponseDto',
+        name: '',
         success: {
-          description: '프로필 글 수정 완료',
-          code: '200',
-          data: { message: 'String' }
+          description: '',
+          code: '',
+          data: { message: '' }
         },
         fail: {
-          description: '잘못된 요청',
-          code: '403',
-          data: { message: 'String' }
+          description: '',
+          code: '',
+          data: { message: '' }
         }
       }
     },
@@ -287,16 +281,16 @@ export default {
         data: { type: 'FormData' }
       },
       response: {
-        name: 'ProfileImageModifyResponseDto',
+        name: '',
         success: {
-          description: '프로필 사진 수정 및 기존파일 삭제 완료',
-          code: '200',
-          data: { profileImageUrl: 'String' }
+          description: '',
+          code: '',
+          data: { message: '' }
         },
         fail: {
-          description: '잘못된 요청',
-          code: '403',
-          data: { message: 'String' }
+          description: '',
+          code: '',
+          data: { message: '' }
         }
       }
     },
@@ -306,19 +300,19 @@ export default {
       method: 'DELETE',
       uri: '/members/profiles/texts/{longId}',
       privilege: '1',
-      description: '코치나 코미가 프로필 글을 삭제한다.',
+      description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {},
       response: {
-        name: 'ProfileTextDeleteResponseDto',
+        name: '',
         success: {
-          description: '프로필 글 삭제 완료',
-          code: '200',
-          data: { message: 'String' }
+          description: '',
+          code: '',
+          data: { message: '' }
         },
         fail: {
-          description: '잘못된 요청',
-          code: '403',
-          data: { message: 'String' }
+          description: '',
+          code: '',
+          data: { message: '' }
         }
       }
     },
@@ -331,7 +325,7 @@ export default {
       description: '회원을 탈퇴한다.',
       request: {},
       response: {
-        name: 'MemberResignResponseDto',
+        name: 'MessageDto',
         success: {
           description: '회원탈퇴 완료',
           code: '200',
@@ -364,7 +358,7 @@ export default {
         },
         fail: {
           description: '잘못된 요청(중복)',
-          code: '403',
+          code: '409',
           data: { message: 'String' }
         }
       }

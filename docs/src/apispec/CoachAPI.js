@@ -32,26 +32,25 @@ export default {
         }
       }
     },
+
     {
       id: 'coach-2',
-      spec: '3-1',
+      spec: '3-2',
       method: 'GET',
-      uri: '/coaches/profile/image/id={멤버 pk}',
-      privilege: '0',
-      description: '해당 코치의 프로필 사진을 받아온다.',
+      uri: '/coaches/portfolio/{longId}',
+      privilege: '2',
+      description: '코치는 본인의 포트폴리오를 조회한다.',
       request: {},
       response: {
-        name: 'MultipartFile',
+        name: 'PortfolioResponseDto',
         success: {
-          description: '해당 코치의 프로필 사진 반환',
+          description: '권한 변경 완료',
           code: '200',
-          data: {
-            byte: 'Byte'
-          }
+          data: { message: 'String' }
         },
         fail: {
-          description: '잘못된 요청',
-          code: '403',
+          description: '서버 오류',
+          code: '500',
           data: { message: 'String' }
         }
       }
@@ -60,26 +59,26 @@ export default {
     {
       id: 'coach-3',
       spec: '3-2',
-      method: 'GET',
-      uri: '/coaches/coames',
+      method: 'PATCH',
+      uri: '/coaches/portfolio/{longId}',
       privilege: '2',
-      description: '해당 수강을 신청한 코미의 목록을 가져온다.',
+      description: '코치는 본인의 포트폴리오를 수정한다.',
       request: {
-        name: 'AdminElevateRequestDtos',
+        name: 'PortfolioRequestDto',
         data: {
           ids: 'Array'
         }
       },
       response: {
-        name: 'AdminElevateResponseDto',
+        name: 'MessageDto',
         success: {
           description: '권한 변경 완료',
           code: '200',
           data: { message: 'String' }
         },
         fail: {
-          description: '잘못된 요청',
-          code: '403',
+          description: '잘못된 요청[400], 서버 오류[500]',
+          code: '400, 500',
           data: { message: 'String' }
         }
       }

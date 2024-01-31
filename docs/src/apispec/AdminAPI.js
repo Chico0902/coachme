@@ -7,7 +7,7 @@ export default {
       method: 'GET',
       uri: '/admin/members',
       privilege: '3',
-      description: '모든 회원정보를 받아온다.[List]',
+      description: '모든 회원정보를 받아온다.',
       request: {},
       response: {
         name: 'AdminMembersResponseDto',
@@ -15,7 +15,7 @@ export default {
           description: '모든 회원정보 리스트로 반환',
           code: '200',
           data: {
-            '[List Name]': 'result',
+            list: 'List<AdminMembersResponseDto>',
             stringId: 'String',
             priv: 'String',
             name: 'String',
@@ -39,7 +39,7 @@ export default {
       method: 'GET',
       uri: '/admin/privileges/elevations',
       privilege: '3',
-      description: '권한 상승요청 목록을 조회한다.[List]',
+      description: '권한 상승요청 목록을 조회한다.',
       request: {},
       response: {
         name: 'AdminElevationsResponseDto',
@@ -47,7 +47,7 @@ export default {
           description: '권한 상승정보 리스트로 반환',
           code: '200',
           data: {
-            '[List Name]': 'result',
+            list: 'List<AdminElevationsResponseDto>',
             id: 'Long(Member PK)',
             name: 'String',
             portfolio: 'String(Raw HTML)'
