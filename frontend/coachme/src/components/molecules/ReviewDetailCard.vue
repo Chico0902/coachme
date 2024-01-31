@@ -1,8 +1,8 @@
 <!-- 리뷰 섹션 전체 모음 카드
-필요한 정보 : 리뷰 리스트, 코치의 별점, 코치의 리뷰수
+필요한 정보 : 리뷰 리스트, 총 별점, \리뷰수
 reviews : 리뷰 목록에 보여줄 리뷰들. Object. 
-ratingModel : 코치의 별점. 숫자. 정수가 아니어도 ok
-reviewCount : 코치의 리뷰수. 숫자. 코치가 받은 리뷰 수
+ratingModel : 별점. 숫자. 정수가 아니어도 ok
+reviewCount : 리뷰수. 숫자. 코치가 받은 리뷰 수
 -->
 
 <script setup>
@@ -42,7 +42,7 @@ const updateData = (data) => {
   <q-card flat class="my-card">
     <q-item style="margin-left: 0;">
       <q-item-section vertical>
-        <!-- 코치 리뷰 요약 -->
+        <!-- 리뷰 요약 -->
         <q-item-section class="card-margin">
           <div class="row no-wrap items-center" style="margin-top: 2vh;">
             <q-rating v-model="coachRating" size="2em" color="orange" readonly></q-rating>
