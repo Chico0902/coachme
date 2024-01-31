@@ -40,13 +40,9 @@ onBeforeMount(() => {
     return
   }
 
-  console.log(tokenInSession)
   // 토큰 있으면 빼서 디코딩
-  try {
-    token = decodeToken(getAccessToken())
-  } catch (e) {
-    console.log(token)
-  }
+  token = decodeToken(getAccessToken())
+  console.log(token)
 })
 const logoutWithConfirm = () => {
   if (!confirm('로그아웃 하시겠습니까?')) return
@@ -70,7 +66,7 @@ const logoutWithConfirm = () => {
           </RouterLink>
         </template>
         <template #live>
-          <RouterLink :to="{ name: 'Desktop-15' }">
+          <RouterLink :to="{ name: 'Desktop-17-1' }">
             <buttons flat :name="`live`" :label="`강의장`"></buttons>
           </RouterLink>
         </template>
@@ -99,7 +95,7 @@ const logoutWithConfirm = () => {
           </RouterLink>
         </template>
         <template #live>
-          <RouterLink :to="{ name: 'Desktop-15' }">
+          <RouterLink :to="{ name: 'Desktop-17-1' }">
             <buttons flat :name="`live`" :label="`강의장`"></buttons>
           </RouterLink>
         </template>
@@ -173,6 +169,7 @@ export default {}
 </script>
 
 <style scoped>
+
 .all {
   display: flex;
   justify-content: center;
