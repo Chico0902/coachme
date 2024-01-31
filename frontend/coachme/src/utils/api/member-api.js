@@ -24,10 +24,7 @@ const axiosWithToken = authBackendAxios()
           }
  */
 export function postMember(dto, success, fail) {
-  axios
-    .post(`/members`, dto, { headers: { 'Content-Type': 'Application/json' } })
-    .then(success)
-    .catch(fail)
+  axios.post(`/members`, dto).then(success).catch(fail)
 }
 
 /**
