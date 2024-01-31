@@ -23,7 +23,6 @@ app = FastAPI()
 @app.post("/ai/edit", response_model=ResponseURL)
 async def edit_video(item: Item):
     try:
-        item.key = item.key.split('.mp4')[0]
         download(item.key)
         if edit_video_with_ai(item.key, True) == 0:
             ResponseURL.url = "HighLight is zero."
@@ -38,7 +37,6 @@ async def edit_video(item: Item):
 @app.post("/ai/editpoint", response_model=ResponseList)
 async def get_edit_point(item: Item):
     try:
-        item.key = item.key.split('.mp4')[0]
         download(item.key)
         ResponseList.points = edit_video_with_ai(item.key, False)
         remove(item.key)
