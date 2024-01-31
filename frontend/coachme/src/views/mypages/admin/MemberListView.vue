@@ -4,7 +4,7 @@ import { ref, onBeforeMount } from 'vue'
 
 const columns = [
   {
-    name: 'id',
+    name: 'stringId',
     required: true,
     label: '아이디',
     align: 'left',
