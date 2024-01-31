@@ -2,14 +2,13 @@ package com.ssafy.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.config.security.token.AccessDeniedHandlerImpl;
-import com.ssafy.config.security.token.JwtTokenProvider;
 import com.ssafy.config.security.token.AuthenticationEntryPointImpl;
 import com.ssafy.config.security.token.JwtAuthenticationFilter;
+import com.ssafy.config.security.token.JwtTokenProvider;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
