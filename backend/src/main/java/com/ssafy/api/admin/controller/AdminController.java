@@ -32,7 +32,7 @@ public class AdminController {
   public ResponseEntity<?> showElevationList() throws Exception {
     Map<String, List<AdminElevationsResponseDto>> response = new HashMap<>();
     // 코치 상승요청 리스트 담기(service)
-    response.put("data", adminService.getRequestedElevationList());
+    response.put("list", adminService.getRequestedElevationList());
     // 정상 등록완료(200)
     return ResponseEntity.ok(response);
   }
