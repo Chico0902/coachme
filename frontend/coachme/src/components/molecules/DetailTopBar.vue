@@ -1,7 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 
-const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
+const props = defineProps({
+  menus : {  
+    type : Object,
+  },
+})
+
 // 중단 메뉴 리스트
 const tab = ref('')
 // 현재 누른 탭이 어디인지
