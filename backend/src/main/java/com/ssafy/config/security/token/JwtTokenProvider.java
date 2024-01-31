@@ -13,6 +13,7 @@ import org.apache.catalina.User;
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
@@ -39,13 +41,16 @@ public class JwtTokenProvider {
   // 리프레시 토큰 만료 시간 (1일)
   private final long refreshTokenExpire;
 
+  private final StringRedisTemplate stringRedisTemplate;
+
   public JwtTokenProvider(@Value("${jwt.secret}") String secretKey,
                           @Value("${jwt.access-token-expire}") long accessTokenExpire,
                           @Value("${jwt.refresh-token-expire}") long refreshTokenExpire,
-                          @Autowired UserDetailsServiceImpl userDetailsService) {
+                          StringRedisTemplate stringRedisTemplate) {
     this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     this.accessTokenExpire = accessTokenExpire;
     this.refreshTokenExpire = refreshTokenExpire;
+    this.stringRedisTemplate = stringRedisTemplate;
   }
 
   /**
@@ -60,23 +65,6 @@ public class JwtTokenProvider {
     claims.put("longId", member.getLongId());
     claims.put("privilege", member.getPrivilege());
     claims.put("name", member.getName());
-    Date now = new Date();
-
-    // Access 토큰 반환
-    return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(now)
-            .setExpiration(new Date(now.getTime() + accessTokenExpire))
-            .signWith(key, SignatureAlgorithm.HS256)
-            .compact();
-  }
-
-  public String generateAccessToken(RefreshTokenRequestDto dto) {
-    // 회원 Long Id로 토큰생성 후 정보 입력
-    Claims claims = Jwts.claims().setSubject(dto.getStringId());
-    claims.put("longId", dto.getLongId());
-    claims.put("privilege", dto.getPrivilege());
-    claims.put("name", dto.getName());
     Date now = new Date();
 
     // Access 토큰 반환
@@ -104,7 +92,7 @@ public class JwtTokenProvider {
     return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
-            .setExpiration(new Date(now.getTime() + accessTokenExpire))
+            .setExpiration(new Date(now.getTime() + refreshTokenExpire))
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
   }
@@ -120,7 +108,9 @@ public class JwtTokenProvider {
     // privilege 확인해서 권한 인가
     Collection<GrantedAuthority> authorities = new ArrayList<>();
     switch((String) claims.get("privilege")) {
-      case "COAME" -> authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
+      case "COAME" -> {
+        authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
+      }
       case "COACH" -> {
         authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
         authorities.add(new SimpleGrantedAuthority("ROLE_COACH"));
@@ -143,6 +133,7 @@ public class JwtTokenProvider {
    */
   public String getTokenInHeader(HttpServletRequest request) {
     String requestHeaderAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
+    log.error("input token : {}", requestHeaderAuth);
 
     // Header의 토큰이 잘못되었을 때 예외처리
     if (requestHeaderAuth == null || !requestHeaderAuth.startsWith("Bearer"))
@@ -158,11 +149,8 @@ public class JwtTokenProvider {
    * @return Clamis - 복호화된 토큰 정보
    */
   public Claims getClaims(String encryptedToken) {
-
     // Jwt Parser 생성
-    JwtParser parser = Jwts.parserBuilder().setSigningKey(key).build();
-
-    return parser.parseClaimsJws(encryptedToken).getBody();
+    return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(encryptedToken).getBody();
   }
 
   /**
@@ -175,11 +163,29 @@ public class JwtTokenProvider {
   public boolean validateToken(String encryptedToken)
           throws UnsupportedJwtException, MalformedJwtException, IllegalArgumentException {
       try {
-        Jwts.parser().setSigningKey(key).parseClaimsJws(encryptedToken);
+        getClaims(encryptedToken);
         return true;
       } catch (ExpiredJwtException e) {
         return false;
       }
-    }
+  }
+
+  /**
+   * 리프레쉬 토큰을 레디스에 저장하는 메서드
+   * @param stringId - 멤버의 string ID
+   * @param refreshtoken - 리프레쉬 토큰
+   */
+  public void setRefreshTokenInRedis(String stringId, String refreshtoken) {
+    stringRedisTemplate.opsForValue().set(stringId, refreshtoken, refreshTokenExpire, TimeUnit.MILLISECONDS);
+  }
+
+  /**
+   * 레디스에 저장된 리프레쉬 토큰을 가져오는 메서드
+   * @param stringId - 멤버의 string ID
+   * @return - 가져온 리프레쉬 토큰
+   */
+  public String getRefreshTokenInRedis(String stringId) {
+    return stringRedisTemplate.opsForValue().get(stringId);
+  }
 
 }
