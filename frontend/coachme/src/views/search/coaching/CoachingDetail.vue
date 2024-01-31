@@ -43,6 +43,7 @@ const breadCrumbs = [ "Develop",  "Devops"]
 // 해당 코칭의 대분류와 소분류
 
 const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
+// 코칭 미리보기 영상 링크
 
 </script>
 
@@ -58,8 +59,7 @@ const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
           <div class="profile">
             <!-- 코칭 상세 정보 -->
             <CoachingDetailCard :title="title" :coach="name" :rating-model="ratingModel" :review-count="review" 
-            :last-edit-date="lastEdit" :bread-crumbs="breadCrumbs" :previewVideoSrc="video">
-            </CoachingDetailCard>
+            :last-edit-date="lastEdit" :bread-crumbs="breadCrumbs" :previewVideoSrc="video"></CoachingDetailCard>
             <q-separator></q-separator>
 
             <!-- 코칭 상세페이지 중단 메뉴 -->
