@@ -47,30 +47,37 @@ const SideButtonList = [[
 
 const coaching = reactive([
   {
+    coachId: "1",
     coachingName: "title one",
     rating: "4.7",
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
   }, {
+    coachId: "2",
     coachingName: "title two",
     rating: "4.6",
     img: "https://cdn.quasar.dev/img/avatar2.jpg"
   }, {
+    coachId: "3",
     coachingName: "title three",
     rating: "4.5",
     img: "https://cdn.quasar.dev/img/avatar3.jpg"
   }, {
+    coachId: "4",
     coachingName: "title four",
     rating: "3.9",
     img: "https://cdn.quasar.dev/img/avatar4.jpg"
   }, {
+    coachId: "5",
     coachingName: "title five",
     rating: "4",
     img: "https://cdn.quasar.dev/img/avatar5.jpg"
   }, {
+    coachId: "6",
     coachingName: "title six",
     rating: "4.9",
     img: "https://cdn.quasar.dev/img/avatar6.jpg"
   }, {
+    coachId: "7",
     coachingName: "title seven",
     rating: "4.1",
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
@@ -104,7 +111,7 @@ const clickCategory = (index) => {
           <SearchCoachingList :coaching="coaching"></SearchCoachingList>
         </div>
         <div class="chat-button">
-          <chatButton style="margin-left: 10vw; margin-top: 57vh; width: 50px; height: 50px;">
+          <chatButton style="width: 50px; height: 50px;">
           </chatButton>
         </div>
       </div>
@@ -153,9 +160,17 @@ const clickCategory = (index) => {
   margin-top: 5vh;
   margin-bottom: 5vh;
   border-radius: 1.5rem;
+  overflow: scroll;
   display: flex;
   text-align: center;
   flex-direction: row;
+}
+
+.mainpage{
+  -ms-overflow-style: none;
+}
+.mainpage::-webkit-scrollbar{
+  display:none;
 }
 
 .footer {
