@@ -109,15 +109,15 @@ export default {
   align-items: center; /* 세로 중앙 정렬 */
   border-color: black;
   border-bottom: solid 3px;
- 
-
   
 }
 .coaching-img {
   margin: 20px 0;
+}
   
-
-  
+.close-button:hover {
+  background-color: rgb(233, 233, 233);
+  border-radius: 1.5rem;
 }
 .coaching-detail {
   display: flex;

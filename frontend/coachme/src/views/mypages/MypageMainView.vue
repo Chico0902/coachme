@@ -25,6 +25,11 @@ onBeforeMount(() => {
           link: '/mypage/coach/manage/portfolio',
           cssClass: 'manage-button'
         }
+        SideButtonList.value[2] = {
+          name: '코칭일정',
+          link: '/mypage/coaching/coach',
+          cssClass: 'manage-button'
+        }
         break
       case 'ADMIN': {
         SideButtonList.value = [
