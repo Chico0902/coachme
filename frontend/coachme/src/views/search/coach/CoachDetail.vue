@@ -8,13 +8,15 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue';
 import { ref } from 'vue'
 
 const coachings = ["soccer", "soccer2", "football"]
+// 제공 코칭 리스트
 
 const name = ref("고코치")
 const ratingModel = ref(4.3)
 const review = ref(124)
 const lastEdit = ref("2024. 01. 29")
+// 코치 정보 예시
 
-const reviews = [{
+const reviews = ref([{
   name : "고양이",
   reviewDate : "2024/01/30 11:26 AM", 
   ratingModel : 4.5,
@@ -24,7 +26,14 @@ const reviews = [{
   reviewDate : "2024/01/30 02:50 PM", 
   ratingModel : 4.0,
   review : "마음에 들었습니다."
-}]
+}])
+// 리뷰 예시
+
+const reviewData = (data) => {
+  reviews.value.push({name : "옆동네 고양이", reviewDate: "2024/01/31 11:06 AM", ratingModel : data.rating,
+  review : data.review})
+  review.value = review.value + 1
+} // 리뷰 입력폼에서 입력받은 리뷰와 별점을 처리하는 함수
 
 </script>
 
@@ -50,6 +59,9 @@ const reviews = [{
             <!-- 코치 소개. 직접 작성한 부분이 이곳에 들어감 -->
             <div class="coach-introduction">
               <h2>코치 소개</h2>
+              <div style="margin-left: 1.1vw;">
+                소개합니다.
+              </div>
             </div>
 
             <q-separator></q-separator>
@@ -58,7 +70,7 @@ const reviews = [{
             <div class="coaching-category">
               <h2>제공 코칭</h2>
               <div style="margin-left: 0.8vw;">
-                <q-chip icon="book" class="row no-wrap items-center" v-for="coaching in coachings" :key="coaching">
+                <q-chip icon="book" size="1.2rem" class="row no-wrap items-center" v-for="coaching in coachings" :key="coaching">
                   {{ coaching }}
                 </q-chip> 
               </div>
@@ -69,7 +81,8 @@ const reviews = [{
             <!-- 리뷰 -->
             <div class="coach-review">
               <h2>리뷰</h2>
-              <Reviews :reviews="reviews" :rating-model="ratingModel" v-bind:review-count="review"></Reviews>
+              <Reviews :reviews="reviews" :rating-model="ratingModel" v-bind:review-count="review"
+              @review-data="reviewData"></Reviews>
             </div>
             
           </div>
@@ -169,9 +182,14 @@ h2 {
   text-align: left;
 }
 
+.coach-introduction {
+  text-align: left;
+  margin-bottom: 4vh;
+}
+
 .coaching-category {
   text-align: left;
-  margin-bottom: 2vh;
+  margin-bottom: 3vh;
 }
 
 .coach-review {

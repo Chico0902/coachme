@@ -1,3 +1,10 @@
+<!-- 리뷰 섹션 전체 모음 카드
+필요한 정보 : 리뷰 리스트, 코치의 별점, 코치의 리뷰수
+reviews : 리뷰 목록에 보여줄 리뷰들. Object. 
+ratingModel : 코치의 별점. 숫자. 정수가 아니어도 ok
+reviewCount : 코치의 리뷰수. 숫자. 코치가 받은 리뷰 수
+-->
+
 <script setup>
 import InputForm from './InputForm.vue';
 import Reviews from './ReviewCard.vue';
@@ -16,8 +23,18 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['reviewData'])
+
 const coachRating = ref(props.ratingModel)
-const reviewRating = ref()
+const reviewRating = ref(5)
+// 리뷰 입력 구역의 별점 -> 이 값이 리뷰에 포함됨
+
+const updateData = (data) => {
+  const reviewData = { review: data.input, rating: reviewRating.value }
+  emit('reviewData', reviewData)
+  reviewRating.value = 5
+}
+// 입력폼에서 입력받은 내용과 별점을 상위 컴포넌트로 보내는 함수
 
 </script>
 
@@ -43,7 +60,7 @@ const reviewRating = ref()
         <!-- 별점, 리뷰 입력폼 -->
         <q-item-section style="margin-top: 4vh; margin-bottom: 10vh; margin-left: 0;">
           <q-rating v-model="reviewRating" size="3em" color="orange"></q-rating>
-          <InputForm style="margin-top: 3vh; width: 50vw;"></InputForm>
+          <InputForm style="margin-top: 3vh; width: 50vw;" @input-data="updateData"></InputForm>
         </q-item-section>
 
         <!-- 리뷰 목록 섹션 -->
