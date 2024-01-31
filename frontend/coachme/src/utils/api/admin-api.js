@@ -59,7 +59,7 @@ export function getAllElevations(success, fail) {
 /**
  * API번호 : admin-3
  * METHOD : PATCH
- * URI : /admin/privileges/elevations/1
+ * URI : /admin/privileges/elevations
  * 권한 : 3
  * 설명 : 해당 아이디의 권한을 1에서 2로 상승시킨다.
  * @param {AdminElevateRequestDto} dto 권한을 상승할 Member 목록을 pk로 전달한다.
@@ -77,5 +77,6 @@ export function getAllElevations(success, fail) {
           }
  */
 export function patchElevations(dto, success, fail) {
-  authAxios.patch(`/admin/privileges/elevations/1`, dto).then(success).catch(fail)
+  console.log(dto)
+  authAxios.patch(`/admin/privileges/elevations`, dto).then(success).catch(fail)
 }

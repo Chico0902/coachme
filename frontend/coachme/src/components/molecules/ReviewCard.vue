@@ -48,7 +48,7 @@ const ratingScore = ref(props.reviews.ratingModel)
 
         <!-- 리뷰 내용 -->
         <q-item-section class="card-margin">
-          <Labels style="font-size: 24px; margin-top: 6vh; width: fit-content;" :label="props.reviews.review"></Labels>
+          <Labels style="font-size: 18px; margin-top: 6vh; width: fit-content;" :label="props.reviews.review"></Labels>
         </q-item-section>
 
         <!-- 수정, 삭제버튼 -->

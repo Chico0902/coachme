@@ -32,6 +32,7 @@ const updateData = (data) => {
 
 const inputData = () => {
   const data = { input: input.value }
+  input.value = ''
   emit('inputData', data)
 } // input에서 입력한 입력 데이터
 
@@ -39,7 +40,7 @@ const inputData = () => {
 
 <template>
   <div id="input">
-    <inputs hide-bottom-space autogrow style="width: 100%" @update-data="updateData"></inputs>
+    <inputs v-model="input" style="width: 100%" @update-data="updateData"></inputs>
     <buttons
       style="height: 56px;"
       icon="send"

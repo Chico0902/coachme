@@ -43,8 +43,9 @@ const login = (id, pw) => {
     postLoginRequest(
       dto,
       (success) => {
-        accessToken.value = success.data.accessToken
-        refreshToken.value = success.data.refreshToken
+        console.log(success)
+        accessToken.value = success.data.data.accessToken
+        refreshToken.value = success.data.data.refreshToken
         alert('로그인 성공')
         router.push('/')
       },

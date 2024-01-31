@@ -40,9 +40,13 @@ onBeforeMount(() => {
     return
   }
 
+  console.log(tokenInSession)
   // 토큰 있으면 빼서 디코딩
-  token = decodeToken(getAccessToken())
-  console.log(token)
+  try {
+    token = decodeToken(getAccessToken())
+  } catch (e) {
+    console.log(token)
+  }
 })
 const logoutWithConfirm = () => {
   if (!confirm('로그아웃 하시겠습니까?')) return
@@ -169,7 +173,6 @@ export default {}
 </script>
 
 <style scoped>
-
 .all {
   display: flex;
   justify-content: center;
