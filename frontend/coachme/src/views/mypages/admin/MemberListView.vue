@@ -17,7 +17,8 @@ const columns = [
   { name: 'nick', align: 'left', label: '닉네임', field: 'nick', sortable: true },
   { name: 'email', align: 'left', label: '이메일', field: 'email', sortable: true },
   { name: 'cdate', align: 'left', label: '가입일', field: 'cdate', sortable: true },
-  { name: 'elev', align: 'center', label: '권한요청', field: 'elev', sortable: true }
+  { name: 'mdate', align: 'left', label: '수정일', field: 'mdate', sortable: true },
+  { name: 'status', align: 'left', label: '상태', field: 'status', sortable: true }
 ]
 const rows = ref([])
 
