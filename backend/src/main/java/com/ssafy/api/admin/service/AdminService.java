@@ -2,6 +2,8 @@ package com.ssafy.api.admin.service;
 
 import com.ssafy.api.admin.dto.request.AdminElevateRequestDto;
 import com.ssafy.api.admin.dto.response.AdminElevationsResponseDto;
+import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
+import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
 import com.ssafy.db.entity.status.ElevateStatus;
@@ -23,6 +25,16 @@ public class AdminService {
 
   private final MemberRepository memberRepository;
 
+  @Transactional(readOnly = true)
+  public List<AdminMembersResponseDto> getAllMembersList() throws EntityNotFoundException {
+    List<Member> members = memberRepository.findAll();
+    log.info("member count : {}", members.get(0).getName());
+    List<AdminMembersResponseDto> list = MemberMapper.instance.memberToAdminMemberResponseDto(members);
+    log.info("list count : {}", list);
+
+    return list;
+  }
+
   public void requestElevatePermission(AdminElevateRequestDto dto) {
 
     // DTO를 찾아서 요청 ID를 넣어주고, 결과로 반환
@@ -32,6 +44,7 @@ public class AdminService {
 
   /**
    * 아이디를 입력받아서 해당 아이디가 사용중인지 검증
+   *
    * @return true : 아이디 사용중 / false : 사용가능
    */
   @Transactional(readOnly = true)
