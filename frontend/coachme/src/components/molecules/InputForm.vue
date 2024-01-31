@@ -32,21 +32,20 @@ const updateData = (data) => {
 
 const inputData = () => {
   const data = { input: input.value }
+  input.value = ''
   emit('inputData', data)
 } // input에서 입력한 입력 데이터
 
-const color = 'gray'
-const background = '#FFFFFF'
 </script>
 
 <template>
   <div id="input">
-    <inputs hide-bottom-space style="width: 100%" @update-data="updateData"></inputs>
+    <inputs v-model="input" style="width: 100%" @update-data="updateData"></inputs>
     <buttons
       style="height: 56px;"
       icon="send"
-      :background="background"
-      :color="color"
+      :background="props.background"
+      :color="props.color"
       @click="inputData"
     ></buttons>
   </div>
@@ -57,7 +56,7 @@ const background = '#FFFFFF'
 #input {
   display: flex;  
   width: 340px;
-  margin-bottom: 0px;
+  padding-bottom: 0px;
 }
 
 </style>

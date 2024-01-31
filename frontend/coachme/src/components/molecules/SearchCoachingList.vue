@@ -3,6 +3,7 @@
 coaching : 코칭 정보. object. 기본 값 없음
 
 object에 필용한 정보 : 코칭 이름, 별점, 프로필 사진 주소
+coachId : 코치의 id ->
 coachingName : 코칭 이름
 rating : 별점
 img : 프로필 사진 주소
@@ -39,7 +40,7 @@ const getData = computed(() =>
 <template>
   <div>
     <q-card v-for="(coaching, index) in getData" :key="index"
-      style="margin-bottom: 3vh; min-width: 50vw; min-height:17vh;" rounded>
+      style="margin-bottom: 3vh; min-width: 50vw; min-height:15vh;" rounded>
       <q-item>
         <!-- 프로필 사진 -->
         <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 2vh; margin-right: 2vw;">
