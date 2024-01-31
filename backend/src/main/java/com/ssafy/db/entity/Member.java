@@ -1,19 +1,17 @@
 package com.ssafy.db.entity;
 
 import com.ssafy.db.entity.status.ElevateStatus;
-import com.ssafy.db.entity.type.Privilege;
 import com.ssafy.db.entity.status.MemberStatus;
+import com.ssafy.db.entity.type.Privilege;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.BatchSize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -46,7 +44,7 @@ public class Member extends BaseEntity {
   @Column(length = 100)
   private String profileText;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "profile_image_id")
   private File profileImage;
 
@@ -119,6 +117,19 @@ public class Member extends BaseEntity {
     this.status = MemberStatus.MODIFIED;
   }
 
+  // 프로필 글 등록 요청시, 프로필 글 등록
+  public void updateProfileText(String profileText) {
+    this.profileText = profileText;
+  }
+
+  // 프로필 글 등록 요청시, 프로필 글 등록
+  public void addProfileImage(String fileName, String url) {
+    System.out.println("여기서 문제?");
+    this.profileImage = new File(this, fileName, url);
+
+  }
+
   // 연관관계 편의 메서드
+
 
 }

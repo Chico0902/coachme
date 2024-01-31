@@ -1,8 +1,8 @@
 package com.ssafy.api.admin.controller;
 
-import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
 import com.ssafy.api.admin.dto.request.AdminElevateRequestDto;
 import com.ssafy.api.admin.dto.response.AdminElevationsResponseDto;
+import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
 import com.ssafy.api.admin.service.AdminService;
 import com.ssafy.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +58,7 @@ public class AdminController {
    * @return [200] 정상 요청완료
    */
   @PatchMapping("/privileges/elevations")
-  public ResponseEntity<MessageDto> showElevationList(@Validated @RequestBody AdminElevateRequestDto dto) throws Exception{
+  public ResponseEntity<MessageDto> requestElevatePermission(@Validated @RequestBody AdminElevateRequestDto dto) throws Exception{
     // 권한 요청 등록(service)
     adminService.requestElevatePermission(dto);
 

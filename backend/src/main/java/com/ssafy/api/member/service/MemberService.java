@@ -1,18 +1,20 @@
 package com.ssafy.api.member.service;
 
-import com.ssafy.api.member.dto.request.ElevationRequestDto;
-import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
-import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
+import com.ssafy.api.member.dto.request.*;
+import com.ssafy.api.member.dto.response.ProfileResponseDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
+import com.ssafy.db.entity.File;
 import com.ssafy.db.entity.Member;
+import com.ssafy.util.file.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -23,6 +25,7 @@ import java.util.List;
 public class MemberService {
 
   private final MemberRepository memberRepository;
+  private final FileService fileService;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   /**
@@ -89,4 +92,36 @@ public class MemberService {
     return true;
   }
 
+  /**
+   * 아이디를 입력받아 해당 멤버의 프로필 글과 사진을 조회
+   * @return profileText, profileImageUrl;
+   */
+  public ProfileResponseDto requestProfile(Long longId) {
+    Member member = memberRepository.getReferenceById(longId);
+    return new ProfileResponseDto(member.getProfileText(), member.getProfileImage().getUrl());
+  }
+
+  /**
+   * 유저 아이디와 프로필 내용 입력받아 프로필 글 수정
+   */
+  public void uploadProfileText(Long longId, ProfileTextRequestDto dto) {
+    Member member = memberRepository.getReferenceById(longId);
+    member.updateProfileText(dto.getProfileText());
+
+  }
+
+  /**
+   * 유저 아이디와 프로필 사진 입력받아 프로필 사진 수정
+   */
+  public void uploadProfileImage(Long longId, ProfileImageRequestDto dto) {
+    // 기존의 프로필 이미지 삭제
+    File file = memberRepository.findById(longId).get().getProfileImage();
+    if(file != null){
+      fileService.deleteFile(file.getId());
+    }
+    
+    // 프로필 사진 등록
+    fileService.uploadFileList(longId, Arrays.asList(dto.getProfileImage()), Arrays.asList(dto.getFileName()));
+
+  }
 }
