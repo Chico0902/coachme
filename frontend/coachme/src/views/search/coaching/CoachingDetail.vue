@@ -228,9 +228,6 @@ const ratio = 16 / 9
   display: flex;
   text-align: center;
   flex-direction: row;
-}
-
-.mainpage {
   -ms-overflow-style: none;
 }
 
