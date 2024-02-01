@@ -34,11 +34,16 @@ let token
 // 로그인 여부 확인
 onBeforeMount(() => {
   // 토큰 없으면 넘어가기
-  const tokeInCookie = getAccessToken()
-  if (tokeInCookie === '' || tokeInCookie === undefined || tokeInCookie === null) return
+  try {
+    const tokeInCookie = getAccessToken()
+    if (tokeInCookie === '' || tokeInCookie === undefined || tokeInCookie === null) return
 
-  // 토큰 있으면 빼서 디코딩
-  token = decodeToken(getAccessToken())
+    // 토큰 있으면 빼서 디코딩
+    token = decodeToken(getAccessToken())
+  } catch (e) {
+    token = ''
+    return
+  }
 })
 const logoutWithConfirm = () => {
   if (!confirm('로그아웃 하시겠습니까?')) return

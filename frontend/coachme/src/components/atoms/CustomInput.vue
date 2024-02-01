@@ -35,7 +35,6 @@ const emit = defineEmits(['updateData'])
 onMounted(() => {
   const el = nameRef.value.getNativeElement()
   el.addEventListener('input', (e) => {
-    // console.log('input', e.target.value);
     data.value = e.target.value
     emit('updateData', data) // 상위 컴포넌트로 입력값 emit
   })
