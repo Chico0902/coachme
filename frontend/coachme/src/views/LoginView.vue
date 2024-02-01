@@ -3,8 +3,6 @@ import { ref, computed } from 'vue'
 import { postLoginRequest } from '../utils/api/auth-api'
 import { LoginRequestDto } from '../utils/api/dto/auth-dto'
 import { validateId, validatePassword, validateLogin } from '../utils/functions/member'
-import { useAuthStore } from '../stores/auth'
-import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import navbar from '../components/molecules/LoginNavBar.vue'
 import CustomInput from '../components/atoms/CustomInput.vue'
@@ -14,8 +12,6 @@ import footerBar from '../components/molecules/CustomFooter.vue'
 // variables
 const id = ref('')
 const pw = ref('')
-const authStore = useAuthStore()
-const { accessToken, refreshToken } = storeToRefs(authStore)
 const router = useRouter()
 
 // 아이디 검증
@@ -33,29 +29,19 @@ const isValidPassword = computed(() => {
 
 // methods
 const login = (id, pw) => {
-  try {
-    // validation
-    validateLogin(id, pw)
+  // validation
+  validateLogin(id, pw)
 
-    // 검증 끝나면 dto 생성 후 API 호출
-    const dto = new LoginRequestDto(id, pw)
-    console.log(dto)
-    postLoginRequest(
-      dto,
-      (success) => {
-        console.log(success)
-        accessToken.value = success.data.accessToken
-        refreshToken.value = success.data.refreshToken
-        alert('로그인 성공')
-        router.push('/')
-      },
-      // API 호출 실패 시 오류메시지 콘솔에 출력
-      (fail) => console.log(fail)
-    )
-    // 검증 실패 시 오류메시지 출력
-  } catch (e) {
-    console.log(e)
-  }
+  // 검증 끝나면 dto 생성 후 API 호출
+  const dto = new LoginRequestDto(id, pw)
+  postLoginRequest(
+    dto,
+    () => {
+      alert('로그인 성공')
+      router.push('/')
+    },
+    () => alert('로그인 실패')
+  )
 }
 </script>
 

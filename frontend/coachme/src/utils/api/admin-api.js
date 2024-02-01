@@ -92,7 +92,6 @@ export function getAllElevations(success, fail) {
           }
  */
 export function patchElevations(dto, success, fail) {
-  console.log(dto)
   refreshAxios
     .patch(`/admin/privileges/elevations`, dto, {
       headers: {

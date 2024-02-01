@@ -28,10 +28,7 @@ function authBackendAxios() {
     if (response.status === '401') {
       // 엑세스 토큰 만료일 경우, 토큰 재발급 요청
       if (response.data.message === 'Access Token Expired') {
-        getRefresh(
-          () => console.log('token has been refreshed'),
-          (fail) => console.log(fail)
-        )
+        getRefresh()
         // 리프레쉬 토큰 만료일 경우, 로그인 페이지로 이동
       } else if (response.data.message === 'Refresh Token Expired') router.push('/login')
     }
