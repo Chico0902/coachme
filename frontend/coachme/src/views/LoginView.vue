@@ -45,7 +45,7 @@ const login = (id, pw) => {
       longId.value = success.data.longId
       stringId.value = success.data.stringId
       name.value = success.data.name
-      privilege.value = success.data.privilege
+      // privilege.value = success.data.privilege
       alert('로그인 성공')
       // router.push('/')
     },

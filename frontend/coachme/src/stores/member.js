@@ -7,7 +7,7 @@ export const useMemberStore = defineStore('member', {
       longId: Number,
       stringId: '',
       name: '',
-      privilege: ''
+      privilege: 'COAME' // 테스트용
     }
   }
 })
