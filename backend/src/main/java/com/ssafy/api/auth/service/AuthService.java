@@ -88,9 +88,9 @@ public class AuthService {
 
         // 유효 시간 설정
         if(tokenName.equals("access-token")) {
-            cookie.setMaxAge(60 * 30); // 30분 (초)
+            cookie.setMaxAge(10); // 30분 (초)
         } else {
-            cookie.setMaxAge(60 * 60 * 24); // 1일 (초)
+            cookie.setMaxAge(60 * 10); // 1일 (초)
         }
 
         return cookie;
