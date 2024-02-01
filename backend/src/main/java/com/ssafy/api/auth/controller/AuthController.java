@@ -42,7 +42,7 @@ public class AuthController {
       response.addCookie(access);
       response.addCookie(refresh);
 
-      // [200] 토큰정보 발송
+      // [200] 토큰정보 + 멤버정보 발송
       return new ResponseEntity<>(new MessageDto("Login Successful !"), HttpStatus.OK);
   }
 
