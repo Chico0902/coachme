@@ -53,7 +53,6 @@ export default {
           </div>
         </div>
       </div>
-
       <div class="coaching-deatil-title">수강생 목록</div>
       <div class="coaching-detail">
         <div class="name-box">
