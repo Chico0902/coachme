@@ -62,7 +62,7 @@ export default {
         </div>
       </div>
     </div>
-    <div class="coaching-detail">
+    <!-- <div class="coaching-detail">
       <div class="coaching-name-box">
         <div class="coaching-img">
           <q-avatar size="50px">
@@ -81,7 +81,7 @@ export default {
           맞춤강의!
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 </template>

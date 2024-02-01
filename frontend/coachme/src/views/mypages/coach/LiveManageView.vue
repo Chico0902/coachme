@@ -39,7 +39,7 @@ export default {
           </div>
           <div class="coaching-create-box">
             <div class="menu SMN_effect-42">
-              <RouterLink :to="{ name: 'Desktop-5-4' }"><span data-hover="라이브생성">라이브생성</span></RouterLink>
+              <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="라이브생성1">라이브생성1</span></RouterLink>
             </div>
           </div>
         </div>
