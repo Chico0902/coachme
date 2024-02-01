@@ -72,7 +72,7 @@ public class Member extends BaseEntity {
 
   // 코미가 수강하는 목록
   @OneToMany(mappedBy = "coame")
-  private List<Coaching> coameTaughtCourses = new ArrayList<>();
+  private List<CoameCoaching> coameTaughtCourses = new ArrayList<>();
 
   // 코미가 누른 좋아요
   @OneToMany(mappedBy = "coame")
@@ -89,6 +89,16 @@ public class Member extends BaseEntity {
   // 코치가 받은 리뷰
   @OneToMany(mappedBy = "coach")
   private List<Review> receivedReviews = new ArrayList<>();
+
+  // 코치가 참여하고 있는  DM Room
+  @OneToMany(mappedBy = "coach")
+  private List<DMRoom> coachDmRooms = new ArrayList<>();
+
+  // 코미가 참여하고 있는  DM Room
+  @OneToMany(mappedBy = "coame")
+  private List<DMRoom> coameDmRooms = new ArrayList<>();
+
+
 
   // method
   // 회원정보 생성 시 권한을 설정하고 상태를 생성으로 바꾼다.
