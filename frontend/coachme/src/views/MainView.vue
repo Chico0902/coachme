@@ -96,7 +96,7 @@ const logoutWithConfirm = () => {
         <template #welcome>
           <div class="welcome">
             <p>{{ name }}님 환영합니다!</p>
-            <RouterLink to="/mypage">
+            <RouterLink :to="{ path: `/mypage/${privilege}` }">
               <q-btn flat>
                 <profile></profile>
               </q-btn>
