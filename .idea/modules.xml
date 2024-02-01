@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/release.iml" filepath="$PROJECT_DIR$/.idea/release.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CoachMe.iml" filepath="$PROJECT_DIR$/.idea/modules/CoachMe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CoachMe.main.iml" filepath="$PROJECT_DIR$/.idea/modules/CoachMe.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CoachMe.test.iml" filepath="$PROJECT_DIR$/.idea/modules/CoachMe.test.iml" />
     </modules>
   </component>
 </project>

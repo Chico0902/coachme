@@ -34,25 +34,19 @@ const isValidNickName = computed(() => {
 })
 
 const changeMemberInfo = (pw, nick, email) => {
-  try {
-    // dto 생성 및 호출
-    const dto = new MemberInfoChangeRequestDto(pw, nick, email)
-    patchMemberInfo(
-      longId,
-      dto,
-      (success) => {
-        alert(success.data.message)
-        window.location.reload()
-      },
-      // API 호출 실패 시 오류메시지 콘솔에 출력
-      (fail) => {
-        console.log(fail)
-      }
-    )
-    // 검증 실패 시 오류메시지 출력
-  } catch (e) {
-    alert(e.message)
-  }
+  // dto 생성 및 호출
+  const dto = new MemberInfoChangeRequestDto(pw, nick, email)
+  patchMemberInfo(
+    longId,
+    dto,
+    (success) => {
+      alert(success.data.message)
+      window.location.reload()
+    },
+    (fail) => {
+      alert(fail.data.message)
+    }
+  )
 }
 </script>
 <template>

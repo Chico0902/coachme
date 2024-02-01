@@ -1,34 +1,52 @@
+import Cookies from 'js-cookie'
+
 /**
- * Session Storage에서 토큰 받아오는 함수
- * @returns {String} accessToken : 토큰 정보(String)
- * @throws 토큰 없음 : '로그인 정보가 없습니다.' 잘못된 토큰 : '잘못된 토큰 형식입니다.'
+ * Cookie에서 엑세스 토큰 받아오는 함수
+ * @returns {String} token : 토큰 정보(String)
+ * @throws 토큰 없음 : '로그인 정보가 없습니다.'
+ * @throws 잘못된 토큰 : '잘못된 토큰 형식입니다.'
  */
 export function getAccessToken() {
-  // Exception : 세션스토리지에 token이 없을 때
-  const token = sessionStorage.getItem('auth')
+  // Exception : 쿠키 token이 없을 때
+  const token = Cookies.get('refresh-token')
   if (token === '' || token === undefined || token === null) {
     throw new Error('로그인 정보가 없습니다.')
   }
 
-  // Exception : 잘못된 token 타입
-  const parsedToken = JSON.parse(token)
-  if (parsedToken === '' || parsedToken === undefined || parsedToken === null) {
+  // Exception : 잘못된 AccessToken 타입
+  if (typeof token != 'string') {
     throw new Error('잘못된 토큰 형식입니다.')
+  }
+
+  return token
+}
+/**
+ * Cookie에서 리프레쉬 토큰 받아오는 함수
+ * @returns {String} token : 토큰 정보(String)
+ * @throws 토큰 없음 : '로그인 정보가 없습니다.'
+ * @throws 잘못된 토큰 : '잘못된 토큰 형식입니다.'
+ */
+export function getRefreshToken() {
+  // Exception : 쿠키 token이 없을 때
+  const token = Cookies.get('refresh-token')
+  if (token === '' || token === undefined || token === null) {
+    throw new Error('로그인 정보가 없습니다.')
   }
 
   // Exception : 잘못된 AccessToken 타입
-  const accessToken = parsedToken.accessToken
-  if (typeof accessToken != 'string') {
+  if (typeof token != 'string') {
     throw new Error('잘못된 토큰 형식입니다.')
   }
 
-  return accessToken
+  return token
 }
+
 /**
  * 토큰을 입력받아서 토큰 결과를 조회하는 함수
  * @param {String} token JWT
  * @returns {Object} decodedToken : 복호화된 토큰 정보(Json Object)
- * @throws 토큰 없음 : '로그인 정보가 없습니다.' 잘못된 토큰 : '잘못된 토큰 형식입니다.'
+ * @throws 토큰 없음 : '로그인 정보가 없습니다.'
+ * @throws 잘못된 토큰 : '잘못된 토큰 형식입니다.'
  */
 export function decodeToken(token) {
   // Exception : not empty
@@ -69,7 +87,8 @@ export function decodeToken(token) {
  * @param {String} token JWT(복호화 이전 상태! - session storage에 들어있는 상태 그대로 사용)
  * @param {Number} demand 요구 권한
  * @returns true : 권한 만족
- * @throws 잘못된 권한 : '잘못된 권한 형식입니다.' 권한 부족 : '권한이 유효하지 않습니다.'
+ * @throws 잘못된 권한 : '잘못된 권한 형식입니다.'
+ * @throws 권한 부족 : '권한이 유효하지 않습니다.'
  */
 export function checkPrivilegeOverDemand(token, demand) {
   // 권한 매칭하는 로직

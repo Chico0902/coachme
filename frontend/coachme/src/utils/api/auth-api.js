@@ -1,6 +1,7 @@
-import { backendAxios } from '@/utils/http-commons'
+import axios from 'axios'
+import { getRefreshToken } from '../functions/auth'
 
-const axios = backendAxios()
+const { VITE_BACKEND_URL } = import.meta.env
 
 /**
  * API번호 : auth-1
@@ -23,5 +24,45 @@ const axios = backendAxios()
           }
  */
 export function postLoginRequest(dto, success, fail) {
-  axios.post(`/auth/login`, dto).then(success).catch(fail)
+  axios
+    .post(`${VITE_BACKEND_URL}/auth/login`, dto, {
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      withCredentials: true
+    })
+    .then(success)
+    .catch(fail)
+}
+
+/**
+ * API번호 : auth-2
+ * METHOD : GET
+ * URI : /auth/refresh
+ * 권한 : 0
+ * 설명 : Access Token 만료 시 Refresh Token을 반환한다. 
+ * @param {Promise} success
+ * 설명 : 해당 토큰 유효함
+ * 코드 : 200
+ * body : {
+            message : String
+          }
+ * @param {Promise} fail
+ * 설명 : 잘못된 토큰
+ * 코드 : 403
+ * body : {
+            message : String
+          }
+ */
+export function getRefresh(success, fail) {
+  axios
+    .get(`${VITE_BACKEND_URL}/auth/refresh`, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
