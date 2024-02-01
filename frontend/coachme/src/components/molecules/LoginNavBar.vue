@@ -37,7 +37,6 @@ const sideMenu = ['Home', 'About', 'Service', 'Contact']
 
       <!-- 로고 -->
       <q-btn flat>
-
         <router-link to="/">
           <img src="../icons/4.png" width="150px" />
         </router-link>
@@ -46,7 +45,9 @@ const sideMenu = ['Home', 'About', 'Service', 'Contact']
 
       <!-- 프로필 사진 -->
       <q-btn flat>
-        <profile></profile>
+        <router-link to="/mypage">
+          <profile></profile>
+        </router-link>
       </q-btn>
     </q-toolbar>
 
