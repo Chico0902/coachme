@@ -1,16 +1,8 @@
 <script setup>
-import MypageTopBar from '@/components/molecules/MypageTopBar.vue'
 import ProfileImage from '@/components/atoms/ProfileImage.vue'
 import CustomInput from '@/components/atoms/CustomInput.vue'
-
-const TopButtonList = [
-  { name: '포트폴리오', link: '/mypage/coach/manage/portfolio' },
-  { name: '코칭관리', link: '/mypage/coach/manage/coaching', cssClass: 'selected-button' },
-  { name: '영상관리', link: '/mypage/coach/manage/video' }
-]
 </script>
 <template>
-  <MypageTopBar :button-list="TopButtonList" />
   <div class="outside">
     <div class="portfolio-layout">
       <div class="intro">
@@ -25,24 +17,18 @@ const TopButtonList = [
         </div>
       </div>
       <div class="coaching-list-outside">
-      <div class="coaching-list-top">
-        <div class="intro-coach title">개설한 강의</div>
-        <div class="menu SMN_effect-42">
-          <RouterLink :to="{name:'Desktop-5-4'}"><span data-hover="코칭만들기">코칭만들기</span></RouterLink>
+        <div class="coaching-list-top">
+          <div class="intro-coach title">개설한 강의</div>
+          <div class="menu SMN_effect-42">
+            <RouterLink :to="{ name: 'Desktop-5-4' }"><span data-hover="코칭만들기">코칭만들기</span></RouterLink>
+          </div>
+        </div>
+        <div class="coaching-list-main">
+          <div class="coaching-list list">리스트 하나</div>
+          <div class="coaching-list list">리스트 하나</div>
+          <div class="coaching-list list">리스트 하나</div>
         </div>
       </div>
-        <div class="coaching-list-main">
-          <div class="coaching-list list">
-            리스트 하나
-          </div>
-          <div class="coaching-list list">
-            리스트 하나
-          </div>
-          <div class="coaching-list list">
-            리스트 하나
-          </div>
-        </div>
-    </div>
     </div>
   </div>
 </template>
@@ -78,7 +64,7 @@ const TopButtonList = [
 }
 .coaching-list-top {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 .coaching-list-main {
   width: 90%;
@@ -89,7 +75,7 @@ const TopButtonList = [
   border: 2px solid black;
   height: 20vh;
 }
-.menu{
+.menu {
   display: flex;
   align-items: center;
   margin: 0 2rem;
