@@ -28,7 +28,8 @@ export function postLoginRequest(dto, success, fail) {
     .post(`${VITE_BACKEND_URL}/auth/login`, dto, {
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
-      }
+      },
+      withCredentials: true
     })
     .then(success)
     .catch(fail)
@@ -56,6 +57,7 @@ export function postLoginRequest(dto, success, fail) {
 export function getRefresh(success, fail) {
   axios
     .get(`${VITE_BACKEND_URL}/auth/refresh`, {
+      withCredentials: true,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         Authorization: 'bearer ' + getRefreshToken()
