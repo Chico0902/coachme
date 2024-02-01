@@ -45,7 +45,7 @@ const props = defineProps({
         <q-space></q-space>
       </q-item-section>
       <!-- 찜콩 버튼 -->
-      <q-item-section>
+      <q-item-section style="margin-left: 3vw;">
         <like :clicked="liked"></like>
       </q-item-section>
     </q-item>
@@ -64,6 +64,6 @@ const props = defineProps({
 <style scoped>
 .my-card {
   width: 100%;
-  max-width: 250px;
+  min-width: 15vw;
 }
 </style>
