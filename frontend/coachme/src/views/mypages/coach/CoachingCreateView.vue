@@ -1,7 +1,7 @@
 <script setup>
 import CustomInput from '@/components/atoms/CustomInput.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 // 대분류와 소분류 데이터 정의
 const categories = ref([
@@ -58,14 +58,12 @@ function handleCategoryChange() {
         <CustomInput placeholder="전혀 성장하지 않은 당신을 위한 맞춤 농구교실." />
       </div>
       <div class="title">코칭 상세설명</div>
-
       <div class="quill input">
         <QuillEditor theme="snow" />
       </div>
-
       <div>
         <div class="menu SMN_effect-42">
-          <RouterLink :to="{ name: 'Desktop-5-3' }"><span data-hover="코칭생성">코칭생성</span></RouterLink>
+          <RouterLink :to="{ name: 'Desktop-5-3' }"><span data-hover="코칭만들기">코칭만들기</span></RouterLink>
         </div>
       </div>
     </div>
