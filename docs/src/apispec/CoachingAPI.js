@@ -33,8 +33,8 @@ export default {
     {
       id: 'coaching-2',
       spec: '5-1',
-      method: 'GET',
-      uri: '/coaches/coachings',
+      method: 'POST',
+      uri: '/coaches/coachings{longId(member)}',
       privilege: '2',
       description: '코치가 코칭을 개설한다.',
       request: {
