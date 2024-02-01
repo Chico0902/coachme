@@ -1,3 +1,8 @@
+<!-- 브레드크럼브 컴포넌트 = 대분류 소분류 표시 컴포넌트
+필요한 정보 : 대분류, 소분류를 배열로 받기
+coachingCategory : 대분류, 소분류 카테고리 배열
+-->
+
 <script setup>
 const props = defineProps({
   coachingCategory : {

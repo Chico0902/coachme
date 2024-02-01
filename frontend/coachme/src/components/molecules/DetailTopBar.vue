@@ -1,3 +1,9 @@
+<!-- 중간 메뉴 컴포넌트 
+스타일 : 탭 형식
+필요한 정보 : 메뉴 리스트
+menus : 메뉴 리스트. Object.
+-->
+
 <script setup>
 import { ref } from 'vue'
 
@@ -15,7 +21,7 @@ const tab = ref('')
 
 <template>
   <q-tabs align="left" v-model="tab" class="bg-white text-black" flat>
-    <div v-for="(menu, index) in menus" :key="menu">
+    <div v-for="menu in props.menus" :key="menu">
         <q-tab :name="menu" :label="menu">
         </q-tab>
       </div>

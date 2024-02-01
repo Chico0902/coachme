@@ -42,10 +42,12 @@ const props = defineProps({
   }
 })
 
-const ratingScore = ref(props.ratingModel)
+const ratingScore = ref(props.ratingModel) 
+// 코치의 평점
 const lastDate = ref("최종 수정 일시 : " + props.lastEditDate) 
 
 const videoPreviews = ref(false)
+// 미리보기 영상 모달 띄우기 여부
 
 </script>
 
