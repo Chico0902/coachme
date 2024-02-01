@@ -58,7 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     response.setCharacterEncoding("UTF-8");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     ObjectMapper objectMapper = new ObjectMapper();
-    HashMap<String, Object> jsonMap = new HashMap<>();
 
     // Access Token 재발급 API일 경우 => Refresh Token 검증 후 새로운 Access Token Header에 재발급
     if (request.getRequestURI().equals("/api/auth/refresh")) {
@@ -87,8 +86,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       // Refresh Token이 만료되었거나, 저장된 Refresh Token과 다를 경우
       else {
         log.error("Refresh Token Expired !");
-        jsonMap.put("data", new ExceptionDto("Refresh Token Expired"));
-        String jsonString = objectMapper.writeValueAsString(jsonMap);
+        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token Expired"));
         response.getWriter().write(jsonString);
         return;
       }
@@ -98,8 +96,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     String tokenInHeader = jwtTokenProvider.getTokenInHeader(request);
     if (!(jwtTokenProvider.validateToken(tokenInHeader))) {
       log.error("Access Token Expired !");
-      jsonMap.put("data", new ExceptionDto("Access Token Expired"));
-      String jsonString = objectMapper.writeValueAsString(jsonMap);
+      String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Access Token Expired"));
       response.getWriter().write(jsonString);
       return;
     }
