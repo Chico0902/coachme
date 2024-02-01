@@ -207,8 +207,8 @@ section {
 
 .frame {
   position: relative;
-  width: 36vh;
-  height: 84vh;
+  width: 35vh;
+  height: 78vh;
   max-width: 400px;
   max-height: 700px;
   z-index: 1;

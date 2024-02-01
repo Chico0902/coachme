@@ -5,10 +5,12 @@ import ChatBox from '@/components/molecules/CoachingChatBox.vue';
 import DetailTopBar from '@/components/molecules/DetailTopBar.vue';
 import ChatButton from '@/components/molecules/ChatButton.vue';
 import Reviews from '@/components/molecules/ReviewDetailCard.vue';
-import { ref } from 'vue'
+import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue';
+import CoachingCard from '@/components/molecules/CoachingCard.vue';
+import { ref, onMounted } from 'vue'
 
 
-const menus = ref(['코창 소개', '라이브 일정', '영상 목록', '리뷰'])
+const menus = ref(['코칭 소개', '라이브 일정', '영상 목록', '리뷰'])
 // 중단 메뉴 리스트
 
 const title = ref('이것만 알면 당신도 잘 할 수 있다.')
@@ -39,11 +41,60 @@ const reviewData = (data) => {
   review.value = review.value + 1
 } // 리뷰 입력폼에서 입력받은 리뷰와 별점을 처리하는 함수
 
-const breadCrumbs = [ "Develop",  "Devops"]
+const breadCrumbs = ["Develop", "Devops"]
 // 해당 코칭의 대분류와 소분류
 
 const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
 // 코칭 미리보기 영상 링크
+
+var today = new Date();
+
+var year = today.getFullYear();
+var month = ('0' + (today.getMonth() + 1)).slice(-2);
+var day = ('0' + today.getDate()).slice(-2);
+
+var dateString = year + '/' + month + '/' + day;
+// 오늘 날짜 구하기
+
+const date = ref(dateString)
+// 오늘 날짜로 기본 세팅
+
+const scheduleList = ref([
+  { date: '2024/02/01', time: ["14:00", "15:00", "16:00", "17:00", "18:00"] },
+  { date: '2024/02/05', time: ["12:00", "16:00", "17:00"] },
+  { date: '2024/02/06', time: ["13:00", "15:00", "15:30"] },
+  { date: '2024/02/09', time: ["14:00", "15:00", "16:00"] },
+  { date: '2024/02/23', time: ["12:00", "16:00", "17:00"] }
+])
+// 코칭 일자와 코칭 시간표 예시
+
+const filteredDates = ref([]);
+const filteredTimeTable = ref([])
+// 코칭 일자만 저장하는 배열과 코칭 일자에 따른 시간표만 저장하는 배열
+
+const scheduleTimeTable = (date) => {
+
+  if (scheduleList.value.length === 0) {
+    filteredTimeTable.value = [];
+    return;
+  }
+  const scheduleItem = scheduleList.value.find(item => item.date === date);
+  filteredTimeTable.value = scheduleItem ? scheduleItem.time : [];
+} // 코칭 일자에 따라, 코칭 시간표를 구하는 함수
+
+const getScheduleDate = () => {
+  filteredDates.value = scheduleList.value.map(item => item.date);
+} // 코칭 일자만 구하는 함수
+
+onMounted(() => {
+  getScheduleDate()
+  scheduleTimeTable(date.value)
+})
+// 최초 오늘 날짜의 코칭 예정을 미리 구하여 처리하기
+
+const label = 'whiteCat'
+const caption = 'Cat is white'
+const ratio = 16 / 9
 
 </script>
 
@@ -58,8 +109,9 @@ const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
         <div class="mainpage">
           <div class="profile">
             <!-- 코칭 상세 정보 -->
-            <CoachingDetailCard :title="title" :coach="name" :rating-model="ratingModel" :review-count="review" 
-            :last-edit-date="lastEdit" :bread-crumbs="breadCrumbs" :previewVideoSrc="video"></CoachingDetailCard>
+            <CoachingDetailCard :title="title" :coach="name" :rating-model="ratingModel" :review-count="review"
+              :last-edit-date="lastEdit" :bread-crumbs="breadCrumbs" :previewVideoSrc="video" style="margin-left: 0.6vw;">
+            </CoachingDetailCard>
             <q-separator></q-separator>
 
             <!-- 코칭 상세페이지 중단 메뉴 -->
@@ -80,7 +132,11 @@ const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
             <!-- 라이브 코칭 목록 -->
             <div class="coaching-live-schedule">
               <h2>라이브 일정</h2>
-
+              <div class="coaching-live-calender">
+                <q-date name="Schedule" v-model="date" @click="scheduleTimeTable(date)" color="blue-10" today-btn
+                  :events="filteredDates"></q-date>
+                <CoachingScheduleList :date="date" :timeTable="filteredTimeTable"></CoachingScheduleList>
+              </div>
             </div>
 
             <q-separator></q-separator>
@@ -88,7 +144,17 @@ const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
             <!-- 영상 목록 -->
             <div class="coaching-video-list">
               <h2>영상 목록</h2>
-
+              <div class="coaching-card-outside">
+                <div class="coaching-card">
+                  <CoachingCard :label="label" :caption="caption" :ratio="ratio" :video="video"></CoachingCard>
+                </div>
+                <div class="coaching-card">
+                  <CoachingCard :label="label" :caption="caption" :ratio="ratio" :video="video"></CoachingCard>
+                </div>
+                <div class="coaching-card">
+                  <CoachingCard :label="label" :caption="caption" :ratio="ratio" :video="video"></CoachingCard>
+                </div>
+              </div>
             </div>
 
             <q-separator></q-separator>
@@ -205,6 +271,12 @@ h2 {
 
 .coaching-live-schedule {
   text-align: left;
+  margin-bottom: 4vh;
+}
+
+.coaching-live-calender {
+  display: flex;
+  margin-left: 0.8vw;
   margin-bottom: 3vh;
 }
 
@@ -213,7 +285,13 @@ h2 {
   margin-bottom: 3vh;
 }
 
-.coaching-review {}
+.coaching-card-outside {
+  display: flex;
+  justify-content: space-around;
+  margin-left: -2vw;
+  margin-top: 2vh;
+  margin-bottom: 5vh;
+}
 
 .footer {
   height: 10vh;
