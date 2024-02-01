@@ -1,5 +1,5 @@
 /**
- * 현재 JWT의 권한 정보를 확인해서 권한별로 다른 페이지로 보내주는 함수
+ * 현재 권한 정보를 확인해서 권한별로 다른 페이지로 보내주는 함수
  * @param {route} to 대상 Route 객체로 이동합니다.
  * @param {route} from 이동 전 라우트입니다.
  * @param {function} next 훅을 해결하기 위한 호출입니다.(참고 : https://v3.router.vuejs.org/kr/guide/advanced/navigation-guards.html)
@@ -7,7 +7,8 @@
 export function privilegeRedirect(to, from, next) {
   try {
     // 권한별 해당 라우터로 redirect
-    switch (import.meta.env.VITE_MEMBER_PRIVILEGE) {
+    const privilege = from.path.split('/')[2]
+    switch (privilege) {
       case 'COAME':
         return next({ name: 'Desktop-5-1' })
       case 'COACH':

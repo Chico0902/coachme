@@ -22,8 +22,9 @@ export default [
     component: () => import('../../views/FindPasswordView.vue')
   },
   {
-    path: '/mypage',
+    path: '/mypage:privilege',
     name: 'mypage',
+    props: true,
     beforeEnter: privilegeRedirect
   }
 ]
