@@ -8,7 +8,7 @@
 <template>
   <div class="footer-container">
     <!-- 로고 -->
-    <img src="../icons/2.png" width="159px" height="40px" />
+    <img src="../../assets/img/logo_main.png" width="159px" height="40px" />
 
     <!-- 정보 -->
     <div class="address">
