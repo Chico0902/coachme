@@ -5,6 +5,7 @@ import com.ssafy.api.auth.dto.response.TokenResponseDto;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.config.security.token.JwtTokenProvider;
 import com.ssafy.db.entity.Member;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -68,4 +69,30 @@ public class AuthService {
         return memberInDB.get(0);
     }
 
+    /**
+     * 토큰을 전달할 쿠키를 생성하는 메서드
+     * @param tokenName - 저장할 토큰 이름
+     * @param token - 실제 토큰
+     * @return - 생성된 쿠키
+     */
+    public Cookie setCookie(String tokenName, String token) {
+
+        // 쿠키 생성
+        Cookie cookie = new Cookie(tokenName, token);
+
+        // Secure : HTTPS 프로토콜을 통해 암호화된 연결에서만 전송 (스니핑 방지)
+        cookie.setSecure(true);
+
+        // HttpOnly : JavaScript를 통해 접근하는 것을 방지 (XSS 공격 방지)
+        cookie.setHttpOnly(true);
+
+        // 유효 시간 설정
+        if(tokenName.equals("access-token")) {
+            cookie.setMaxAge(60 * 30); // 30분 (초)
+        } else {
+            cookie.setMaxAge(60 * 60 * 24); // 1일 (초)
+        }
+
+        return cookie;
+    }
 }

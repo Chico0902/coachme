@@ -3,6 +3,9 @@ package com.ssafy.api.auth.controller;
 import com.ssafy.api.auth.dto.request.LoginRequestDto;
 import com.ssafy.api.auth.dto.response.TokenResponseDto;
 import com.ssafy.api.auth.service.AuthService;
+import com.ssafy.dto.MessageDto;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,13 +31,19 @@ public class AuthController {
    * @throws Exception : handleUsernameNotFoundException, handleBadCredentialsException
    */
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody @Validated LoginRequestDto loginRequestDto) throws Exception{
+  public ResponseEntity<?> login(@RequestBody @Validated LoginRequestDto loginRequestDto, HttpServletResponse response) throws Exception{
 
       // service에서 토큰 생성
       TokenResponseDto tokenResponseDto = authService.getTokenResponseDto(loginRequestDto);
 
+      Cookie access = authService.setCookie("access-token", tokenResponseDto.getAccessToken());
+      Cookie refresh = authService.setCookie("refresh-token", tokenResponseDto.getRefreshToken());
+
+      response.addCookie(access);
+      response.addCookie(refresh);
+
       // [200] 토큰정보 발송
-      return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
+      return new ResponseEntity<>(new MessageDto("Login Successful !"), HttpStatus.OK);
   }
 
 }
