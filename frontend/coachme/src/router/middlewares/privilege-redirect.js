@@ -1,4 +1,3 @@
-import { getAccessToken, decodeToken, logout } from '../../utils/functions/auth'
 /**
  * 현재 JWT의 권한 정보를 확인해서 권한별로 다른 페이지로 보내주는 함수
  * @param {route} to 대상 Route 객체로 이동합니다.
@@ -6,13 +5,9 @@ import { getAccessToken, decodeToken, logout } from '../../utils/functions/auth'
  * @param {function} next 훅을 해결하기 위한 호출입니다.(참고 : https://v3.router.vuejs.org/kr/guide/advanced/navigation-guards.html)
  */
 export function privilegeRedirect(to, from, next) {
-  // 코치가 코미사이트로 접근 허용
-  console.log(to)
-
   try {
-    const token = getAccessToken()
     // 권한별 해당 라우터로 redirect
-    switch (decodeToken(token).privilege) {
+    switch (import.meta.env.VITE_MEMBER_PRIVILEGE) {
       case 'COAME':
         return next({ name: 'Desktop-5-1' })
       case 'COACH':
@@ -25,7 +20,6 @@ export function privilegeRedirect(to, from, next) {
     }
   } catch (e) {
     alert(e.message + ' 로그인 페이지로 이동합니다!')
-    logout()
     return next('/login')
   }
 }
