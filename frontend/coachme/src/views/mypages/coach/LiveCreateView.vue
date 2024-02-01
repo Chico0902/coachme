@@ -32,8 +32,8 @@
       </div>
     </div>
     <div class="menu SMN_effect-42">
-      <RouterLink :to="{ name: 'Desktop-7-2' }">
-        <span data-hover="라이브 생성">라이브 생성</span>
+      <RouterLink :to="{ name: 'Desktop-5-5' }">
+        <span data-hover="라이브 생성2">라이브 생성2</span>
       </RouterLink>
     </div>
   </div>
