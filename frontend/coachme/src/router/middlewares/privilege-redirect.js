@@ -5,17 +5,13 @@ import { getAccessToken, decodeToken, logout } from '../../utils/functions/auth'
  * @param {route} from 이동 전 라우트입니다.
  * @param {function} next 훅을 해결하기 위한 호출입니다.(참고 : https://v3.router.vuejs.org/kr/guide/advanced/navigation-guards.html)
  */
-export function checkPrivilege(to, from, next) {
-  // infinite recursive 방지를 위해 mypage 간의 redirected되는 이동은 승인
-  if (to.redirectedFrom != undefined) {
-    const beforeBaseUrl = to.redirectedFrom.path.split('/')[1]
-    if (beforeBaseUrl === 'mypage') {
-      return next()
-    }
-  }
+export function privilegeRedirect(to, from, next) {
+  // 코치가 코미사이트로 접근 허용
+  console.log(to)
+
   try {
     const token = getAccessToken()
-    // 권한 매칭하는 로직
+    // 권한별 해당 라우터로 redirect
     switch (decodeToken(token).privilege) {
       case 'COAME':
         return next({ name: 'Desktop-5-1' })
