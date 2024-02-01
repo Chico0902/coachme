@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +80,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 새로운 Access Token 발급
         String newAccessToken = jwtTokenProvider.generateAccessToken(newAccessTokenMember);
-        response.setHeader(HttpHeaders.AUTHORIZATION, newAccessToken);
+        Cookie cookie = new Cookie("access-token", newAccessToken);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(10); // 30분 (초)
+        response.addCookie(cookie);
         response.setStatus(HttpStatus.OK.value());
         return;
       }
