@@ -23,14 +23,9 @@ const columns = [
 const rows = ref([])
 
 onBeforeMount(() => {
-  getAllMemberInfo(
-    (success) => {
-      rows.value = success.data.data
-    },
-    (fail) => {
-      console.log(fail)
-    }
-  )
+  getAllMemberInfo((success) => {
+    rows.value = success.data.data
+  })
 })
 </script>
 <template>

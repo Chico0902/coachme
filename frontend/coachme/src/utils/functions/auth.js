@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
  */
 export function getAccessToken() {
   // Exception : 쿠키 token이 없을 때
-  const token = Cookies.get('accessToken')
+  const token = Cookies.get('refresh-token')
   if (token === '' || token === undefined || token === null) {
     throw new Error('로그인 정보가 없습니다.')
   }
@@ -28,7 +28,7 @@ export function getAccessToken() {
  */
 export function getRefreshToken() {
   // Exception : 쿠키 token이 없을 때
-  const token = Cookies.get('refreshToken')
+  const token = Cookies.get('refresh-token')
   if (token === '' || token === undefined || token === null) {
     throw new Error('로그인 정보가 없습니다.')
   }

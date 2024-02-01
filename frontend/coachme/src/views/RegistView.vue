@@ -83,8 +83,7 @@ const regist = (id, pw, pwConfirm, name, nick, email) => {
     const dto = new MemberRegistRequestDto(id, pw, name, nick, email)
     postMember(
       dto,
-      (success) => {
-        console.log(success)
+      () => {
         alert.value = true
         alertIcon.value = 'check'
         alertMessage.value = '회원가입 완료! 로그인 페이지로 이동합니다.'
@@ -96,8 +95,7 @@ const regist = (id, pw, pwConfirm, name, nick, email) => {
         )
       },
       // API 호출 실패 시 오류메시지 출력
-      (fail) => {
-        console.log(fail)
+      () => {
         alert.value = true
         alertIcon.value = 'warning'
         alertMessage.value = '잘못된 요청입니다.'
@@ -123,8 +121,7 @@ const confirm = (id) => {
     const dto = new MemberDuplicateRequestDto(id)
     validateDuplicateMember(
       dto,
-      (success) => {
-        console.log(success.data.message)
+      () => {
         idCheck.value = true
         alert.value = true
         alertIcon.value = 'check'
@@ -132,7 +129,6 @@ const confirm = (id) => {
       },
       // API 호출 실패 시 오류메시지 콘솔에 출력
       (fail) => {
-        console.log(fail)
         if (fail.response.status === 409) {
           alert.value = true
           alertIcon.value = 'warning'
