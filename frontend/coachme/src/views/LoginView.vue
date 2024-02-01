@@ -39,7 +39,7 @@ const login = (id, pw) => {
     (success) => {
       console.log(success)
       alert('로그인 성공')
-      router.push('/')
+      // router.push('/')
     },
     (error) => {
       alert('로그인 실패')
