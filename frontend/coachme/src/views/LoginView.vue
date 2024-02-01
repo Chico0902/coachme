@@ -36,7 +36,8 @@ const login = (id, pw) => {
   const dto = new LoginRequestDto(id, pw)
   postLoginRequest(
     dto,
-    () => {
+    (success) => {
+      console.log(success)
       alert('로그인 성공')
       router.push('/')
     },
