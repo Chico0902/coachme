@@ -1,26 +1,38 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class DMRoom {
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DMRoom extends BaseEntity{
   @Id
   @GeneratedValue
   @Column(name = "dmroom_id")
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "coame_member_id")
   private Member coame;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "coach_member_id")
   private Member coach;
 
-  @CreatedDate
-  @Column(name = "create_date", nullable = false, updatable = false)
-  private LocalDateTime createDate;
+
+  // 해당 DM Room에 있는 DM List
+  @OneToMany(mappedBy = "id" )
+  private List<DM> dmList = new ArrayList<>();
+
+
+
 }
