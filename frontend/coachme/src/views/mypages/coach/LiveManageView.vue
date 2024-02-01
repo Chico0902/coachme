@@ -29,15 +29,6 @@ export default {
 </script>
 <template>
   <div class="outside">
-    <div class="togglebox">
-      <div>
-        <div class="q-pa-md q-gutter-lg">
-          <div>
-            <q-toggle v-model="value" color="yellow" label="코치/코미" />
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="coach-main">
       <div class="calendar-div">
         <div class="calendar">
@@ -48,7 +39,7 @@ export default {
           </div>
           <div class="coaching-create-box">
             <div class="menu SMN_effect-42">
-              <RouterLink :to="{ name: 'Desktop-7-3' }"><span data-hover="라이브생성">라이브생성</span></RouterLink>
+              <RouterLink :to="{ name: 'Desktop-5-4' }"><span data-hover="라이브생성">라이브생성</span></RouterLink>
             </div>
           </div>
         </div>
@@ -138,12 +129,6 @@ export default {
   width: 90%;
   margin: 20px auto;
   border-radius: 1.5rem;
-}
-
-.togglebox {
-  display: flex;
-  justify-content: right;
-  margin: 20px 80px;
 }
 .calendar-div {
   display: flex;
