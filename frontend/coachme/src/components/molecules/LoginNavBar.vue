@@ -45,7 +45,9 @@ const sideMenu = ['Home', 'About', 'Service', 'Contact']
 
       <!-- 프로필 사진 -->
       <q-btn flat>
-        <profile></profile>
+        <router-link to="/mypage">
+          <profile></profile>
+        </router-link>
       </q-btn>
     </q-toolbar>
 

@@ -20,17 +20,10 @@ const contentHTML = ref('')
 const regist = () => {
   longId.value = 1
   const dto = new ElevationRequestDto(longId.value, contentHTML.value)
-  console.log(dto)
   requestElevation(
     dto,
-    (success) => {
-      console.log(success)
-      alert('등록 완료!')
-    },
-    (fail) => {
-      console.log(fail)
-      alert('등록 실패!')
-    }
+    () => alert('등록 완료!'),
+    () => alert('등록 실패!')
   )
 }
 </script>
@@ -59,7 +52,6 @@ const regist = () => {
 </template>
 
 <style scoped>
-
 .main-font-container {
   margin-top: 1.5rem;
   margin-left: 3rem;
