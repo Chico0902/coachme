@@ -46,11 +46,6 @@ export default {
               <q-date v-model="date" :events="events" class="custom-q-date" @click="showModal" />
             </div>
           </div>
-          <div class="coaching-create-box">
-            <div class="menu SMN_effect-42">
-              <RouterLink :to="{ name: 'Desktop-7-3' }"><span data-hover="라이브생성">라이브생성</span></RouterLink>
-            </div>
-          </div>
         </div>
         <div class="memo" v-show="isModalVisible">
           <div>
@@ -62,27 +57,22 @@ export default {
           </div>
         </div>
       </div>
-
-      <div class="coaching-deatil-title">수강생 목록</div>
       <div class="coaching-detail">
-        <div class="name-box">
+        <div class="coaching-name-box">
           <div class="coaching-img">
             <q-avatar size="50px">
               <img src="https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg" />
             </q-avatar>
           </div>
-          <div class="coame-name">김싸피</div>
+          <div class="coaching-name">강의 이름</div>
         </div>
-        <div class="name-box">
-          <div class="coaching-img">
-            <q-avatar size="50px">
-              <img src="https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg" />
-            </q-avatar>
-          </div>
-          <div class="coaching-name">홍길동</div>
+        <div class="coaching-plan-box">
+          <div class="coaching-plan">강의 계획</div>
+          <div class="coaching-plan-detail">맞춤강의!</div>
         </div>
       </div>
     </div>
+    -->
   </div>
 </template>
 
@@ -98,21 +88,16 @@ export default {
   justify-content: space-around; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
 }
-.coame-name {
+.coaching-name {
   display: inline-block;
   margin: 20px 0;
 }
-.coaching-deatil-title {
-  width: 80%;
-  margin: 2rem auto;
-}
-
-.name-box {
+.coaching-name-box {
   display: flex;
   justify-content: space-around; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
   border-color: black;
-  border: solid 1px;
+  border-bottom: solid 3px;
 }
 .coaching-img {
   margin: 20px 0;
@@ -126,7 +111,7 @@ export default {
   display: flex;
   justify-content: center;
   background-color: aliceblue;
-  /* border-radius: 1.5rem; */
+  border-radius: 1.5rem;
   align-items: left;
   flex-direction: column;
   width: 80%;
@@ -134,7 +119,7 @@ export default {
 }
 .coach-main {
   background-color: rgb(222, 222, 222);
-  /* position: relative; */
+  position: relative;
   width: 90%;
   margin: 20px auto;
   border-radius: 1.5rem;
@@ -147,7 +132,6 @@ export default {
 }
 .calendar-div {
   display: flex;
-  justify-content: center;
   position: relative;
   margin: 0 0 0 60px;
   display: inline-block;
@@ -155,11 +139,11 @@ export default {
 .memo {
   position: absolute;
   top: 0;
-  left: 100%;
-  margin: 2rem;
+  left: 100%; /* 왼쪽 끝에서 시작하도록 함 */
+  margin: 10px; /* 왼쪽 간격 조절 */
   background-color: rgb(250, 244, 185);
   width: 300px;
-  height: 400px;
+  height: 350px;
   border-radius: 1.5rem;
 }
 .memo-list {
@@ -173,8 +157,10 @@ export default {
   margin: 10px;
   padding: 5px;
 }
-.q-pa-md {
-  padding: 1rem 0 0 0;
+.q-date__main {
+  width: 10px; /* 적절한 크기로 조절하세요 */
+  height: 10px;
+  line-height: 30px;
 }
 .close-button {
   position: absolute;
@@ -184,90 +170,5 @@ export default {
   border: none;
   font-weight: bolder;
   margin: 10px;
-}
-
-.coaching-create-box {
-  display: flex;
-  justify-content: right;
-  height: 3rem;
-  padding: 0;
-}
-.calendar {
-  margin: 1rem;
-}
-.menu {
-  display: flex;
-  align-items: center;
-  margin: 2rem;
-}
-.menu a {
-  color: rgba(0, 0, 0, 0.8);
-  font-size: 10pt;
-  font-weight: 400;
-  padding: 15px 25px;
-  /**/
-  position: relative;
-  display: inline-blockk;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-.SMN_effect-42 a {
-  position: relative;
-}
-
-.SMN_effect-42 a:before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 1.5rem;
-  background-color: #6e6e6e;
-  transform-origin: 100% 50%;
-  transform: scale(0, 1);
-  top: 0;
-  left: 0;
-  transition: transform 0.3s cubic-bezier(0.33, 0.91, 0.42, 1);
-}
-
-.SMN_effect-42 a:after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background-color: rgb(0, 0, 0);
-  left: 0;
-  bottom: 0;
-  transform-origin: 0% 50%;
-  transition: transform 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0.2s;
-}
-
-.SMN_effect-42 a span {
-  position: relative;
-}
-
-.SMN_effect-42 a span:after {
-  content: attr(data-hover);
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: opacity 0.2s cubic-bezier(0.33, 0.91, 0.42, 1) 0s;
-}
-
-.SMN_effect-42 a:hover:before {
-  transform: scale(1);
-  transform-origin: 0 50%;
-  transition: transform 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0.2s;
-}
-
-.SMN_effect-42 a:hover:after {
-  transform: scale(0, 1);
-  transform-origin: 100% 50%;
-  transition: transform 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0s;
-}
-
-.SMN_effect-42 a:hover span:after {
-  color: #ffffff;
-  transition: color 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0.2s;
 }
 </style>
