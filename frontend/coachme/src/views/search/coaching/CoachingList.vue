@@ -164,9 +164,6 @@ const clickCategory = (index) => {
   display: flex;
   text-align: center;
   flex-direction: row;
-}
-
-.mainpage{
   -ms-overflow-style: none;
 }
 .mainpage::-webkit-scrollbar{
