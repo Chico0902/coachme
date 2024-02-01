@@ -37,9 +37,8 @@ const sideMenu = ['Home', 'About', 'Service', 'Contact']
 
       <!-- 로고 -->
       <q-btn flat>
-
         <router-link to="/">
-          <img src="../icons/4.png" width="150px" />
+          <img src="../../assets/img/logo_main.png" width="150px" />
         </router-link>
       </q-btn>
       <q-space></q-space>
