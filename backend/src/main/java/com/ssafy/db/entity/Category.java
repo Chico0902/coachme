@@ -34,4 +34,18 @@ public class Category {
 
     @OneToMany(mappedBy = "subCategory")
     private List<Coaching> subCategoryCoachings = new ArrayList<>();
+
+    public Category(String name, CategoryType categoryType){
+        this.name = name;
+        this.categoryType = categoryType;
+    }
+
+    /**
+     * 이 메서드는 서브카테고리에서 실행합니다!!
+     */
+    public void addMainCategory(Category mainCategory) {
+        mainCategory.getChildren().add(this);
+        this.parent = mainCategory;
+    }
+
 }
