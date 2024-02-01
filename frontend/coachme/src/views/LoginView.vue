@@ -40,7 +40,10 @@ const login = (id, pw) => {
       alert('로그인 성공')
       router.push('/')
     },
-    () => alert('로그인 실패')
+    (error) => {
+      alert('로그인 실패')
+      console.log(error)
+    }
   )
 }
 </script>
