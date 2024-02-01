@@ -18,6 +18,7 @@ function backendAxios() {
 function authBackendAxios() {
   const instance = axios.create({
     baseURL: VITE_BACKEND_URL,
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
     }
