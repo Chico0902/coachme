@@ -45,7 +45,7 @@ const props = defineProps({
         <q-space></q-space>
       </q-item-section>
       <!-- 찜콩 버튼 -->
-      <q-item-section style="margin-left: 3vw;">
+      <q-item-section style="margin-left: 2vw;">
         <like :clicked="liked"></like>
       </q-item-section>
     </q-item>
