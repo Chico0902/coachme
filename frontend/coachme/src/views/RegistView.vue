@@ -34,6 +34,11 @@ const alertMessage = ref('')
 const isValidId = computed(() => {
   // 글씨 쓰기전에 작동 안하게 하기(이하 동일)
   if (id.value === '') return true
+
+  // 글씨가 변경되면 아이디 검사 다시 수행해야 함
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+  idCheck.value = false
+
   return validateId(id.value)
 })
 
@@ -119,7 +124,7 @@ const confirm = (id) => {
     validateDuplicateMember(
       dto,
       (success) => {
-        console.log(success.data.messate)
+        console.log(success.data.message)
         idCheck.value = true
         alert.value = true
         alertIcon.value = 'check'

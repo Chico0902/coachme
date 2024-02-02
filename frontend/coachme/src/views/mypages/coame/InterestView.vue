@@ -1,5 +1,4 @@
 <script setup>
-import CustomInput from '@/components/atoms/CustomInput.vue'
 import ProfileImage from '@/components/atoms/ProfileImage.vue'
 import like from '@/components/atoms/CustomLike.vue'
 

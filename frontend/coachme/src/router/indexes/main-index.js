@@ -1,4 +1,5 @@
 import MainView from '../../views/MainView.vue'
+import { privilegeRedirect } from '../middlewares/privilege-redirect'
 export default [
   {
     path: '/',
@@ -19,5 +20,10 @@ export default [
     path: '/find-password',
     name: 'Desktop-4',
     component: () => import('../../views/FindPasswordView.vue')
+  },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    beforeEnter: privilegeRedirect
   }
 ]

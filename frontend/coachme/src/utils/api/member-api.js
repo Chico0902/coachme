@@ -24,7 +24,6 @@ const axiosWithToken = authBackendAxios()
           }
  */
 export function postMember(dto, success, fail) {
-  console.log(fail)
   axios.post(`/members`, dto).then(success).catch(fail)
 }
 
