@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 
 @Entity
 public class Review extends BaseEntity {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "review_id")
   private Long id;
 
