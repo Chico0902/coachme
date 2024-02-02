@@ -44,13 +44,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/members/duplicate/id",
         "/api/members/privileges/elevations",
         "/api/admin/privileges/elevations",
-        "/api/members/profiles/texts/1",
-        "/api/members/profiles/images/1",
-        "/api/members/getfilesTest",
         "/api/dm/room/enter",
         "/api/dm/room/1",
         "/api/dm/52",
-        "/api/ws-dm"
+        "/api/ws-dm",
+        "/api/members/2/profiles/images"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;
