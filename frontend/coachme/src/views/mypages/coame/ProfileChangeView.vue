@@ -60,7 +60,18 @@ const changeMemberInfo = (pw, nick, email) => {
     <div class="main-profile">
       <div class="profile-img">
         <div><ProfileImage size="100px" /></div>
-        <div class="profile-img-icon">아이콘 2개</div>
+        <div class="profile-img-icon">
+          <q-btn flat>
+            <span class="material-symbols-outlined">
+              add_photo_alternate
+            </span>
+          </q-btn>
+          <q-btn flat>
+            <span class="material-symbols-outlined">
+              delete_forever
+            </span>
+          </q-btn>
+        </div>
       </div>
       <div class="profile-detail">
         <CustomInput type="textarea" placeholder="소개글을 입력해주세요." />
@@ -140,6 +151,10 @@ const changeMemberInfo = (pw, nick, email) => {
 }
 .profile-img {
   display: inline-block;
+  margin: 1rem 0;
+}
+.profile-detail {
+  margin-top: 1.5rem;
 }
 .editor-detail {
   color: #034c8c;
@@ -168,5 +183,8 @@ const changeMemberInfo = (pw, nick, email) => {
   display: flex;
   justify-content: center;
   margin: 50px;
+}
+.material-symbols-outlined {
+  font-size: 25px;
 }
 </style>
