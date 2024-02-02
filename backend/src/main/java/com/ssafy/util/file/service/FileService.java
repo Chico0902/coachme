@@ -44,11 +44,11 @@ public class FileService {
 
   // 파일 업로드
   @Transactional
-  public void uploadFileList(long memberId, List<MultipartFile> multipartFiles, List<String> fileNames) {
-    Member member = memberRepository.findById(memberId).get();
+  public void uploadFileList(long longId, List<MultipartFile> multipartFiles) {
+    Member member = memberRepository.getReferenceById(longId);
 
     for (int i = 0; i < multipartFiles.size(); i++) {
-      String fileName = fileNames.get(i);
+      String fileName = multipartFiles.get(i).getName();
 
       // 파일 업로드시, 파일명을 난수화하기 위해 UUID 를 활용하여 난수 생성
       String fileKey = UUID.randomUUID().toString();

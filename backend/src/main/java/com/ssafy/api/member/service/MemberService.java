@@ -2,6 +2,7 @@ package com.ssafy.api.member.service;
 
 import com.ssafy.api.member.dto.request.*;
 import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
+import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;
@@ -108,22 +110,23 @@ public class MemberService {
   public void uploadProfileText(Long longId, ProfileTextRequestDto dto) {
     Member member = memberRepository.getReferenceById(longId);
     member.updateProfileText(dto.getProfileText());
-
   }
 
   /**
    * 유저 아이디와 프로필 사진 입력받아 프로필 사진 수정
    */
-  public void uploadProfileImage(Long longId, ProfileImageRequestDto dto) {
+  public ProfileImageResponseDto uploadProfileImage(Long longId, MultipartFile newFile) {
     // 기존의 프로필 이미지 삭제
-    File file = memberRepository.findById(longId).get().getProfileImage();
+    Member memberInDB = memberRepository.getReferenceById(longId);
+    File file = memberInDB.getProfileImage();
     if (file != null) {
       fileService.deleteFile(file.getId());
     }
 
     // 프로필 사진 등록
-    fileService.uploadFileList(longId, Arrays.asList(dto.getProfileImage()), Arrays.asList(dto.getFileName()));
+    fileService.uploadFileList(longId, Arrays.asList(newFile));
 
+    return new ProfileImageResponseDto(memberInDB.getProfileImage().getUrl());
   }
 
   /**

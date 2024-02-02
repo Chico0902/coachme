@@ -2,6 +2,7 @@ package com.ssafy.api.member.controller;
 
 import com.ssafy.api.member.dto.request.*;
 import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
+import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;
 import com.ssafy.api.member.service.MemberService;
 import com.ssafy.dto.MessageDto;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/members")
@@ -94,7 +96,7 @@ public class MemberController {
    *
    * @return [200] 프로필 글 조회결과 전송
    */
-  @GetMapping("/profiles/{longId}")
+  @GetMapping("/{longId}/profiles")
   public ResponseEntity<ProfileResponseDto> getProfile(@PathVariable(value = "longId") Long longId) throws Exception {
 
     // 프로필 글, 사진 조회
@@ -109,7 +111,7 @@ public class MemberController {
    *
    * @return [200] 정상 등록 완료
    */
-  @PostMapping("/profiles/texts/{longId}")
+  @PostMapping("/{longId}/profiles/texts")
   public ResponseEntity<MessageDto> uploadProfileText(
       @PathVariable(value = "longId") Long longId,
       @Valid @RequestBody ProfileTextRequestDto dto) throws Exception {
@@ -125,12 +127,12 @@ public class MemberController {
    *
    * @return [200] 정상 등록 완료
    */
-  @PostMapping("/profiles/images/{longId}")
-  public ResponseEntity<MessageDto> uploadProfileImage(
-      @PathVariable(value = "longId") Long longId, ProfileImageRequestDto dto) throws Exception {
+  @PostMapping("/{longId}/profiles/images")
+  public ResponseEntity<?> uploadProfileImage(
+      @PathVariable(value = "longId") Long longId, @Validated @RequestParam MultipartFile file) throws Exception {
     // 프로필 사진 등록
-    memberService.uploadProfileImage(longId, dto);
-    return new ResponseEntity<>(new MessageDto("Profile image uploaded successfully"), HttpStatus.OK);
+    ProfileImageResponseDto profileImageResponseDto = memberService.uploadProfileImage(longId, file);
+    return new ResponseEntity<>(profileImageResponseDto, HttpStatus.OK);
   }
 
   /**
