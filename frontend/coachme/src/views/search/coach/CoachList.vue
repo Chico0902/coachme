@@ -126,6 +126,10 @@ const clickCategory = (index) => {
   display: flex;
   text-align: center;
   flex-direction: row;
+  -ms-overflow-style: none;
+}
+.mainpage::-webkit-scrollbar{
+  display:none;
 }
 .footer {
   height: 10vh;

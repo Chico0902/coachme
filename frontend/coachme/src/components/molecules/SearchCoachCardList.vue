@@ -10,19 +10,11 @@ import selectCoachCard from '../molecules/SelectCoachCard.vue'
 import { onMounted, ref } from 'vue'
 
 const cards = ref([
-<<<<<<< HEAD
   { name: 'Korean Fried', category: '한국', rating: '4.6', reviewCount: 122, desc: '한국 치킨', img: `${cloudUrl}tender01.jpg` },
   { name: 'Grilled', category: '그릴', rating: '4.6', reviewCount: 122, desc: '그릴 치킨', img: `${cloudUrl}tender02.jpg` },
   { name: 'Fried', category: '튀김', rating: '4.6', reviewCount: 122, desc: '치킨', img: `${cloudUrl}tender03.jpg` },
   {
     name: 'Deep Fried', category: '아무튼 치킨', rating: '4.6', reviewCount: 122, desc:
-=======
-  { name: 'Korean Fried', category: '한국', rating: '4.6', desc: '한국 치킨', img: `${cloudUrl}tender01.jpg` },
-  { name: 'Grilled', category: '그릴', rating: '4.6', desc: '그릴 치킨', img: `${cloudUrl}tender02.jpg` },
-  { name: 'Fried', category: '튀김', rating: '4.6', desc: '치킨', img: `${cloudUrl}tender03.jpg` },
-  {
-    name: 'Deep Fried', category: '아무튼 치킨', rating: '4.6', desc:
->>>>>>> 0d471417f0c784672912bf2c07b6a42a16cbee81
       'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes',
     img: `${cloudUrl}tender04.jpg`
   }
@@ -168,13 +160,8 @@ function cancel() {
         <!-- 지우지 말 것-->
         <div class="is-like">좋아요</div>
         <!-- 코치 카드 영역 -->
-<<<<<<< HEAD
         <selectCoachCard :name="card.name" :category="card.category" :rating="card.rating" :reviewCount="card.reviewCount"
         :desc="card.desc" :img="card.img"></selectCoachCard>
-=======
-        <selectCoachCard :name="card.name" :category="card.category" :rating="card.rating" :desc="card.desc"
-          :img="card.img"></selectCoachCard>
->>>>>>> 0d471417f0c784672912bf2c07b6a42a16cbee81
       </q-card>
     </div>
 
