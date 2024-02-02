@@ -1,6 +1,8 @@
 package com.ssafy.db.entity;
 
+import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+
 public class Coaching extends BaseEntity {
   @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coaching_id")
@@ -21,11 +25,11 @@ public class Coaching extends BaseEntity {
   @JoinColumn(name = "coame_id")
   private Member coame;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "main_category_id")
   private Category mainCategory;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "sub_category_id")
   private Category subCategory;
 
@@ -33,6 +37,7 @@ public class Coaching extends BaseEntity {
   private String name;
 
   @OneToMany(mappedBy = "coaching")
+
   private List<CoameCoaching> coameCoachings = new ArrayList<>();
 
   @OneToMany(mappedBy = "coaching")
@@ -55,5 +60,16 @@ public class Coaching extends BaseEntity {
   private List<Review> receivedReviews = new ArrayList<>();
 
   // method
+  // 멤버 등록하기
+  public void registCoaching(Member member) {
+    //찾은 멤버와 coaching에서의 coach와 연결시켜주기.
+    member.getCoachTeachCourses().add(this);
+    this.coach = member;
+  }
 
+  public void categorize(String main, String sub) {
+    this.mainCategory = new Category(main, CategoryType.MAIN);
+    this.subCategory = new Category(sub, CategoryType.SUB);
+    this.subCategory.addMainCategory(this.mainCategory);
+  }
 }
