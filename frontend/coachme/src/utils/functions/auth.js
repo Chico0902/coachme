@@ -72,3 +72,10 @@ export function checkPrivilegeOverDemand(token, demand) {
 
   return true
 }
+
+/**
+ * 모든 토큰을 삭제하고 로그아웃하는 함수
+ */
+export function logout() {
+  sessionStorage.setItem('auth', '')
+}

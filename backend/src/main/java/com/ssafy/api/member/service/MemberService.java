@@ -1,6 +1,7 @@
 package com.ssafy.api.member.service;
 
 import com.ssafy.api.member.dto.request.*;
+import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
@@ -40,9 +41,7 @@ public class MemberService {
     Member member = MemberMapper.instance.memberRegistRequestDtoToMember(dto);
 
     // member 상태와 권한 초기화
-    member.initMemberPrivilegeAndStatus();
-
-    log.info(member.getEmail());
+    member.initMemberStatus();
 
     // member 저장
     memberRepository.save(member);
@@ -125,5 +124,13 @@ public class MemberService {
     // 프로필 사진 등록
     fileService.uploadFileList(longId, Arrays.asList(dto.getProfileImage()), Arrays.asList(dto.getFileName()));
 
+  }
+
+  /**
+   * 유저 pk로 회원정보 조회
+   */
+  public MemberInfoResponseDto getMemberInfo(Long longId) {
+    Member memberInDB = memberRepository.getReferenceById(longId);
+    return new MemberInfoResponseDto(memberInDB);
   }
 }

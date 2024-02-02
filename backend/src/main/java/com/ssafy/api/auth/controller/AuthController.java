@@ -10,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -36,16 +37,17 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody @Validated LoginRequestDto loginRequestDto, HttpServletResponse response) throws Exception {
 
-    // service에서 토큰 생성
+    // service에서 토큰 및 쿠키 생성
     TokenInfoDto tokenInfoDto = authService.getTokenInfoDto(loginRequestDto);
-
     ProfileResponseDto profileResponseDto = memberService.requestProfile(tokenInfoDto.getLongId());
-
     Cookie refresh = authService.setCookie("refresh-token", tokenInfoDto.getRefreshToken());
-    response.addCookie(refresh);
 
-    // [200] 토큰정보 발송
-    return new ResponseEntity<>(new LoginResponseDto(tokenInfoDto.getAccessToken(),
+    // Header정보 설정
+    response.addCookie(refresh);
+    response.setHeader(HttpHeaders.AUTHORIZATION, tokenInfoDto.getAccessToken());
+
+    // [200] 로그인 발송
+    return new ResponseEntity<>(new LoginResponseDto(
         profileResponseDto.getProfileText(),
         profileResponseDto.getProfileImageUrl()),
         HttpStatus.OK);
