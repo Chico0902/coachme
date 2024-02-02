@@ -32,6 +32,9 @@ const props = defineProps({
     type: String, 
     default: ''
   }, // 별점
+  reviewCount: {
+    type: String
+  }, // 리뷰수
   desc: {
     type: String,
     default: ''
@@ -81,8 +84,8 @@ watch(() => stars.value, (newState) => {
     </q-item-section>
     <!-- 별점 영역 -->
     <q-item-section style="min-width: fit-content;">
-      <q-rating size="18px" v-model="stars" :max="5" color="primary" readonly></q-rating>
-      <labels :label="`${props.rating}`" class="text-black text-bold"></labels>
+      <q-rating size="18px" v-model="stars" :max="5" color="orange" readonly></q-rating>
+      <span style="font-size: 15px; color: black; font-weight: 600;">{{ rating }} ({{ reviewCount }}) </span>
     </q-item-section>
   </q-item>
 
