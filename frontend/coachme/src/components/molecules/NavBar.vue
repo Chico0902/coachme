@@ -10,7 +10,7 @@ label : nav 버튼에 표시될 이름
   <q-toolbar class="text-black rounded-borders" style="width: 80vw">
     <!-- 로고 -->
     <q-btn flat>
-      <img src="../icons/4.png" width="150px" />
+      <img src="../../assets/icons/6.png" width="150px" />
     </q-btn>
     <!-- 코치찾기, 코칭찾기, 강의장 -->
     <slot name="search-coach"> </slot>
