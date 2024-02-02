@@ -66,6 +66,6 @@ const props = defineProps({
 <style scoped>
 .my-card {
   width: 100%;
-  max-width: 250px;
+  min-width: 15vw;
 }
 </style>
