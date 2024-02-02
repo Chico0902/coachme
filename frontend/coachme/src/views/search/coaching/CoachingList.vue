@@ -170,6 +170,13 @@ const clickCategory = (index) => {
   display:none;
 }
 
+.mainpage{
+  -ms-overflow-style: none;
+}
+.mainpage::-webkit-scrollbar{
+  display:none;
+}
+
 .footer {
   height: 10vh;
   background-color: #fcbf17;

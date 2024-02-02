@@ -1,6 +1,4 @@
 <script setup></script>
-<template>
-  <h1>Resign View</h1>
-</template>
+<template>포트</template>
 
 <style scoped></style>

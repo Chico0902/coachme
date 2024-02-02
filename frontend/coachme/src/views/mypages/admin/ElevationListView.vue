@@ -38,7 +38,7 @@ const elevation = (array) => {
 onBeforeMount(() => {
   getAllElevations(
     (success) => {
-      rows.value = success.data.result
+      rows.value = success.data.list
     },
     (fail) => {
       console.log(fail)

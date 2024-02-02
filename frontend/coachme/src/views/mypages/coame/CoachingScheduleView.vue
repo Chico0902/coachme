@@ -62,7 +62,7 @@ export default {
         </div>
       </div>
     </div>
-    <div class="coaching-detail">
+    <!-- <div class="coaching-detail">
       <div class="coaching-name-box">
         <div class="coaching-img">
           <q-avatar size="50px">
@@ -81,7 +81,7 @@ export default {
           맞춤강의!
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 </template>
@@ -113,7 +113,11 @@ export default {
 }
 .coaching-img {
   margin: 20px 0;
+}
   
+.close-button:hover {
+  background-color: rgb(233, 233, 233);
+  border-radius: 1.5rem;
 }
 .coaching-detail {
   display: flex;
