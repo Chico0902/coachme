@@ -2,18 +2,18 @@ import { HttpResponse, http } from 'msw'
 
 const mockLoginResponse = {
   accessToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsIm5hbWUiOiLqs6DslpHsnbQiLCJwcml2aWxlZ2UiOiJDT0FNRSJ9.CJQRuGr5AxmK7Rva0ner_84rHjPc9baBJ3KwD630xRs`,
-  profileImageUrl: 'testUrl',
-  profileText: 'testText'
+  profileText: '테스트 프로필입니다. 사진은 기본사진입니다.',
+  profileImageUrl: 'https://ssafycoachme.s3.ap-northeast-2.amazonaws.com/04f44743-301b-4bbb-aece-04815e662b60'
 }
 const mockCoachLoginResponse = {
   accessToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoi6rOg7L2U7LmYIiwicHJpdmlsZWdlIjoiQ09BQ0gifQ.2eJI-xdV3-jFXBQ5FaZmqcE2qQXNCgwo-G1BUS3pEJ4`,
-  profileImageUrl: 'testUrl',
-  profileText: 'testText'
+  profileText: '테스트 프로필입니다. 사진은 기본사진입니다.',
+  profileImageUrl: 'https://ssafycoachme.s3.ap-northeast-2.amazonaws.com/04f44743-301b-4bbb-aece-04815e662b60'
 }
 const mockAdminLoginResponse = {
   accessToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAiLCJuYW1lIjoi6rSA66as7J6QIiwicHJpdmlsZWdlIjoiQURNSU4ifQ.wxFYo1hPdzVdE56oUkbbqRTxqoXOshHhK-GiI8TDQeY`,
-  profileImageUrl: 'testUrl',
-  profileText: 'testText'
+  profileText: '테스트 프로필입니다. 사진은 기본사진입니다.',
+  profileImageUrl: 'https://ssafycoachme.s3.ap-northeast-2.amazonaws.com/04f44743-301b-4bbb-aece-04815e662b60'
 }
 
 export default [
