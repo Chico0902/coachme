@@ -1,8 +1,4 @@
 <script setup>
-
-
-
-
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
 import { requestElevation } from '@/utils/api/member-api'
