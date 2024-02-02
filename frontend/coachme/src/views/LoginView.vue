@@ -16,10 +16,10 @@ import footerBar from '../components/molecules/CustomFooter.vue'
 const id = ref('')
 const pw = ref('')
 const authStore = useAuthStore()
+const memberStore = useMemberStore()
 const { accessToken } = storeToRefs(authStore)
 const { profileText, profileImageUrl } = storeToRefs(memberStore)
 const router = useRouter()
-const memberStore = useMemberStore()
 
 // 아이디 검증
 const isValidId = computed(() => {
@@ -44,11 +44,13 @@ const login = (id, pw) => {
   postLoginRequest(
     dto,
     (success) => {
-      accessToken.value = success.headers['authorization']
+      console.log(success)
+      accessToken.value = success.data.accessToken
+      // accessToken.value = success.headers['authorization']
       profileImageUrl.value = success.data.profileImageUrl
       profileText.value = success.data.profileText
       alert('로그인 성공')
-      router.push('/')
+      // router.push('/')
     },
     (error) => {
       console.log(error)

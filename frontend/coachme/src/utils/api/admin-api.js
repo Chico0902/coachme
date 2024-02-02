@@ -1,4 +1,5 @@
 import { authBackendAxios } from '@/utils/http-commons'
+import { getRefresh } from '../api/auth-api'
 
 const refreshAxios = authBackendAxios()
 
@@ -27,8 +28,26 @@ const refreshAxios = authBackendAxios()
             message : String
           }
  */
-export function getAllMemberInfo(success, fail) {
-  refreshAxios.get(`/admin/members`, {}).then(success).catch(fail)
+export function getAllMemberInfo(token, success, fail) {
+  refreshAxios
+    .get(`/admin/members`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    .then(success)
+    .catch(fail)
+
+  // 재발급 요청 메서드
+  refreshAxios.interceptors.response.use(function (response) {
+    if (response.status === '401') {
+      // 엑세스 토큰 만료일 경우, 토큰 재발급 요청
+      if (response.data.message === 'Access Token Expired') {
+        getRefresh()
+        // 리프레쉬 토큰 만료일 경우, 로그인 페이지로 이동
+      } else if (response.data.message === 'Refresh Token Expired') router.push('/login')
+    }
+  })
 }
 
 /**
@@ -37,6 +56,7 @@ export function getAllMemberInfo(success, fail) {
  * URI : /admin/privileges/elevations
  * 권한 : 3
  * 설명 : 권한 상승요청 목록을 조회한다.
+ * @param {String} token Access token(accessToken.value)
  * @param {Promise} success
  * 설명 : 모든 회원정보 리스트로 반환
  * 코드 : 200
@@ -52,8 +72,15 @@ export function getAllMemberInfo(success, fail) {
             message : String
           }
  */
-export function getAllElevations(success, fail) {
-  refreshAxios.get(`/admin/privileges/elevations`, {}).then(success).catch(fail)
+export function getAllElevations(token, success, fail) {
+  refreshAxios
+    .get(`/admin/privileges/elevations`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**

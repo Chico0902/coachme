@@ -1,4 +1,4 @@
-import { decodeToken, logout } from '../../utils/functions/auth'
+import { decodeToken } from '../../utils/functions/auth'
 /**
  * 현재 JWT의 권한 정보를 확인해서 권한별로 다른 페이지로 보내주는 함수
  * @param {route} to 대상 Route 객체로 이동합니다.
@@ -24,7 +24,6 @@ export function privilegeRedirect(to, from, next) {
     }
   } catch (e) {
     alert(e.message + ' 로그인 페이지로 이동합니다!')
-    logout()
     return next('/login')
   }
 }
