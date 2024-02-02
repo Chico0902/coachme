@@ -20,7 +20,7 @@ const { requestDm } = store
 // 피니아에 저장된 채팅 활성화 함수
 
 const props = defineProps({
-  name: {
+  coachName: {
     type: String,
     default: ''
   }, // 코치 이름
@@ -64,7 +64,7 @@ watch(() => stars.value, (newState) => {
   <!-- 코치 이름 영역 -->
   <q-item style="margin-top: -1vh;">
     <q-item-section>
-      <labels :label="`${props.name}`" class="text-black text-bold" style="padding: -2vw;"></labels>
+      <labels :label="`${props.coachName}`" class="text-black text-bold" style="padding: -2vw;"></labels>
     </q-item-section>
   </q-item>
 

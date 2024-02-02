@@ -50,36 +50,43 @@ const coaching = reactive([
     coachId: "1",
     coachingName: "title one",
     rating: "4.7",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
   }, {
     coachId: "2",
     coachingName: "title two",
     rating: "4.6",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar2.jpg"
   }, {
     coachId: "3",
     coachingName: "title three",
     rating: "4.5",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar3.jpg"
   }, {
     coachId: "4",
     coachingName: "title four",
     rating: "3.9",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar4.jpg"
   }, {
     coachId: "5",
     coachingName: "title five",
     rating: "4",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar5.jpg"
   }, {
     coachId: "6",
     coachingName: "title six",
     rating: "4.9",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar6.jpg"
   }, {
     coachId: "7",
     coachingName: "title seven",
     rating: "4.1",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
   }
 ]) // 코칭 목록 예시
@@ -109,7 +116,7 @@ const clickCategory = (index) => {
         <SearchCategorySidebar :button-list="selectedCategory" />
         <div class="mainpage">
           <!-- 코칭 목록과 채팅 버튼-->
-          <SearchCoachingList :coaching="coaching"></SearchCoachingList>
+          <SearchCoachingList :coaching="coaching" style="margin-left: 0.6vw;"></SearchCoachingList>
         </div>
         <div class="chat-button">
           <chatButton style="width: 50px; height: 50px;">
