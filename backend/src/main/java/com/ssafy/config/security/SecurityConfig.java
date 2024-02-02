@@ -52,7 +52,7 @@ public class SecurityConfig {
 
         // JWT 인증을 위해 세션 비활성화 (STATELESS)
         .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+          .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
         // Security의 Form Login 기능을 비홠성화
         .formLogin(AbstractHttpConfigurer::disable)
@@ -62,36 +62,36 @@ public class SecurityConfig {
 
         // 인증절차 전에 Jwt 토큰으로부터 권한 부여(JwtFilter -> JwtTokenProvider -> UserDetailServiceImpl)
         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, entityManager),
-            UsernamePasswordAuthenticationFilter.class)
+                UsernamePasswordAuthenticationFilter.class)
 
         // 요청별 권한 인가
         .authorizeHttpRequests((authorize) -> authorize
 
-            // 전체 허용할 요청
-            .requestMatchers("/**").permitAll()
-            .requestMatchers(
-                "/members",
-                "/members/duplicate/id",
-                "/auth/login")
-            .permitAll()
+                // 전체 허용할 요청
+                .requestMatchers("/**").permitAll()
+                .requestMatchers(
+                        "/members",
+                        "/members/duplicate/id",
+                        "/auth/login")
+                .permitAll()
 
-            // ADMIN 접근 가능
-            .requestMatchers("/admin/**").hasRole("ADMIN")
+                // ADMIN 접근 가능
+                .requestMatchers("/admin/**").hasRole("ADMIN")
 
-            // COACH 접근 가능
-            .requestMatchers("/coach/**").hasRole("COACH")
+                // COACH 접근 가능
+                .requestMatchers("/coach/**").hasRole("COACH")
 
-            // COAME 접근 가능
-            .requestMatchers(HttpMethod.PATCH, "/members/{longId}").hasRole("COAME")
+                // COAME 접근 가능
+                .requestMatchers(HttpMethod.PATCH,"/members/{longId}").hasRole("COAME")
 
-            // 이외 요청 허용안함
-            .anyRequest().denyAll())
+                // 이외 요청 허용안함
+                .anyRequest().denyAll())
 
         // 인증, 인가 오류처리를 위한 Handler Mapping
         .exceptionHandling((exceptionHandling) ->
-            exceptionHandling
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler))
+                exceptionHandling
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler))
 
         .build();
   }

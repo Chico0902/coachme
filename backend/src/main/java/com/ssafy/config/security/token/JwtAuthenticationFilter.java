@@ -50,7 +50,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/dm/room/enter",
         "/api/dm/room/1",
         "/api/dm/52",
-        "/api/ws-dm"
+        "/api/ws-dm",
+        "/api/members/profiles/1",
+        "/api/coaches/coachings/1",
+        "/api/coaches/1/coachings/2"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;

@@ -40,7 +40,7 @@ spring:
 
 jwt:
   secret: 4850d7ebde9ae79a8e736767b3cd227412a2307701ad67ccf5c23d3ba9df16f1c4bd2c16212e67de81d2786b2a6f82e3d41bcd588294b1055bf54456647083cd
-  access-token-expire: 10
+  access-token-expire: 1800000
   refresh-token-expire: 86400000
 
 cloud:
