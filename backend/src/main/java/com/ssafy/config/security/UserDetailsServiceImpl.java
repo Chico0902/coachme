@@ -13,18 +13,18 @@ import java.util.List;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final MemberRepository memberRepository;
+  private final MemberRepository memberRepository;
 
-    @Override
-    public UserDetailsImpl loadUserByUsername(String stringId) throws UsernameNotFoundException {
+  @Override
+  public UserDetailsImpl loadUserByUsername(String stringId) throws UsernameNotFoundException {
 
-        // DB에서 멤버 찾아옴
-        List<Member> memberInDB = memberRepository.findByStringId(stringId);
+    // DB에서 멤버 찾아옴
+    List<Member> memberInDB = memberRepository.findByStringId(stringId);
 
-        // 회원 검증
-        if (memberInDB == null || memberInDB.isEmpty()) throw new UsernameNotFoundException("등록되지 않은 회원");
+    // 회원 검증
+    if (memberInDB == null || memberInDB.isEmpty()) throw new UsernameNotFoundException("등록되지 않은 회원");
 
-        // 결과 반환
-        return new UserDetailsImpl(memberInDB.get(0));
-    }
+    // 결과 반환
+    return new UserDetailsImpl(memberInDB.get(0));
+  }
 }

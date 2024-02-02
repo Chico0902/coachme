@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Portfolio {
-  @Id @GeneratedValue
+  @Id
+  @GeneratedValue
   @Column(name = "portfolio_id")
   private Long id;
 
@@ -20,7 +21,10 @@ public class Portfolio {
   private String htmlDocs;
 
   // methods
-  public Portfolio(String newHtmlDocs) { this.htmlDocs = newHtmlDocs; }
+  public Portfolio(String newHtmlDocs) {
+    this.htmlDocs = newHtmlDocs;
+  }
+
   public void uploadHtmlDocs(String newHtmlDocs) {
     this.htmlDocs = newHtmlDocs;
   }
