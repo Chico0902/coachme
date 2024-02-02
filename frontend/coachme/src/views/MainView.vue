@@ -173,10 +173,6 @@ const username = computed(() => {
   <div class="footer"><footerBar /></div>
 </template>
 
-<script>
-export default {}
-</script>
-
 <style scoped>
 .all {
   display: flex;

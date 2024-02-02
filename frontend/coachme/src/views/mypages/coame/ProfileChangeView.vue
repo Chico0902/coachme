@@ -6,7 +6,13 @@ import { validatePassword, validateNickName } from '@/utils/functions/member'
 import { patchMemberInfo } from '@/utils/api/member-api'
 import { MemberInfoChangeRequestDto } from '@/utils/api/dto/member-dto'
 import { computed, ref } from 'vue'
-import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { decodeToken } from '@/utils/functions/auth'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+
+/**
+ * VARIABLES
+ */
 
 // variables
 const openModal = ref(false)
@@ -15,9 +21,11 @@ const nick = ref('')
 const email = ref('')
 
 // token에서 받아옴
-const token = decodeToken(getAccessToken())
-const stringId = token.sub
-const longId = token.longId
+const authStore = useAuthStore()
+const { accessToken } = storeToRefs(authStore)
+const tokenValue = decodeToken(accessToken.value)
+const name = tokenValue.name
+const longId = tokenValue.id
 
 // methods
 
@@ -62,14 +70,10 @@ const changeMemberInfo = (pw, nick, email) => {
         <div><ProfileImage size="100px" /></div>
         <div class="profile-img-icon">
           <q-btn flat>
-            <span class="material-symbols-outlined">
-              add_photo_alternate
-            </span>
+            <span class="material-symbols-outlined"> add_photo_alternate </span>
           </q-btn>
           <q-btn flat>
-            <span class="material-symbols-outlined">
-              delete_forever
-            </span>
+            <span class="material-symbols-outlined"> delete_forever </span>
           </q-btn>
         </div>
       </div>
@@ -78,7 +82,7 @@ const changeMemberInfo = (pw, nick, email) => {
       </div>
     </div>
     <div class="detail-member-info">
-      <h6 class="detail-member-info-id">{{ stringId }}</h6>
+      <h6 class="detail-member-info-id">{{ name }}</h6>
 
       <div class="detail-member-info-input">
         <q-input

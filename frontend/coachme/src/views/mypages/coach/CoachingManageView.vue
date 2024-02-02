@@ -1,14 +1,5 @@
-<script>
-import ProfileImage from '@/components/atoms/ProfileImage.vue'
-import CustomInput from '@/components/atoms/CustomInput.vue'
-
-export default {
-  data() {
-    return {
-      itemList: [{ text: 'Item 1' }, { text: 'Item 2' }]
-    }
-  }
-}
+<script setup>
+const itemList = [{ text: 'Item 1' }, { text: 'Item 2' }]
 </script>
 <template>
   <div class="outside">

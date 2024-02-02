@@ -1,5 +1,4 @@
 import { authBackendAxios } from '@/utils/http-commons'
-import { getRefreshToken } from '../functions/auth'
 
 const refreshAxios = authBackendAxios()
 
@@ -29,14 +28,7 @@ const refreshAxios = authBackendAxios()
           }
  */
 export function getAllMemberInfo(success, fail) {
-  refreshAxios
-    .get(`/admin/members`, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.get(`/admin/members`, {}).then(success).catch(fail)
 }
 
 /**
@@ -61,14 +53,7 @@ export function getAllMemberInfo(success, fail) {
           }
  */
 export function getAllElevations(success, fail) {
-  refreshAxios
-    .get(`/admin/privileges/elevations`, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.get(`/admin/privileges/elevations`, {}).then(success).catch(fail)
 }
 
 /**
@@ -93,12 +78,5 @@ export function getAllElevations(success, fail) {
  */
 export function patchElevations(dto, success, fail) {
   console.log(dto)
-  refreshAxios
-    .patch(`/admin/privileges/elevations`, dto, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.patch(`/admin/privileges/elevations`, dto, {}).then(success).catch(fail)
 }
