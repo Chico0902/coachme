@@ -115,12 +115,9 @@ export default {
   margin: 20px 0;
 }
   
-<<<<<<< HEAD:frontend/coachme/src/views/mypages/coaching/CoameScheduleView.vue
-=======
 .close-button:hover {
   background-color: rgb(233, 233, 233);
   border-radius: 1.5rem;
->>>>>>> 0d471417f0c784672912bf2c07b6a42a16cbee81:frontend/coachme/src/views/mypages/coame/CoachingScheduleView.vue
 }
 .coaching-detail {
   display: flex;
