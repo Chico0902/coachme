@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { getRefreshToken } from '../functions/auth'
 
 const { VITE_BACKEND_URL } = import.meta.env
 
@@ -57,8 +56,7 @@ export function getRefresh(success, fail) {
   axios
     .get(`${VITE_BACKEND_URL}/auth/refresh`, {
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        Authorization: 'bearer ' + getRefreshToken()
+        'Content-Type': 'application/json;charset=utf-8'
       }
     })
     .then(success)
