@@ -1,19 +1,11 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
 public class DM {
   @Id
   @GeneratedValue
