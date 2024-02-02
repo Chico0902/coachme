@@ -63,7 +63,7 @@ function handleCategoryChange() {
       </div>
       <div>
         <div class="menu SMN_effect-42">
-          <RouterLink :to="{ name: 'Desktop-5-3' }"><span data-hover="코칭만들기">코칭만들기</span></RouterLink>
+          <RouterLink :to="{ name: 'Desktop-5-3' }"><span data-hover="코칭생성">코칭생성</span></RouterLink>
         </div>
       </div>
     </div>

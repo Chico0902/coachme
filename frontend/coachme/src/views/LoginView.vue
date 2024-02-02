@@ -5,6 +5,7 @@ import { LoginRequestDto } from '../utils/api/dto/auth-dto'
 import { validateId, validatePassword, validateLogin } from '../utils/functions/member'
 import { useRouter } from 'vue-router'
 import { useMemberStore } from '@/stores/member'
+import { useAuthStore } from '../stores/auth'
 import { storeToRefs } from 'pinia'
 import navbar from '../components/molecules/LoginNavBar.vue'
 import CustomInput from '../components/atoms/CustomInput.vue'
@@ -14,9 +15,11 @@ import footerBar from '../components/molecules/CustomFooter.vue'
 // variables
 const id = ref('')
 const pw = ref('')
+const authStore = useAuthStore()
+const { accessToken } = storeToRefs(authStore)
+const { profileText, profileImageUrl } = storeToRefs(memberStore)
 const router = useRouter()
 const memberStore = useMemberStore()
-const { longId, stringId, name, privilege, isLogin } = storeToRefs(memberStore)
 
 // 아이디 검증
 const isValidId = computed(() => {
@@ -41,17 +44,15 @@ const login = (id, pw) => {
   postLoginRequest(
     dto,
     (success) => {
-      isLogin.value = true
-      longId.value = success.data.longId
-      stringId.value = success.data.stringId
-      name.value = success.data.name
-      // privilege.value = success.data.privilege
+      accessToken.value = success.headers['authorization']
+      profileImageUrl.value = success.data.profileImageUrl
+      profileText.value = success.data.profileText
       alert('로그인 성공')
-      // router.push('/')
+      router.push('/')
     },
     (error) => {
-      alert('로그인 실패')
       console.log(error)
+      alert('로그인 실패')
     }
   )
 }

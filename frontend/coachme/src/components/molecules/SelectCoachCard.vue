@@ -32,10 +32,9 @@ const props = defineProps({
     type: String, 
     default: ''
   }, // 별점
-  desc: {
-    type: String,
-    default: ''
-  }, // 코치 소개
+  reviewCount: {
+    type: String
+  }, // 리뷰수
   img: {
     type: String,
     default: ''
@@ -70,7 +69,7 @@ watch(() => stars.value, (newState) => {
   </q-item>
 
   <!-- 제공 코칭과 별점 영역-->
-  <q-item class="justify-evenly" style="margin-top: -1vh;">
+  <q-item class="justify-evenly">
     <!-- 제공 코칭 -->
     <q-item-section style="min-width: fit-content;">
       <labels :label="`${props.category}`" class="text-black text-bold"></labels>
@@ -81,25 +80,25 @@ watch(() => stars.value, (newState) => {
     </q-item-section>
     <!-- 별점 영역 -->
     <q-item-section style="min-width: fit-content;">
-      <q-rating size="18px" v-model="stars" :max="5" color="primary" readonly></q-rating>
-      <labels :label="`${props.rating}`" class="text-black text-bold"></labels>
+      <q-rating size="18px" v-model="stars" :max="5" color="orange" readonly></q-rating>
+      <span style="font-size: 15px; color: black; font-weight: 600;">{{ rating }} ({{ reviewCount }}) </span>
     </q-item-section>
   </q-item>
 
-  <!-- 코치 소개 영역 -->
-  <q-item>
-    <q-item-section>
-      <labels caption :label="`${props.desc}`" style="max-height: 7vh;" class="text-black"></labels>
+  <!-- 코치 버튼 영역 -->
+  <q-item class="coach-button">
+    <q-item-section vertical>
+      <Button label="포트폴리오 보기" style="background-color: #FCBF17; color: white"></Button>
     </q-item-section>
-  </q-item>
-
-  <!-- 채팅하기 버튼 -->
-  <q-item>
     <q-item-section>
-      <Button label="채팅하기" style="margin-top: 3vh; background-color: #1a66da; color: white" @click="requestDm()"></Button>
+      <Button label="채팅하기" style="background-color: #1a66da; color: white; height: 8vh;" 
+      @click="requestDm()"></Button>
     </q-item-section>
   </q-item>
 </template>
 
 <style scoped>
+.coach-button {
+  margin-top: 2vh;
+}
 </style>

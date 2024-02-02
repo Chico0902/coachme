@@ -12,8 +12,15 @@ import MainCategoryTitle from '../components/texts/MainCategoryTitle.vue'
 import MainCoachTitle from '../components/texts/MainCoachTitle.vue'
 import MainCoachingTitle from '../components/texts/MainCoachingTitle.vue'
 import profile from '../components/atoms/ProfileImage.vue'
+import { computed } from 'vue'
 import { useMemberStore } from '@/stores/member'
+import { useAuthStore } from '../stores/auth'
 import { storeToRefs } from 'pinia'
+import { decodeToken } from '@/utils/functions/auth'
+
+/**
+ * VARIABLES
+ */
 
 // 검색 컴포넌트의 버튼 색상, 드롭다운 색상, 버튼 라벨, 드롭다운 메뉴 순
 const bColor = '#FCBF17'
@@ -22,8 +29,10 @@ const label0 = '검색'
 const list = ['코치명', '코칭제목']
 
 // 회원정보 조회
+const authStore = useAuthStore()
 const memberStore = useMemberStore()
-const { longId, stringId, name, privilege, isLogin } = storeToRefs(memberStore)
+const { accessToken } = storeToRefs(authStore)
+const { profileText, profileImageUrl } = storeToRefs(memberStore)
 
 // 코치(+코칭) 카드 라벨, 카드 캡션, 카드 이미지
 const label = 'whiteCat'
@@ -34,20 +43,26 @@ const image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq75DiUEnXV
 const ratio = 16 / 9
 const video = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
 
+/**
+ * METHODS
+ */
+
+// 로그아웃
 const logoutWithConfirm = () => {
   if (!confirm('로그아웃 하시겠습니까?')) return
-  longId.value = NaN
-  stringId.value = ''
-  name.value = ''
-  privilege.value = ''
-  isLogin.value = false
+  accessToken.value = ''
+  profileText.value = ''
+  profileImageUrl.value = ''
   alert('로그아웃 되었습니다.')
   window.location.reload()
 }
+const username = computed(() => {
+  return decodeToken(accessToken.value).name
+})
 </script>
 <template>
   <div class="nav-bar">
-    <template v-if="isLogin">
+    <template v-if="accessToken === ''">
       <navbar>
         <template #search-coach>
           <RouterLink :to="{ name: 'Desktop-13' }">
@@ -95,8 +110,8 @@ const logoutWithConfirm = () => {
         </template>
         <template #welcome>
           <div class="welcome">
-            <p>{{ name }}님 환영합니다!</p>
-            <RouterLink :to="{ path: `/mypage/${privilege}` }">
+            <p>{{ username }}님 환영합니다!</p>
+            <RouterLink :to="{ path: `/mypage`, props: { accessToken } }">
               <q-btn flat>
                 <profile></profile>
               </q-btn>
@@ -157,10 +172,6 @@ const logoutWithConfirm = () => {
   </div>
   <div class="footer"><footerBar /></div>
 </template>
-
-<script>
-export default {}
-</script>
 
 <style scoped>
 .all {
