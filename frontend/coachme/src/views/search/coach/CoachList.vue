@@ -6,8 +6,9 @@ import chatButton from '@/components/molecules/ChatButton.vue'
 import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
+import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
 
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 const selectButton = ref(0)
 // 선택한 카테고리 index
@@ -54,6 +55,51 @@ const clickCategory = (index) => {
 }
 // 카테고리 클릭시 상단 사이드 메뉴 변경
 
+const isMatching = ref(false)
+
+const changeListAndMatching = () => {
+  isMatching.value = !isMatching.value
+}
+
+const coach = reactive([
+  {
+    coachId: "1",
+    coachName: "title one",
+    rating: "4.7",
+    img: "https://cdn.quasar.dev/img/avatar1.jpg"
+  }, {
+    coachId: "2",
+    coachName: "title two",
+    rating: "4.6",
+    img: "https://cdn.quasar.dev/img/avatar2.jpg"
+  }, {
+    coachId: "3",
+    coachName: "title three",
+    rating: "4.5",
+    img: "https://cdn.quasar.dev/img/avatar3.jpg"
+  }, {
+    coachId: "4",
+    coachName: "title four",
+    rating: "3.9",
+    img: "https://cdn.quasar.dev/img/avatar4.jpg"
+  }, {
+    coachId: "5",
+    coachName: "title five",
+    rating: "4",
+    img: "https://cdn.quasar.dev/img/avatar5.jpg"
+  }, {
+    coachId: "6",
+    coachName: "title six",
+    rating: "4.9",
+    img: "https://cdn.quasar.dev/img/avatar6.jpg"
+  }, {
+    coachId: "7",
+    coachName: "title seven",
+    rating: "4.1",
+    img: "https://cdn.quasar.dev/img/avatar1.jpg"
+  }
+]) // 코칭 목록 예시
+
 </script>
 <template>
   <!-- nav -->
@@ -68,13 +114,22 @@ const clickCategory = (index) => {
         <!-- 사이드메뉴 -->
         <SearchCategorySidebar :button-list="selectedCategory" />
         <div class="mainpage">
-          <!-- 코치 리스트 -->
-          <CoachCardList style="margin-left: 7vw;"></CoachCardList>
+          <!-- 코치 매칭 카드  -->
+          <CoachCardList v-if="isMatching" style="margin-left: 7vw;"></CoachCardList>
+          <SearchCoachList v-else :coach="coach" style="margin-top: 2vh; margin-left: 0.6vw;"></SearchCoachList>
         </div>
         <!-- 채팅 버튼 -->
         <div class="chat-button">
           <chatButton style="width: 50px; height: 50px;">
           </chatButton>
+        </div>
+
+        <!-- 전환 버튼 -->
+        <div class="matching-button">
+          <q-btn v-if="isMatching" round style="width: 50px; height: 50px;" 
+          size="20px" color="blue-9" icon="list" @click="changeListAndMatching"></q-btn>
+          <q-btn v-else round  style="width: 50px; height: 50px;" 
+          size="20px" color="blue-9" icon="style" @click="changeListAndMatching"></q-btn>
         </div>
       </div>
     </div>
@@ -128,21 +183,32 @@ const clickCategory = (index) => {
   flex-direction: row;
   -ms-overflow-style: none;
 }
-.mainpage::-webkit-scrollbar{
-  display:none;
+
+.mainpage::-webkit-scrollbar {
+  display: none;
 }
+
 .footer {
   height: 10vh;
   background-color: #fcbf17;
   color: #034c8c;
   text-align: center;
 }
+
 .chat-button {
-  position:fixed;
-  bottom:60px;
-  right:10vw;
-  color:#FFF;
-  text-align:center;
+  position: fixed;
+  bottom: 60px;
+  right: 10vw;
+  color: #FFF;
+  text-align: center;
+}
+
+.matching-button {
+  position: fixed;
+  bottom: 60px;
+  right: 16vw;
+  color: #FFF;
+  text-align: center;
 }
 </style>
 
