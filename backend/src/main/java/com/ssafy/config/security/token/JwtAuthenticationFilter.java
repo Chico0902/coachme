@@ -20,7 +20,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,19 +35,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request,
                                   HttpServletResponse response,
                                   FilterChain chain)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
 
     // 토큰이 필요하지 않은 API URL의 경우 => 로직 처리 없이 다음 필터로 이동
     if (Arrays.asList(
-            "/api/auth/login",
-            "/api/members",
-            "/api/members/duplicate/id",
-            "/api/members/privileges/elevations",
-            "/api/admin/privileges/elevations",
-            "/api/members/profiles/texts/1",
-            "/api/members/profiles/images/1",
-            "/api/members/getfilesTest",
-            "/api/coaches/portfolio/1"
+        "/api/auth/login",
+        "/api/members",
+        "/api/members/duplicate/id",
+        "/api/members/privileges/elevations",
+        "/api/admin/privileges/elevations",
+        "/api/members/profiles/texts/1",
+        "/api/members/profiles/images/1",
+        "/api/members/getfilesTest",
+        "/api/dm/room/enter",
+        "/api/dm/room/1",
+        "/api/dm/52",
+        "/api/ws-dm"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;
@@ -63,13 +65,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // Access Token 재발급 API일 경우 => Refresh Token 검증 후 새로운 Access Token Header에 재발급
     if (request.getRequestURI().equals("/api/auth/refresh")) {
 
-      // String Id 세팅해서 Auth에 전송한 결과로 Redis 조회 및 토큰 생성
-      String refreshTokenInHeader = jwtTokenProvider.getTokenInHeader(request);
+      // 요청 쿠키의 Refresh Token을 추출
+      Cookie[] cookies = request.getCookies();
+      String refreshTokenInHeader = null;
+      if(cookies != null) {
+        for(Cookie cookie : cookies) {
+          if(cookie.getName().equals("refresh-token")) {
+            refreshTokenInHeader = cookie.getValue();
+          }
+        }
+      }
+      // 요청에 쿠키가 존재하지 않으면
+      else {
+        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token is Null"));
+        response.getWriter().write(jsonString);
+        return;
+      }
+      log.info("Request Cookie : {}", refreshTokenInHeader);
+
+      // Redis에 저장된 Refresh Token 꺼내오기
       String stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();
       String refreshTokenInRedis = jwtTokenProvider.getRefreshTokenInRedis(stringId);
 
       // Refresh Token 검증
-      if(refreshTokenInRedis != null && refreshTokenInRedis.equals(refreshTokenInHeader)) {
+      if (refreshTokenInRedis != null && refreshTokenInRedis.equals(refreshTokenInHeader)) {
 
         // Access Token 생성을 위한 Repository 조회
         String jpql = "SELECT m FROM Member m WHERE m.stringId = :stringId";
@@ -80,11 +99,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 새로운 Access Token 발급
         String newAccessToken = jwtTokenProvider.generateAccessToken(newAccessTokenMember);
-        Cookie cookie = new Cookie("access-token", newAccessToken);
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(10); // 30분 (초)
-        response.addCookie(cookie);
+        response.setHeader(HttpHeaders.AUTHORIZATION, newAccessToken);
         response.setStatus(HttpStatus.OK.value());
         return;
       }

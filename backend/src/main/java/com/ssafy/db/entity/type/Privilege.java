@@ -5,16 +5,16 @@ import lombok.ToString;
 
 @ToString
 public enum Privilege {
-    COACH("COACH"), COAME("COAME"), ADMIN("ADMIN");
+  COACH("COACH"), COAME("COAME"), ADMIN("ADMIN");
 
-    private String privilegeCode;
+  private String privilegeCode;
 
-    Privilege(String privilegeCode){
-        this.privilegeCode = privilegeCode;
-    }
+  Privilege(String privilegeCode) {
+    this.privilegeCode = privilegeCode;
+  }
 
-    @JsonValue
-    public String getPrivilegeCode(){
-        return this.privilegeCode;
-    }
+  @JsonValue
+  public String getPrivilegeCode() {
+    return this.privilegeCode;
+  }
 }

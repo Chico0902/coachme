@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenResponseDto {
+public class LoginResponseDto {
 
-    private String accessToken;
-    private String refreshToken;
+  private String accessToken;
+  private String profileText;
+  private String profileImageUrl;
 
 }
 
