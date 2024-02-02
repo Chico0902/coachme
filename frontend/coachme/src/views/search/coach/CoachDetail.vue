@@ -1,7 +1,7 @@
 <script setup>
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import CoachDetailCard from '@/components/molecules/CoachDetailCard.vue';
-import ChatBox from '@/components/molecules/ChatBox.vue';
+import ChatBox from '@/components/molecules/CoachChatBox.vue';
 import DetailTopBar from '@/components/molecules/DetailTopBar.vue';
 import ChatButton from '@/components/molecules/ChatButton.vue';
 import Reviews from '@/components/molecules/ReviewDetailCard.vue';
@@ -9,6 +9,9 @@ import { ref } from 'vue'
 
 const coachings = ["soccer", "soccer2", "football"]
 // 제공 코칭 리스트
+
+const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
+// 중단 메뉴 리스트
 
 const name = ref("고코치")
 const ratingModel = ref(4.3)
@@ -53,7 +56,7 @@ const reviewData = (data) => {
         
             <!-- 코치 포트폴리오 중단 메뉴 -->
             <div class="portfolio-menu">
-              <DetailTopBar></DetailTopBar>
+              <DetailTopBar :menus="menus"></DetailTopBar>
             </div>
 
             <!-- 코치 소개. 직접 작성한 부분이 이곳에 들어감 -->
