@@ -1,5 +1,4 @@
 import { backendAxios, authBackendAxios } from '@/utils/http-commons'
-import { getRefreshToken } from '../functions/auth'
 
 const axios = backendAxios()
 const refreshAxios = authBackendAxios()
@@ -49,14 +48,7 @@ export function postMember(dto, success, fail) {
           }
  */
 export function patchPassword(dto, success, fail) {
-  refreshAxios
-    .patch(`/members/passswords`, dto, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.patch(`/members/passswords`, dto, {}).then(success).catch(fail)
 }
 
 /**
@@ -80,14 +72,7 @@ export function patchPassword(dto, success, fail) {
           }
  */
 export function requestElevation(dto, success, fail) {
-  refreshAxios
-    .post(`/members/privileges/elevations`, dto, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.post(`/members/privileges/elevations`, dto, {}).then(success).catch(fail)
 }
 
 /**
@@ -111,14 +96,7 @@ export function requestElevation(dto, success, fail) {
           }
  */
 export function patchMemberInfo(longId, dto, success, fail) {
-  refreshAxios
-    .patch(`/members/${longId}`, dto, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.patch(`/members/${longId}`, dto, {}).then(success).catch(fail)
 }
 
 /**
@@ -142,14 +120,7 @@ export function patchMemberInfo(longId, dto, success, fail) {
           }
  */
 export function getProfile(longId, success, fail) {
-  refreshAxios
-    .get(`/members/profiles/${longId}`, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.get(`/members/profiles/${longId}`, {}).then(success).catch(fail)
 }
 
 /**
@@ -174,14 +145,7 @@ export function getProfile(longId, success, fail) {
           }
  */
 export function postProfileText(longId, dto, success, fail) {
-  refreshAxios
-    .post(`/members/profiles/texts/${longId}`, dto, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.post(`/members/profiles/texts/${longId}`, dto, {}).then(success).catch(fail)
 }
 
 /**
@@ -206,14 +170,7 @@ export function postProfileText(longId, dto, success, fail) {
           }
  */
 export function postProfileImage(longId, dto, success, fail) {
-  refreshAxios
-    .post(`/members/profiles/images/${longId}`, dto, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.post(`/members/profiles/images/${longId}`, dto, {}).then(success).catch(fail)
 }
 
 /**
@@ -238,14 +195,7 @@ export function postProfileImage(longId, dto, success, fail) {
           }
  */
 export function patchProfileText(longId, dto, success, fail) {
-  refreshAxios
-    .patch(`/members/profiles/texts/${longId}`, dto, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.patch(`/members/profiles/texts/${longId}`, dto, {}).then(success).catch(fail)
 }
 
 /**
@@ -270,14 +220,7 @@ export function patchProfileText(longId, dto, success, fail) {
           }
  */
 export function patchProfileImage(longId, file, success, fail) {
-  refreshAxios
-    .patch(`/members/profiles/images/${longId}`, file, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.patch(`/members/profiles/images/${longId}`, file, {}).then(success).catch(fail)
 }
 
 /**
@@ -301,14 +244,7 @@ export function patchProfileImage(longId, file, success, fail) {
           }
  */
 export function deleteProfileText(longId, dto, success, fail) {
-  refreshAxios
-    .delete(`/members/profiles/texts/${longId}`, dto, {
-      headers: {
-        Authorization: 'bearer ' + getRefreshToken()
-      }
-    })
-    .then(success)
-    .catch(fail)
+  refreshAxios.delete(`/members/profiles/texts/${longId}`, dto, {}).then(success).catch(fail)
 }
 
 /**

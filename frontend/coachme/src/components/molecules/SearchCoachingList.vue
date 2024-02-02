@@ -71,9 +71,9 @@ const getData = computed(() =>
               <!-- 공간 분리 -->
               <q-space></q-space>
               
-              <!-- 강의 신청과 문의하기 버튼 섹션-->
+              <!-- 코칭 신청과 문의하기 버튼 섹션-->
               <div>
-                <buttons label="강의 신청" style="margin-right: 1vw; background-color: #004C98; color: white;"></buttons>
+                <buttons label="코칭 신청" style="margin-right: 1vw; background-color: #004C98; color: white;"></buttons>
                 <buttons label="문의하기" style="background-color: #FCBF17;" @click="requestDm()"></buttons>
               </div>
             </q-item-section>

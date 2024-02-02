@@ -1,12 +1,18 @@
 <script setup>
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
-import { useMemberStore } from '@/stores/member'
+import { decodeToken } from '@/utils/functions/auth'
+import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 
+/**
+ * VARIABLES
+ */
+
 // 메인페이지 진입 시 권한 확인해서 side bar에 전달
-const memberStore = useMemberStore()
-const { privilege } = storeToRefs(memberStore)
+const authStore = useAuthStore()
+const { accessToken } = storeToRefs(authStore)
+const privilege = decodeToken(accessToken.value).privilege
 
 // 해당 페이지 떠날 때 경고메시지
 </script>
@@ -55,7 +61,6 @@ const { privilege } = storeToRefs(memberStore)
   display: flex;
   justify-content: center;
 }
-
 .mypage-outside {
   display: flex;
   justify-content: space-between;

@@ -39,16 +39,37 @@ onMounted(() => {
     emit('updateData', data) // 상위 컴포넌트로 입력값 emit
   })
 }) // 한글 갱신을 위한 이벤트리스너
+
+const paddingTop = ref("24px")
+const paddingBottom = ref("8px")
+// 기본 padding 세팅
+
+const paddingSetting = () => {
+  if(props.label.length == 0) {
+    paddingTop.value = "0px"
+    paddingBottom.value = "0px"
+  }
+}
+/* 라벨이 없을 때 padding을 조절하여 
+input에 입력되는 텍스트의 위치를 조정 */
+
+onMounted(() => {
+  paddingSetting()
+})
+
 </script>
 
 <template>
   <q-input
     ref="nameRef"
     filled
+    stack-label="false"
     :label="`${props.label}`"
     :rules="[rule]"
     :hint="`${props.hint}`"
-    :input-style="{ fontSize: '1rem' }"
+    :input-style="{ fontSize: '1rem', paddingTop, paddingBottom }"
   ></q-input>
 </template>
-<style scoped></style>
+<style scoped>
+
+</style>

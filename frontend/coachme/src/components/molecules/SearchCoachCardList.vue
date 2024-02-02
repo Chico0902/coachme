@@ -10,13 +10,28 @@ import selectCoachCard from '../molecules/SelectCoachCard.vue'
 import { onMounted, ref } from 'vue'
 
 const cards = ref([
-  { name: 'Korean Fried', category: '한국', rating: '4.6', desc: '한국 치킨', img: `${cloudUrl}tender01.jpg` },
-  { name: 'Grilled', category: '그릴', rating: '4.6', desc: '그릴 치킨', img: `${cloudUrl}tender02.jpg` },
-  { name: 'Fried', category: '튀김', rating: '4.6', desc: '치킨', img: `${cloudUrl}tender03.jpg` },
+  {
+    name: 'Korean Fried',
+    category: '한국',
+    rating: '4.6',
+    reviewCount: 122,
+    desc: '한국 치킨',
+    img: `${cloudUrl}tender01.jpg`
+  },
+  {
+    name: 'Grilled',
+    category: '그릴',
+    rating: '4.6',
+    reviewCount: 122,
+    desc: '그릴 치킨',
+    img: `${cloudUrl}tender02.jpg`
+  },
+  { name: 'Fried', category: '튀김', rating: '4.6', reviewCount: 122, desc: '치킨', img: `${cloudUrl}tender03.jpg` },
   {
     name: 'Deep Fried',
     category: '아무튼 치킨',
     rating: '4.6',
+    reviewCount: 122,
     desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes',
     img: `${cloudUrl}tender04.jpg`
   }
@@ -162,6 +177,7 @@ function cancel() {
           :name="card.name"
           :category="card.category"
           :rating="card.rating"
+          :reviewCount="card.reviewCount"
           :desc="card.desc"
           :img="card.img"
         ></selectCoachCard>
@@ -216,8 +232,8 @@ section {
 
 .frame {
   position: relative;
-  width: 36vh;
-  height: 84vh;
+  width: 35vh;
+  height: 78vh;
   max-width: 400px;
   max-height: 700px;
   z-index: 1;

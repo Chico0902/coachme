@@ -1,21 +1,9 @@
 <script setup>
-import ProfileImage from '@/components/atoms/ProfileImage.vue'
-import CustomInput from '@/components/atoms/CustomInput.vue'
+const itemList = [{ text: 'Item 1' }, { text: 'Item 2' }]
 </script>
 <template>
   <div class="outside">
     <div class="portfolio-layout">
-      <div class="intro">
-        <div class="intro-coach title">코치 소개</div>
-        <div class="intro-box">
-          <div class="intro-img">
-            <ProfileImage size="18vh" />
-          </div>
-          <div class="intro-detail">
-            <CustomInput type="textarea" placeholder="소개글을 입력해주세요." style="width: 60vh" />
-          </div>
-        </div>
-      </div>
       <div class="coaching-list-outside">
         <div class="coaching-list-top">
           <div class="intro-coach title">개설한 강의</div>
@@ -24,9 +12,10 @@ import CustomInput from '@/components/atoms/CustomInput.vue'
           </div>
         </div>
         <div class="coaching-list-main">
-          <div class="coaching-list list">리스트 하나</div>
-          <div class="coaching-list list">리스트 하나</div>
-          <div class="coaching-list list">리스트 하나</div>
+          <q-item class="list" v-ripple v-for="(item, index) in itemList" :key="index">
+            <q-item-section>{{ item.text }}</q-item-section>
+            <button class="custom-btn btn-7">코칭 상세</button>
+          </q-item>
         </div>
       </div>
     </div>
@@ -74,6 +63,7 @@ import CustomInput from '@/components/atoms/CustomInput.vue'
 .list {
   border: 2px solid black;
   height: 20vh;
+  align-items: center;
 }
 .menu {
   display: flex;
@@ -89,7 +79,6 @@ import CustomInput from '@/components/atoms/CustomInput.vue'
   position: relative;
   display: inline-blockk;
   text-decoration: none;
-  text-transform: uppercase;
 }
 .SMN_effect-42 a {
   position: relative;
@@ -149,5 +138,55 @@ import CustomInput from '@/components/atoms/CustomInput.vue'
 .SMN_effect-42 a:hover span:after {
   color: #ffffff;
   transition: color 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0.2s;
+}
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  padding: 10px 25px;
+  border: 2px solid #000;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.btn-7 {
+  background: #000;
+  color: #fff;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  z-index: 1;
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+.btn-7:hover {
+  background: transparent;
+  color: #000;
+}
+.btn-7:before,
+.btn-7:after {
+  position: absolute;
+  content: '';
+  left: 0;
+  width: 100%;
+  height: 50%;
+  right: 0;
+  z-index: -1;
+  background: #000;
+  transition: all 0.3s ease;
+}
+.btn-7:before {
+  top: 0;
+}
+.btn-7:after {
+  bottom: 0;
+}
+.btn-7:hover:before,
+.btn-7:hover:after {
+  height: 0;
+  background-color: #000;
 }
 </style>
