@@ -1,7 +1,6 @@
-import { backendAxios, authBackendAxios } from '@/utils/http-commons'
+import { backendAxios, makeAuthAxios } from '@/utils/http-commons'
 
 const axios = backendAxios()
-const refreshAxios = authBackendAxios()
 
 /**
  * API번호 : member-2
@@ -48,7 +47,7 @@ export function postMember(dto, success, fail) {
           }
  */
 export function patchPassword(dto, success, fail) {
-  refreshAxios.patch(`/members/passswords`, dto, {}).then(success).catch(fail)
+  axios.patch(`/members/passswords`, dto).then(success).catch(fail)
 }
 
 /**
@@ -57,6 +56,7 @@ export function patchPassword(dto, success, fail) {
  * URI : /members/privileges/elevations
  * 권한 : 1
  * 설명 : 회원정보 권한 상승 요청 시, 유효한 요청인지 확인 후 권한 상승 목록에 추가한다.
+ * @param {String} token accessToken(pinia 사용시 accessToken.value)
  * @param {ElevationRequestDto} dto 회원정보 권한 상승 요청 시 해당 계정 ID와 포트폴리오(htmlDocs)를 전송한다.
  * @param {Promise} success
  * 설명 : 권한 상승목록에 추가 완료
@@ -71,15 +71,44 @@ export function patchPassword(dto, success, fail) {
             message : String
           }
  */
-export function requestElevation(dto, success, fail) {
-  refreshAxios.post(`/members/privileges/elevations`, dto, {}).then(success).catch(fail)
+export function postRequestElevation(token, dto, success, fail) {
+  const authAxios = makeAuthAxios(axios, token)
+  authAxios.post(`/members/privileges/elevations`, dto).then(success).catch(fail)
+}
+
+/**
+ * API번호 : member-5
+ * METHOD : GET
+ * URI : /members/{longId}
+ * 권한 : 1
+ * 설명 : 기본 회원정보 조회
+ * @param {String} token accessToken(pinia 사용시 accessToken.value)
+ * @param {Promise} success
+ * 설명 : 기본 회원정보 데이터 전송
+ * 코드 : 200
+ * body : {
+            stringId : String
+            name : String
+            nick : String
+            email : String
+          }
+ * @param {Promise} fail
+ * 설명 : [400]잘못된 요청, [403]권한 오류
+ * 코드 : 400, 403
+ * body : {
+            message : String
+          }
+ */
+export function getMemberInfo(token, longId, success, fail) {
+  const authAxios = makeAuthAxios(axios, token)
+  authAxios.get(`/members/${longId}`).then(success).catch(fail)
 }
 
 /**
  * API번호 : member-6
  * METHOD : PATCH
  * URI : /members/{longId}
- * 권한 : 0
+ * 권한 : 1
  * 설명 : 회원정보 수정 시 입력한 비밀번호를 검증한 후, 회원정보 변경
  * @param {MemberInfoChangeRequestDto} dto 수정할 회원정보를 포함하는 dto
  * @param {Promise} success
@@ -95,8 +124,9 @@ export function requestElevation(dto, success, fail) {
             message : String
           }
  */
-export function patchMemberInfo(longId, dto, success, fail) {
-  refreshAxios.patch(`/members/${longId}`, dto, {}).then(success).catch(fail)
+export function patchMemberInfo(token, longId, dto, success, fail) {
+  const authAxios = makeAuthAxios(axios, token)
+  authAxios.patch(`/members/${longId}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -119,8 +149,9 @@ export function patchMemberInfo(longId, dto, success, fail) {
             message : String
           }
  */
-export function getProfile(longId, success, fail) {
-  refreshAxios.get(`/members/profiles/${longId}`, {}).then(success).catch(fail)
+export function getProfile(token, longId, success, fail) {
+  const authAxios = makeAuthAxios(axios, token)
+  authAxios.get(`/members/profiles/${longId}`).then(success).catch(fail)
 }
 
 /**
@@ -144,8 +175,9 @@ export function getProfile(longId, success, fail) {
             message : String
           }
  */
-export function postProfileText(longId, dto, success, fail) {
-  refreshAxios.post(`/members/profiles/texts/${longId}`, dto, {}).then(success).catch(fail)
+export function postProfileText(token, longId, dto, success, fail) {
+  const authAxios = makeAuthAxios(axios, token)
+  authAxios.post(`/members/profiles/texts/${longId}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -153,7 +185,7 @@ export function postProfileText(longId, dto, success, fail) {
  * METHOD : POST
  * URI : /members/profiles/images/{longId}
  * 권한 : 1
- * 설명 : 코치나 코미가 프로필 사진을 등록한다.
+ * 설명 : 코치나 코미가 프로필 사진을 등록한다.(기존에 사진이 있으면 삭제)
  * @param {Number} longId 멤버 id(pk)
  * @param {ProfileImageRequestDto} dto 프로필 사진 등록 및 수정요청 dto
  * @param {Promise} success
@@ -169,86 +201,13 @@ export function postProfileText(longId, dto, success, fail) {
             message : String
           }
  */
-export function postProfileImage(longId, dto, success, fail) {
-  refreshAxios.post(`/members/profiles/images/${longId}`, dto, {}).then(success).catch(fail)
+export function postProfileImage(token, longId, dto, success, fail) {
+  const authAxios = makeAuthAxios(axios, token)
+  authAxios.post(`/members/profiles/images/${longId}`, dto).then(success).catch(fail)
 }
 
 /**
- * API번호 : member-10
- * METHOD : PATCH
- * URI : /members/profiles/texts/{longId}
- * 권한 : 1
- * 설명 : 코치나 코미가 프로필 글을 수정한다.
- * @param {Number} longId 멤버 id(pk)
- * @param {ProfileTextRequestDto} dto 프로필 글 등록 및 수정요청 dto
- * @param {Promise} success
- * 설명 : 프로필 글 수정 완료
- * 코드 : 200
- * body : {
-            message : String
-          }
- * @param {Promise} fail
- * 설명 : 잘못된 요청
- * 코드 : 403
- * body : {
-            message : String
-          }
- */
-export function patchProfileText(longId, dto, success, fail) {
-  refreshAxios.patch(`/members/profiles/texts/${longId}`, dto, {}).then(success).catch(fail)
-}
-
-/**
- * API번호 : member-11
- * METHOD : PATCH
- * URI : /members/profiles/images/{longId}
- * 권한 : 1
- * 설명 : 코치나 코미가 프로필 사진을 수정한다. 기존 프로필 사진은 삭제한다.
- * @param {Number} longId 멤버 id(pk)
- * @param {ProfileImageRequestDto} dto 프로필 사진 등록 및 수정요청 dto
- * @param {Promise} success
- * 설명 : 프로필 사진 수정 및 기존파일 삭제 완료
- * 코드 : 200
- * body : {
-            message : String
-          }
- * @param {Promise} fail
- * 설명 : 잘못된 요청
- * 코드 : 403
- * body : {
-            message : String
-          }
- */
-export function patchProfileImage(longId, file, success, fail) {
-  refreshAxios.patch(`/members/profiles/images/${longId}`, file, {}).then(success).catch(fail)
-}
-
-/**
- * API번호 : member-12
- * METHOD : DELETE
- * URI : /members/profiles/texts/{longId}
- * 권한 : 1
- * 설명 : 코치나 코미가 프로필 글을 삭제한다.
- * @param {Number} longId 멤버 id(pk)
- * @param {Promise} success
- * 설명 : 프로필 글 삭제 완료
- * 코드 : 200
- * body : {
-            message : String
-          }
- * @param {Promise} fail
- * 설명 : 잘못된 요청
- * 코드 : 403
- * body : {
-            message : String
-          }
- */
-export function deleteProfileText(longId, dto, success, fail) {
-  refreshAxios.delete(`/members/profiles/texts/${longId}`, dto, {}).then(success).catch(fail)
-}
-
-/**
- * API번호 : member-14
+ * API번호 : member-13
  * METHOD : POST
  * URI : /members/duplicate/id
  * 권한 : 0

@@ -3,9 +3,9 @@ import CustomButton from '@/components/atoms/CustomButton.vue'
 import CustomInput from '@/components/atoms/CustomInput.vue'
 import ProfileImage from '@/components/atoms/ProfileImage.vue'
 import { validatePassword, validateNickName } from '@/utils/functions/member'
-import { patchMemberInfo } from '@/utils/api/member-api'
+import { getMemberInfo, patchMemberInfo } from '@/utils/api/member-api'
 import { MemberInfoChangeRequestDto } from '@/utils/api/dto/member-dto'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { decodeToken } from '@/utils/functions/auth'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
@@ -17,17 +17,33 @@ import { storeToRefs } from 'pinia'
 // variables
 const openModal = ref(false)
 const pw = ref('')
-const nick = ref('')
-const email = ref('')
+const newNick = ref('')
+const newEmail = ref('')
 
 // token에서 받아옴
 const authStore = useAuthStore()
 const { accessToken } = storeToRefs(authStore)
 const tokenValue = decodeToken(accessToken.value)
-const name = tokenValue.name
 const longId = tokenValue.id
 
-// methods
+// API에서 받아옴
+const stringId = ref('')
+const name = ref('')
+const nick = ref('')
+const email = ref('')
+
+/**
+ * methods
+ */
+
+onBeforeMount(() => {
+  getMemberInfo(accessToken.value, longId, (success) => {
+    stringId.value = success.data.stringId
+    name.value = success.data.name
+    nick.value = success.data.nick
+    email.value = success.data.email
+  })
+})
 
 // 비밀번호 검증
 const isValidPassword = computed(() => {
@@ -37,14 +53,14 @@ const isValidPassword = computed(() => {
 
 // 닉네임 검증
 const isValidNickName = computed(() => {
-  if (nick.value === '') return true
-  return validateNickName(nick.value)
+  if (newNick.value === '') return true
+  return validateNickName(newNick.value)
 })
 
-const changeMemberInfo = (pw, nick, email) => {
+const changeMemberInfo = (pw, newNick, newEmail) => {
   try {
     // dto 생성 및 호출
-    const dto = new MemberInfoChangeRequestDto(pw, nick, email)
+    const dto = new MemberInfoChangeRequestDto(pw, newNick, newEmail)
     patchMemberInfo(
       longId,
       dto,
@@ -65,7 +81,7 @@ const changeMemberInfo = (pw, nick, email) => {
 </script>
 <template>
   <div>
-    <div class="main-profile">
+    <div class="main-profile shadow-2">
       <div class="profile-img">
         <div><ProfileImage size="100px" /></div>
         <div class="profile-img-icon">
@@ -82,12 +98,27 @@ const changeMemberInfo = (pw, nick, email) => {
       </div>
     </div>
     <div class="detail-member-info">
-      <h6 class="detail-member-info-id">{{ name }}</h6>
+      <h6 class="detail-member-info-text">
+        <span class="detail-member-info-tag">ID :</span>
+        {{ stringId }}
+      </h6>
+      <h6 class="detail-member-info-text">
+        <span class="detail-member-info-tag">이름 :</span>
+        {{ name }}
+      </h6>
+      <h6 class="detail-member-info-text">
+        <span class="detail-member-info-tag">닉네임 :</span>
+        {{ nick }}
+      </h6>
+      <h6 class="detail-member-info-text">
+        <span class="detail-member-info-tag">이메일 :</span>
+        {{ email }}
+      </h6>
 
       <div class="detail-member-info-input">
         <q-input
           standout="bg-teal text-white"
-          v-model="nick"
+          v-model="newNick"
           label="닉네임"
           hint="영어, 숫자, 한글만 가능합니다."
           error-message="닉네임은 특수문자를 포함할 수 없습니다."
@@ -98,8 +129,8 @@ const changeMemberInfo = (pw, nick, email) => {
       <div class="detail-member-info-input">
         <q-input
           standout="bg-teal text-white"
-          type="email"
-          v-model="email"
+          type="newEmail"
+          v-model="newEmail"
           label="이메일"
           hint="이메일 주소를 입력하세요."
           maxlength="50"
@@ -137,7 +168,7 @@ const changeMemberInfo = (pw, nick, email) => {
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="수정하기" color="primary" @click="changeMemberInfo(pw, nick, email)" />
+        <q-btn flat label="수정하기" color="primary" @click="changeMemberInfo(pw, newNick, newEmail)" />
         <q-btn flat label="취소" color="primary" v-close-popup />
       </q-card-actions>
     </q-card>
@@ -147,7 +178,6 @@ const changeMemberInfo = (pw, nick, email) => {
 <style scoped>
 .main-profile {
   width: 80%;
-  background-color: aliceblue;
   margin: 30px auto;
   display: flex;
   justify-content: space-around;
@@ -176,9 +206,13 @@ const changeMemberInfo = (pw, nick, email) => {
   margin: auto;
 }
 
-.detail-member-info-id {
+.detail-member-info-text {
   font-size: 1.2rem;
   margin: 1rem 0.5rem;
+}
+.detail-member-info-tag {
+  font-size: 0.8rem;
+  color: #034c8c;
 }
 .detail-member-info-input {
   margin-bottom: 1rem;
