@@ -10,7 +10,6 @@ export default {
     const selectedDateEvents = ref([]);
     const showModal = () => {
       isModalVisible.value = true;
-      // 여기서 날짜에 해당하는 이벤트를 가져오는 로직을 추가할 수 있습니다.
       selectedDateEvents.value = events.filter(event => event === date.value);
     };
     const hideModal = () => {
