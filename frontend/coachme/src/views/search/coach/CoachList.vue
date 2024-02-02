@@ -5,7 +5,7 @@ import CoachCardList from '@/components/molecules/SearchCoachCardList.vue'
 import chatButton from '@/components/molecules/ChatButton.vue'
 import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
-import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
+import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 
 import { ref } from 'vue'
 
@@ -66,7 +66,7 @@ const clickCategory = (index) => {
       <CustomCategory style="margin-top: 3vh;" @click-category="clickCategory"></CustomCategory>
       <div class="mypage-outside">
         <!-- 사이드메뉴 -->
-        <MypageSidebar :button-list="selectedCategory" />
+        <SearchCategorySidebar :button-list="selectedCategory" />
         <div class="mainpage">
           <!-- 코치 리스트 -->
           <CoachCardList style="margin-left: 7vw;"></CoachCardList>

@@ -87,8 +87,6 @@ body {
 
 #main-content {
   display: flex;
-  width: 5vw;
-  height: 5vh;
   background: white;
   align-items: center;
   justify-content: center;
@@ -114,7 +112,7 @@ a {
 svg {
   cursor: pointer;
   overflow: visible;
-  width: 60px;
+  width: 5vw;
 
   #heart {
     transform-origin: center;

@@ -4,7 +4,7 @@
 import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import chatButton from '@/components/molecules/ChatButton.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
-import MypageSidebar from '@/components/molecules/MypageSidebar.vue'
+import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 import SearchCoachingList from '@/components/molecules/SearchCoachingList.vue'
 
 import { ref, reactive } from 'vue'
@@ -88,6 +88,7 @@ const selectedCategory = ref([])
 // 선택된 상단 메뉴 리스트. props로 전달되는 리스트
 
 const clickCategory = (index) => {
+  console.log(index)
   selectButton.value = index
   selectedCategory.value = SideButtonList[selectButton.value]
 }
@@ -105,7 +106,7 @@ const clickCategory = (index) => {
       <CustomCategory style="margin-top: 3vh;" @click-category="clickCategory"></CustomCategory>
       <div class="mypage-outside">
         <!-- 사이드메뉴 -->
-        <MypageSidebar :button-list="selectedCategory" />
+        <SearchCategorySidebar :button-list="selectedCategory" />
         <div class="mainpage">
           <!-- 코칭 목록과 채팅 버튼-->
           <SearchCoachingList :coaching="coaching"></SearchCoachingList>

@@ -5,7 +5,7 @@ coach : 코치 이름. 문자열
 
 <script setup>
 import Labels from '../atoms/CardLabel.vue';
-import Like from '../atoms/Like.vue';
+import Like from '../atoms/CustomLike.vue'
 import CustomButton from '../atoms/CustomButton.vue';
 import { ref } from 'vue'
 import { useCounterStore } from "../../stores/chat-status.js"

@@ -32,7 +32,7 @@ let MAX_DEFAULT_MOVE
 
 onMounted(() => {
   frame = document.querySelector('.frame')
-  console.log(frame)
+  // console.log(frame)
   like = document.querySelector('#like')
   hate = document.querySelector('#hate')
 

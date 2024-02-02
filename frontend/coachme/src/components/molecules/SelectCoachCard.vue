@@ -70,10 +70,6 @@ watch(() => stars.value, (newState) => {
 
   <!-- 제공 코칭과 별점 영역-->
   <q-item class="justify-evenly">
-    <!-- 제공 코칭 -->
-    <q-item-section style="min-width: fit-content;">
-      <labels :label="`${props.category}`" class="text-black text-bold"></labels>
-    </q-item-section>
     <!-- 공간 분리-->
     <q-item-section>
       <q-space></q-space>
@@ -84,6 +80,14 @@ watch(() => stars.value, (newState) => {
       <span style="font-size: 15px; color: black; font-weight: 600;">{{ rating }} ({{ reviewCount }}) </span>
     </q-item-section>
   </q-item>
+
+    <!-- 대표 코칭 이름 -->
+    <q-item class="justify-evenly">
+      <!-- 코칭 이름 -->
+      <q-item-section style="min-width: fit-content;">
+        <labels :label="`${props.category}`" class="text-black text-bold"></labels>
+      </q-item-section>
+    </q-item>
 
   <!-- 코치 버튼 영역 -->
   <q-item class="coach-button">
