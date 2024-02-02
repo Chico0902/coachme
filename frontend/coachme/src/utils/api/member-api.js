@@ -1,7 +1,8 @@
 import { backendAxios, authBackendAxios } from '@/utils/http-commons'
+import { getRefreshToken } from '../functions/auth'
 
 const axios = backendAxios()
-const axiosWithToken = authBackendAxios()
+const refreshAxios = authBackendAxios()
 
 /**
  * API번호 : member-2
@@ -48,14 +49,21 @@ export function postMember(dto, success, fail) {
           }
  */
 export function patchPassword(dto, success, fail) {
-  axios.patch(`/members/passswords`, dto).then(success).catch(fail)
+  refreshAxios
+    .patch(`/members/passswords`, dto, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**
  * API번호 : member-4
  * METHOD : POST
  * URI : /members/privileges/elevations
- * 권한 : 3
+ * 권한 : 1
  * 설명 : 회원정보 권한 상승 요청 시, 유효한 요청인지 확인 후 권한 상승 목록에 추가한다.
  * @param {ElevationRequestDto} dto 회원정보 권한 상승 요청 시 해당 계정 ID와 포트폴리오(htmlDocs)를 전송한다.
  * @param {Promise} success
@@ -72,8 +80,12 @@ export function patchPassword(dto, success, fail) {
           }
  */
 export function requestElevation(dto, success, fail) {
-  axios
-    .post(`/members/privileges/elevations`, dto, { headers: { Authorization: 'token' } })
+  refreshAxios
+    .post(`/members/privileges/elevations`, dto, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
     .then(success)
     .catch(fail)
 }
@@ -99,7 +111,14 @@ export function requestElevation(dto, success, fail) {
           }
  */
 export function patchMemberInfo(longId, dto, success, fail) {
-  axiosWithToken.patch(`/members/${longId}`, dto).then(success).catch(fail)
+  refreshAxios
+    .patch(`/members/${longId}`, dto, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**
@@ -123,7 +142,14 @@ export function patchMemberInfo(longId, dto, success, fail) {
           }
  */
 export function getProfile(longId, success, fail) {
-  axiosWithToken.get(`/members/profiles/${longId}`).then(success).catch(fail)
+  refreshAxios
+    .get(`/members/profiles/${longId}`, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**
@@ -148,7 +174,14 @@ export function getProfile(longId, success, fail) {
           }
  */
 export function postProfileText(longId, dto, success, fail) {
-  axiosWithToken.post(`/members/profiles/texts/${longId}`, dto).then(success).catch(fail)
+  refreshAxios
+    .post(`/members/profiles/texts/${longId}`, dto, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**
@@ -173,7 +206,14 @@ export function postProfileText(longId, dto, success, fail) {
           }
  */
 export function postProfileImage(longId, dto, success, fail) {
-  axiosWithToken.post(`/members/profiles/images/${longId}`, dto).then(success).catch(fail)
+  refreshAxios
+    .post(`/members/profiles/images/${longId}`, dto, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**
@@ -198,7 +238,14 @@ export function postProfileImage(longId, dto, success, fail) {
           }
  */
 export function patchProfileText(longId, dto, success, fail) {
-  axiosWithToken.patch(`/members/profiles/texts/${longId}`, dto).then(success).catch(fail)
+  refreshAxios
+    .patch(`/members/profiles/texts/${longId}`, dto, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**
@@ -223,7 +270,14 @@ export function patchProfileText(longId, dto, success, fail) {
           }
  */
 export function patchProfileImage(longId, file, success, fail) {
-  axiosWithToken.patch(`/members/profiles/images/${longId}`, file).then(success).catch(fail)
+  refreshAxios
+    .patch(`/members/profiles/images/${longId}`, file, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**
@@ -247,14 +301,21 @@ export function patchProfileImage(longId, file, success, fail) {
           }
  */
 export function deleteProfileText(longId, dto, success, fail) {
-  axiosWithToken.delete(`/members/profiles/texts/${longId}`, dto).then(success).catch(fail)
+  refreshAxios
+    .delete(`/members/profiles/texts/${longId}`, dto, {
+      headers: {
+        Authorization: 'bearer ' + getRefreshToken()
+      }
+    })
+    .then(success)
+    .catch(fail)
 }
 
 /**
  * API번호 : member-14
  * METHOD : POST
  * URI : /members/duplicate/id
- * 권한 : 1
+ * 권한 : 0
  * 설명 : 회원가입 시 사용자 ID가 중복되는지 검증한다.
  * @param {MemberDuplicateRequestDto} dto 멤버 stringId가 들어있는 dto
  * @param {Promise} success

@@ -1,19 +1,19 @@
 import { HttpResponse, http } from 'msw'
 
-const mockLoginResponseDto = {
-  accessToken:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsIm5hbWUiOiLqs6DslpHsnbQiLCJwcml2aWxlZ2UiOiJDT0FNRSJ9.CJQRuGr5AxmK7Rva0ner_84rHjPc9baBJ3KwD630xRs',
-  refreshToken: 'mock-refresh-token'
+const mockLoginResponse = {
+  accessToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsIm5hbWUiOiLqs6DslpHsnbQiLCJwcml2aWxlZ2UiOiJDT0FNRSJ9.CJQRuGr5AxmK7Rva0ner_84rHjPc9baBJ3KwD630xRs`,
+  profileImageUrl: 'testUrl',
+  profileText: 'testText'
 }
-const mockCoachLoginResponseDto = {
-  accessToken:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoi6rOg7L2U7LmYIiwicHJpdmlsZWdlIjoiQ09BQ0gifQ.2eJI-xdV3-jFXBQ5FaZmqcE2qQXNCgwo-G1BUS3pEJ4',
-  refreshToken: 'mock-refresh-token'
+const mockCoachLoginResponse = {
+  accessToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoi6rOg7L2U7LmYIiwicHJpdmlsZWdlIjoiQ09BQ0gifQ.2eJI-xdV3-jFXBQ5FaZmqcE2qQXNCgwo-G1BUS3pEJ4`,
+  profileImageUrl: 'testUrl',
+  profileText: 'testText'
 }
-const mockAdminLoginResponseDto = {
-  accessToken:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAiLCJuYW1lIjoi6rSA66as7J6QIiwicHJpdmlsZWdlIjoiQURNSU4ifQ.wxFYo1hPdzVdE56oUkbbqRTxqoXOshHhK-GiI8TDQeY',
-  refreshToken: 'mock-refresh-token'
+const mockAdminLoginResponse = {
+  accessToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAiLCJuYW1lIjoi6rSA66as7J6QIiwicHJpdmlsZWdlIjoiQURNSU4ifQ.wxFYo1hPdzVdE56oUkbbqRTxqoXOshHhK-GiI8TDQeY`,
+  profileImageUrl: 'testUrl',
+  profileText: 'testText'
 }
 
 export default [
@@ -21,11 +21,46 @@ export default [
     const newPost = await request.json()
     switch (newPost.stringId) {
       case 'coach':
-        return HttpResponse.json(mockCoachLoginResponseDto)
+        return new HttpResponse(
+          JSON.stringify({
+            profileImageUrl: mockCoachLoginResponse.profileImageUrl,
+            profileText: mockCoachLoginResponse.profileText
+          }),
+          {
+            headers: {
+              Authorization: mockCoachLoginResponse.accessToken,
+              'Content-Type': 'Application/json'
+            }
+          }
+        )
+
       case 'admin':
-        return HttpResponse.json(mockAdminLoginResponseDto)
+        return new HttpResponse(
+          JSON.stringify({
+            profileImageUrl: mockAdminLoginResponse.profileImageUrl,
+            profileText: mockAdminLoginResponse.profileText
+          }),
+          {
+            headers: {
+              Authorization: mockAdminLoginResponse.accessToken,
+              'Content-Type': 'Application/json'
+            }
+          }
+        )
+
       default:
-        return HttpResponse.json(mockLoginResponseDto)
+        return new HttpResponse(
+          JSON.stringify({
+            profileImageUrl: mockLoginResponse.profileImageUrl,
+            profileText: mockLoginResponse.profileText
+          }),
+          {
+            headers: {
+              Authorization: mockLoginResponse.accessToken,
+              'Content-Type': 'Application/json'
+            }
+          }
+        )
     }
   })
 ]

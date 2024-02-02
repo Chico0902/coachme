@@ -55,7 +55,6 @@ const regist = () => {
 </template>
 
 <style scoped>
-
 .main-font-container {
   margin-top: 1.5rem;
   margin-left: 3rem;

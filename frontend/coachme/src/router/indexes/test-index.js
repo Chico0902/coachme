@@ -3,6 +3,7 @@ import TestLoginView from '../../tests/views/TestLoginView.vue'
 import TestRegistView from '../../tests/views/TestRegistView.vue'
 import TestChangePasswordView from '../../tests/views/TestChangePasswordView.vue'
 import TestProfileView from '../../tests/views/TestProfileView.vue'
+import TestTokenView from '../../tests/views/TestTokenView.vue'
 export default [
   {
     path: '/test',
@@ -28,5 +29,10 @@ export default [
     path: '/test/profile',
     name: 'test-profile',
     component: TestProfileView
+  },
+  {
+    path: '/test/token',
+    name: 'test-token',
+    component: TestTokenView
   }
 ]

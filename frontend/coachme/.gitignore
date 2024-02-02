@@ -32,6 +32,3 @@ coverage
 src/assets/base.css
 src/assets/main.css
 src/tests
-src/router/indexes/test-index.js
-src/router/index.js
-src/main.js
