@@ -102,7 +102,5 @@ watch(() => stars.value, (newState) => {
 </template>
 
 <style scoped>
-.coach-button {
-  margin-top: 2vh;
-}
+
 </style>
