@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    List<Member> findByStringId(String stringId);
+  List<Member> findByStringId(String stringId);
 
-    @Query(value = "SELECT m FROM Member m join fetch m.portfolio " +
-                        "WHERE m.elevateStatus = ?1")
-    List<Member> findByElevateStatusWithPortfolio(ElevateStatus elevateStatus);
+  @Query(value = "SELECT m FROM Member m join fetch m.portfolio " +
+      "WHERE m.elevateStatus = ?1")
+  List<Member> findByElevateStatusWithPortfolio(ElevateStatus elevateStatus);
 }

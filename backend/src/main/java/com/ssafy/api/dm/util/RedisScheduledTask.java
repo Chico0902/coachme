@@ -54,7 +54,7 @@ public class RedisScheduledTask {
         DmRedisDto data = RedisUtils.parser(key);
         memberList.add(data.getMember());
         dmRoomList.add((long) data.getRoomId());
-        if(!"".equals(value)){
+        if (!"".equals(value)) {
           data.setMessage(value);
         }
         dmList.add(data);
@@ -63,7 +63,7 @@ public class RedisScheduledTask {
 
       if (count == 0) {
         log.debug("No data available. Task completed.");
-      }else{
+      } else {
         List<DMRoom> roomLi = dmRoomRepository.findAllByIdIn(dmRoomList);
         Map<Long, DMRoom> roomMap = new HashMap<>();
 
@@ -94,7 +94,6 @@ public class RedisScheduledTask {
       log.error("An unexpected error occurred.", e);
     }
   }
-
 
 
 }

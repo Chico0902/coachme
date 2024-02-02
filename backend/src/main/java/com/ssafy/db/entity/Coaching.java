@@ -9,7 +9,8 @@ import java.util.List;
 @Entity
 @Getter
 public class Coaching extends BaseEntity {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coaching_id")
   private Long id;
 

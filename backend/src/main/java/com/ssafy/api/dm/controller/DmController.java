@@ -19,7 +19,7 @@ public class DmController {
 
   // 디엠방 생성 API
   @GetMapping("/room/enter")
-  public ResponseEntity<DmRoomEnterResponseDto> enterRoom(@RequestBody DmRoomEnterRequestDto dto) throws Exception{
+  public ResponseEntity<DmRoomEnterResponseDto> enterRoom(@RequestBody DmRoomEnterRequestDto dto) throws Exception {
     DmRoomEnterResponseDto enterDmroom = dmService.enterDmRoom(dto);
     return new ResponseEntity<>(enterDmroom, HttpStatus.OK);
   }
@@ -34,7 +34,7 @@ public class DmController {
 
   // 디엠 조회 API
   @GetMapping("/{roomId}")
-  public ResponseEntity<ListDataDto> getDmList(@PathVariable long roomId) throws Exception{
+  public ResponseEntity<ListDataDto> getDmList(@PathVariable long roomId) throws Exception {
     ListDataDto dto = new ListDataDto(dmService.getDmList(roomId));
     return new ResponseEntity<>(dto, HttpStatus.OK);
   }
