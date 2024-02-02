@@ -12,53 +12,53 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-  private final Member member;
+    private final Member member;
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    Collection<GrantedAuthority> authorities = new ArrayList<>();
-    switch (member.getPrivilege()) {
-      case COAME -> authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
-      case COACH -> {
-        authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
-        authorities.add(new SimpleGrantedAuthority("ROLE_COACH"));
-      }
-      case ADMIN -> {
-        authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
-        authorities.add(new SimpleGrantedAuthority("ROLE_COACH"));
-        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-      }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        switch(member.getPrivilege()) {
+            case COAME -> authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
+            case COACH -> {
+                authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_COACH"));
+            }
+            case ADMIN -> {
+                authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_COACH"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            }
+        }
+        return authorities;
     }
-    return authorities;
-  }
 
-  @Override
-  public String getPassword() {
-    return this.member.getPassword();
-  }
+    @Override
+    public String getPassword() {
+        return this.member.getPassword();
+    }
 
-  @Override
-  public String getUsername() {
-    return this.member.getStringId();
-  }
+    @Override
+    public String getUsername() {
+        return this.member.getStringId();
+    }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return false;
-  }
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return false;
-  }
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return false;
-  }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
 
-  @Override
-  public boolean isEnabled() {
-    return false;
-  }
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
