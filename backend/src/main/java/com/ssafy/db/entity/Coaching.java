@@ -4,6 +4,7 @@ import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +68,18 @@ public class Coaching extends BaseEntity {
     this.coach = member;
   }
 
-  public void categorize(String main, String sub) {
-    this.mainCategory = new Category(main, CategoryType.MAIN);
-    this.subCategory = new Category(sub, CategoryType.SUB);
-    this.subCategory.addMainCategory(this.mainCategory);
+  public void addOneCategory(Category main) {
+    this.mainCategory = main;
+  }
+
+  public void addBothCategories(Category main, Category sub) {
+
+  }
+
+
+  public void categorize(Category main, Category sub) {
+    this.mainCategory = main;
+    this.subCategory = sub;
+    this.subCategory.addCategoryList(this);
   }
 }
