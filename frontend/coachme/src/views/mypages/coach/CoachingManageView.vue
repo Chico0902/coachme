@@ -91,7 +91,7 @@ export default {
   position: relative;
   display: inline-blockk;
   text-decoration: none;
-  text-transform: uppercase;
+  
 }
 .SMN_effect-42 a {
   position: relative;
@@ -157,7 +157,6 @@ export default {
   height: 40px;
   padding: 10px 25px;
   border: 2px solid #000;
-  font-family: 'Lato', sans-serif;
   font-weight: 500;
   background: transparent;
   cursor: pointer;
