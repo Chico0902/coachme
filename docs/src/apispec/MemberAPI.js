@@ -130,8 +130,8 @@ export default {
           data: { stringId: 'String', name: 'String', nick: 'String', email: 'String' }
         },
         fail: {
-          description: '잘못된 요청',
-          code: '403',
+          description: '[400]잘못된 요청, [403]권한 오류',
+          code: '400, 403',
           data: { message: 'String' }
         }
       }
@@ -169,7 +169,7 @@ export default {
       id: 'member-7',
       spec: '1-7',
       method: 'GET',
-      uri: '/members/profiles/{longId}',
+      uri: '/members/{longId}/profiles',
       privilege: '1',
       description: '코미나 코치의 프로필 글과 사진에 대한 조회결과를 전송한다.',
       request: {},
@@ -194,7 +194,7 @@ export default {
       id: 'member-8',
       spec: '1-7',
       method: 'POST',
-      uri: '/members/profiles/texts/{longId}',
+      uri: '/members/profiles/{longId}/texts',
       privilege: '1',
       description: '코치나 코미가 프로필 글을 등록한다.(기존 글 덮어쓰기)',
       request: {
@@ -221,7 +221,7 @@ export default {
       id: 'member-9',
       spec: '1-7',
       method: 'POST',
-      uri: '/members/profiles/images/{longId}',
+      uri: '/members/profiles/{longId}/images',
       privilege: '1',
       description: '코치나 코미가 프로필 사진을 등록한다.(기존에 사진이 있으면 삭제)',
       request: {
@@ -246,7 +246,7 @@ export default {
       id: 'member-10',
       spec: '1-7',
       method: 'PATCH',
-      uri: '/members/profiles/texts/{longId}',
+      uri: '',
       privilege: '1',
       description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {
@@ -273,7 +273,7 @@ export default {
       id: 'member-11',
       spec: '1-7',
       method: 'PATCH',
-      uri: '/members/profiles/images/{longId}',
+      uri: '',
       privilege: '1',
       description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {
@@ -298,7 +298,7 @@ export default {
       id: 'member-12',
       spec: '1-7',
       method: 'DELETE',
-      uri: '/members/profiles/texts/{longId}',
+      uri: '',
       privilege: '1',
       description: '해당 api는 더이상 사용하지 않음(deprecated)',
       request: {},

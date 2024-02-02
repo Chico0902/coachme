@@ -18,8 +18,9 @@ export default {
           description: '해당 로그인 요청 유효함',
           code: '200',
           data: {
-            accessToken: 'String[token : id, name, privilege]',
-            refreshToken: 'String'
+            accessToken: 'String[header - Authorization]',
+            profileImageUrl: 'String',
+            profileText: 'String'
           }
         },
         fail: {
