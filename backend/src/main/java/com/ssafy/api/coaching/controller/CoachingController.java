@@ -3,12 +3,21 @@ package com.ssafy.api.coaching.controller;
 import com.ssafy.api.coaching.dto.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.GetOneCoachingResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
+import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
+import com.ssafy.api.coaching.service.CoachingService;
+import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/coaches")
@@ -32,19 +41,31 @@ public class CoachingController {
     // 정상 등록완료(200)
     return new ResponseEntity<>(new MessageDto("Coaching created successfully"), HttpStatus.CREATED);
   }
+
   /**
-   * [coaching-?] 코치가 등록한 코칭을 조회한다.
-   * privilege : 2
-   * @return [200] 정상 조회완료
+   * [coaching-6] 코미가 라이브 코칭을 수강 신청
+   * privilege : 1
+   * @return [200] 정상 등록완료
    */
-//  @GetMapping("/{coachId}/coachings/{id}")
-//  public ResponseEntity<GetOneCoachingResponseDto> createCoaching(
-//      @PathVariable(name = "coachId") Long longId,
-//      @PathVariable(name = "coachId") Long id) throws Exception {
-//    // 코칭 조회
-//    GetOneCoachingResponseDto dto = coachingService.getOneCoaching(longId, id);
-//    // 정상 등록완료(200)
-//    return new ResponseEntity<>(dto, HttpStatus.OK);
-//  }
+  @GetMapping("/{liveCoachingId}/{coameId}")
+  public ResponseEntity<?> signUpClass(@PathVariable Long liveCoachingId, @PathVariable Long coameId) {
+
+    coachingService.signUpClass(liveCoachingId, coameId);
+
+    return new ResponseEntity<>(new MessageDto("sign up successfully !"), HttpStatus.OK);
+  }
+
+  /**
+   * [coaching-7] 회원정보 권한 상승 요청 시, 유효한 요청인지 확인 후 권한 상승 목록에 추가한다.
+   * privilege : 2
+   * @return [200] 코미 id, 이름, 프로필사진 URL
+   */
+  @GetMapping("/{id}/coames")
+  public ResponseEntity<?> getCoameList(@PathVariable Long id) {
+
+    List<CoameListResponseDto> responseList = coachingService.getCoameList(id);
+
+    return new ResponseEntity<>(new ListDataDto(responseList), HttpStatus.OK);
+  }
 
 }

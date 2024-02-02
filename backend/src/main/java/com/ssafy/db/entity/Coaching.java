@@ -3,6 +3,7 @@ package com.ssafy.db.entity;
 import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,6 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
-
 public class Coaching extends BaseEntity {
   @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coaching_id")
@@ -21,10 +21,6 @@ public class Coaching extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "coach_id")
   private Member coach;
-
-  @ManyToOne
-  @JoinColumn(name = "coame_id")
-  private Member coame;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "main_category_id")
@@ -38,8 +34,7 @@ public class Coaching extends BaseEntity {
   private String name;
 
   @OneToMany(mappedBy = "coaching")
-
-  private List<CoameCoaching> coameCoachings = new ArrayList<>();
+  private List<LiveCoaching> liveCoachings = new ArrayList<>();
 
   @OneToMany(mappedBy = "coaching")
   private List<VideoCoaching> videoCoachings = new ArrayList<>();
@@ -75,7 +70,6 @@ public class Coaching extends BaseEntity {
   public void addBothCategories(Category main, Category sub) {
 
   }
-
 
   public void categorize(Category main, Category sub) {
     this.mainCategory = main;
