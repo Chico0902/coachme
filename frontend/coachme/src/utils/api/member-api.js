@@ -151,7 +151,7 @@ export function patchMemberInfo(token, longId, dto, success, fail) {
  */
 export function getProfile(token, longId, success, fail) {
   const authAxios = makeAuthAxios(axios, token)
-  authAxios.get(`/members/profiles/${longId}`).then(success).catch(fail)
+  authAxios.get(`/members/${longId}/profiles`).then(success).catch(fail)
 }
 
 /**
@@ -160,6 +160,7 @@ export function getProfile(token, longId, success, fail) {
  * URI : /members/profiles/texts/{longId}
  * 권한 : 1
  * 설명 : 코치나 코미가 프로필 글을 등록한다.
+ * @param {String} token accessToken(pinia 사용시 accessToken.value)
  * @param {Number} longId 멤버 id(pk)
  * @param {ProfileTextRequestDto} dto 프로필 글 등록 및 수정요청 dto
  * @param {Promise} success
@@ -177,7 +178,7 @@ export function getProfile(token, longId, success, fail) {
  */
 export function postProfileText(token, longId, dto, success, fail) {
   const authAxios = makeAuthAxios(axios, token)
-  authAxios.post(`/members/profiles/texts/${longId}`, dto).then(success).catch(fail)
+  authAxios.post(`/members/${longId}/profiles/texts`, dto).then(success).catch(fail)
 }
 
 /**
@@ -186,6 +187,7 @@ export function postProfileText(token, longId, dto, success, fail) {
  * URI : /members/profiles/images/{longId}
  * 권한 : 1
  * 설명 : 코치나 코미가 프로필 사진을 등록한다.(기존에 사진이 있으면 삭제)
+ * @param {String} token accessToken(pinia 사용시 accessToken.value)
  * @param {Number} longId 멤버 id(pk)
  * @param {ProfileImageRequestDto} dto 프로필 사진 등록 및 수정요청 dto
  * @param {Promise} success
@@ -203,7 +205,33 @@ export function postProfileText(token, longId, dto, success, fail) {
  */
 export function postProfileImage(token, longId, dto, success, fail) {
   const authAxios = makeAuthAxios(axios, token)
-  authAxios.post(`/members/profiles/images/${longId}`, dto).then(success).catch(fail)
+  authAxios.post(`/members/${longId}/profiles/images`, dto).then(success).catch(fail)
+}
+
+/**
+ * API번호 : member-12
+ * METHOD : DELETE
+ * URI : /members/{longId}/profiles/images
+ * 권한 : 1
+ * 설명 : 코치나 코미가 프로필 사진을 삭제한다.
+ * @param {String} token accessToken(pinia 사용시 accessToken.value)
+ * @param {Number} longId 멤버 id(pk)
+ * @param {Promise} success
+ * 설명 : 프로필 사진 삭제 완료
+ * 코드 : 200
+ * body : {
+            message : String
+          }
+ * @param {Promise} fail
+ * 설명 : 요청정보 오류[400], 서버 오류[500]
+ * 코드 : 400, 500
+ * body : {
+            message : String
+          }
+ */
+export function deleteProfileImage(token, longId, success, fail) {
+  const authAxios = makeAuthAxios(axios, token)
+  authAxios.delete(`/members/${longId}/profiles/images`).then(success).catch(fail)
 }
 
 /**
