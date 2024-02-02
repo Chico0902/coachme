@@ -2,12 +2,17 @@ package com.ssafy.db.entity;
 
 import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class Category {
 
@@ -43,9 +48,13 @@ public class Category {
     /**
      * 이 메서드는 서브카테고리에서 실행합니다!!
      */
-    public void addMainCategory(Category mainCategory) {
-        mainCategory.getChildren().add(this);
-        this.parent = mainCategory;
+    public void addOneCategory(Coaching coaching) {
+        this.mainCategoryCoachings.add(coaching);
+    }
+
+    public void addCategoryList(Coaching coaching) {
+        this.mainCategoryCoachings.add(coaching);
+        this.subCategoryCoachings.add(coaching);
     }
 
 }
