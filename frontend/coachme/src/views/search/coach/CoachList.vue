@@ -64,41 +64,55 @@ const changeListAndMatching = () => {
 const coach = reactive([
   {
     coachId: "1",
+    category: 'one',
     coachName: "title one",
     rating: "4.7",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
   }, {
     coachId: "2",
+    category: 'two',
     coachName: "title two",
     rating: "4.6",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar2.jpg"
   }, {
     coachId: "3",
+    category: 'three',
     coachName: "title three",
     rating: "4.5",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar3.jpg"
   }, {
     coachId: "4",
+    category: 'four',
     coachName: "title four",
     rating: "3.9",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar4.jpg"
   }, {
     coachId: "5",
+    category: 'five',
     coachName: "title five",
     rating: "4",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar5.jpg"
   }, {
     coachId: "6",
+    category: 'six',
     coachName: "title six",
     rating: "4.9",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar6.jpg"
   }, {
     coachId: "7",
+    category: 'seven',
     coachName: "title seven",
     rating: "4.1",
+    reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
   }
-]) // 코칭 목록 예시
+]) // 코치 목록 예시
 
 </script>
 <template>
@@ -115,7 +129,7 @@ const coach = reactive([
         <SearchCategorySidebar :button-list="selectedCategory" />
         <div class="mainpage">
           <!-- 코치 매칭 카드  -->
-          <CoachCardList v-if="isMatching" style="margin-left: 7vw;"></CoachCardList>
+          <CoachCardList v-if="isMatching" :cards="coach" style="margin-left: 7vw;"></CoachCardList>
           <SearchCoachList v-else :coach="coach" style="margin-top: 2vh; margin-left: 0.6vw;"></SearchCoachList>
         </div>
         <!-- 채팅 버튼 -->

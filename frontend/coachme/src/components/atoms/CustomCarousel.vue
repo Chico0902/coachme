@@ -22,7 +22,7 @@ const props = defineProps({
   }
 })
 
-const slide = ref(1)
+const slide = ref(0)
 const autoplay = ref(true)
 </script>
 

@@ -49,7 +49,7 @@ const getData = computed(() => {
         style="margin-bottom: 3vh; min-width: 50vw; min-height:15vh;" rounded>
         <q-item>
           <!-- 프로필 사진 -->
-          <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 2vh; margin-right: 2vw;">
+          <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 0.6vh; margin-right: 2vw;">
             <profileImage :img="`${coaching.img}`" size="80px"></profileImage>
           </q-item-section>
 
@@ -68,11 +68,8 @@ const getData = computed(() => {
               <q-item-section class="card">
                 <!-- 별점 아이콘과 별점-->
                 <div class="ratingForm" style="width: fit-content;">
-                  <span class="material-symbols-outlined">
-                    stars
-                  </span>
-                  <span class="rating">{{ coaching.rating }}</span>
-                  <q-section></q-section>
+                  <q-btn flat round color="amber-7" icon="star" disable></q-btn>
+                  <span class="rating">{{ coaching.rating }} ({{ coaching.reviewCount }})</span>
                 </div>
                 <!-- 공간 분리 -->
                 <q-space></q-space>
@@ -90,6 +87,7 @@ const getData = computed(() => {
       </q-card>
     </template>
 
+    <!-- 검색 결과가 없을 때 -->
     <template v-else>
       <q-item style="margin: 3vh;">
         <q-item-section>
@@ -128,11 +126,12 @@ const getData = computed(() => {
 }
 
 .rating {
-  font-size: 25px;
+  font-size: 15px;
 }
 
 .ratingForm {
-  display: inline-flex;
+  display: flex;
   vertical-align: center;
+  align-items: center;
 }
 </style>
