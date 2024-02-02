@@ -102,9 +102,11 @@ public class Member extends BaseEntity {
 
   // method
   // 회원정보 생성 시 권한을 설정하고 상태를 생성으로 바꾼다.
-  public void initMemberPrivilegeAndStatus() {
+  public void initMemberStatus() {
     this.status = MemberStatus.CREATED;
     this.privilege = Privilege.COAME;
+    this.profileText = "프로필을 등록하세요.";
+    this.profileImage = new File(this, "default", "/src/assets/icons/coame.png");
   }
 
   // 회원정보 수정 시 이름과 이메일을 변경하고 상태를 변경으로 바꾼다.
