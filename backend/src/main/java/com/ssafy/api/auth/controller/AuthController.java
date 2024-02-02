@@ -1,9 +1,11 @@
 package com.ssafy.api.auth.controller;
 
+import com.ssafy.api.auth.dto.TokenInfoDto;
 import com.ssafy.api.auth.dto.request.LoginRequestDto;
-import com.ssafy.api.auth.dto.response.TokenResponseDto;
+import com.ssafy.api.auth.dto.response.LoginResponseDto;
 import com.ssafy.api.auth.service.AuthService;
-import com.ssafy.dto.MessageDto;
+import com.ssafy.api.member.dto.response.ProfileResponseDto;
+import com.ssafy.api.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,19 +33,21 @@ public class AuthController {
    * @throws Exception : handleUsernameNotFoundException, handleBadCredentialsException
    */
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody @Validated LoginRequestDto loginRequestDto, HttpServletResponse response) throws Exception{
+  public ResponseEntity<?> login(@RequestBody @Validated LoginRequestDto loginRequestDto, HttpServletResponse response) throws Exception {
 
-      // service에서 토큰 생성
-      TokenResponseDto tokenResponseDto = authService.getTokenResponseDto(loginRequestDto);
+    // service에서 토큰 생성
+    TokenInfoDto tokenInfoDto = authService.getTokenInfoDto(loginRequestDto);
 
-      Cookie access = authService.setCookie("access-token", tokenResponseDto.getAccessToken());
-      Cookie refresh = authService.setCookie("refresh-token", tokenResponseDto.getRefreshToken());
+    ProfileResponseDto profileResponseDto = memberService.requestProfile(tokenInfoDto.getLongId());
 
-      response.addCookie(access);
-      response.addCookie(refresh);
+    Cookie refresh = authService.setCookie("refresh-token", tokenInfoDto.getRefreshToken());
+    response.addCookie(refresh);
 
-      // [200] 토큰정보 + 멤버정보 발송
-      return new ResponseEntity<>(new MessageDto("Login Successful !"), HttpStatus.OK);
+    // [200] 토큰정보 발송
+    return new ResponseEntity<>(new LoginResponseDto(tokenInfoDto.getAccessToken(),
+        profileResponseDto.getProfileText(),
+        profileResponseDto.getProfileImageUrl()),
+        HttpStatus.OK);
   }
 
 }

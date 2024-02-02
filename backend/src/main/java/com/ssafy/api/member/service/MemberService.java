@@ -73,7 +73,7 @@ public class MemberService {
     // 멤버 찾기
     Member memberInDB = memberRepository.getReferenceById(dto.getLongId());
 
-      // 포트폴리오 업데이트, 권한상승 요청리스트에 추가
+    // 포트폴리오 업데이트, 권한상승 요청리스트에 추가
     memberInDB.elevateRequest(dto.getHtmlDocs());
 
     log.info("계정 권한상승 요청 성공");
@@ -81,6 +81,7 @@ public class MemberService {
 
   /**
    * 아이디를 입력받아서 해당 아이디가 사용중인지 검증
+   *
    * @return true : 아이디 사용중 / false : 사용가능
    */
   @Transactional(readOnly = true)
@@ -94,6 +95,7 @@ public class MemberService {
 
   /**
    * 아이디를 입력받아 해당 멤버의 프로필 글과 사진을 조회
+   *
    * @return profileText, profileImageUrl;
    */
   public ProfileResponseDto requestProfile(Long longId) {
@@ -116,10 +118,10 @@ public class MemberService {
   public void uploadProfileImage(Long longId, ProfileImageRequestDto dto) {
     // 기존의 프로필 이미지 삭제
     File file = memberRepository.findById(longId).get().getProfileImage();
-    if(file != null){
+    if (file != null) {
       fileService.deleteFile(file.getId());
     }
-    
+
     // 프로필 사진 등록
     fileService.uploadFileList(longId, Arrays.asList(dto.getProfileImage()), Arrays.asList(dto.getFileName()));
 

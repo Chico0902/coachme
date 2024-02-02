@@ -8,12 +8,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-@Entity @Table(name = "Files")
+@Entity
+@Table(name = "Files")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class File extends BaseEntity {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "file_id")
   private Long id;
 
@@ -28,8 +30,10 @@ public class File extends BaseEntity {
   private String url;
 
   // methods
+
   /**
    * 파일 이름으로부터 타입을 찾는 메서드
+   *
    * @Param
    * @Return : 파일타입
    */

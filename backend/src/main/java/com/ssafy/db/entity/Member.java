@@ -22,7 +22,8 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class Member extends BaseEntity {
 
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "member_id")
   private Long longId;
 
@@ -72,7 +73,7 @@ public class Member extends BaseEntity {
 
   // 코미가 수강하는 목록
   @OneToMany(mappedBy = "coame")
-  private List<Coaching> coameTaughtCourses = new ArrayList<>();
+  private List<CoameCoaching> coameTaughtCourses = new ArrayList<>();
 
   // 코미가 누른 좋아요
   @OneToMany(mappedBy = "coame")
@@ -90,11 +91,20 @@ public class Member extends BaseEntity {
   @OneToMany(mappedBy = "coach")
   private List<Review> receivedReviews = new ArrayList<>();
 
+  // 코치가 참여하고 있는  DM Room
+  @OneToMany(mappedBy = "coach")
+  private List<DMRoom> coachDmRooms = new ArrayList<>();
+
+  // 코미가 참여하고 있는  DM Room
+  @OneToMany(mappedBy = "coame")
+  private List<DMRoom> coameDmRooms = new ArrayList<>();
+
+
   // method
   // 회원정보 생성 시 권한을 설정하고 상태를 생성으로 바꾼다.
   public void initMemberPrivilegeAndStatus() {
-      this.status = MemberStatus.CREATED;
-      this.privilege = Privilege.COAME;
+    this.status = MemberStatus.CREATED;
+    this.privilege = Privilege.COAME;
   }
 
   // 회원정보 수정 시 이름과 이메일을 변경하고 상태를 변경으로 바꾼다.
