@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   private final AuthService authService;
+  private final MemberService memberService;
 
   /**
    * [auth-1] 로그인 요청 시 해당 id와 pw가 유효한지 여부를 응답한다.

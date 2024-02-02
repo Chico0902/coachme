@@ -2,6 +2,12 @@
 import { ref, onBeforeMount } from 'vue'
 import { getAllElevations, patchElevations } from '@/utils/api/admin-api'
 import { AdminElevateRequestDto } from '@/utils/api/dto/admin-dto'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+
+/**
+ * VARIABLES
+ */
 
 const selected = ref([])
 const filter = ref('')
@@ -12,7 +18,8 @@ const columns = ref([
   { name: 'name', align: 'center', label: '이름', field: 'name', sortable: true },
   { name: 'portfolio', label: '포트폴리오', field: 'portfolio' }
 ])
-
+const authStore = useAuthStore()
+const { accessToken } = storeToRefs(authStore)
 const rows = ref([])
 const showPortfolio = (portfolio) => {
   innerPortfolio.value = portfolio
@@ -29,9 +36,11 @@ const elevation = (array) => {
 }
 
 onBeforeMount(() => {
-  getAllElevations((success) => {
+  getAllElevations(accessToken.value, (success) => {
+    console.log(success)
     rows.value = success.data.list
-  })
+  }),
+    (fail) => console.log(fail)
 })
 </script>
 <template>
