@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,21 +35,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request,
                                   HttpServletResponse response,
                                   FilterChain chain)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
 
     // 토큰이 필요하지 않은 API URL의 경우 => 로직 처리 없이 다음 필터로 이동
     if (Arrays.asList(
-            "/api/auth/login",
-            "/api/members",
-            "/api/members/duplicate/id",
-            "/api/members/privileges/elevations",
-            "/api/admin/privileges/elevations",
-            "/api/members/profiles/texts/1",
-            "/api/members/profiles/images/1",
-            "/api/members/getfilesTest",
-            "/api/members/profiles/1",
-            "/api/coaches/coachings/1",
-            "/api/coaches/1/coachings/2"
+        "/api/auth/login",
+        "/api/members",
+        "/api/members/duplicate/id",
+        "/api/members/privileges/elevations",
+        "/api/admin/privileges/elevations",
+        "/api/members/profiles/texts/1",
+        "/api/members/profiles/images/1",
+        "/api/members/getfilesTest",
+        "/api/dm/room/enter",
+        "/api/dm/room/1",
+        "/api/dm/52",
+        "/api/ws-dm",
+        "/api/members/profiles/1",
+        "/api/coaches/coachings/1",
+        "/api/coaches/1/coachings/2"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;
@@ -60,18 +64,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     response.setCharacterEncoding("UTF-8");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     ObjectMapper objectMapper = new ObjectMapper();
-    HashMap<String, Object> jsonMap = new HashMap<>();
 
     // Access Token 재발급 API일 경우 => Refresh Token 검증 후 새로운 Access Token Header에 재발급
     if (request.getRequestURI().equals("/api/auth/refresh")) {
 
-      // String Id 세팅해서 Auth에 전송한 결과로 Redis 조회 및 토큰 생성
-      String refreshTokenInHeader = jwtTokenProvider.getTokenInHeader(request);
+      // 요청 쿠키의 Refresh Token을 추출
+      Cookie[] cookies = request.getCookies();
+      String refreshTokenInHeader = null;
+      if(cookies != null) {
+        for(Cookie cookie : cookies) {
+          if(cookie.getName().equals("refresh-token")) {
+            refreshTokenInHeader = cookie.getValue();
+          }
+        }
+      }
+      // 요청에 쿠키가 존재하지 않으면
+      else {
+        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token is Null"));
+        response.getWriter().write(jsonString);
+        return;
+      }
+      log.info("Request Cookie : {}", refreshTokenInHeader);
+
+      // Redis에 저장된 Refresh Token 꺼내오기
       String stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();
       String refreshTokenInRedis = jwtTokenProvider.getRefreshTokenInRedis(stringId);
 
       // Refresh Token 검증
-      if(refreshTokenInRedis != null && refreshTokenInRedis.equals(refreshTokenInHeader)) {
+      if (refreshTokenInRedis != null && refreshTokenInRedis.equals(refreshTokenInHeader)) {
 
         // Access Token 생성을 위한 Repository 조회
         String jpql = "SELECT m FROM Member m WHERE m.stringId = :stringId";
@@ -89,8 +109,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       // Refresh Token이 만료되었거나, 저장된 Refresh Token과 다를 경우
       else {
         log.error("Refresh Token Expired !");
-        jsonMap.put("data", new ExceptionDto("Refresh Token Expired"));
-        String jsonString = objectMapper.writeValueAsString(jsonMap);
+        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token Expired"));
         response.getWriter().write(jsonString);
         return;
       }
@@ -100,8 +119,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     String tokenInHeader = jwtTokenProvider.getTokenInHeader(request);
     if (!(jwtTokenProvider.validateToken(tokenInHeader))) {
       log.error("Access Token Expired !");
-      jsonMap.put("data", new ExceptionDto("Access Token Expired"));
-      String jsonString = objectMapper.writeValueAsString(jsonMap);
+      String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Access Token Expired"));
       response.getWriter().write(jsonString);
       return;
     }
