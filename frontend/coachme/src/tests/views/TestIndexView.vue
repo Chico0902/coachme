@@ -15,6 +15,9 @@
       <RouterLink :to="{ name: 'test-profile' }">
         <q-btn color="warning" label="프로필 업로드" />
       </RouterLink>
+      <RouterLink :to="{ name: 'test-token' }">
+        <q-btn color="black" label="토큰 테스트" />
+      </RouterLink>
     </div>
   </div>
 </template>

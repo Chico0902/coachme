@@ -5,13 +5,10 @@ import CustomInput from '@/components/atoms/CustomInput.vue'
 export default {
   data() {
     return {
-      itemList: [
-        { text: 'Item 1' },
-        { text: 'Item 2' },
-      ],
-    };
-  },
-};
+      itemList: [{ text: 'Item 1' }, { text: 'Item 2' }]
+    }
+  }
+}
 </script>
 <template>
   <div class="outside">
@@ -23,10 +20,10 @@ export default {
             <RouterLink :to="{ name: 'Desktop-5-4' }"><span data-hover="코칭만들기">코칭만들기</span></RouterLink>
           </div>
         </div>
-        <div class="coaching-list-main ">
+        <div class="coaching-list-main">
           <q-item class="list" v-ripple v-for="(item, index) in itemList" :key="index">
             <q-item-section>{{ item.text }}</q-item-section>
-            <button class="custom-btn btn-7"> 코칭 상세</button>
+            <button class="custom-btn btn-7">코칭 상세</button>
           </q-item>
         </div>
       </div>
@@ -91,7 +88,6 @@ export default {
   position: relative;
   display: inline-blockk;
   text-decoration: none;
-  
 }
 .SMN_effect-42 a {
   position: relative;
@@ -182,7 +178,7 @@ export default {
 .btn-7:before,
 .btn-7:after {
   position: absolute;
-  content: "";
+  content: '';
   left: 0;
   width: 100%;
   height: 50%;
