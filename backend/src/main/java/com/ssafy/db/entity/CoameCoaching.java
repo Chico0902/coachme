@@ -6,10 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class CoameCoaching extends BaseEntity {
+public class CoameCoaching extends BaseEntity{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coame_coaching_id")
   private Long id;
 
