@@ -2,13 +2,23 @@
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import CustomInput from '@/components/atoms/CustomInput.vue'
 import ProfileImage from '@/components/atoms/ProfileImage.vue'
+import EditButton from '@/components/materialIcon/EditButton.vue'
+import ProfileImageUploader from '@/components/molecules/ProfileImageUploader.vue'
 import { validatePassword, validateNickName } from '@/utils/functions/member'
-import { getMemberInfo, patchMemberInfo } from '@/utils/api/member-api'
-import { MemberInfoChangeRequestDto } from '@/utils/api/dto/member-dto'
+import {
+  getMemberInfo,
+  postProfileImage,
+  postProfileText,
+  patchMemberInfo,
+  deleteProfileImage
+} from '@/utils/api/member-api'
+import { MemberInfoChangeRequestDto, ProfileTextRequestDto } from '@/utils/api/dto/member-dto'
 import { computed, onBeforeMount, ref } from 'vue'
 import { decodeToken } from '@/utils/functions/auth'
 import { useAuthStore } from '@/stores/auth'
+import { useMemberStore } from '@/stores/member'
 import { storeToRefs } from 'pinia'
+import { validateProfileImage } from '@/utils/functions/member'
 
 /**
  * VARIABLES
@@ -16,13 +26,17 @@ import { storeToRefs } from 'pinia'
 
 // variables
 const openModal = ref(false)
+const changeImageModal = ref(false)
 const pw = ref('')
 const newNick = ref('')
 const newEmail = ref('')
+const newProfileText = ref('')
 
-// token에서 받아옴
+// store에서 받아옴
 const authStore = useAuthStore()
+const memberStore = useMemberStore()
 const { accessToken } = storeToRefs(authStore)
+const { profileImageUrl, profileText } = storeToRefs(memberStore)
 const tokenValue = decodeToken(accessToken.value)
 const longId = tokenValue.id
 
@@ -31,19 +45,6 @@ const stringId = ref('')
 const name = ref('')
 const nick = ref('')
 const email = ref('')
-
-/**
- * methods
- */
-
-onBeforeMount(() => {
-  getMemberInfo(accessToken.value, longId, (success) => {
-    stringId.value = success.data.stringId
-    name.value = success.data.name
-    nick.value = success.data.nick
-    email.value = success.data.email
-  })
-})
 
 // 비밀번호 검증
 const isValidPassword = computed(() => {
@@ -57,6 +58,73 @@ const isValidNickName = computed(() => {
   return validateNickName(newNick.value)
 })
 
+/**
+ * methods
+ */
+
+// 최초 멤버 정보 받아오기
+onBeforeMount(() => {
+  getMemberInfo(accessToken.value, longId, (success) => {
+    stringId.value = success.data.stringId
+    name.value = success.data.name
+    nick.value = success.data.nick
+    email.value = success.data.email
+  })
+})
+
+// 프로필 이미지 수정
+const changeProfileImage = (newImage) => {
+  if (validateProfileImage(newImage)) {
+    postProfileImage(
+      accessToken.value,
+      longId,
+      newImage,
+      (success) => {
+        alert('이미지 업로드 완료')
+        profileImageUrl.value = success.data.profileImageUrl
+        changeImageModal.value = false
+      },
+      (fail) => console.log(fail)
+    )
+  }
+}
+
+// 프로필 이미지 삭제
+const deleteProfileImg = () => {
+  if (confirm('이미지를 삭제하시겠습니까?')) {
+    deleteProfileImage(
+      accessToken.value,
+      longId,
+      () => {
+        alert('프로필이미지 삭제 완료')
+        profileImageUrl.value = '/src/assets/icons/coame.png'
+        changeImageModal.value = false
+      },
+      (fail) => console.log(fail)
+    )
+  }
+}
+
+// 프로필 글 수정
+function changeProfileText(newProfileText) {
+  console.log(newProfileText)
+  if (confirm('프로필을 변경하시겠습니까?')) {
+    const dto = new ProfileTextRequestDto(newProfileText)
+    postProfileText(
+      accessToken.value,
+      longId,
+      dto,
+      () => {
+        alert('프로필 변경 완료')
+        profileText.value = newProfileText
+        console.log(profileText.value)
+      },
+      (fail) => console.log(fail)
+    )
+  }
+}
+
+// 회원정보 수정
 const changeMemberInfo = (pw, newNick, newEmail) => {
   try {
     // dto 생성 및 호출
@@ -83,27 +151,35 @@ const changeMemberInfo = (pw, newNick, newEmail) => {
   <div>
     <div class="main-profile shadow-2">
       <div class="profile-img">
-        <div><ProfileImage size="100px" /></div>
+        <div class="image-container"><ProfileImage size="100px" :img="profileImageUrl" /></div>
         <div class="profile-img-icon">
-          <q-btn flat>
+          <q-btn flat @click="changeImageModal = true">
             <span class="material-symbols-outlined"> add_photo_alternate </span>
           </q-btn>
-          <q-btn flat>
+          <q-btn flat @click="deleteProfileImg">
             <span class="material-symbols-outlined"> delete_forever </span>
           </q-btn>
         </div>
       </div>
       <div class="profile-detail">
-        <CustomInput type="textarea" placeholder="소개글을 입력해주세요." />
+        <CustomInput
+          type="textarea"
+          :placeholder="profileText"
+          v-model="newProfileText"
+          style="min-width: 10vw; padding-top: 0; padding-bottom: 0"
+        />
+        <div class="profile-detail-edit">
+          <EditButton @click="changeProfileText(newProfileText)" />
+        </div>
       </div>
     </div>
     <div class="detail-member-info">
       <h6 class="detail-member-info-text">
-        <span class="detail-member-info-tag">ID :</span>
+        <span class="detail-member-info-tag">아이디 :</span>
         {{ stringId }}
       </h6>
       <h6 class="detail-member-info-text">
-        <span class="detail-member-info-tag">이름 :</span>
+        <span class="detail-member-info-tag">이&nbsp;&nbsp;&nbsp;&nbsp;름 :</span>
         {{ name }}
       </h6>
       <h6 class="detail-member-info-text">
@@ -173,6 +249,22 @@ const changeMemberInfo = (pw, newNick, newEmail) => {
       </q-card-actions>
     </q-card>
   </q-dialog>
+  <q-dialog v-model="changeImageModal">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">프로필 사진 변경</div>
+      </q-card-section>
+      <div class="editor-detail">프로필 사진은 10MB이내여야 하며, 이미지 파일(png, jpg, jpeg)만 가능합니다.</div>
+
+      <q-card-section class="q-pt-none">
+        <ProfileImageUploader @changeImageEmit="changeProfileImage" />
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="취소" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style scoped>
@@ -183,12 +275,20 @@ const changeMemberInfo = (pw, newNick, newEmail) => {
   justify-content: space-around;
   align-items: center;
 }
+.image-container {
+  margin: auto;
+  text-align: center;
+}
 .profile-img {
   display: inline-block;
   margin: 1rem 0;
 }
 .profile-detail {
-  margin-top: 1.5rem;
+  display: flex;
+}
+.profile-detail-edit {
+  justify-content: center;
+  align-self: center;
 }
 .editor-detail {
   color: #034c8c;
@@ -200,7 +300,6 @@ const changeMemberInfo = (pw, newNick, newEmail) => {
   margin: 10px 0 10px 100px;
   align-items: center;
 }
-
 .detail-member-info {
   width: 60%;
   margin: auto;

@@ -33,6 +33,9 @@ const authStore = useAuthStore()
 const memberStore = useMemberStore()
 const { accessToken } = storeToRefs(authStore)
 const { profileText, profileImageUrl } = storeToRefs(memberStore)
+const username = computed(() => {
+  return decodeToken(accessToken.value).name
+})
 
 // 코치(+코칭) 카드 라벨, 카드 캡션, 카드 이미지
 const label = 'whiteCat'
@@ -51,14 +54,11 @@ const video = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
 const logoutWithConfirm = () => {
   if (!confirm('로그아웃 하시겠습니까?')) return
   accessToken.value = ''
-  profileText.value = ''
-  profileImageUrl.value = ''
+  profileText.value = '프로필을 등록하세요.'
+  profileImageUrl.value = '/src/assets/icons/coame.png'
   alert('로그아웃 되었습니다.')
   window.location.reload()
 }
-const username = computed(() => {
-  return decodeToken(accessToken.value).name
-})
 </script>
 <template>
   <div class="nav-bar">
@@ -113,7 +113,7 @@ const username = computed(() => {
             <p>{{ username }}님 환영합니다!</p>
             <RouterLink :to="{ path: `/mypage`, props: { accessToken } }">
               <q-btn flat>
-                <profile></profile>
+                <profile :img="profileImageUrl"></profile>
               </q-btn>
             </RouterLink>
           </div>
