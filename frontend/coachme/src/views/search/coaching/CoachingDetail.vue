@@ -122,7 +122,7 @@ const ratio = 16 / 9
             <!-- 코칭 소개. 직접 작성한 부분이 이곳에 들어감 -->
             <div class="coaching-introduction">
               <h2>코칭 소개</h2>
-              <div style="margin-left: 1.1vw;">
+              <div class="coaching-desc">
                 소개합니다.
               </div>
             </div>
@@ -228,9 +228,6 @@ const ratio = 16 / 9
   display: flex;
   text-align: center;
   flex-direction: row;
-}
-
-.mainpage {
   -ms-overflow-style: none;
 }
 
@@ -264,9 +261,16 @@ h2 {
   text-align: left;
 }
 
+.coaching-card {
+  margin-right: 1.5vw;
+}
 .coaching-introduction {
   text-align: left;
   margin-bottom: 4vh;
+}
+
+.coaching-desc {
+  margin-left: 1.1vw;
 }
 
 .coaching-live-schedule {
@@ -288,7 +292,7 @@ h2 {
 .coaching-card-outside {
   display: flex;
   justify-content: space-around;
-  margin-left: -2vw;
+  margin-left: 1.2vw;
   margin-top: 2vh;
   margin-bottom: 5vh;
 }

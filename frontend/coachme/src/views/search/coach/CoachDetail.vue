@@ -62,7 +62,7 @@ const reviewData = (data) => {
             <!-- 코치 소개. 직접 작성한 부분이 이곳에 들어감 -->
             <div class="coach-introduction">
               <h2>코치 소개</h2>
-              <div style="margin-left: 1.1vw;">
+              <div class="coach-desc">
                 소개합니다.
               </div>
             </div>
@@ -150,9 +150,6 @@ const reviewData = (data) => {
   display: flex;
   text-align: center;
   flex-direction: row;
-}
-
-.mainpage{
   -ms-overflow-style: none;
 }
 .mainpage::-webkit-scrollbar{
@@ -188,6 +185,10 @@ h2 {
 .coach-introduction {
   text-align: left;
   margin-bottom: 4vh;
+}
+
+.coach-desc {
+  margin-left: 1.1vw;
 }
 
 .coaching-category {
