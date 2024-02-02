@@ -50,7 +50,7 @@ const login = (id, pw) => {
       profileImageUrl.value = success.data.profileImageUrl
       profileText.value = success.data.profileText
       alert('로그인 성공')
-      // router.push('/')
+      router.push('/')
     },
     (error) => {
       console.log(error)
