@@ -18,7 +18,7 @@ public class CoachController {
   private final CoachService coachService;
 
   @GetMapping("/portfolio/{longId}")
-  public ResponseEntity<PortfolioResponseDto> getPortfolio(@PathVariable("longId") long id) throws Exception{
+  public ResponseEntity<PortfolioResponseDto> getPortfolio(@PathVariable("longId") long id) throws Exception {
     PortfolioResponseDto portfolio = coachService.getPortfolio(id);
     return new ResponseEntity<>(portfolio, HttpStatus.OK);
   }
@@ -26,7 +26,7 @@ public class CoachController {
   @PatchMapping("/portfolio/{longId}")
   public ResponseEntity<MessageDto> updatePortfolio(
       @PathVariable("longId") long id,
-      @RequestBody PortfolioRequestDto portfolioRequestDto)throws Exception{
+      @RequestBody PortfolioRequestDto portfolioRequestDto) throws Exception {
     coachService.updatePortfolio(id, portfolioRequestDto);
     return new ResponseEntity<>(new MessageDto("Portfolio update successfully completed"), HttpStatus.OK);
   }

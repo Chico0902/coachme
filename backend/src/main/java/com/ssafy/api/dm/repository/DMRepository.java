@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface DMRepository  extends JpaRepository<DM, Long> {
+public interface DMRepository extends JpaRepository<DM, Long> {
   List<DM> findByDmRoom(DMRoom room);
 }

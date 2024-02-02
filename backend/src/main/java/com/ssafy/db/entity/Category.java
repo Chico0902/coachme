@@ -11,27 +11,28 @@ import java.util.List;
 @Getter
 public class Category {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "category_id")
+  private Long id;
 
-    @Column(nullable = false, unique = true, length = 50) // unique?
-    private String name;
+  @Column(nullable = false, unique = true, length = 50) // unique?
+  private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false) // null이면 검색을 못함
-    private CategoryType categoryType;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false) // null이면 검색을 못함
+  private CategoryType categoryType;
 
-    @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Category parent;
+  @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
+  @JoinColumn(name = "parent_id")
+  private Category parent;
 
-    @OneToMany(mappedBy = "parent")
-    private List<Category> children = new ArrayList<>();
+  @OneToMany(mappedBy = "parent")
+  private List<Category> children = new ArrayList<>();
 
-    @OneToMany(mappedBy = "mainCategory")
-    private List<Coaching> mainCategoryCoachings = new ArrayList<>();
+  @OneToMany(mappedBy = "mainCategory")
+  private List<Coaching> mainCategoryCoachings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "subCategory")
-    private List<Coaching> subCategoryCoachings = new ArrayList<>();
+  @OneToMany(mappedBy = "subCategory")
+  private List<Coaching> subCategoryCoachings = new ArrayList<>();
 }

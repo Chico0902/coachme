@@ -19,14 +19,17 @@ public interface DmMapper {
   @Mapping(source = "coame.longId", target = "coameId")
   @Mapping(source = "coach.longId", target = "coachId")
   DmRoomResponseDto dmRoomTodmRoomRequestDto(DMRoom dmRoom);
+
   List<DmRoomResponseDto> dmRoomTodmRoomRequestDtoList(List<DMRoom> dmRoomList);
 
 
   @Mapping(source = "member.longId", target = "member")
   DmResponseDto DmToDmResponseDto(DM dm);
+
   List<DmResponseDto> DmToDmResponseDto(List<DM> dmList);
 
   DmResponseDto redisDtoToDmDto(DmRedisDto dmRedisDto);
+
   List<DmResponseDto> redisDtoToDmResponseDtoList(List<DmRedisDto> dmList);
 
 }
