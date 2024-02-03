@@ -194,7 +194,7 @@ export default {
       id: 'member-8',
       spec: '1-7',
       method: 'POST',
-      uri: '/members/profiles/{longId}/texts',
+      uri: '/members/{longId}/profiles/texts',
       privilege: '1',
       description: '코치나 코미가 프로필 글을 등록한다.(기존 글 덮어쓰기)',
       request: {
@@ -221,7 +221,7 @@ export default {
       id: 'member-9',
       spec: '1-7',
       method: 'POST',
-      uri: '/members/profiles/{longId}/images',
+      uri: '/members/{longId}/profiles/images',
       privilege: '1',
       description: '코치나 코미가 프로필 사진을 등록한다.(기존에 사진이 있으면 삭제)',
       request: {
@@ -298,9 +298,9 @@ export default {
       id: 'member-12',
       spec: '1-7',
       method: 'DELETE',
-      uri: '',
+      uri: '/members/{longId}/profiles/images',
       privilege: '1',
-      description: '해당 api는 더이상 사용하지 않음(deprecated)',
+      description: '코치나 코미가 프로필 사진을 삭제한다.',
       request: {},
       response: {
         name: '',
