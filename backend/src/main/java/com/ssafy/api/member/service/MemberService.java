@@ -136,4 +136,11 @@ public class MemberService {
     Member memberInDB = memberRepository.getReferenceById(longId);
     return new MemberInfoResponseDto(memberInDB);
   }
+
+  public void deleteProfileImage(Long longId) {
+    Member memberInDB = memberRepository.getReferenceById(longId);
+    File file = memberInDB.getProfileImage();
+    if (file != null)
+      fileService.deleteFile(file.getId());
+  }
 }

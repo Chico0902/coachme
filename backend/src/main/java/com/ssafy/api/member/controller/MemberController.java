@@ -129,10 +129,24 @@ public class MemberController {
    */
   @PostMapping("/{longId}/profiles/images")
   public ResponseEntity<?> uploadProfileImage(
-      @PathVariable(value = "longId") Long longId, @Validated @RequestParam MultipartFile file) throws Exception {
+      @PathVariable(value = "longId") Long longId, @Validated @RequestParam MultipartFile newFile) throws Exception {
     // 프로필 사진 등록
-    ProfileImageResponseDto profileImageResponseDto = memberService.uploadProfileImage(longId, file);
+    ProfileImageResponseDto profileImageResponseDto = memberService.uploadProfileImage(longId, newFile);
     return new ResponseEntity<>(profileImageResponseDto, HttpStatus.OK);
+  }
+
+  /**
+   * [member-12] 코치나 코미가 프로필 사진을 삭제한다.
+   * privilege : COAME
+   *
+   * @return [200] 정상 등록 완료
+   */
+  @DeleteMapping("/{longId}/profiles/images")
+  public ResponseEntity<?> deleteProfileImage(
+          @PathVariable(value = "longId") Long longId) throws Exception {
+    // 프로필 사진 등록
+    memberService.deleteProfileImage(longId);
+    return new ResponseEntity<>(new MessageDto("프로필 이미지 삭제완료"), HttpStatus.OK);
   }
 
   /**
