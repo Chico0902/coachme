@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
   // [400]Entity를 PK로 조회시 찾을 수 없을 때
   @ExceptionHandler(EntityNotFoundException.class)
   protected ResponseEntity<ExceptionDto> handleEntityNotFoundException(EntityNotFoundException e) {
-    return new ResponseEntity<>(new ExceptionDto(e.getMessage()), HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(new ExceptionDto("해당하는 정보가 없습니다."), HttpStatus.BAD_REQUEST);
   }
 
   // [400]로그인 시 해당 아이디 없을때

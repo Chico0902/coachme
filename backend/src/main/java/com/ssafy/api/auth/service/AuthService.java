@@ -92,7 +92,7 @@ public class AuthService {
     cookie.setHttpOnly(true);
 
     // 유효 시간 설정
-    cookie.setMaxAge(60 * 10); // 1일 (초)
+    cookie.setMaxAge(60 * 60 * 24); // 1일 (초)
 
     cookie.setPath("/");
 
