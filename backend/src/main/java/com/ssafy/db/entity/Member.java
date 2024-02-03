@@ -106,7 +106,7 @@ public class Member extends BaseEntity {
     this.status = MemberStatus.CREATED;
     this.privilege = Privilege.COAME;
     this.profileText = "프로필을 등록하세요.";
-    this.profileImage = new File(this, "default", "/src/assets/icons/coame.png");
+    updateProfileImageToDefault();
   }
 
   // 회원정보 수정 시 이름과 이메일을 변경하고 상태를 변경으로 바꾼다.
@@ -142,6 +142,11 @@ public class Member extends BaseEntity {
   // 포트폴리오 수정 요청시 포트폴리오 수정
   public void updatePortfolio(String htmldocs) {
     this.portfolio.uploadHtmlDocs(htmldocs);
+  }
+
+  // 프로필 사진 기본으로 설정
+  public void updateProfileImageToDefault() {
+    this.profileImage = new File(this, "default", "/src/assets/icons/coame.png");
   }
 
   // 연관관계 편의 메서드
