@@ -303,16 +303,16 @@ export default {
       description: '코치나 코미가 프로필 사진을 삭제한다.',
       request: {},
       response: {
-        name: '',
+        name: 'MessageDto',
         success: {
-          description: '',
-          code: '',
-          data: { message: '' }
+          description: '프로필 삭제완료',
+          code: '200',
+          data: { message: '프로필 삭제완료' }
         },
         fail: {
-          description: '',
-          code: '',
-          data: { message: '' }
+          description: '서버 오류',
+          code: '500',
+          data: { message: 'Internal Server Error' }
         }
       }
     },
