@@ -27,7 +27,6 @@ public class AdminController {
   /**
    * [admin-1] 모든 회원정보를 받아온다.[List]
    * privilege : 3
-   *
    * @return [200] 정상 조회완료
    */
   @GetMapping("/members")
@@ -42,7 +41,6 @@ public class AdminController {
   /**
    * [admin-2] 권한 상승요청 목록을 조회한다.
    * privilege : 3
-   *
    * @return [200] 정상 조회완료
    */
   @GetMapping("/privileges/elevations")
@@ -57,11 +55,10 @@ public class AdminController {
   /**
    * [admin-3] 해당 아이디의 권한을 1에서 2로 상승
    * privilege : 3
-   *
    * @return [200] 정상 요청완료
    */
   @PatchMapping("/privileges/elevations")
-  public ResponseEntity<MessageDto> requestElevatePermission(@Validated @RequestBody AdminElevateRequestDto dto) throws Exception {
+  public ResponseEntity<MessageDto> requestElevatePermission(@Validated @RequestBody AdminElevateRequestDto dto) throws Exception{
     // 권한 요청 등록(service)
     adminService.requestElevatePermission(dto);
 

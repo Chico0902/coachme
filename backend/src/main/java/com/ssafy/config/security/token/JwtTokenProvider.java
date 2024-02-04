@@ -46,8 +46,7 @@ public class JwtTokenProvider {
 
   /**
    * 엔티티를 받아 엑세스 토큰을 생성하는 메서드.
-   *
-   * @param member : Member 엔티티
+   * @param member    : Member 엔티티
    * @return : access token
    */
   public String generateAccessToken(Member member) {
@@ -61,16 +60,15 @@ public class JwtTokenProvider {
 
     // Access 토큰 반환
     return Jwts.builder()
-        .setClaims(claims)
-        .setIssuedAt(now)
-        .setExpiration(new Date(now.getTime() + accessTokenExpire))
-        .signWith(key, SignatureAlgorithm.HS256)
-        .compact();
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + accessTokenExpire))
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
   }
 
   /**
    * 엔티티를 받아 리플레쉬 토큰을 생성하는 메서드
-   *
    * @param stringId - 해당 토큰의 subject가 되는 멤버 id(String ID)
    * @return : refresh token
    */
@@ -83,16 +81,15 @@ public class JwtTokenProvider {
 
     // refresh 토큰 반환
     return Jwts.builder()
-        .setClaims(claims)
-        .setIssuedAt(now)
-        .setExpiration(new Date(now.getTime() + refreshTokenExpire))
-        .signWith(key, SignatureAlgorithm.HS256)
-        .compact();
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + refreshTokenExpire))
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
   }
 
   /**
    * 토큰을 확인해서 권한을 부여하는 메서드
-   *
    * @param token 헤더로부터 획득한 토큰
    */
   public Authentication getAuthentication(String token) {
@@ -101,7 +98,7 @@ public class JwtTokenProvider {
 
     // privilege 확인해서 권한 인가
     Collection<GrantedAuthority> authorities = new ArrayList<>();
-    switch ((String) claims.get("privilege")) {
+    switch((String) claims.get("privilege")) {
       case "COAME" -> {
         authorities.add(new SimpleGrantedAuthority("ROLE_COAME"));
       }
@@ -121,7 +118,6 @@ public class JwtTokenProvider {
 
   /**
    * Request Header의 Authorization에서 암호화된 Token을 반환하는 메서드
-   *
    * @param request : 요청
    * @return Header에서 token 획득
    * @throws
@@ -140,7 +136,6 @@ public class JwtTokenProvider {
 
   /**
    * 암호화된 토큰을 복호화하는 메서드
-   *
    * @param encryptedToken - 암호화된 토큰 정보 : getTokenInHeader 메서드로 얻을 수 있음
    * @return Clamis - 복호화된 토큰 정보
    */
@@ -151,26 +146,24 @@ public class JwtTokenProvider {
 
   /**
    * 암호화된 토큰을 검증하는 메서드
-   *
    * @param encryptedToken - 암호화된 토큰
-   * @throws UnsupportedJwtException  – if the claimsJws argument does not represent an Claims JWS
-   * @throws MalformedJwtException    – if the claimsJws string is not a valid JWS
+   * @throws UnsupportedJwtException – if the claimsJws argument does not represent an Claims JWS
+   * @throws MalformedJwtException – if the claimsJws string is not a valid JWS
    * @throws IllegalArgumentException – if the claimsJws string is null or empty or only whitespace
    */
   public boolean validateToken(String encryptedToken)
-      throws UnsupportedJwtException, MalformedJwtException, IllegalArgumentException {
-    try {
-      getClaims(encryptedToken);
-      return true;
-    } catch (ExpiredJwtException e) {
-      return false;
-    }
+          throws UnsupportedJwtException, MalformedJwtException, IllegalArgumentException {
+      try {
+        getClaims(encryptedToken);
+        return true;
+      } catch (ExpiredJwtException e) {
+        return false;
+      }
   }
 
   /**
    * 리프레쉬 토큰을 레디스에 저장하는 메서드
-   *
-   * @param stringId     - 멤버의 string ID
+   * @param stringId - 멤버의 string ID
    * @param refreshtoken - 리프레쉬 토큰
    */
   public void setRefreshTokenInRedis(String stringId, String refreshtoken) {
@@ -179,7 +172,6 @@ public class JwtTokenProvider {
 
   /**
    * 레디스에 저장된 리프레쉬 토큰을 가져오는 메서드
-   *
    * @param stringId - 멤버의 string ID
    * @return - 가져온 리프레쉬 토큰
    */

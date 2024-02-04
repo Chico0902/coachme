@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ProfileResponseDto {
-
   private String profileText;
   private String profileImageUrl;
-
 }
