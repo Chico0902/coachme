@@ -57,7 +57,7 @@ const getData = computed(() => {
 
           <!-- 오른쪽 세션. 수직으로 배치 -->
           <q-item-section vertical>
-            <!-- 코칭 이름 -->
+            <!-- 코치 이름 -->
             <q-item-section>
               <labels :label="coach.coachName" style="font-size: 25px;"></labels>
             </q-item-section>

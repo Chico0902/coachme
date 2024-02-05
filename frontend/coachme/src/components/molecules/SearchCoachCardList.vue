@@ -152,7 +152,7 @@ function cancel() {
         <!-- 지우지 말 것-->
         <div class="is-like">좋아요</div>
         <!-- 코치 카드 영역 -->
-        <selectCoachCard :coachName="card.coachName" :category="card.category" :rating="card.rating" :reviewCount="card.reviewCount"
+        <selectCoachCard :coachName="card.coachName" :coaching="card.coaching" :rating="card.rating" :reviewCount="card.reviewCount"
         :img="card.img"></selectCoachCard>
       </q-card>
     </div>

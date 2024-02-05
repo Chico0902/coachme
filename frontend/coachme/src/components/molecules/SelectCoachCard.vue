@@ -24,7 +24,7 @@ const props = defineProps({
     type: String,
     default: ''
   }, // 코치 이름
-  category: {
+  coaching: {
     type: String,
     default: ''
   }, // 제공 코칭
@@ -85,7 +85,7 @@ watch(() => stars.value, (newState) => {
     <q-item class="justify-evenly">
       <!-- 코칭 이름 -->
       <q-item-section style="min-width: fit-content;">
-        <labels :label="`${props.category}`" class="text-black text-bold"></labels>
+        <labels :label="`${props.coaching}`" class="text-black text-bold"></labels>
       </q-item-section>
     </q-item>
 
