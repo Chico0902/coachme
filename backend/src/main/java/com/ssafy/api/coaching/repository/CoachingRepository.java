@@ -25,4 +25,9 @@ public interface CoachingRepository extends JpaRepository<Coaching, Long> {
       "group by m.name, m.string_id, f.url", nativeQuery = true)
   List<CoachesResponseDtos> findByCategory(Long mainCategoryId, Long subCategoryId);
 
+  @Query(value = "SELECT c FROM Coaching c " +
+      "JOIN FETCH c.liveCoachings lc " +
+      "WHERE c.coach.longId = ?1")
+  List<Coaching> findByCoachId(Long longId);
+
 }
