@@ -137,6 +137,7 @@ public class Member extends BaseEntity {
   public void addProfileImage(String fileName, String url) {
     this.profileImage = new File(this, fileName, url);
   }
+
   // 포트폴리오 수정 요청시 포트폴리오 수정
   public void updatePortfolio(String htmlDocs) {
     this.portfolio.uploadHtmlDocs(htmlDocs);
