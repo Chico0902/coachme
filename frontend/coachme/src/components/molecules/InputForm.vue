@@ -10,13 +10,12 @@ import inputs from '../atoms/CustomInput.vue'
 import { ref } from 'vue'
 
 const props = defineProps({
-  label: {
-    // 버튼 라벨
+  color: {
+    // 버튼 색
     type: String,
     default: ''
   },
-  bColor: {
-    // 버튼 색
+  background: {
     type: String,
     default: ''
   }
