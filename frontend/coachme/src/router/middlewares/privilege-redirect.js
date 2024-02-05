@@ -1,4 +1,4 @@
-import { decodeToken, logout } from '../../utils/functions/auth'
+import { getAccessToken, decodeToken, logout } from '../../utils/functions/auth'
 /**
  * 현재 JWT의 권한 정보를 확인해서 권한별로 다른 페이지로 보내주는 함수
  * @param {route} to 대상 Route 객체로 이동합니다.
@@ -7,7 +7,7 @@ import { decodeToken, logout } from '../../utils/functions/auth'
  */
 export function privilegeRedirect(to, from, next) {
   // 코치가 코미사이트로 접근 허용
-  const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsIm5hbWUiOiLqs6DslpHsnbQiLCJwcml2aWxlZ2UiOiJDT0FNRSJ9.CJQRuGr5AxmK7Rva0ner_84rHjPc9baBJ3KwD630xRs`
+  const token = getAccessToken()
 
   try {
     // 권한별 해당 라우터로 redirect

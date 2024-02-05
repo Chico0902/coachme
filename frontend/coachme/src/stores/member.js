@@ -6,5 +6,14 @@ export const useMemberStore = defineStore('member', {
       profileText: '프로필을 등록하세요.',
       profileImageUrl: '/src/assets/icons/coame.png'
     }
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        storage: sessionStorage,
+        paths: ['profileText', 'profileImageUrl']
+      }
+    ]
   }
 })

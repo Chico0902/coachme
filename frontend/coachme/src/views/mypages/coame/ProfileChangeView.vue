@@ -24,21 +24,21 @@ import { validateProfileImage } from '@/utils/functions/member'
  * VARIABLES
  */
 
-// variables
-const openModal = ref(false)
-const changeImageModal = ref(false)
-const pw = ref('')
-const newNick = ref('')
-const newEmail = ref('')
-const newProfileText = ref('')
-
 // store에서 받아옴
 const authStore = useAuthStore()
 const memberStore = useMemberStore()
 const { accessToken } = storeToRefs(authStore)
 const { profileImageUrl, profileText } = storeToRefs(memberStore)
 const tokenValue = decodeToken(accessToken.value)
-const longId = tokenValue.id
+const longId = tokenValue.longId
+
+// input values
+const openModal = ref(false)
+const changeImageModal = ref(false)
+const pw = ref('')
+const newNick = ref('')
+const newEmail = ref('')
+const newProfileText = ref(profileText.value)
 
 // API에서 받아옴
 const stringId = ref('')
@@ -64,21 +64,28 @@ const isValidNickName = computed(() => {
 
 // 최초 멤버 정보 받아오기
 onBeforeMount(() => {
-  getMemberInfo(accessToken.value, longId, (success) => {
-    stringId.value = success.data.stringId
-    name.value = success.data.name
-    nick.value = success.data.nick
-    email.value = success.data.email
-  })
+  getMemberInfo(
+    accessToken.value,
+    longId,
+    (success) => {
+      stringId.value = success.data.stringId
+      name.value = success.data.name
+      nick.value = success.data.nick
+      email.value = success.data.email
+    },
+    (fail) => console.log(fail)
+  )
 })
 
 // 프로필 이미지 수정
 const changeProfileImage = (newImage) => {
+  const newFile = new FormData()
+  newFile.append('newFile', newImage)
   if (validateProfileImage(newImage)) {
     postProfileImage(
       accessToken.value,
       longId,
-      newImage,
+      newFile,
       (success) => {
         alert('이미지 업로드 완료')
         profileImageUrl.value = success.data.profileImageUrl
@@ -96,9 +103,8 @@ const deleteProfileImg = () => {
       accessToken.value,
       longId,
       () => {
-        alert('프로필이미지 삭제 완료')
+        alert('프로필 이미지 삭제완료')
         profileImageUrl.value = '/src/assets/icons/coame.png'
-        changeImageModal.value = false
       },
       (fail) => console.log(fail)
     )
@@ -117,7 +123,6 @@ function changeProfileText(newProfileText) {
       () => {
         alert('프로필 변경 완료')
         profileText.value = newProfileText
-        console.log(profileText.value)
       },
       (fail) => console.log(fail)
     )
