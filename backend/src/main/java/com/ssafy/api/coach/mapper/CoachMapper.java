@@ -10,4 +10,5 @@ public interface CoachMapper {
   CoachMapper instance = Mappers.getMapper(CoachMapper.class);
 
   PortfolioResponseDto PortfolioToPortfolioResponseDto(Portfolio portfolio);
+
 }
