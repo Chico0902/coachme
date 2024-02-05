@@ -20,22 +20,22 @@ import java.io.IOException;
 @Slf4j
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
-    private final ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
-    @Override
-    public void commence(HttpServletRequest request,
-                         HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
-        log.error("Not Authenticated Request : {}", authException.getMessage());
-        log.error("Error type : {}", authException.getClass());
-        log.error("Request Method : {}", request.getMethod());
-        log.error("Request Uri : {}", request.getRequestURI());
+  @Override
+  public void commence(HttpServletRequest request,
+                       HttpServletResponse response,
+                       AuthenticationException authException) throws IOException, ServletException {
+    log.error("Not Authenticated Request : {}", authException.getMessage());
+    log.error("Error type : {}", authException.getClass());
+    log.error("Request Method : {}", request.getMethod());
+    log.error("Request Uri : {}", request.getRequestURI());
 
-        String responseBody = objectMapper.writeValueAsString(new ExceptionDto("Not Authenticated Request"));
+    String responseBody = objectMapper.writeValueAsString(new ExceptionDto("Not Authenticated Request"));
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(responseBody);
-    }
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().write(responseBody);
+  }
 }

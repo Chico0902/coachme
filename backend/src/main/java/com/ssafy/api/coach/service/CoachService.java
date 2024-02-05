@@ -39,9 +39,9 @@ public class CoachService {
     List<CoachesResponseDtos> list;
     Long mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
 
-    if(dto.getDivision2().isBlank()){
+    if (dto.getDivision2().isBlank()) {
       list = coachingRepository.findByCategory(mainCategoryId, null);
-    }else{
+    } else {
       Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, dto.getDivision2());
 
       list = coachingRepository.findByCategory(mainCategoryId, subCategoryId);

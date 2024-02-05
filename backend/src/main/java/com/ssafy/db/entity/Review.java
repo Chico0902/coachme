@@ -2,10 +2,19 @@ package com.ssafy.db.entity;
 
 import com.ssafy.db.entity.type.ReviewLikeType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Review extends BaseEntity {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "review_id")
   private Long id;
 
@@ -30,4 +39,10 @@ public class Review extends BaseEntity {
 
   @Column(nullable = false)
   private Integer score;
+
+  public void updateReview(String comment, Integer score) {
+    this.comment = comment;
+    this.score = score;
+  }
+
 }

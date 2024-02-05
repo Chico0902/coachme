@@ -38,14 +38,14 @@ public class DmService {
    * @param : DmRoomEnterDto (long coame 코미 ID PK, long coach)
    * @return : DmRoomEnterResponseDto (long roomId, List<DmResponseDto> dmList)
    */
-  public DmRoomEnterResponseDto enterDmRoom(DmRoomEnterRequestDto roomDto) throws Exception{
+  public DmRoomEnterResponseDto enterDmRoom(DmRoomEnterRequestDto roomDto) throws Exception {
     Member coame = memberRepository.getReferenceById(roomDto.getCoameId());
     Member coach = memberRepository.getReferenceById(roomDto.getCoachId());
 
     DMRoom dmRoom = dmRoomRepository.findByCoachAndCoame(coach, coame);
     DmRoomEnterResponseDto dmRoomEnterResponseDto = new DmRoomEnterResponseDto();
 
-    if(dmRoom == null){
+    if (dmRoom == null) {
       // DmRoom이 없으면 새로운 채팅방 생성
       DMRoom newRoom = DMRoom.builder()
           .coame(coame)
@@ -54,7 +54,7 @@ public class DmService {
 
       newRoom = dmRoomRepository.save(newRoom);
       dmRoomEnterResponseDto.setRoomId(newRoom.getId());
-    }else{
+    } else {
       dmRoomEnterResponseDto.setRoomId(dmRoom.getId());
       dmRoomEnterResponseDto.setDmList(getDmList(dmRoom.getId()));
     }
@@ -67,7 +67,7 @@ public class DmService {
    * @param : id (member PK)
    * @return : DmRoomResponseDto List (long roomId , long coameId, long coachId, LocalDateTime createDate)
    */
-  public List<DmRoomResponseDto> getDmRoomList(long id) throws Exception{
+  public List<DmRoomResponseDto> getDmRoomList(long id) throws Exception {
     List<DMRoom> dmRoomList = new ArrayList<>();
     dmRoomList.addAll(memberRepository.getReferenceById(id).getCoachDmRooms());
     dmRoomList.addAll(memberRepository.getReferenceById(id).getCoameDmRooms());
@@ -81,14 +81,14 @@ public class DmService {
    * @param : roomId (DmRoom PK)
    * @return : DmResponseDto (long member, String message, LocalDateTime createDate)
    */
-  public List<DmResponseDto> getDmList(long roomId) throws Exception{
+  public List<DmResponseDto> getDmList(long roomId) throws Exception {
     // mysql에서 읽어온 dm 내역
-    DMRoom room =  dmRoomRepository.getReferenceById(roomId);
+    DMRoom room = dmRoomRepository.getReferenceById(roomId);
     List<DmResponseDto> mySqlDmList = DmMapper.instance.DmToDmResponseDto(dmRepository.findByDmRoom(room));
     log.debug("MySQL list : {} ", mySqlDmList);
 
 
-    List<String[]> redisDmList = redisUtils.getKeysAndValuesStartingWithPrefix( roomId+ "_");
+    List<String[]> redisDmList = redisUtils.getKeysAndValuesStartingWithPrefix(roomId + "_");
 
     for (int i = 0; i < redisDmList.size(); i++) {
       String key = redisDmList.get(i)[0];
