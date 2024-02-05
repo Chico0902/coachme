@@ -46,9 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/members/duplicate/id"
     ).contains(request.getRequestURI())) ||
 
-    // 특정 api 이름 포함했는지만 확인(동적 매칭)
-    (request.getRequestURI().contains(
-        "/api/coaches/categories"))) {
+        // 특정 api 이름 포함했는지만 확인(동적 매칭)
+        (request.getRequestURI().contains(
+            "/api/coaches/categories"))) {
       chain.doFilter(request, response);
       return;
     }
