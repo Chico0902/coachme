@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DMRoom extends BaseEntity{
+public class DMRoom extends BaseEntity {
   @Id
   @GeneratedValue
   @Column(name = "dmroom_id")
@@ -30,9 +30,8 @@ public class DMRoom extends BaseEntity{
 
 
   // 해당 DM Room에 있는 DM List
-  @OneToMany(mappedBy = "id" )
+  @OneToMany(mappedBy = "id")
   private List<DM> dmList = new ArrayList<>();
-
 
 
 }

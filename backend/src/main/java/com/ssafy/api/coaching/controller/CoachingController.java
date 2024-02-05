@@ -23,12 +23,13 @@ public class CoachingController {
   /**
    * [coaching-2] 코치가 코칭을 개설한다.
    * privilege : 2
+   *
    * @return [200] 정상 개설완료
    */
   @PostMapping("/coachings/{longId}")
   public ResponseEntity<MessageDto> createCoaching(
-          @PathVariable(name = "longId") Long longId,
-          @RequestBody CreateCoachingRequestDto dto) throws Exception {
+      @PathVariable(name = "longId") Long longId,
+      @RequestBody CreateCoachingRequestDto dto) throws Exception {
     // 코칭 등록
     coachingService.createCoaching(longId, dto);
     log.info("member id : {}", longId);
@@ -39,6 +40,7 @@ public class CoachingController {
   /**
    * [coaching-6] 코미가 라이브 코칭을 수강 신청
    * privilege : 1
+   *
    * @return [200] 정상 등록완료
    */
   @GetMapping("/{liveCoachingId}/{coameId}")
@@ -52,6 +54,7 @@ public class CoachingController {
   /**
    * [coaching-7] 회원정보 권한 상승 요청 시, 유효한 요청인지 확인 후 권한 상승 목록에 추가한다.
    * privilege : 2
+   *
    * @return [200] 코미 id, 이름, 프로필사진 URL
    */
   @GetMapping("/{id}/coames")

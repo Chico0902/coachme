@@ -1,6 +1,7 @@
 package com.ssafy.api.coaching.dto;
 
 import lombok.Data;
+
 @Data
 public class CreateCoachingRequestDto {
   private String main;
