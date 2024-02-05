@@ -2,8 +2,10 @@ package com.ssafy.api.coach.controller;
 
 import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
+import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
 import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
 import com.ssafy.api.coach.service.CoachService;
+import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,13 @@ public class CoachController {
   public ResponseEntity<ListDataDto> getCoachList(CoachesRequestDto dto) {
     ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(dto));
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
+  }
+
+  @GetMapping("/{coachId}")
+  public ResponseEntity<CoachDetailResponseDto> getCoachDetail(@PathVariable("coachId") long coachId) {
+    CoachDetailResponseDto responseDto = coachService.getCoachDetail(coachId);
+
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 
 

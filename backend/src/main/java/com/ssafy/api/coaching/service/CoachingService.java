@@ -1,15 +1,17 @@
 package com.ssafy.api.coaching.service;
 
 import com.ssafy.api.coach.dto.request.CoachesRequestDto;
-import com.ssafy.api.coach.dto.response.CoachesResponseDtos;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
+import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachingResponseDtos;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
+import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
 import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.member.repository.MemberRepository;
+import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.entity.type.CategoryType;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class CoachingService {
   private final MemberRepository memberRepository;
   private final CoachingRepository coachingRepository;
   private final CategoryRepository categoryRepository;
+  private final ReviewRepository reviewRepository;
 
   /**
    * 라이브 코칭을 수강하는 코미 목록을 반환하는 메서드
@@ -90,9 +93,9 @@ public class CoachingService {
     List<CoachingResponseDtos> list;
     Long mainCategoryId;
 
-    if(dto.getDivision1() == null){
+    if(dto.getDivision1().equals("all")){
       list = coachingRepository.findByCoachingCategory(null, null);
-    }else if(dto.getDivision2() == null){
+    }else if(dto.getDivision2().equals("all")){
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
       list = coachingRepository.findByCoachingCategory(mainCategoryId, null);
     }else {
@@ -101,8 +104,27 @@ public class CoachingService {
 
       list = coachingRepository.findByCoachingCategory(mainCategoryId, subCategoryId);
     }
-    log.debug("list {} ", list);
 
     return list;
   }
+
+  public CoachingDetailResponseDto getCoachingDetail(long coachingId) {
+    CoachingDetailResponseDto dto =CoachingMapper.instance.coachingToCoachingDetailResponseDto(coachingRepository.getReferenceById(coachingId));
+
+    List<Review> reviewList = reviewRepository.findAllByCoachingId(coachingId);
+    long sum = 0;
+    for (Review review : reviewList) {
+      sum = review.getScore();
+    }
+
+    dto.setReviewCount(reviewList.size());
+    if(sum != 0){
+      dto.setReviewAvg((float) sum /reviewList.size());
+    }else{
+      dto.setReviewAvg(0);
+    }
+
+    return dto;
+  }
+
 }
