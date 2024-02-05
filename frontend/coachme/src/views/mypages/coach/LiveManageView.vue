@@ -12,6 +12,29 @@ const showModal = () => {
 const hideModal = () => {
   isModalVisible.value = false
 }
+const hideModal = () => {
+  isModalVisible.value = false
+}
+
+const studentData = [
+  { name: '김싸피', imageUrl: 'https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg' },
+  { name: '홍길동', imageUrl: 'https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg' },
+]
+
+const selectedStudent = ref(null)
+
+const showStudentList = (event) => {
+  // Find the corresponding student data for the clicked event
+  const eventData = studentData.find((student) => student.name === event)
+
+  // Store selected student data
+  selectedStudent.value = eventData
+
+  // Display the modal
+  isModalVisible.value = true
+}
+
+
 </script>
 <template>
   <div class="outside">
@@ -32,7 +55,7 @@ const hideModal = () => {
         <div class="memo" v-show="isModalVisible">
           <div>
             <!-- 모달 내용 -->
-            <div class="memo-list" v-for="event in selectedDateEvents" :key="event">
+            <div class="memo-list" v-for="event in selectedDateEvents" :key="event" @click="showStudentList(event)">
               {{ event }}
             </div>
             <button @click="hideModal" class="close-button">X</button>
