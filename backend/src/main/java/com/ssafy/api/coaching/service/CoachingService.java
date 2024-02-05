@@ -5,7 +5,6 @@ import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachingResponseDtos;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
-import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
@@ -93,12 +92,12 @@ public class CoachingService {
     List<CoachingResponseDtos> list;
     Long mainCategoryId;
 
-    if(dto.getDivision1().equals("all")){
+    if (dto.getDivision1().equals("all")) {
       list = coachingRepository.findByCoachingCategory(null, null);
-    }else if(dto.getDivision2().equals("all")){
+    } else if (dto.getDivision2().equals("all")) {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
       list = coachingRepository.findByCoachingCategory(mainCategoryId, null);
-    }else {
+    } else {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
       Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, dto.getDivision2());
 
@@ -109,7 +108,7 @@ public class CoachingService {
   }
 
   public CoachingDetailResponseDto getCoachingDetail(long coachingId) {
-    CoachingDetailResponseDto dto =CoachingMapper.instance.coachingToCoachingDetailResponseDto(coachingRepository.getReferenceById(coachingId));
+    CoachingDetailResponseDto dto = CoachingMapper.instance.coachingToCoachingDetailResponseDto(coachingRepository.getReferenceById(coachingId));
 
     List<Review> reviewList = reviewRepository.findAllByCoachingId(coachingId);
     long sum = 0;
@@ -118,9 +117,9 @@ public class CoachingService {
     }
 
     dto.setReviewCount(reviewList.size());
-    if(sum != 0){
-      dto.setReviewAvg((float) sum /reviewList.size());
-    }else{
+    if (sum != 0) {
+      dto.setReviewAvg((float) sum / reviewList.size());
+    } else {
       dto.setReviewAvg(0);
     }
 
