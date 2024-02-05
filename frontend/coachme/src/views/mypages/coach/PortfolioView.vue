@@ -1,7 +1,7 @@
 <script setup>
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
-import { requestElevation } from '@/utils/api/member-api'
+import { postRequestElevation } from '@/utils/api/member-api'
 import { ElevationRequestDto } from '@/utils/api/dto/member-dto'
 import { useMemberStore } from '@/stores/member'
 import { storeToRefs } from 'pinia'
@@ -21,7 +21,7 @@ const regist = () => {
   longId.value = 1
   const dto = new ElevationRequestDto(longId.value, contentHTML.value)
   console.log(dto)
-  requestElevation(
+  postRequestElevation(
     dto,
     (success) => {
       console.log(success)

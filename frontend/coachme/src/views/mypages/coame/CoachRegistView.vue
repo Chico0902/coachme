@@ -19,7 +19,7 @@ const authStore = useAuthStore()
 const { accessToken } = storeToRefs(authStore)
 const contentHTML = ref('')
 const longId = computed(() => {
-  return decodeToken(accessToken.value).id
+  return decodeToken(accessToken.value).longId
 })
 
 /**
@@ -33,6 +33,7 @@ const regist = () => {
     (success) => {
       console.log(success)
       alert('등록 완료!')
+      window.location.reload()
     },
     (fail) => {
       console.log(fail)
