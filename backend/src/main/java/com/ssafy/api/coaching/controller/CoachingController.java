@@ -1,6 +1,7 @@
 package com.ssafy.api.coaching.controller;
 
-import com.ssafy.api.coaching.dto.CreateCoachingRequestDto;
+import com.ssafy.api.coach.dto.request.CoachesRequestDto;
+import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
 import com.ssafy.dto.ListDataDto;
@@ -63,6 +64,12 @@ public class CoachingController {
     List<CoameListResponseDto> responseList = coachingService.getCoameList(id);
 
     return new ResponseEntity<>(new ListDataDto(responseList), HttpStatus.OK);
+  }
+
+  @GetMapping("/categories")
+  public ResponseEntity<ListDataDto> CoachingRequestDto(CoachesRequestDto dto) {
+    ListDataDto listDataDto = new ListDataDto(coachingService.getCoachingList(dto));
+    return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
 }

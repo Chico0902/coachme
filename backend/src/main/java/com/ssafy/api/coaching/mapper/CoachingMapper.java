@@ -1,6 +1,6 @@
 package com.ssafy.api.coaching.mapper;
 
-import com.ssafy.api.coaching.dto.GetOneCoachingResponseDto;
+import com.ssafy.api.coaching.dto.request.GetOneCoachingResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.CoameCoaching;
