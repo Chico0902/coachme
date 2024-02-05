@@ -1,7 +1,5 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.api.coaching.dto.CoachingInfoChangeRequestDto;
-import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Coaching extends BaseEntity {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coaching_id")
   private Long id;
 
