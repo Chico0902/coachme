@@ -2,7 +2,7 @@ package com.ssafy.db.entity;
 
 import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,8 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Coaching extends BaseEntity {
   @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coaching_id")
