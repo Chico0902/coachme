@@ -122,6 +122,7 @@ public class MemberService {
     
     // 프로필 사진 등록
     fileService.uploadFileList(longId, Arrays.asList(dto.getProfileImage()), Arrays.asList(dto.getFileName()));
-
   }
+
+
 }

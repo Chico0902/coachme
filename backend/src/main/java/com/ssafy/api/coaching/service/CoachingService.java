@@ -1,25 +1,14 @@
 package com.ssafy.api.coaching.service;
 
-import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
-import com.ssafy.api.coaching.mapper.CoachingMapper;
-import com.ssafy.api.coaching.repository.LiveCoachingRepository;
-import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.db.entity.CoameCoaching;
-import com.ssafy.db.entity.LiveCoaching;
-import com.ssafy.db.entity.Member;
-import lombok.RequiredArgsConstructor;
 import com.ssafy.api.coaching.dto.CreateCoachingRequestDto;
-import com.ssafy.api.coaching.dto.GetOneCoachingResponseDto;
+import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
+import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.db.entity.Category;
-import com.ssafy.db.entity.Coaching;
-import com.ssafy.db.entity.Member;
-import jakarta.persistence.EntityNotFoundException;
+import com.ssafy.db.entity.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
