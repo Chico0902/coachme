@@ -1,10 +1,11 @@
 package com.ssafy.api.auth.service;
 
+import com.ssafy.api.auth.dto.TokenInfoDto;
 import com.ssafy.api.auth.dto.request.LoginRequestDto;
-import com.ssafy.api.auth.dto.response.TokenResponseDto;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.config.security.token.JwtTokenProvider;
 import com.ssafy.db.entity.Member;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,22 +31,23 @@ public class AuthService {
    * @param loginRequestDto : 로그인 요청
    * @return : Token 정보
    */
-  public TokenResponseDto getTokenResponseDto(LoginRequestDto loginRequestDto) throws Exception {
+  public TokenInfoDto getTokenInfoDto(LoginRequestDto loginRequestDto) throws Exception {
 
     // 유효한 로그인인지 검증
     Member validateMember = getValidateMember(
         loginRequestDto.getStringId(), loginRequestDto.getPw());
 
     // 유효한 로그인이면 토큰 전송
-    TokenResponseDto tokenResponseDto = new TokenResponseDto(
+    TokenInfoDto tokenInfoDto = new TokenInfoDto(
+        validateMember.getLongId(),
         jwtTokenProvider.generateAccessToken(validateMember),
         jwtTokenProvider.generateRefreshToken(validateMember.getStringId())
     );
 
     // Redis에 저장
-    jwtTokenProvider.setRefreshTokenInRedis(validateMember.getStringId(), tokenResponseDto.getRefreshToken());
+    jwtTokenProvider.setRefreshTokenInRedis(validateMember.getStringId(), tokenInfoDto.getRefreshToken());
 
-    return tokenResponseDto;
+    return tokenInfoDto;
   }
 
   /**
@@ -71,4 +73,29 @@ public class AuthService {
     return memberInDB.get(0);
   }
 
+  /**
+   * 토큰을 전달할 쿠키를 생성하는 메서드
+   *
+   * @param tokenName - 저장할 토큰 이름
+   * @param token     - 실제 토큰
+   * @return - 생성된 쿠키
+   */
+  public Cookie setCookie(String tokenName, String token) {
+
+    // 쿠키 생성
+    Cookie cookie = new Cookie(tokenName, token);
+
+    // Secure : HTTPS 프로토콜을 통해 암호화된 연결에서만 전송 (스니핑 방지)
+    cookie.setSecure(true);
+
+    // HttpOnly : JavaScript를 통해 접근하는 것을 방지 (XSS 공격 방지)
+    cookie.setHttpOnly(true);
+
+    // 유효 시간 설정
+    cookie.setMaxAge(60 * 60 * 24); // 1일 (초)
+
+    cookie.setPath("/");
+
+    return cookie;
+  }
 }
