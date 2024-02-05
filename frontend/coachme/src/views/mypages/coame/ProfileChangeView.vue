@@ -131,25 +131,28 @@ function changeProfileText(newProfileText) {
 
 // 회원정보 수정
 const changeMemberInfo = (pw, newNick, newEmail) => {
-  try {
-    // dto 생성 및 호출
-    const dto = new MemberInfoChangeRequestDto(pw, newNick, newEmail)
-    patchMemberInfo(
-      longId,
-      dto,
-      (success) => {
-        alert(success.data.message)
-        window.location.reload()
-      },
-      // API 호출 실패 시 오류메시지 콘솔에 출력
-      (fail) => {
-        console.log(fail)
-      }
-    )
-    // 검증 실패 시 오류메시지 출력
-  } catch (e) {
-    alert(e.message)
+  // 정상요청 검증
+  if (!(validatePassword(pw) && validateNickName(newNick))) {
+    alert('유효하지 않은 입력값이 있습니다.')
+    return
   }
+  // dto 생성 및 호출
+  const dto = new MemberInfoChangeRequestDto(pw, newNick, newEmail)
+  patchMemberInfo(
+    accessToken.value,
+    longId,
+    dto,
+    () => {
+      alert('비밀번호 수정 완료')
+      window.location.reload()
+    },
+    // API 호출 실패 시 오류메시지 콘솔에 출력
+    (fail) => {
+      console.log(fail)
+      if (fail.response.status === 401) alert('잘못된 비밀번호입니다.')
+      else alert('잘못된 요청입니다.')
+    }
+  )
 }
 </script>
 <template>
