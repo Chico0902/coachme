@@ -72,7 +72,7 @@ public class Member extends BaseEntity {
   private List<Coaching> coachTeachCourses = new ArrayList<>();
 
   // 코미가 수강하는 목록
-  @OneToMany(mappedBy = "coame")
+  @OneToMany(mappedBy = "coame", cascade = CascadeType.ALL)
   private List<CoameCoaching> coameTaughtCourses = new ArrayList<>();
 
   // 코미가 누른 좋아요
@@ -143,6 +143,8 @@ public class Member extends BaseEntity {
   }
 
   // 연관관계 편의 메서드
-
+  public void addCoameTaughtCourse(CoameCoaching coameCoaching) {
+    this.coameTaughtCourses.add(coameCoaching);
+  }
 
 }

@@ -1,11 +1,19 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CoameCoaching extends BaseEntity {
 
   @Id
@@ -18,9 +26,13 @@ public class CoameCoaching extends BaseEntity {
   private Member coame;
 
   @ManyToOne
-  @JoinColumn(name = "coaching_id")
-  private Coaching coaching;
+  @JoinColumn(name = "live_coaching_id")
+  private LiveCoaching liveCoaching;
 
-  @OneToMany(mappedBy = "coameCoaching")
-  private List<LiveCoaching> liveCoachings = new ArrayList<>();
+  public void createCoaching(LiveCoaching liveCoaching, Member member) {
+    this.liveCoaching = liveCoaching;
+    this.coame = member;
+    liveCoaching.addCoameCoahing(this);
+    member.addCoameTaughtCourse(this);
+  }
 }

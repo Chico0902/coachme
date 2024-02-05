@@ -2,13 +2,17 @@ package com.ssafy.db.entity;
 
 import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
   @Id
@@ -35,4 +39,13 @@ public class Category {
 
   @OneToMany(mappedBy = "subCategory")
   private List<Coaching> subCategoryCoachings = new ArrayList<>();
+
+  public void addOneCategory(Coaching coaching) {
+    this.mainCategoryCoachings.add(coaching);
+  }
+
+  public void addCategoryList(Coaching coaching) {
+    this.mainCategoryCoachings.add(coaching);
+    this.subCategoryCoachings.add(coaching);
+  }
 }
