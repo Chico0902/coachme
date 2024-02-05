@@ -1,6 +1,5 @@
 package com.ssafy.api.coaching.repository;
 
-import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.LiveCoaching;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

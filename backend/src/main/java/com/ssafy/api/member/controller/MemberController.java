@@ -107,7 +107,7 @@ public class MemberController {
    * privilege : COAME
    * @return [200] 정상 등록 완료
    */
-  @PostMapping("/profiles/texts/{longId}")
+  @PostMapping("/profiles/{longId}/texts")
   public ResponseEntity<MessageDto>  uploadProfileText(
       @PathVariable(value = "longId") Long longId,
       @Valid @RequestBody ProfileTextRequestDto dto ) throws Exception{
@@ -122,7 +122,7 @@ public class MemberController {
    * privilege : COAME
    * @return [200] 정상 등록 완료
    */
-  @PostMapping("/profiles/images/{longId}")
+  @PostMapping("/profiles/{longId}/images")
   public ResponseEntity<MessageDto>  uploadProfileImage(
       @PathVariable(value = "longId") Long longId, ProfileImageRequestDto dto) throws Exception{
     // 프로필 사진 등록
