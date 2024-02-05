@@ -76,7 +76,7 @@ public class CoachingService {
         .subCategory(sub)
         .summary(dto.getSummary()).build();
 
-//   newCoaching.categorize(main, sub);
+    //   newCoaching.categorize(main, sub);
     if(sub == null) {
       newCoaching.addOneCategory(main);
       main.addOneCategory(newCoaching);

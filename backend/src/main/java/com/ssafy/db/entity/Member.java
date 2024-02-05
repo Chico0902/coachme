@@ -90,6 +90,15 @@ public class Member extends BaseEntity {
   @OneToMany(mappedBy = "coach")
   private List<Review> receivedReviews = new ArrayList<>();
 
+  // 코치가 참여하고 있는  DM Room
+  @OneToMany(mappedBy = "coach")
+  private List<DMRoom> coachDmRooms = new ArrayList<>();
+
+  // 코미가 참여하고 있는  DM Room
+  @OneToMany(mappedBy = "coame")
+  private List<DMRoom> coameDmRooms = new ArrayList<>();
+
+
   // method
   // 회원정보 생성 시 권한을 설정하고 상태를 생성으로 바꾼다.
   public void initMemberPrivilegeAndStatus() {
@@ -124,15 +133,17 @@ public class Member extends BaseEntity {
 
   // 프로필 글 등록 요청시, 프로필 글 등록
   public void addProfileImage(String fileName, String url) {
-    System.out.println("여기서 문제?");
     this.profileImage = new File(this, fileName, url);
+  }
 
+  // 포트폴리오 수정 요청시 포트폴리오 수정
+  public void updatePortfolio(String htmldocs) {
+    this.portfolio.uploadHtmlDocs(htmldocs);
   }
 
   // 연관관계 편의 메서드
   public void addCoameTaughtCourse(CoameCoaching coameCoaching) {
     this.coameTaughtCourses.add(coameCoaching);
   }
-
 
 }

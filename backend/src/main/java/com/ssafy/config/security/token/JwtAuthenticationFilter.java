@@ -60,7 +60,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/coachings/3/coames",
         "/api/coachings/4/coames",
         "/api/coachings/5/coames",
-        "/api/coachings/1/5"
+        "/api/coachings/1/5",
+        "/api/ws-dm",
+        "/api/coachings/1/3"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;
