@@ -33,6 +33,33 @@ export function getAccessToken() {
 }
 
 /**
+ * Session Storage에서 토큰 받아오는 함수
+ * @returns {String} accessToken : 토큰 정보(String)
+ * @throws 토큰 없음 : '로그인 정보가 없습니다.' 잘못된 토큰 : '잘못된 토큰 형식입니다.'
+ */
+export function getAccessToken() {
+  // Exception : 세션스토리지에 token이 없을 때
+  const token = sessionStorage.getItem('auth')
+  if (token === '' || token === undefined || token === null) {
+    throw new Error('로그인 정보가 없습니다.')
+  }
+
+  // Exception : 잘못된 token 타입
+  const parsedToken = JSON.parse(token)
+  if (parsedToken === '' || parsedToken === undefined || parsedToken === null) {
+    throw new Error('잘못된 토큰 형식입니다.')
+  }
+
+  // Exception : 잘못된 AccessToken 타입
+  const accessToken = parsedToken.accessToken
+  if (typeof accessToken != 'string') {
+    throw new Error('잘못된 토큰 형식입니다.')
+  }
+
+  return accessToken
+}
+
+/**
  * 토큰을 입력받아서 토큰 결과를 조회하는 함수
  * @param {String} token JWT
  * @returns {Object} decodedToken : 복호화된 토큰 정보(Json Object)
