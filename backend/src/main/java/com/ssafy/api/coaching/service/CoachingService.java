@@ -2,13 +2,12 @@ package com.ssafy.api.coaching.service;
 
 import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
+import com.ssafy.api.coaching.dto.request.GetOneCoachingResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachingResponseDtos;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coach.dto.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.CoachingInfoChangeRequestDto;
-import com.ssafy.api.coaching.dto.CreateCoachingRequestDto;
-import com.ssafy.api.coaching.dto.GetOneCoachingResponseDto;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
