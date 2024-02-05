@@ -4,14 +4,14 @@ import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
 import com.ssafy.api.coach.dto.response.CalendarResponseDto;
 import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
+import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
 import com.ssafy.api.coach.service.CoachService;
-import com.ssafy.dto.ListDataDto;
-import com.ssafy.api.coach.dto.CoachesCoachingsResponseDto;
-import com.ssafy.api.coaching.dto.CoachingInfoChangeRequestDto;
-import com.ssafy.api.coaching.dto.CreateCoachingRequestDto;
-import com.ssafy.api.coaching.dto.GetOneCoachingResponseDto;
+import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
+import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
+import com.ssafy.api.coaching.dto.response.GetOneCoachingResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
+import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +75,7 @@ public class CoachController {
   /**
    * [coach-5] 코치가 코칭을 개설한다.
    * privilege : 2
+   *
    * @return [200] 정상 개설완료
    */
   @PostMapping("/coachings/{longId}")
@@ -87,9 +88,11 @@ public class CoachController {
     // 정상 등록완료(200)
     return new ResponseEntity<>(new MessageDto("Coaching created successfully"), HttpStatus.CREATED);
   }
+
   /**
    * [coach-6] 코치가 등록한 모든 코칭을 조회한다.
    * privilege : 2
+   *
    * @return [200] 정상 조회완료
    */
   @GetMapping("/{coachId}/coachings")
@@ -101,9 +104,11 @@ public class CoachController {
     // 정상 등록완료(200)
     return ResponseEntity.ok(response);
   }
+
   /**
    * [coach-7] 코치가 등록한 코칭 1개를 조회한다.
    * privilege : 2
+   *
    * @return [200] 정상 조회완료
    */
   @GetMapping("/{coachId}/coaching/{id}")
@@ -115,9 +120,11 @@ public class CoachController {
     // 정상 등록완료(200)
     return new ResponseEntity<>(dto, HttpStatus.OK);
   }
+
   /**
    * [coach-8] 코치가 코칭 정보를 수정한다.
    * privilege : 2
+   *
    * @return [200] 정상 조회완료
    */
   @PatchMapping("/{coachId}/coaching/{id}")
@@ -130,9 +137,11 @@ public class CoachController {
     // 정상 등록완료(200)
     return new ResponseEntity<>(new MessageDto("Coaching Info Change request successfully completed"), HttpStatus.OK);
   }
+
   /**
    * [coach-9] 코치가 자신의 코칭 1개를 삭제한다.
    * privilege : 2
+   *
    * @return [200] 정상 조회완료
    */
   @DeleteMapping("/{coachId}/coaching/{id}")
