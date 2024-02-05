@@ -1,6 +1,7 @@
 package com.ssafy.api.coaching.mapper;
 
 import com.ssafy.api.coaching.dto.request.GetOneCoachingResponseDto;
+import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.CoameCoaching;
@@ -33,5 +34,10 @@ public interface CoachingMapper {
   @Mapping(source = "mainCategory.name", target = "main")
   @Mapping(source = "subCategory.name", target = "sub")
   GetOneCoachingResponseDto coachingToGetOneCoachingResponseDto(Coaching coaching);
+
+  @Mapping(source = "coach.name", target = "coachName")
+  @Mapping(source = "coach.profileImage.url", target = "coachProfileImageUrl")
+  @Mapping(source = "name", target = "coachingName")
+  CoachingDetailResponseDto coachingToCoachingDetailResponseDto(Coaching coaching);
 
 }

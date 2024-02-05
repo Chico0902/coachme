@@ -2,6 +2,7 @@ package com.ssafy.api.coach.service;
 
 import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
+import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
 import com.ssafy.api.coach.dto.response.CoachesResponseDtos;
 import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
 import com.ssafy.api.coach.mapper.CoachMapper;
@@ -37,9 +38,10 @@ public class CoachService {
   public List<CoachesResponseDtos> getCoachList(CoachesRequestDto dto) {
     List<CoachesResponseDtos> list;
     Long mainCategoryId;
-    if(dto.getDivision1() == null){
+
+    if(dto.getDivision1().equals("all")){
       list = coachingRepository.findByCoachCategory(null, null);
-    }else if(dto.getDivision2() == null){
+    }else if(dto.getDivision2().equals("all")){
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
       list = coachingRepository.findByCoachCategory(mainCategoryId, null);
     }else {
@@ -50,5 +52,11 @@ public class CoachService {
     }
 
     return list;
+  }
+
+  public CoachDetailResponseDto getCoachDetail(long coachId) {
+
+
+    return null;
   }
 }

@@ -2,7 +2,9 @@ package com.ssafy.api.coaching.controller;
 
 import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
+import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
+import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
 import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
@@ -44,7 +46,7 @@ public class CoachingController {
    *
    * @return [200] 정상 등록완료
    */
-  @GetMapping("/{liveCoachingId}/{coameId}")
+  @GetMapping("/live/{liveCoachingId}/{coameId}")
   public ResponseEntity<?> signUpClass(@PathVariable Long liveCoachingId, @PathVariable Long coameId) {
 
     coachingService.signUpClass(liveCoachingId, coameId);
@@ -53,14 +55,13 @@ public class CoachingController {
   }
 
   /**
-   * [coaching-7] 회원정보 권한 상승 요청 시, 유효한 요청인지 확인 후 권한 상승 목록에 추가한다.
+   * [coaching-7]
    * privilege : 2
    *
    * @return [200] 코미 id, 이름, 프로필사진 URL
    */
-  @GetMapping("/{id}/coames")
+  @GetMapping("/live/{id}/coames")
   public ResponseEntity<?> getCoameList(@PathVariable Long id) {
-
     List<CoameListResponseDto> responseList = coachingService.getCoameList(id);
 
     return new ResponseEntity<>(new ListDataDto(responseList), HttpStatus.OK);
@@ -72,4 +73,10 @@ public class CoachingController {
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
+  @GetMapping("/{coachingId}")
+  public ResponseEntity<CoachingDetailResponseDto> getCoachingDetail(@PathVariable("coachingId") long coachingId) {
+    CoachingDetailResponseDto responseDto = coachingService.getCoachingDetail(coachingId);
+
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
+  }
 }
