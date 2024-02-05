@@ -1,22 +1,14 @@
 package com.ssafy.api.livecoaching.controller;
 
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
+import io.openvidu.java.client.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import io.openvidu.java.client.Connection;
-import io.openvidu.java.client.ConnectionProperties;
-import io.openvidu.java.client.OpenVidu;
-import io.openvidu.java.client.OpenViduHttpException;
-import io.openvidu.java.client.OpenViduJavaClientException;
-import io.openvidu.java.client.Session;
-import io.openvidu.java.client.SessionProperties;
+import javax.annotation.PostConstruct;
+import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RequestMapping("/live")
