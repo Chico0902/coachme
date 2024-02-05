@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class DM{
+public class DM {
   @Id
   @GeneratedValue
   @Column(name = "dm_id")

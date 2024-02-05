@@ -8,5 +8,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface CoachMapper {
   CoachMapper instance = Mappers.getMapper(CoachMapper.class);
+
   PortfolioResponseDto PortfolioToPortfolioResponseDto(Portfolio portfolio);
 }

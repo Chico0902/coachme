@@ -26,6 +26,7 @@ public class CoachingService {
 
   /**
    * 라이브 코칭을 수강하는 코미 목록을 반환하는 메서드
+   *
    * @param id - 라이브 코칭 id
    * @return - 코미 목록
    */
@@ -37,8 +38,9 @@ public class CoachingService {
 
   /**
    * 라이브 코칭 신청 메서드
+   *
    * @param liveCoachingId - 라이브 코칭 id
-   * @param coameId - 코미 id
+   * @param coameId        - 코미 id
    */
   public void signUpClass(Long liveCoachingId, Long coameId) {
     LiveCoaching liveCoaching = liveCoachingRepository.getReferenceById(liveCoachingId);
@@ -66,7 +68,7 @@ public class CoachingService {
         .summary(dto.getSummary()).build();
 
     //   newCoaching.categorize(main, sub);
-    if(sub == null) {
+    if (sub == null) {
       newCoaching.addOneCategory(main);
       main.addOneCategory(newCoaching);
     } else {
