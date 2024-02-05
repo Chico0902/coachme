@@ -1,5 +1,6 @@
 package com.ssafy.api.member.repository;
 
+import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.Member;
 import com.ssafy.db.entity.status.ElevateStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
   @Query(value = "SELECT m FROM Member m join fetch m.portfolio " +
       "WHERE m.elevateStatus = ?1")
   List<Member> findByElevateStatusWithPortfolio(ElevateStatus elevateStatus);
+  
 }

@@ -1,6 +1,7 @@
 package com.ssafy.api.member.mapper;
 
 import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
+import com.ssafy.api.coach.dto.response.CalenderResponseDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
