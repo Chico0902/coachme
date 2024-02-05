@@ -4,7 +4,6 @@ import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
-import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
 import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
