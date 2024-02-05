@@ -8,7 +8,4 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileImageRequestDto {
   @NotBlank
   MultipartFile profileImage;
-
-  @NotBlank
-  String fileName;
 }
