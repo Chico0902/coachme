@@ -41,7 +41,7 @@ const username = computed(() => {
 // 코치(+코칭) 카드 라벨, 카드 캡션, 카드 이미지
 const label = 'whiteCat'
 const caption = 'Cat is white'
-const image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq75DiUEnXV_lTKsYK7oLxdoj0cyTeSp6329bGs93wHQ&s'
+const image = 'https://velog.velcdn.com/images/lee02g29/post/d28f0459-139c-418c-bde4-b8c0b7ce33c8/image.png'
 
 // 코칭 카드 영상 비율, 주소
 const ratio = 16 / 9

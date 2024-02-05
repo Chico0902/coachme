@@ -11,16 +11,18 @@ const props = defineProps({
     type: Object,
     default: () => {
       return [
-        'https://cdn.quasar.dev/img/mountains.jpg',
-        'https://cdn.quasar.dev/img/parallax1.jpg',
-        'https://cdn.quasar.dev/img/parallax2.jpg',
-        'https://cdn.quasar.dev/img/quasar.jpg'
+        'https://velog.velcdn.com/images/lee02g29/post/469a9596-3c04-4d38-b0f4-53d929b40deb/image.png',
+        'https://velog.velcdn.com/images/lee02g29/post/9fb3c705-655d-471e-b277-46cbb4e8a629/image.png',
+        'https://velog.velcdn.com/images/lee02g29/post/0d9763f9-32c7-4c6e-ad99-65db4cec46c5/image.png',
+        'https://velog.velcdn.com/images/lee02g29/post/4e161483-2f52-4953-933d-0f1d512f0017/image.png',
+        'https://velog.velcdn.com/images/lee02g29/post/3d55bb1f-598d-4f7d-a03b-625f78bd3930/image.png',
+        'https://velog.velcdn.com/images/lee02g29/post/9d867b97-a790-41ef-8962-2b748306b39d/image.png',
       ]
     }
   }
 })
 
-const slide = ref(1)
+const slide = ref(0)
 const autoplay = ref(true)
 </script>
 
