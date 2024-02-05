@@ -14,10 +14,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CoameCoaching extends BaseEntity {
+public class CoameCoaching extends BaseEntity{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coame_coaching_id")
   private Long id;
 
@@ -35,4 +34,5 @@ public class CoameCoaching extends BaseEntity {
     liveCoaching.addCoameCoahing(this);
     member.addCoameTaughtCourse(this);
   }
+
 }

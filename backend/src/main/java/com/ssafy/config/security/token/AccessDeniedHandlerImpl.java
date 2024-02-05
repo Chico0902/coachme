@@ -20,19 +20,19 @@ import java.io.IOException;
 @Slf4j
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
-  private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-  @Override
-  public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-    log.error("Access Denied", accessDeniedException);
-    log.error("Request Method : {}", request.getMethod());
-    log.error("Request Uri : {}", request.getRequestURI());
+    @Override
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        log.error("Access Denied", accessDeniedException);
+        log.error("Request Method : {}", request.getMethod());
+        log.error("Request Uri : {}", request.getRequestURI());
 
-    String responseBody = objectMapper.writeValueAsString(new ExceptionDto("Not Authenticated Request"));
+        String responseBody = objectMapper.writeValueAsString(new ExceptionDto("Not Authenticated Request"));
 
-    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-    response.setStatus(HttpStatus.FORBIDDEN.value());
-    response.setCharacterEncoding("UTF-8");
-    response.getWriter().write(responseBody);
-  }
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(responseBody);
+    }
 }
