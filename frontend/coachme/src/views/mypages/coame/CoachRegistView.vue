@@ -22,9 +22,6 @@ const longId = computed(() => {
   return decodeToken(accessToken.value).longId
 })
 
-/**
- * TODO 이미지/영상 파일 업로드 시 해당 업로드파일 저장하는 로직도 추가
- */
 const regist = () => {
   const dto = new ElevationRequestDto(longId.value, contentHTML.value)
   postRequestElevation(
