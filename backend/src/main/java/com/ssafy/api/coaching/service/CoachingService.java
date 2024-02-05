@@ -32,6 +32,8 @@ public class CoachingService {
    */
   public void createCoaching(Long longId, CreateCoachingRequestDto dto) {
 
+    log.info("coaching request : {}",dto);
+
     // 1. DB에서 멤버를 찾아온다
     Member memberInDB = memberRepository.getReferenceById(longId);
     Category main = categoryRepository.findByName(dto.getMain());
@@ -57,17 +59,4 @@ public class CoachingService {
     // 3. 새롭게 만든 코칭에 맴버를 등록한다.
     newCoaching.registCoaching(memberInDB);
   }
-
-//  @Transactional(readOnly = true)
-//  public GetOneCoachingResponseDto getOneCoaching(Long longId, Long id) {
-//    Member member = memberRepository.getReferenceById(longId);
-//    List<Coaching> coachings = member.getCoachTeachCourses();
-//    Coaching foundCoaching;
-//    for(Coaching coaching : coachings) {
-//      if(coaching.getId() == id) {
-//        return CoachingMapper.instance.coachingToGetOneCoachingResponseDto(coaching);
-//      }
-//    }
-//    throw new EntityNotFoundException();
-//  }
 }
