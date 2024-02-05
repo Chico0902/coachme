@@ -38,11 +38,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     // 토큰이 필요하지 않은 API URL의 경우 => 로직 처리 없이 다음 필터로 이동
-    if (Arrays.asList(
+
+    // api 이름 자체로 필터 해제
+    if ((Arrays.asList(
         "/api/auth/login",
         "/api/members",
         "/api/members/duplicate/id"
-    ).contains(request.getRequestURI())) {
+    ).contains(request.getRequestURI())) ||
+
+    // 특정 api 이름 포함했는지만 확인(동적 매칭)
+    (request.getRequestURI().contains(
+        "/api/coaches/categories"))) {
       chain.doFilter(request, response);
       return;
     }
