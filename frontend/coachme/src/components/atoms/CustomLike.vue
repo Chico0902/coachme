@@ -114,7 +114,7 @@ a {
 svg {
   cursor: pointer;
   overflow: visible;
-  width: 60px;
+  width: 3.5vw;
 
   #heart {
     transform-origin: center;

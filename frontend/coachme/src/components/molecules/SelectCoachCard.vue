@@ -20,11 +20,11 @@ const { requestDm } = store
 // 피니아에 저장된 채팅 활성화 함수
 
 const props = defineProps({
-  name: {
+  coachName: {
     type: String,
     default: ''
   }, // 코치 이름
-  category: {
+  coaching: {
     type: String,
     default: ''
   }, // 제공 코칭
@@ -64,16 +64,12 @@ watch(() => stars.value, (newState) => {
   <!-- 코치 이름 영역 -->
   <q-item style="margin-top: -1vh;">
     <q-item-section>
-      <labels :label="`${props.name}`" class="text-black text-bold" style="padding: -2vw;"></labels>
+      <labels :label="`${props.coachName}`" class="text-black text-bold" style="padding: -2vw;"></labels>
     </q-item-section>
   </q-item>
 
   <!-- 제공 코칭과 별점 영역-->
   <q-item class="justify-evenly">
-    <!-- 제공 코칭 -->
-    <q-item-section style="min-width: fit-content;">
-      <labels :label="`${props.category}`" class="text-black text-bold"></labels>
-    </q-item-section>
     <!-- 공간 분리-->
     <q-item-section>
       <q-space></q-space>
@@ -84,6 +80,14 @@ watch(() => stars.value, (newState) => {
       <span style="font-size: 15px; color: black; font-weight: 600;">{{ rating }} ({{ reviewCount }}) </span>
     </q-item-section>
   </q-item>
+
+    <!-- 대표 코칭 이름 -->
+    <q-item class="justify-evenly">
+      <!-- 코칭 이름 -->
+      <q-item-section style="min-width: fit-content;">
+        <labels :label="`${props.coaching}`" class="text-black text-bold"></labels>
+      </q-item-section>
+    </q-item>
 
   <!-- 코치 버튼 영역 -->
   <q-item class="coach-button">
@@ -98,7 +102,4 @@ watch(() => stars.value, (newState) => {
 </template>
 
 <style scoped>
-.coach-button {
-  margin-top: 2vh;
-}
 </style>

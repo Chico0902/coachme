@@ -1,27 +1,19 @@
 <!-- 코치 리스트 카드(틴더라이크)
   주의할 사항 : 갱신해야하는 것은 cards 배열임에 주의하기
   배열에 필요한 사항 
-  name, category, rating, desc, img
- -->
+  coachName, category, rating, reviewCount, img
+-->
 
 <script setup>
 import selectCoachCard from '../molecules/SelectCoachCard.vue'
 
-import { onMounted, ref } from 'vue'
+import { onMounted  } from 'vue'
 
-const cards = ref([
-  { name: 'Korean Fried', category: '한국', rating: '4.6', reviewCount: 122, desc: '한국 치킨', img: `${cloudUrl}tender01.jpg` },
-  { name: 'Grilled', category: '그릴', rating: '4.6', reviewCount: 122, desc: '그릴 치킨', img: `${cloudUrl}tender02.jpg` },
-  { name: 'Fried', category: '튀김', rating: '4.6', reviewCount: 122, desc: '치킨', img: `${cloudUrl}tender03.jpg` },
-  {
-    name: 'Deep Fried', category: '아무튼 치킨', rating: '4.6', reviewCount: 122, desc:
-      'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes',
-    img: `${cloudUrl}tender04.jpg`
-  }
-]);
-
-let imgCount = 0
-const cloudUrl = 'https://djjjk9bjm164h.cloudfront.net/'
+const props = defineProps({
+  cards: {
+    type: Object,
+  },
+})
 
 let like
 let likeText
@@ -32,7 +24,7 @@ let MAX_DEFAULT_MOVE
 
 onMounted(() => {
   frame = document.querySelector('.frame')
-  console.log(frame)
+  // console.log(frame)
   like = document.querySelector('#like')
   hate = document.querySelector('#hate')
 
@@ -156,12 +148,12 @@ function cancel() {
   <section>
     <div class="frame">
       <!-- 코치 선택 리스트 -->
-      <q-card v-for="card in cards" :key="card.id" class="card coach" style="background-color: white;">
+      <q-card v-for="card in props.cards" :key="card.id" class="card coach" style="background-color: white;">
         <!-- 지우지 말 것-->
         <div class="is-like">좋아요</div>
         <!-- 코치 카드 영역 -->
-        <selectCoachCard :name="card.name" :category="card.category" :rating="card.rating" :reviewCount="card.reviewCount"
-        :desc="card.desc" :img="card.img"></selectCoachCard>
+        <selectCoachCard :coachName="card.coachName" :coaching="card.coaching" :rating="card.rating" :reviewCount="card.reviewCount"
+        :img="card.img"></selectCoachCard>
       </q-card>
     </div>
 
@@ -182,7 +174,7 @@ function cancel() {
     </div>
   </section>
 </template>
- 
+
 <style scoped>
 section {
   display: flex;
