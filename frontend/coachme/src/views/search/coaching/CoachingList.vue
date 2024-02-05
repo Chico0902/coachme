@@ -116,7 +116,7 @@ const clickCategory = (index) => {
         <SearchCategorySidebar :button-list="selectedCategory" />
         <div class="mainpage">
           <!-- 코칭 목록과 채팅 버튼-->
-          <SearchCoachingList :coaching="coaching" style="margin-left: 0.6vw;"></SearchCoachingList>
+          <SearchCoachingList :coaching="coaching" style="margin-left: 0.6vw; margin-top: 1vh;"></SearchCoachingList>
         </div>
         <div class="chat-button">
           <chatButton style="width: 50px; height: 50px;">

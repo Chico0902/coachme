@@ -64,50 +64,50 @@ const changeListAndMatching = () => {
 const coach = reactive([
   {
     coachId: "1",
-    category: 'one',
     coachName: "title one",
+    coaching: 'one',
     rating: "4.7",
     reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
   }, {
     coachId: "2",
-    category: 'two',
     coachName: "title two",
+    coaching: 'two',
     rating: "4.6",
     reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar2.jpg"
   }, {
     coachId: "3",
-    category: 'three',
     coachName: "title three",
+    coaching: 'three',
     rating: "4.5",
     reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar3.jpg"
   }, {
     coachId: "4",
-    category: 'four',
     coachName: "title four",
+    coaching: 'four',
     rating: "3.9",
     reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar4.jpg"
   }, {
     coachId: "5",
-    category: 'five',
     coachName: "title five",
+    coaching: 'five',
     rating: "4",
     reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar5.jpg"
   }, {
     coachId: "6",
-    category: 'six',
     coachName: "title six",
+    coaching: 'six',
     rating: "4.9",
     reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar6.jpg"
   }, {
     coachId: "7",
-    category: 'seven',
     coachName: "title seven",
+    coaching: 'seven',
     rating: "4.1",
     reviewCount: 122,
     img: "https://cdn.quasar.dev/img/avatar1.jpg"
@@ -140,10 +140,18 @@ const coach = reactive([
 
         <!-- 전환 버튼 -->
         <div class="matching-button">
-          <q-btn v-if="isMatching" round style="width: 50px; height: 50px;" 
-          size="20px" color="blue-9" icon="list" @click="changeListAndMatching"></q-btn>
-          <q-btn v-else round  style="width: 50px; height: 50px;" 
-          size="20px" color="blue-9" icon="style" @click="changeListAndMatching"></q-btn>
+          <q-btn v-if="isMatching" round style="width: 50px; height: 50px;" size="20px" color="blue-9" icon="list"
+            @click="changeListAndMatching">
+            <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+              <strong>리스트로 보기</strong>
+            </q-tooltip>
+          </q-btn>
+          <q-btn v-else round style="width: 50px; height: 50px;" size="20px" color="blue-9" icon="style"
+            @click="changeListAndMatching">
+            <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+              <strong>매칭 하기</strong>
+            </q-tooltip>
+          </q-btn>
         </div>
       </div>
     </div>
