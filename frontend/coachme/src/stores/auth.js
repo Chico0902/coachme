@@ -3,8 +3,7 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('auth', {
   state: () => {
     return {
-      accessToken: '',
-      refreshToken: ''
+      accessToken: ''
     }
   },
   persist: {
@@ -12,7 +11,7 @@ export const useAuthStore = defineStore('auth', {
     strategies: [
       {
         storage: sessionStorage,
-        paths: ['accessToken', 'refreshToken']
+        paths: ['accessToken']
       }
     ]
   }
