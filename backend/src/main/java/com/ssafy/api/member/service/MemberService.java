@@ -1,6 +1,11 @@
 package com.ssafy.api.member.service;
 
-import com.ssafy.api.member.dto.request.*;
+import com.ssafy.api.member.dto.request.ElevationRequestDto;
+import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
+import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
+import com.ssafy.api.member.dto.request.ProfileTextRequestDto;
+import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
+import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
@@ -13,6 +18,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,9 +46,7 @@ public class MemberService {
     Member member = MemberMapper.instance.memberRegistRequestDtoToMember(dto);
 
     // member 상태와 권한 초기화
-    member.initMemberPrivilegeAndStatus();
-
-    log.info(member.getEmail());
+    member.initMemberStatus();
 
     // member 저장
     memberRepository.save(member);
@@ -73,7 +77,7 @@ public class MemberService {
     // 멤버 찾기
     Member memberInDB = memberRepository.getReferenceById(dto.getLongId());
 
-      // 포트폴리오 업데이트, 권한상승 요청리스트에 추가
+    // 포트폴리오 업데이트, 권한상승 요청리스트에 추가
     memberInDB.elevateRequest(dto.getHtmlDocs());
 
     log.info("계정 권한상승 요청 성공");
@@ -81,6 +85,7 @@ public class MemberService {
 
   /**
    * 아이디를 입력받아서 해당 아이디가 사용중인지 검증
+   *
    * @return true : 아이디 사용중 / false : 사용가능
    */
   @Transactional(readOnly = true)
@@ -94,6 +99,7 @@ public class MemberService {
 
   /**
    * 아이디를 입력받아 해당 멤버의 프로필 글과 사진을 조회
+   *
    * @return profileText, profileImageUrl;
    */
   public ProfileResponseDto requestProfile(Long longId) {
@@ -113,15 +119,36 @@ public class MemberService {
   /**
    * 유저 아이디와 프로필 사진 입력받아 프로필 사진 수정
    */
-  public void uploadProfileImage(Long longId, ProfileImageRequestDto dto) {
+  public ProfileImageResponseDto uploadProfileImage(Long longId, MultipartFile newFile) {
     // 기존의 프로필 이미지 삭제
-    File file = memberRepository.findById(longId).get().getProfileImage();
-    if(file != null){
+    Member memberInDB = memberRepository.getReferenceById(longId);
+    File file = memberInDB.getProfileImage();
+    if (file != null) {
       fileService.deleteFile(file.getId());
     }
-    
-    // 프로필 사진 등록
-    fileService.uploadFileList(longId, Arrays.asList(dto.getProfileImage()), Arrays.asList(dto.getFileName()));
 
+    // 프로필 사진 등록
+    fileService.uploadFileList(longId, Arrays.asList(newFile));
+
+    return new ProfileImageResponseDto(memberInDB.getProfileImage().getUrl());
+  }
+
+  /**
+   * 유저 pk로 회원정보 조회
+   */
+  public MemberInfoResponseDto getMemberInfo(Long longId) {
+    Member memberInDB = memberRepository.getReferenceById(longId);
+    return new MemberInfoResponseDto(memberInDB);
+  }
+
+  /**
+   * 회원 프로필 사진 삭제
+   */
+  public void deleteProfileImage(Long longId) {
+    Member memberInDB = memberRepository.getReferenceById(longId);
+    File file = memberInDB.getProfileImage();
+    fileService.deleteFile(file.getId());
+
+    memberInDB.updateProfileImageToDefault();
   }
 }

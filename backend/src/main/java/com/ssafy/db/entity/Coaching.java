@@ -14,8 +14,8 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Coaching extends BaseEntity {
   @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coaching_id")
@@ -24,10 +24,6 @@ public class Coaching extends BaseEntity {
   @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "coach_id")
   private Member coach;
-
-  @ManyToOne
-  @JoinColumn(name = "coame_id")
-  private Member coame;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "main_category_id")
@@ -41,8 +37,7 @@ public class Coaching extends BaseEntity {
   private String name;
 
   @OneToMany(mappedBy = "coaching")
-
-  private List<CoameCoaching> coameCoachings = new ArrayList<>();
+  private List<LiveCoaching> liveCoachings = new ArrayList<>();
 
   @OneToMany(mappedBy = "coaching")
   private List<VideoCoaching> videoCoachings = new ArrayList<>();
@@ -86,5 +81,11 @@ public class Coaching extends BaseEntity {
     this.name = name;
     this.summary = summary;
     this.htmlDocs = htmlDocs;
+  }
+
+  public void categorize(Category main, Category sub) {
+    this.mainCategory = main;
+    this.subCategory = sub;
+    this.subCategory.addCategoryList(this);
   }
 }

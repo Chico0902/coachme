@@ -4,7 +4,7 @@ import com.ssafy.db.entity.type.ReviewLikeType;
 import jakarta.persistence.*;
 
 @Entity
-public class Likes extends BaseEntity{
+public class Likes extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

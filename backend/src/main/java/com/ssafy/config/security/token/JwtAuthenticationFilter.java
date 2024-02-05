@@ -41,23 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (Arrays.asList(
         "/api/auth/login",
         "/api/members",
-        "/api/members/duplicate/id",
-        "/api/members/privileges/elevations",
-        "/api/admin/privileges/elevations",
-        "/api/members/profiles/texts/1",
-        "/api/members/profiles/images/1",
-        "/api/members/getfilesTest",
-        "/api/dm/room/enter",
-        "/api/dm/room/1",
-        "/api/dm/52",
-        "/api/ws-dm",
-        "/api/members/profiles/1",
-        "/api/coaches/coachings/1",
-        "/api/coaches/1/coachings/2",
-        "/api/coaches/52/coaching/152",
-        "/api/coaches/1/coachings",
-        "/api/coaches/1/coaching/2",
-        "/api/coaches/coachings/52"
+        "/api/members/duplicate/id"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;
@@ -75,9 +59,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       // 요청 쿠키의 Refresh Token을 추출
       Cookie[] cookies = request.getCookies();
       String refreshTokenInHeader = null;
-      if(cookies != null) {
-        for(Cookie cookie : cookies) {
-          if(cookie.getName().equals("refresh-token")) {
+      if (cookies != null) {
+        for (Cookie cookie : cookies) {
+          if (cookie.getName().equals("refresh-token")) {
             refreshTokenInHeader = cookie.getValue();
           }
         }
@@ -88,7 +72,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.getWriter().write(jsonString);
         return;
       }
-      log.info("Request Cookie : {}", refreshTokenInHeader);
+      if (refreshTokenInHeader == null) {
+        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token is Null"));
+        response.getWriter().write(jsonString);
+        return;
+      }
 
       // Redis에 저장된 Refresh Token 꺼내오기
       String stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();

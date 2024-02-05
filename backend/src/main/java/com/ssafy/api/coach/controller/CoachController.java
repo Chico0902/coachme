@@ -1,5 +1,12 @@
 package com.ssafy.api.coach.controller;
 
+import com.ssafy.api.coach.dto.request.CoachesRequestDto;
+import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
+import com.ssafy.api.coach.dto.response.CalendarResponseDto;
+import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
+import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
+import com.ssafy.api.coach.service.CoachService;
+import com.ssafy.dto.ListDataDto;
 import com.ssafy.api.coach.dto.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.dto.CreateCoachingRequestDto;
@@ -21,7 +28,49 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class CoachController {
+  private final CoachService coachService;
   private final CoachingService coachingService;
+
+  @GetMapping("/portfolio/{longId}")
+  public ResponseEntity<PortfolioResponseDto> getPortfolio(@PathVariable("longId") long id) throws Exception {
+    PortfolioResponseDto portfolio = coachService.getPortfolio(id);
+    return new ResponseEntity<>(portfolio, HttpStatus.OK);
+  }
+
+  @PatchMapping("/portfolio/{longId}")
+  public ResponseEntity<MessageDto> updatePortfolio(
+      @PathVariable("longId") long id,
+      @RequestBody PortfolioRequestDto portfolioRequestDto) throws Exception {
+    coachService.updatePortfolio(id, portfolioRequestDto);
+    return new ResponseEntity<>(new MessageDto("Portfolio update successfully completed"), HttpStatus.OK);
+  }
+
+  @GetMapping("/categories")
+  public ResponseEntity<ListDataDto> getCoachList(CoachesRequestDto dto) {
+    ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(dto));
+    return new ResponseEntity<>(listDataDto, HttpStatus.OK);
+  }
+
+  @GetMapping("/{coachId}")
+  public ResponseEntity<CoachDetailResponseDto> getCoachDetail(@PathVariable("coachId") long coachId) {
+    CoachDetailResponseDto responseDto = coachService.getCoachDetail(coachId);
+
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
+  }
+
+  /**
+   * [coach-10] 코치가 마이페이지>라이브관리 메뉴에서 자신이 만든 라이브 코칭 일정을 캘린더로 확인할 수 있다.
+   * privilege : 2
+   *
+   * @return - [200] list
+   */
+  @GetMapping("/{longId}/calender")
+  public ResponseEntity<?> getCalender(@PathVariable Long longId) {
+
+    List<CalendarResponseDto> list = coachService.getCalender(longId);
+
+    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
+  }
 
   /**
    * [coach-5] 코치가 코칭을 개설한다.
@@ -95,6 +144,4 @@ public class CoachController {
     // 정상 등록완료(200)
     return new ResponseEntity<>(new MessageDto("Coaching delete request successfully completed"), HttpStatus.OK);
   }
-
-
 }

@@ -1,9 +1,9 @@
-package com.ssafy.api.coaching.dto;
+package com.ssafy.api.coaching.dto.request;
 
-import com.ssafy.db.entity.Category;
 import lombok.Data;
+
 @Data
-public class CreateCoachingRequestDto {
+public class GetOneCoachingResponseDto {
   private String main;
   private String sub;
   private String name;

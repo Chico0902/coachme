@@ -1,14 +1,20 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-public class CoameCoaching extends BaseEntity{
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CoameCoaching extends BaseEntity {
 
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coame_coaching_id")
   private Long id;
 
@@ -17,9 +23,14 @@ public class CoameCoaching extends BaseEntity{
   private Member coame;
 
   @ManyToOne
-  @JoinColumn(name = "coaching_id")
-  private Coaching coaching;
+  @JoinColumn(name = "live_coaching_id")
+  private LiveCoaching liveCoaching;
 
-  @OneToMany(mappedBy = "coameCoaching")
-  private List<LiveCoaching> liveCoachings = new ArrayList<>();
+  public void createCoaching(LiveCoaching liveCoaching, Member member) {
+    this.liveCoaching = liveCoaching;
+    this.coame = member;
+    liveCoaching.addCoameCoahing(this);
+    member.addCoameTaughtCourse(this);
+  }
+
 }
