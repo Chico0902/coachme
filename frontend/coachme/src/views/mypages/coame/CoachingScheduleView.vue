@@ -25,27 +25,36 @@ const hideModal = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div class="coach-main">
-        <div class="calendar-div">
-          <div class="calendar">
-            <div class="q-pa-md">
-              <div class="q-gutter-md">
-                <q-date v-model="date" :events="events" class="custom-q-date" @click="showModal" />
-              </div>
+        <div class="memo" v-show="isModalVisible">
+          <div>
+            <!-- 모달 내용 -->
+            <div class="memo-list" v-for="event in selectedDateEvents" :key="event">
+              {{ event }}
             </div>
-          </div>
-          <div class="memo" v-show="isModalVisible">
-            <div>
-              <!-- 모달 내용 -->
-              <div class="memo-list" v-for="event in selectedDateEvents" :key="event">
-                {{ event }}
-              </div>
-              <button @click="hideModal" class="close-button">X</button>
-            </div>
+            <button @click="hideModal" class="close-button">X</button>
           </div>
         </div>
       </div>
+      <!-- <div class="coaching-detail">
+      <div class="coaching-name-box">
+        <div class="coaching-img">
+          <q-avatar size="50px">
+            <img src="https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg">
+          </q-avatar>
+        </div>
+        <div class="coaching-name">
+          강의 이름
+        </div>
+      </div>
+      <div class="coaching-plan-box">
+        <div class="coaching-plan">
+        강의 계획
+        </div>
+        <div class="coaching-plan-detail">
+          맞춤강의!
+        </div>
+      </div>
+    </div> -->
     </div>
   </div>
 </template>
@@ -76,7 +85,7 @@ const hideModal = () => {
 .coaching-img {
   margin: 20px 0;
 }
-
+  
 .close-button:hover {
   background-color: rgb(233, 233, 233);
   border-radius: 1.5rem;
