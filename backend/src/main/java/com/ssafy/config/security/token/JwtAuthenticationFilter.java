@@ -51,6 +51,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/dm/room/1",
         "/api/dm/52",
         "/api/ws-dm",
+        "/api/members/profiles/1",
+        "/api/coaches/coachings/1",
+        "/api/coaches/1/coachings/2",
+        "/api/coaches/portfolio/1",
+        "/api/coachings/1/coames",
+        "/api/coachings/2/coames",
+        "/api/coachings/3/coames",
+        "/api/coachings/4/coames",
+        "/api/coachings/5/coames",
+        "/api/coachings/1/5",
+        "/api/ws-dm",
         "/api/coachings/1/3"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
@@ -82,7 +93,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.getWriter().write(jsonString);
         return;
       }
-      log.info("Request Cookie : {}", refreshTokenInHeader);
       if(refreshTokenInHeader == null) {
         String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token is Null"));
         response.getWriter().write(jsonString);

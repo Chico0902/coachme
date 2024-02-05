@@ -1,5 +1,6 @@
 package com.ssafy.db.entity;
 
+import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
