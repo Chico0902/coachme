@@ -1,21 +1,20 @@
 <script>
-import ProfileImage from '@/components/atoms/ProfileImage.vue';
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 export default {
   setup() {
-    const date = ref('2019/02/01');
-    const events = ['2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23'];
-    const isModalVisible = ref(false);
-    const selectedDateEvents = ref([]);
+    const date = ref('2019/02/01')
+    const events = ['2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23']
+    const isModalVisible = ref(false)
+    const selectedDateEvents = ref([])
     const showModal = () => {
-      isModalVisible.value = true;
+      isModalVisible.value = true
       // 여기서 날짜에 해당하는 이벤트를 가져오는 로직을 추가할 수 있습니다.
-      selectedDateEvents.value = events.filter(event => event === date.value);
-    };
+      selectedDateEvents.value = events.filter((event) => event === date.value)
+    }
     const hideModal = () => {
-      isModalVisible.value = false;
-    };
+      isModalVisible.value = false
+    }
     return {
       date,
       events,
@@ -24,45 +23,41 @@ export default {
       showModal,
       hideModal,
       value: ref(true)
-    };
-  },
-};
+    }
+  }
+}
 </script>
 <template>
   <div class="outside">
     <div class="togglebox">
       <div>
         <div class="q-pa-md q-gutter-lg">
-    <div>
-      <q-toggle
-        v-model="value"
-        color="yellow"
-        label="코치/코미"
-      />
-    </div>
-  </div>
-      </div>
-    </div>
-  <div class="coach-main">
-    <div class="calendar-div">
-      <div class="calendar">
-        <div class="q-pa-md">
-          <div class="q-gutter-md">
-            <q-date v-model="date" :events="events"  class="custom-q-date" @click="showModal" />
+          <div>
+            <q-toggle v-model="value" color="yellow" label="코치/코미" />
           </div>
         </div>
       </div>
-      <div class="memo" v-show="isModalVisible">
-        <div>
-          <!-- 모달 내용 -->
-          <div class="memo-list" v-for="event in selectedDateEvents" :key="event">
-            {{ event }}
+    </div>
+    <div class="coach-main">
+      <div class="calendar-div">
+        <div class="calendar">
+          <div class="q-pa-md">
+            <div class="q-gutter-md">
+              <q-date v-model="date" :events="events" class="custom-q-date" @click="showModal" />
+            </div>
           </div>
-          <button @click="hideModal" class="close-button">X</button>
+        </div>
+        <div class="memo" v-show="isModalVisible">
+          <div>
+            <!-- 모달 내용 -->
+            <div class="memo-list" v-for="event in selectedDateEvents" :key="event">
+              {{ event }}
+            </div>
+            <button @click="hideModal" class="close-button">X</button>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- <div class="coaching-detail">
+      <!-- <div class="coaching-detail">
       <div class="coaching-name-box">
         <div class="coaching-img">
           <q-avatar size="50px">
@@ -82,8 +77,8 @@ export default {
         </div>
       </div>
     </div> -->
+    </div>
   </div>
-</div>
 </template>
 
 <style scoped>
@@ -98,10 +93,9 @@ export default {
   justify-content: space-around; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
 }
-.coaching-name{
+.coaching-name {
   display: inline-block;
   margin: 20px 0;
-  
 }
 .coaching-name-box {
   display: flex;
@@ -109,7 +103,6 @@ export default {
   align-items: center; /* 세로 중앙 정렬 */
   border-color: black;
   border-bottom: solid 3px;
-  
 }
 .coaching-img {
   margin: 20px 0;
@@ -137,7 +130,7 @@ export default {
   border-radius: 1.5rem;
 }
 
-.togglebox{
+.togglebox {
   display: flex;
   justify-content: right;
   margin: 20px 80px;
@@ -147,7 +140,6 @@ export default {
   position: relative;
   margin: 0 0 0 60px;
   display: inline-block;
-
 }
 .memo {
   position: absolute;
@@ -159,7 +151,7 @@ export default {
   height: 350px;
   border-radius: 1.5rem;
 }
-.memo-list{
+.memo-list {
   margin: 20px;
 }
 .custom-q-date {

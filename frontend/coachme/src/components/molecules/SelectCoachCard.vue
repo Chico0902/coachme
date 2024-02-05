@@ -102,5 +102,4 @@ watch(() => stars.value, (newState) => {
 </template>
 
 <style scoped>
-
 </style>

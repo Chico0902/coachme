@@ -6,14 +6,7 @@ const profileImageFile = ref('')
 </script>
 <template>
   <div>
-    <q-file
-      filled
-      bottom-slots
-      v-model="profileImageFile"
-      label="프로필 사진을 업로드하세요."
-      counter
-      max-files="1"
-    >
+    <q-file filled bottom-slots v-model="profileImageFile" label="프로필 사진을 업로드하세요." counter max-files="1">
       <template v-slot:append>
         <q-icon
           v-if="profileImageFile !== ''"

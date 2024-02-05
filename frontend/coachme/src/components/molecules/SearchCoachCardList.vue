@@ -174,7 +174,7 @@ function cancel() {
     </div>
   </section>
 </template>
- 
+
 <style scoped>
 section {
   display: flex;
