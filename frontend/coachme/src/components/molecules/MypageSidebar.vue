@@ -15,7 +15,6 @@ const changeView = (link, event) => {
     if (button.name === clickedButton) button.css = 'selected-button'
     else button.css = ''
   })
-  console.log(link)
   router.push({ name: link })
 }
 

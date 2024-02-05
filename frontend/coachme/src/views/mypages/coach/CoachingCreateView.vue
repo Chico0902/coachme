@@ -1,7 +1,7 @@
 <script setup>
 import CustomInput from '@/components/atoms/CustomInput.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 // 대분류와 소분류 데이터 정의
 const categories = ref([

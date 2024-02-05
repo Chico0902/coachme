@@ -2,24 +2,49 @@
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import CustomInput from '@/components/atoms/CustomInput.vue'
 import ProfileImage from '@/components/atoms/ProfileImage.vue'
+import EditButton from '@/components/materialIcon/EditButton.vue'
+import ProfileImageUploader from '@/components/molecules/ProfileImageUploader.vue'
 import { validatePassword, validateNickName } from '@/utils/functions/member'
-import { patchMemberInfo } from '@/utils/api/member-api'
-import { MemberInfoChangeRequestDto } from '@/utils/api/dto/member-dto'
-import { computed, ref } from 'vue'
-import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import {
+  getMemberInfo,
+  postProfileImage,
+  postProfileText,
+  patchMemberInfo,
+  deleteProfileImage
+} from '@/utils/api/member-api'
+import { MemberInfoChangeRequestDto, ProfileTextRequestDto } from '@/utils/api/dto/member-dto'
+import { computed, onBeforeMount, ref } from 'vue'
+import { decodeToken } from '@/utils/functions/auth'
+import { useAuthStore } from '@/stores/auth'
+import { useMemberStore } from '@/stores/member'
+import { storeToRefs } from 'pinia'
+import { validateProfileImage } from '@/utils/functions/member'
+
+/**
+ * VARIABLES
+ */
 
 // variables
 const openModal = ref(false)
+const changeImageModal = ref(false)
 const pw = ref('')
+const newNick = ref('')
+const newEmail = ref('')
+const newProfileText = ref('')
+
+// store에서 받아옴
+const authStore = useAuthStore()
+const memberStore = useMemberStore()
+const { accessToken } = storeToRefs(authStore)
+const { profileImageUrl, profileText } = storeToRefs(memberStore)
+const tokenValue = decodeToken(accessToken.value)
+const longId = tokenValue.id
+
+// API에서 받아옴
+const stringId = ref('')
+const name = ref('')
 const nick = ref('')
 const email = ref('')
-
-// token에서 받아옴
-const token = decodeToken(getAccessToken())
-const stringId = token.sub
-const longId = token.longId
-
-// methods
 
 // 비밀번호 검증
 const isValidPassword = computed(() => {
@@ -29,14 +54,81 @@ const isValidPassword = computed(() => {
 
 // 닉네임 검증
 const isValidNickName = computed(() => {
-  if (nick.value === '') return true
-  return validateNickName(nick.value)
+  if (newNick.value === '') return true
+  return validateNickName(newNick.value)
 })
 
-const changeMemberInfo = (pw, nick, email) => {
+/**
+ * methods
+ */
+
+// 최초 멤버 정보 받아오기
+onBeforeMount(() => {
+  getMemberInfo(accessToken.value, longId, (success) => {
+    stringId.value = success.data.stringId
+    name.value = success.data.name
+    nick.value = success.data.nick
+    email.value = success.data.email
+  })
+})
+
+// 프로필 이미지 수정
+const changeProfileImage = (newImage) => {
+  if (validateProfileImage(newImage)) {
+    postProfileImage(
+      accessToken.value,
+      longId,
+      newImage,
+      (success) => {
+        alert('이미지 업로드 완료')
+        profileImageUrl.value = success.data.profileImageUrl
+        changeImageModal.value = false
+      },
+      (fail) => console.log(fail)
+    )
+  }
+}
+
+// 프로필 이미지 삭제
+const deleteProfileImg = () => {
+  if (confirm('이미지를 삭제하시겠습니까?')) {
+    deleteProfileImage(
+      accessToken.value,
+      longId,
+      () => {
+        alert('프로필이미지 삭제 완료')
+        profileImageUrl.value = '/src/assets/icons/coame.png'
+        changeImageModal.value = false
+      },
+      (fail) => console.log(fail)
+    )
+  }
+}
+
+// 프로필 글 수정
+function changeProfileText(newProfileText) {
+  console.log(newProfileText)
+  if (confirm('프로필을 변경하시겠습니까?')) {
+    const dto = new ProfileTextRequestDto(newProfileText)
+    postProfileText(
+      accessToken.value,
+      longId,
+      dto,
+      () => {
+        alert('프로필 변경 완료')
+        profileText.value = newProfileText
+        console.log(profileText.value)
+      },
+      (fail) => console.log(fail)
+    )
+  }
+}
+
+// 회원정보 수정
+const changeMemberInfo = (pw, newNick, newEmail) => {
   try {
     // dto 생성 및 호출
-    const dto = new MemberInfoChangeRequestDto(pw, nick, email)
+    const dto = new MemberInfoChangeRequestDto(pw, newNick, newEmail)
     patchMemberInfo(
       longId,
       dto,
@@ -57,22 +149,52 @@ const changeMemberInfo = (pw, nick, email) => {
 </script>
 <template>
   <div>
-    <div class="main-profile">
+    <div class="main-profile shadow-2">
       <div class="profile-img">
-        <div><ProfileImage size="100px" /></div>
-        <div class="profile-img-icon">아이콘 2개</div>
+        <div class="image-container"><ProfileImage size="100px" :img="profileImageUrl" /></div>
+        <div class="profile-img-icon">
+          <q-btn flat @click="changeImageModal = true">
+            <span class="material-symbols-outlined"> add_photo_alternate </span>
+          </q-btn>
+          <q-btn flat @click="deleteProfileImg">
+            <span class="material-symbols-outlined"> delete_forever </span>
+          </q-btn>
+        </div>
       </div>
       <div class="profile-detail">
-        <CustomInput type="textarea" placeholder="소개글을 입력해주세요." />
+        <CustomInput
+          type="textarea"
+          :placeholder="profileText"
+          v-model="newProfileText"
+          style="min-width: 10vw; padding-top: 0; padding-bottom: 0"
+        />
+        <div class="profile-detail-edit">
+          <EditButton @click="changeProfileText(newProfileText)" />
+        </div>
       </div>
     </div>
     <div class="detail-member-info">
-      <h6 class="detail-member-info-id">{{ stringId }}</h6>
+      <h6 class="detail-member-info-text">
+        <span class="detail-member-info-tag">아이디 :</span>
+        {{ stringId }}
+      </h6>
+      <h6 class="detail-member-info-text">
+        <span class="detail-member-info-tag">이&nbsp;&nbsp;&nbsp;&nbsp;름 :</span>
+        {{ name }}
+      </h6>
+      <h6 class="detail-member-info-text">
+        <span class="detail-member-info-tag">닉네임 :</span>
+        {{ nick }}
+      </h6>
+      <h6 class="detail-member-info-text">
+        <span class="detail-member-info-tag">이메일 :</span>
+        {{ email }}
+      </h6>
 
       <div class="detail-member-info-input">
         <q-input
           standout="bg-teal text-white"
-          v-model="nick"
+          v-model="newNick"
           label="닉네임"
           hint="영어, 숫자, 한글만 가능합니다."
           error-message="닉네임은 특수문자를 포함할 수 없습니다."
@@ -83,8 +205,8 @@ const changeMemberInfo = (pw, nick, email) => {
       <div class="detail-member-info-input">
         <q-input
           standout="bg-teal text-white"
-          type="email"
-          v-model="email"
+          type="newEmail"
+          v-model="newEmail"
           label="이메일"
           hint="이메일 주소를 입력하세요."
           maxlength="50"
@@ -122,7 +244,23 @@ const changeMemberInfo = (pw, nick, email) => {
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="수정하기" color="primary" @click="changeMemberInfo(pw, nick, email)" />
+        <q-btn flat label="수정하기" color="primary" @click="changeMemberInfo(pw, newNick, newEmail)" />
+        <q-btn flat label="취소" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  <q-dialog v-model="changeImageModal">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">프로필 사진 변경</div>
+      </q-card-section>
+      <div class="editor-detail">프로필 사진은 10MB이내여야 하며, 이미지 파일(png, jpg, jpeg)만 가능합니다.</div>
+
+      <q-card-section class="q-pt-none">
+        <ProfileImageUploader @changeImageEmit="changeProfileImage" />
+      </q-card-section>
+
+      <q-card-actions align="right">
         <q-btn flat label="취소" color="primary" v-close-popup />
       </q-card-actions>
     </q-card>
@@ -132,14 +270,25 @@ const changeMemberInfo = (pw, nick, email) => {
 <style scoped>
 .main-profile {
   width: 80%;
-  background-color: aliceblue;
   margin: 30px auto;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
+.image-container {
+  margin: auto;
+  text-align: center;
+}
 .profile-img {
   display: inline-block;
+  margin: 1rem 0;
+}
+.profile-detail {
+  display: flex;
+}
+.profile-detail-edit {
+  justify-content: center;
+  align-self: center;
 }
 .editor-detail {
   color: #034c8c;
@@ -151,15 +300,18 @@ const changeMemberInfo = (pw, nick, email) => {
   margin: 10px 0 10px 100px;
   align-items: center;
 }
-
 .detail-member-info {
   width: 60%;
   margin: auto;
 }
 
-.detail-member-info-id {
+.detail-member-info-text {
   font-size: 1.2rem;
   margin: 1rem 0.5rem;
+}
+.detail-member-info-tag {
+  font-size: 0.8rem;
+  color: #034c8c;
 }
 .detail-member-info-input {
   margin-bottom: 1rem;
@@ -168,5 +320,8 @@ const changeMemberInfo = (pw, nick, email) => {
   display: flex;
   justify-content: center;
   margin: 50px;
+}
+.material-symbols-outlined {
+  font-size: 25px;
 }
 </style>

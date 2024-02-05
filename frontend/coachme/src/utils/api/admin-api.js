@@ -1,6 +1,6 @@
 import { authBackendAxios } from '@/utils/http-commons'
 
-const authAxios = authBackendAxios()
+const refreshAxios = authBackendAxios()
 
 /**
  * API번호 : admin-1
@@ -28,7 +28,7 @@ const authAxios = authBackendAxios()
           }
  */
 export function getAllMemberInfo(success, fail) {
-  authAxios.get(`/admin/members`).then(success).catch(fail)
+  refreshAxios.get(`/admin/members`, {}).then(success).catch(fail)
 }
 
 /**
@@ -53,7 +53,7 @@ export function getAllMemberInfo(success, fail) {
           }
  */
 export function getAllElevations(success, fail) {
-  authAxios.get(`/admin/privileges/elevations`).then(success).catch(fail)
+  refreshAxios.get(`/admin/privileges/elevations`, {}).then(success).catch(fail)
 }
 
 /**
@@ -78,5 +78,5 @@ export function getAllElevations(success, fail) {
  */
 export function patchElevations(dto, success, fail) {
   console.log(dto)
-  authAxios.patch(`/admin/privileges/elevations`, dto).then(success).catch(fail)
+  refreshAxios.patch(`/admin/privileges/elevations`, dto, {}).then(success).catch(fail)
 }

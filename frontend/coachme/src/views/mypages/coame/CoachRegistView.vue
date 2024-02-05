@@ -1,31 +1,34 @@
 <script setup>
-
-
-
-
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
-import { requestElevation } from '@/utils/api/member-api'
+import { postRequestElevation } from '@/utils/api/member-api'
 import { ElevationRequestDto } from '@/utils/api/dto/member-dto'
-import { useMemberStore } from '@/stores/member'
+import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { decodeToken } from '@/utils/functions/auth'
+
+/**
+ * VARIABLES
+ */
 
 const color = '#fcbf17'
 const label = '등록하기'
 const textcolor = 'black'
-const memberStore = useMemberStore()
-const { longId } = storeToRefs(memberStore)
+const authStore = useAuthStore()
+const { accessToken } = storeToRefs(authStore)
 const contentHTML = ref('')
+const longId = computed(() => {
+  return decodeToken(accessToken.value).id
+})
 
 /**
  * TODO 이미지/영상 파일 업로드 시 해당 업로드파일 저장하는 로직도 추가
  */
 const regist = () => {
-  longId.value = 1
   const dto = new ElevationRequestDto(longId.value, contentHTML.value)
-  console.log(dto)
-  requestElevation(
+  postRequestElevation(
+    accessToken.value,
     dto,
     (success) => {
       console.log(success)
@@ -63,22 +66,18 @@ const regist = () => {
 </template>
 
 <style scoped>
-
 .main-font-container {
   margin-top: 1.5rem;
   margin-left: 3rem;
   margin-bottom: 1rem;
 }
-
 .main-title {
   display: inline-block;
   font-size: 2rem;
 }
-
 .title-detail {
   font-size: 1.2rem;
 }
-
 .editor-container {
   display: flex;
   justify-content: center;
@@ -94,7 +93,6 @@ const regist = () => {
   height: 32vh;
   max-height: 32vh;
 }
-
 .btn-container {
   margin: auto;
   display: flex;
