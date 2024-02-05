@@ -33,20 +33,22 @@ public class CoachService {
     memberRepository.getReferenceById(id).updatePortfolio(dto.getHtmlDocs());
   }
 
-  //  String division1;
-  //  String division2;
-  public List<?> getCoachList(CoachesRequestDto dto) {
-    List<CoachesResponseDtos> list;
-    Long mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
 
-    if (dto.getDivision2().isBlank()) {
-      list = coachingRepository.findByCategory(mainCategoryId, null);
-    } else {
+  public List<CoachesResponseDtos> getCoachList(CoachesRequestDto dto) {
+    List<CoachesResponseDtos> list;
+    Long mainCategoryId;
+    if(dto.getDivision1() == null){
+      list = coachingRepository.findByCoachCategory(null, null);
+    }else if(dto.getDivision2() == null){
+      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
+      list = coachingRepository.findByCoachCategory(mainCategoryId, null);
+    }else {
+      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
       Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, dto.getDivision2());
 
-      list = coachingRepository.findByCategory(mainCategoryId, subCategoryId);
-
+      list = coachingRepository.findByCoachCategory(mainCategoryId, subCategoryId);
     }
+
     return list;
   }
 }
