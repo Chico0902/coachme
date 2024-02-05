@@ -41,18 +41,18 @@ public class CoachService {
   }
 
 
-  public List<CoachesResponseDtos> getCoachList(CoachesRequestDto dto) {
+  public List<CoachesResponseDtos> getCoachList(String division1, String division2) {
     List<CoachesResponseDtos> list;
     Long mainCategoryId;
 
-    if (dto.getDivision1().equals("all")) {
+    if (division1.equals("all")) {
       list = coachingRepository.findByCoachCategory(null, null);
-    } else if (dto.getDivision2().equals("all")) {
-      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
+    } else if (division2.equals("all")) {
+      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
       list = coachingRepository.findByCoachCategory(mainCategoryId, null);
     } else {
-      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
-      Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, dto.getDivision2());
+      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
+      Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, division2);
 
       list = coachingRepository.findByCoachCategory(mainCategoryId, subCategoryId);
     }
