@@ -50,7 +50,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/dm/room/enter",
         "/api/dm/room/1",
         "/api/dm/52",
-        "/api/ws-dm"
+        "/api/ws-dm",
+        "/api/coachings/1/3"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;
@@ -82,6 +83,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return;
       }
       log.info("Request Cookie : {}", refreshTokenInHeader);
+      if(refreshTokenInHeader == null) {
+        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token is Null"));
+        response.getWriter().write(jsonString);
+        return;
+      }
 
       // Redis에 저장된 Refresh Token 꺼내오기
       String stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();
