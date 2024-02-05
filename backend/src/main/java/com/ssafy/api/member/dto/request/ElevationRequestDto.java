@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ElevationRequestDto {
 
-    private Long longId;
-    @NotBlank
-    private String htmlDocs;
+  private Long longId;
+  @NotBlank
+  private String htmlDocs;
 }

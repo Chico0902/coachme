@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DmRoomRepository extends JpaRepository<DMRoom, Long> {
 
-//  @Query("SELECT d FROM DMRoom d WHERE d.coach = :coachId and d.coame = :coameId ")
+  //  @Query("SELECT d FROM DMRoom d WHERE d.coach = :coachId and d.coame = :coameId ")
   DMRoom findByCoachAndCoame(Member coachId, Member coameId);
 
   List<DMRoom> findAllByIdIn(List<Long> roomIdList);
