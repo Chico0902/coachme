@@ -85,13 +85,7 @@ onBeforeMount(() => {
 </script>
 <template>
   <div class="sidebar">
-    <q-toggle
-      v-if="showToggle"
-      color="primary"
-      v-model="changePrivilege"
-      icon="img:/src/assets/icons/1.png"
-      size="100px"
-    />
+    <q-toggle v-if="showToggle" color="primary" v-model="changePrivilege" icon="img:/assets/icons/1.png" size="100px" />
     <div
       v-for="button in sideButtons"
       :key="button.name"
