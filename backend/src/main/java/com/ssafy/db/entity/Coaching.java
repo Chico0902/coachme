@@ -26,11 +26,11 @@ public class Coaching extends BaseEntity {
   @JoinColumn(name = "coame_id")
   private Member coame;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "main_category_id")
   private Category mainCategory;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "sub_category_id")
   private Category subCategory;
 

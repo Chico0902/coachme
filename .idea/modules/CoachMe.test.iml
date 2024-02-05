@@ -14,7 +14,6 @@
     <orderEntry type="module" module-name="CoachMe.main" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-validation:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:3.2.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-websocket:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.mapstruct:mapstruct:1.5.5.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-redis:3.2.1" level="project" />
@@ -22,7 +21,6 @@
     <orderEntry type="library" name="Gradle: io.jsonwebtoken:jjwt-api:0.11.5" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-mail:3.2.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.webjars:stomp-websocket:2.3.3-1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:10.1.17" level="project" />
@@ -32,8 +30,6 @@
     <orderEntry type="library" name="Gradle: org.hibernate.orm:hibernate-core:6.4.1.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-aspects:6.1.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-websocket:6.1.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-messaging:6.1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-json:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:6.1.2" level="project" />
