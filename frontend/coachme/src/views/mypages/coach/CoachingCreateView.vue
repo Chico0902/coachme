@@ -44,7 +44,6 @@ const contentHTML = ref('')
 /**
  * METHODS
  */
-
 const createNewCoaching = () => {
   if (
     selectedCategory.value === null ||

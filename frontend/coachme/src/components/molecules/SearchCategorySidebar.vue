@@ -1,9 +1,14 @@
 <script setup>
-import router from '@/router'
-
 const props = defineProps({ buttonList: Object })
-// const buttonList = props.buttonList
+const emit = defineEmits(['clickSubCategory'])
 
+const clickSubCategory = (name) => {
+  props.buttonList.forEach((element) => {
+    if (element.name === name) element.cssClass = 'selected-button'
+    else element.cssClass = ''
+  })
+  emit('clickSubCategory', name)
+}
 </script>
 <template>
   <div class="sidebar">
@@ -12,7 +17,7 @@ const props = defineProps({ buttonList: Object })
       :key="button.name"
       class="sidebar-button shadow-3"
       :class="button.cssClass"
-      @click="router.push(button.link)"
+      @click="clickSubCategory(button.name)"
     >
       <p>{{ button.name }}</p>
     </div>
@@ -23,7 +28,6 @@ const props = defineProps({ buttonList: Object })
 p {
   margin: 0;
   font-size: 1rem;
-  letter-spacing: 0.1rem;
 }
 .sidebar {
   width: 12%;
@@ -35,9 +39,10 @@ p {
   height: 8vh;
   border-radius: 1rem;
   margin-top: 0;
+  padding-left: 1rem;
   margin-bottom: 4.4vh;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
 }
 

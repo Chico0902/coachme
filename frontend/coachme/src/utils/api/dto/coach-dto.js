@@ -1,3 +1,16 @@
+export class categoriesDto {
+  /**
+   * API번호 : member-4
+   * 권한상승 요청을 위한 DTO 클래스
+   * @param {String} division1
+   * @param {String} division2
+   */
+  constructor(division1, division2) {
+    this.division1 = division1
+    this.division2 = division2
+  }
+}
+
 export class changePortfolioRequsetDto {
   /**
    * API번호 : member-4

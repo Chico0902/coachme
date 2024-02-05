@@ -1,4 +1,30 @@
-import { authAxios } from '@/utils/http-commons'
+import { jsonAxios, authAxios } from '@/utils/http-commons'
+
+/**
+ * API번호 : coach-1
+ * METHOD : GET
+ * URI : /coaches/categories/{division1}/{division2}
+ * 권한 : 0
+ * 설명 : 해당 분류 코치들의 정보를 받아온다.
+ * @param {String} division1 메인 카테고리
+ * @param {String} division2 서브 카테고리
+ * @param {Promise} success
+ * 설명 : 정상 조회완료
+ * 코드 : 200
+ * body : {
+            message : String
+          }
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청[400], 서버 오류[500]
+ * 코드 : 400, 500
+ * body : {
+            message : String
+          }
+ */
+export function getCoachesByCategory(division1, division2, success, fail) {
+  const axios = jsonAxios()
+  axios.get(`/coaches/categories/${division1}/${division2}`).then(success).catch(fail)
+}
 
 /**
  * API번호 : coach-2
