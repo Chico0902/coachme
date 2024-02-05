@@ -3,7 +3,6 @@ package com.ssafy.db.entity;
 import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 public class Category {
 
   @Id
@@ -38,24 +37,19 @@ public class Category {
   @OneToMany(mappedBy = "mainCategory")
   private List<Coaching> mainCategoryCoachings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "subCategory")
-    private List<Coaching> subCategoryCoachings = new ArrayList<>();
+  @OneToMany(mappedBy = "subCategory")
+  private List<Coaching> subCategoryCoachings = new ArrayList<>();
 
-    public Category(String name, CategoryType categoryType){
-        this.name = name;
-        this.categoryType = categoryType;
-    }
+  /**
+   * 이 메서드는 서브카테고리에서 실행합니다!!
+   */
+  public void addOneCategory(Coaching coaching) {
+    this.mainCategoryCoachings.add(coaching);
+  }
 
-    /**
-     * 이 메서드는 서브카테고리에서 실행합니다!!
-     */
-    public void addOneCategory(Coaching coaching) {
-        this.mainCategoryCoachings.add(coaching);
-    }
-
-    public void addCategoryList(Coaching coaching) {
-        this.mainCategoryCoachings.add(coaching);
-        this.subCategoryCoachings.add(coaching);
-    }
+  public void addCategoryList(Coaching coaching) {
+    this.mainCategoryCoachings.add(coaching);
+    this.subCategoryCoachings.add(coaching);
+  }
 
 }

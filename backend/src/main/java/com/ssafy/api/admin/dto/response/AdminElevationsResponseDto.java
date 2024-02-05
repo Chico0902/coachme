@@ -14,5 +14,7 @@ public class AdminElevationsResponseDto {
     this.longId = member.getLongId();
     this.name = member.getName();
     this.portfolio = member.getPortfolio().getHtmlDocs();
-  };
+  }
+
+  ;
 }
