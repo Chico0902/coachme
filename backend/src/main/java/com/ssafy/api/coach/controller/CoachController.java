@@ -45,9 +45,10 @@ public class CoachController {
     return new ResponseEntity<>(new MessageDto("Portfolio update successfully completed"), HttpStatus.OK);
   }
 
-  @GetMapping("/categories")
-  public ResponseEntity<ListDataDto> getCoachList(CoachesRequestDto dto) {
-    ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(dto));
+  @GetMapping("/categories/{division1}/{division2}")
+  public ResponseEntity<ListDataDto> getCoachList(@PathVariable(name = "division1") String division1,
+                                                  @PathVariable(name = "division2") String division2) {
+    ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(division1, division2));
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
