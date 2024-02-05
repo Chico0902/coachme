@@ -54,3 +54,7 @@ cloud:
       bucket: ssafycoachme
     stack:
       auto: false
+
+openvidu:
+  url: http://localhost:4443/
+  secret: MY_SECRET
