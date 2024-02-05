@@ -1,6 +1,5 @@
 package com.ssafy.api.coaching.dto;
 
-import com.ssafy.db.entity.Category;
 import lombok.Data;
 @Data
 public class CreateCoachingRequestDto {

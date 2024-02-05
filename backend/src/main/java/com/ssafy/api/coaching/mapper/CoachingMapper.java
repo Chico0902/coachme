@@ -1,15 +1,8 @@
 package com.ssafy.api.coaching.mapper;
 
-import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
-import com.ssafy.api.coaching.dto.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.GetOneCoachingResponseDto;
-import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
-import com.ssafy.api.member.mapper.MemberMapper;
-import com.ssafy.db.entity.Category;
-import com.ssafy.db.entity.Coaching;
-import com.ssafy.db.entity.Member;
-
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
+import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.CoameCoaching;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
