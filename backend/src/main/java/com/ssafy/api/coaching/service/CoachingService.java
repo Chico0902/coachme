@@ -4,13 +4,10 @@ import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
-import com.ssafy.api.coaching.dto.request.GetOneCoachingResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachingResponseDtos;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.dto.response.GetOneCoachingResponseDto;
-import com.ssafy.api.coach.dto.CoachesCoachingsResponseDto;
-import com.ssafy.api.coaching.dto.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
@@ -142,8 +139,8 @@ public class CoachingService {
     List<Coaching> coachings = member.getCoachTeachCourses();
     log.info(String.valueOf(coachings.size()));
 //    Coaching foundCoaching;
-    for(Coaching coaching : coachings) {
-      if(coaching.getId() == id) {
+    for (Coaching coaching : coachings) {
+      if (coaching.getId() == id) {
         return CoachingMapper.instance.coachingToGetOneCoachingResponseDto(coaching);
       }
     }
@@ -168,8 +165,8 @@ public class CoachingService {
   public void changeCoachingInfo(Long longId, Long id, CoachingInfoChangeRequestDto dto) {
     Member member = memberRepository.getReferenceById(longId);
     List<Coaching> coachings = member.getCoachTeachCourses();
-    for(Coaching coaching : coachings) {
-      if(coaching.getId() == id) {
+    for (Coaching coaching : coachings) {
+      if (coaching.getId() == id) {
         Category main = categoryRepository.findByName(dto.getMain());
         Category sub = categoryRepository.findByName(dto.getSub());
         coaching.updatedCoaching(main, sub, dto.getName(), dto.getSummary(), dto.getHtmlDocs());

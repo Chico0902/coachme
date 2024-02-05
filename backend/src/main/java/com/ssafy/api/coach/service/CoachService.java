@@ -1,6 +1,5 @@
 package com.ssafy.api.coach.service;
 
-import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
 import com.ssafy.api.coach.dto.response.CalendarResponseDto;
 import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
