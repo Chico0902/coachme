@@ -2,6 +2,11 @@
 import { ref, onBeforeMount } from 'vue'
 import { getAllElevations, patchElevations } from '@/utils/api/admin-api'
 import { AdminElevateRequestDto } from '@/utils/api/dto/admin-dto'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+
+const authStore = useAuthStore()
+const { accessToken } = storeToRefs(authStore)
 
 const selected = ref([])
 const filter = ref('')
@@ -24,9 +29,10 @@ const elevation = (array) => {
   console.log(array)
   const dto = new AdminElevateRequestDto(array)
   patchElevations(
+    accessToken.value,
     dto,
-    (success) => {
-      alert(success.data.message)
+    () => {
+      alert('권한상승 완료')
       window.location.reload()
     },
     (fail) => {
@@ -37,6 +43,7 @@ const elevation = (array) => {
 
 onBeforeMount(() => {
   getAllElevations(
+    accessToken.value,
     (success) => {
       rows.value = success.data.list
     },

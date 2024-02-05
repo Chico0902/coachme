@@ -1,7 +1,11 @@
 <script setup>
 import { getAllMemberInfo } from '@/utils/api/admin-api'
 import { ref, onBeforeMount } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
+const authStore = useAuthStore()
+const { accessToken } = storeToRefs(authStore)
 const columns = [
   {
     name: 'stringId',
@@ -24,6 +28,7 @@ const rows = ref([])
 
 onBeforeMount(() => {
   getAllMemberInfo(
+    accessToken.value,
     (success) => {
       rows.value = success.data.data
     },
