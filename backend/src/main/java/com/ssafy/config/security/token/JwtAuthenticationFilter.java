@@ -41,37 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (Arrays.asList(
         "/api/auth/login",
         "/api/members",
-        "/api/members/duplicate/id",
-        "/api/members/privileges/elevations",
-        "/api/admin/privileges/elevations",
-        "/api/members/profiles/texts/1",
-        "/api/members/profiles/images/1",
-        "/api/members/getfilesTest",
-        "/api/dm/room/enter",
-        "/api/dm/room/1",
-        "/api/dm/52",
-        "/api/ws-dm",
-        "/api/coaches/categories",
-        "/api/ws-dm",
-        "/api/members/profiles/1",
-        "/api/coaches/coachings/1",
-        "/api/coaches/1/coachings/2",
-        "/api/coaches/portfolio/1",
-        "/api/coachings/1/coames",
-        "/api/coachings/2/coames",
-        "/api/coachings/3/coames",
-        "/api/coachings/4/coames",
-        "/api/coachings/5/coames",
-        "/api/coachings/1/5",
-        "/api/ws-dm",
-        "/api/coachings/1/3",
-        "/api/ws-dm",
-        "/api/coaches/categories",
-        "/api/review/coach",
-        "/api/review/coaching",
-        "/api/review/2",
-        "/api/review/coach/2",
-        "/api/review/coaching/1"
+        "/api/members/duplicate/id"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;

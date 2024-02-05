@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class TokenInfoDto {
-    private Long longId;
-    private String accessToken;
-    private String refreshToken;
+  private Long longId;
+  private String accessToken;
+  private String refreshToken;
 }

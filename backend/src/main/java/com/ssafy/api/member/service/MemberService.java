@@ -1,6 +1,9 @@
 package com.ssafy.api.member.service;
 
-import com.ssafy.api.member.dto.request.*;
+import com.ssafy.api.member.dto.request.ElevationRequestDto;
+import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
+import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
+import com.ssafy.api.member.dto.request.ProfileTextRequestDto;
 import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;
@@ -82,6 +85,7 @@ public class MemberService {
 
   /**
    * 아이디를 입력받아서 해당 아이디가 사용중인지 검증
+   *
    * @return true : 아이디 사용중 / false : 사용가능
    */
   @Transactional(readOnly = true)
@@ -95,6 +99,7 @@ public class MemberService {
 
   /**
    * 아이디를 입력받아 해당 멤버의 프로필 글과 사진을 조회
+   *
    * @return profileText, profileImageUrl;
    */
   public ProfileResponseDto requestProfile(Long longId) {
@@ -121,7 +126,7 @@ public class MemberService {
     if (file != null) {
       fileService.deleteFile(file.getId());
     }
-    
+
     // 프로필 사진 등록
     fileService.uploadFileList(longId, Arrays.asList(newFile));
 
@@ -135,9 +140,10 @@ public class MemberService {
     Member memberInDB = memberRepository.getReferenceById(longId);
     return new MemberInfoResponseDto(memberInDB);
   }
-    /**
-     * 회원 프로필 사진 삭제
-     */
+
+  /**
+   * 회원 프로필 사진 삭제
+   */
   public void deleteProfileImage(Long longId) {
     Member memberInDB = memberRepository.getReferenceById(longId);
     File file = memberInDB.getProfileImage();
