@@ -11,7 +11,7 @@ const props = defineProps({
   },
   img : {
     type : String, // 프로필 사진 링크
-    default : "https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg"
+    default : "https://velog.velcdn.com/images/lee02g29/post/4e131121-09e0-4715-8f51-4021f9228b0f/image.png"
   }
 });
 </script>

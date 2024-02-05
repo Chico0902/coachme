@@ -22,8 +22,6 @@ const clickCategory = (index) => {
   emit('clickCategory', index)
 }
 
-const tab = ref('')
-
 </script>
 
 <template>

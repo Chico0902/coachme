@@ -107,7 +107,7 @@ export default {
 .coaching-img {
   margin: 20px 0;
 }
-
+  
 .close-button:hover {
   background-color: rgb(233, 233, 233);
   border-radius: 1.5rem;
