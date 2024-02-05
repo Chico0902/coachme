@@ -1,5 +1,7 @@
 package com.ssafy.db.entity;
 
+import com.ssafy.api.coaching.dto.CoachingInfoChangeRequestDto;
+import com.ssafy.db.entity.type.CategoryType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,20 +17,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Coaching extends BaseEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "coaching_id")
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "coach_id")
   private Member coach;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "main_category_id")
   private Category mainCategory;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "sub_category_id")
   private Category subCategory;
 
@@ -70,7 +71,16 @@ public class Coaching extends BaseEntity {
   }
 
   public void addBothCategories(Category main, Category sub) {
+    this.mainCategory = main;
+    this.subCategory = sub;
+  }
 
+  public void updatedCoaching(Category main, Category sub, String name, String summary, String htmlDocs) {
+    this.mainCategory = main;
+    this.subCategory = sub;
+    this.name = name;
+    this.summary = summary;
+    this.htmlDocs = htmlDocs;
   }
 
   public void categorize(Category main, Category sub) {
