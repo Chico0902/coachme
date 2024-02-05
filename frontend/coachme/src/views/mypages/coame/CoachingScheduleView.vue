@@ -1,32 +1,21 @@
 <script setup>
-import ProfileImage from '@/components/atoms/ProfileImage.vue';
-import { ref } from 'vue';
+import ProfileImage from '@/components/atoms/ProfileImage.vue'
+import { ref } from 'vue'
 
-    const date = ref('2019/02/01');
-    const events = ['2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23'];
-    const isModalVisible = ref(false);
-    const selectedDateEvents = ref([]);
-    const showModal = () => {
-      isModalVisible.value = true;
-      selectedDateEvents.value = events.filter(event => event === date.value);
-    };
-    const hideModal = () => {
-      isModalVisible.value = false;
-    };
-
+const date = ref('2019/02/01')
+const events = ['2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23']
+const isModalVisible = ref(false)
+const selectedDateEvents = ref([])
+const showModal = () => {
+  isModalVisible.value = true
+  selectedDateEvents.value = events.filter((event) => event === date.value)
+}
+const hideModal = () => {
+  isModalVisible.value = false
+}
 </script>
 <template>
   <div class="outside">
-  <div class="coach-main">
-    <div class="calendar-div">
-      <div class="calendar">
-        <div class="q-pa-md">
-          <div class="q-gutter-md">
-            <q-date v-model="date" :events="events"  class="custom-q-date" @click="showModal" />
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="coach-main">
       <div class="calendar-div">
         <div class="calendar">

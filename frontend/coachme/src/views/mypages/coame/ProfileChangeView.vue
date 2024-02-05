@@ -104,7 +104,7 @@ const deleteProfileImg = () => {
       longId,
       () => {
         alert('프로필 이미지 삭제완료')
-        profileImageUrl.value = '/src/assets/icons/coame.png'
+        profileImageUrl.value = '/assets/icons/coame.png'
       },
       (fail) => console.log(fail)
     )
