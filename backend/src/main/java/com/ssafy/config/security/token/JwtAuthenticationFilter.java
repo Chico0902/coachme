@@ -53,7 +53,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/ws-dm",
         "/api/members/profiles/1",
         "/api/coaches/coachings/1",
-        "/api/coaches/1/coachings/2"
+        "/api/coaches/1/coachings/2",
+        "/api/coaches/52/coaching/152",
+        "/api/coaches/1/coachings",
+        "/api/coaches/1/coaching/2",
+        "/api/coaches/coachings/52"
     ).contains(request.getRequestURI())) {
       chain.doFilter(request, response);
       return;

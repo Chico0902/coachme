@@ -1,6 +1,8 @@
 package com.ssafy.api.coaching.mapper;
 
 import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
+import com.ssafy.api.coach.dto.CoachesCoachingsResponseDto;
+import com.ssafy.api.coaching.dto.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.dto.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.GetOneCoachingResponseDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
@@ -11,6 +13,8 @@ import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper
 public interface CoachingMapper {
@@ -24,13 +28,18 @@ public interface CoachingMapper {
    * ex2) Coaching -> DTO | source : Coaching, target : DTO
    * cf) 같은 이름의 필드는 명시안해도 알아서 번역
    */
-
+  // [coaching-2] 코칭 조회 요청 시 해당 코칭을 반환한다.
   @Mapping(source = "mainCategory.name", target = "main")
   @Mapping(source = "subCategory.name", target = "sub")
   GetOneCoachingResponseDto coachingToGetOneCoachingResponseDto(Coaching coaching);
 
+  @Mapping(source = "mainCategory.name", target = "main")
+  @Mapping(source = "subCategory.name", target = "sub")
+  CoachesCoachingsResponseDto coachingToCoachesCoachingsResponseDto(Coaching coaching);
 
-  // [coaching-?] 코치가 코칭을 조회한다.
+  // [coaching-2] 코칭 수정 요청 시 해당 DTO를 코칭으로 변경한다.
+  List<CoachesCoachingsResponseDto> coachingToCoachesCoachingsResponseDto(List<Coaching> coachingList);
+
 //  @Mapping(source = "main", target = "mainCategory.Category.name")
 //  @Mapping(source = "sub", target = "subCategory.Category.name")
 //  Coaching createCoachingRequestDtoToCoaching(CreateCoachingRequestDto dto);
