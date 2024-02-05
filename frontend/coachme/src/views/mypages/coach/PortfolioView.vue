@@ -14,9 +14,6 @@ const memberStore = useMemberStore()
 const { longId } = storeToRefs(memberStore)
 const contentHTML = ref('')
 
-/**
- * TODO 이미지/영상 파일 업로드 시 해당 업로드파일 저장하는 로직도 추가
- */
 const regist = () => {
   longId.value = 1
   const dto = new ElevationRequestDto(longId.value, contentHTML.value)
