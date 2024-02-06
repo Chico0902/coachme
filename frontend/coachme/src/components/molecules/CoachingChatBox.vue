@@ -2,9 +2,9 @@
 import Labels from '../atoms/CardLabel.vue'
 import CustomButton from '../atoms/CustomButton.vue'
 import { ref } from 'vue'
-import { useCounterStore } from '../../stores/chat-status.js'
+import { useChatStore } from '../../stores/chat-status.js'
 
-const store = useCounterStore()
+const store = useChatStore()
 const { requestDm } = store
 // 채팅 관련 store
 
