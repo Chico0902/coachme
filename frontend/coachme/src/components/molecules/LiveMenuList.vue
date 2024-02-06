@@ -79,6 +79,13 @@ const peopleSwitch = () => {
     </q-btn>
     <q-btn flat>
       <span class="material-symbols-outlined">
+        radio_button_checked
+      </span>
+      <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+        <strong>녹화하기</strong>
+      </q-tooltip>
+    </q-btn>    <q-btn flat>
+      <span class="material-symbols-outlined">
         meeting_room
       </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">

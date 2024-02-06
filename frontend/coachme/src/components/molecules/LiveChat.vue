@@ -25,6 +25,7 @@ const background = "white"
   <div class="q-pa-md row justify-center window-box">
     <div class="q-pa-md row justify-center chat-box">
       <div style="width: 100%;">
+        <div class="title">Live Chat</div>
         <div v-for="list in props.directMessage" :key="list">
           <!-- 자신이 보낸 부분-->
           <div v-if="props.myId == list.id">
@@ -53,10 +54,17 @@ const background = "white"
   margin: auto;
 }
 
+.title {
+  text-align: center;
+  margin-bottom: 1vh;
+
+}
+
 .chat-box {
   width: 100%;
   height: calc(100% - 60px);
   background-color: white;
+  overflow-y: auto;
 }
 
 .material-symbols-outlined {

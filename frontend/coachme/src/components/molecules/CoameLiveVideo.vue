@@ -2,7 +2,7 @@
 
 <script setup>
 const props = defineProps({
-  coame : { // 코미 이름
+  name : { // 코미 이름
     type : String
   },
 }); 
@@ -16,7 +16,7 @@ const props = defineProps({
         meeting_room
       </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-        <Strong>{{ props.coame }} 님과 진실의 방으로 가기</Strong>
+        <Strong>{{ props.name }} 님과 진실의 방으로 가기</Strong>
       </q-tooltip>
     </q-btn>
   </div>
