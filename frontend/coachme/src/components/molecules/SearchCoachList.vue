@@ -79,6 +79,7 @@ const getData = computed(() => {
 
                 <!-- 문의하기 버튼 섹션-->
                 <div>
+                  <buttons label="포트폴리오 보기" style="margin-right: 1vw; background-color: #004C98; color: white;"></buttons>
                   <buttons label="문의하기" style="background-color: #fcbf17" @click="requestDm()"></buttons>
                 </div>
               </q-item-section>
