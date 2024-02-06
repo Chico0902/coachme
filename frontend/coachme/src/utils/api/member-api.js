@@ -1,6 +1,6 @@
-import { backendAxios, makeAuthAxios } from '@/utils/http-commons'
+import { jsonAxios, authAxios, fileAuthAxios } from '@/utils/http-commons'
 
-const axios = backendAxios()
+const axios = jsonAxios()
 
 /**
  * API번호 : member-2
@@ -72,8 +72,8 @@ export function patchPassword(dto, success, fail) {
           }
  */
 export function postRequestElevation(token, dto, success, fail) {
-  const authAxios = makeAuthAxios(axios, token)
-  authAxios.post(`/members/privileges/elevations`, dto).then(success).catch(fail)
+  const axios = authAxios(token)
+  axios.post(`/members/privileges/elevations`, dto).then(success).catch(fail)
 }
 
 /**
@@ -83,6 +83,7 @@ export function postRequestElevation(token, dto, success, fail) {
  * 권한 : 1
  * 설명 : 기본 회원정보 조회
  * @param {String} token accessToken(pinia 사용시 accessToken.value)
+ * @param {Number} longId 사용자 pk
  * @param {Promise} success
  * 설명 : 기본 회원정보 데이터 전송
  * 코드 : 200
@@ -100,8 +101,8 @@ export function postRequestElevation(token, dto, success, fail) {
           }
  */
 export function getMemberInfo(token, longId, success, fail) {
-  const authAxios = makeAuthAxios(axios, token)
-  authAxios.get(`/members/${longId}`).then(success).catch(fail)
+  const axios = authAxios(token)
+  axios.get(`/members/${longId}`).then(success).catch(fail)
 }
 
 /**
@@ -110,6 +111,8 @@ export function getMemberInfo(token, longId, success, fail) {
  * URI : /members/{longId}
  * 권한 : 1
  * 설명 : 회원정보 수정 시 입력한 비밀번호를 검증한 후, 회원정보 변경
+ * @param {String} token accessToken(pinia 사용시 accessToken.value)
+ * @param {Number} longId 사용자 pk
  * @param {MemberInfoChangeRequestDto} dto 수정할 회원정보를 포함하는 dto
  * @param {Promise} success
  * 설명 : 기본 회원정보 수정 완료
@@ -125,8 +128,8 @@ export function getMemberInfo(token, longId, success, fail) {
           }
  */
 export function patchMemberInfo(token, longId, dto, success, fail) {
-  const authAxios = makeAuthAxios(axios, token)
-  authAxios.patch(`/members/${longId}`, dto).then(success).catch(fail)
+  const axios = authAxios(token)
+  axios.patch(`/members/${longId}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -150,8 +153,8 @@ export function patchMemberInfo(token, longId, dto, success, fail) {
           }
  */
 export function getProfile(token, longId, success, fail) {
-  const authAxios = makeAuthAxios(axios, token)
-  authAxios.get(`/members/${longId}/profiles`).then(success).catch(fail)
+  const axios = authAxios(token)
+  axios.get(`/members/${longId}/profiles`).then(success).catch(fail)
 }
 
 /**
@@ -177,8 +180,8 @@ export function getProfile(token, longId, success, fail) {
           }
  */
 export function postProfileText(token, longId, dto, success, fail) {
-  const authAxios = makeAuthAxios(axios, token)
-  authAxios.post(`/members/${longId}/profiles/texts`, dto).then(success).catch(fail)
+  const axios = authAxios(token)
+  axios.post(`/members/${longId}/profiles/texts`, dto).then(success).catch(fail)
 }
 
 /**
@@ -204,8 +207,8 @@ export function postProfileText(token, longId, dto, success, fail) {
           }
  */
 export function postProfileImage(token, longId, dto, success, fail) {
-  const authAxios = makeAuthAxios(axios, token)
-  authAxios.post(`/members/${longId}/profiles/images`, dto).then(success).catch(fail)
+  const axios = fileAuthAxios(token)
+  axios.post(`/members/${longId}/profiles/images`, dto).then(success).catch(fail)
 }
 
 /**
@@ -230,8 +233,8 @@ export function postProfileImage(token, longId, dto, success, fail) {
           }
  */
 export function deleteProfileImage(token, longId, success, fail) {
-  const authAxios = makeAuthAxios(axios, token)
-  authAxios.delete(`/members/${longId}/profiles/images`).then(success).catch(fail)
+  const axios = authAxios(token)
+  axios.delete(`/members/${longId}/profiles/images`).then(success).catch(fail)
 }
 
 /**

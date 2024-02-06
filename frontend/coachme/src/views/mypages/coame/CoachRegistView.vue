@@ -19,12 +19,9 @@ const authStore = useAuthStore()
 const { accessToken } = storeToRefs(authStore)
 const contentHTML = ref('')
 const longId = computed(() => {
-  return decodeToken(accessToken.value).id
+  return decodeToken(accessToken.value).longId
 })
 
-/**
- * TODO 이미지/영상 파일 업로드 시 해당 업로드파일 저장하는 로직도 추가
- */
 const regist = () => {
   const dto = new ElevationRequestDto(longId.value, contentHTML.value)
   postRequestElevation(
@@ -33,6 +30,7 @@ const regist = () => {
     (success) => {
       console.log(success)
       alert('등록 완료!')
+      window.location.reload()
     },
     (fail) => {
       console.log(fail)

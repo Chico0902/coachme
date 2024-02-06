@@ -1,25 +1,83 @@
 <script setup>
 import CustomInput from '@/components/atoms/CustomInput.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { CreateCoachingRequestDto } from '@/utils/api/dto/coach-dto'
+import { postNewCoaching } from '@/utils/api/coach-api'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import router from '@/router'
+
+/**
+ * VARIABLES
+ */
 
 // 대분류와 소분류 데이터 정의
-const categories = ref([
-  { label: 'Life', subCategories: ['House', 'Furniture', 'Lifestyle', 'Design'] },
-  { label: 'Creation', subCategories: ['Cooking', 'Knitting', 'Art', 'Beauty'] },
-  { label: 'Sport', subCategories: ['Soccer', 'Basketball', 'Tennis', 'Golf'] },
-  { label: 'Develop', subCategories: ['Frontend', 'Backend', 'Database', 'Devops'] },
-  { label: 'Health', subCategories: ['Yoga', 'Weight', 'Running', 'Crossfit'] },
-  { label: 'ETC', subCategories: ['ETC'] }
-])
+const mainCategories = ref(['Life', 'Creation', 'Sport', 'Develop', 'Health', 'ETC'])
+const subCategories = computed(() => {
+  switch (selectedCategory.value) {
+    case 'Life':
+      return ['House', 'Furniture', 'Lifestyle', 'Design']
+    case 'Creation':
+      return ['Cooking', 'Knitting', 'Art', 'Beauty']
+    case 'Sport':
+      return ['Soccer', 'Basketball', 'Tennis', 'Golf']
+    case 'Develop':
+      return ['Frontend', 'Backend', 'Database', 'Devops']
+    case 'Health':
+      return ['Yoga', 'Weight', 'Running', 'Crossfit']
+    case 'ETC':
+      return ['ETC']
+    default:
+      return ''
+  }
+})
 
 // 선택된 대분류와 소분류 상태
-let selectedCategory = null
-let selectedSubCategory = ref(null)
+const selectedCategory = ref(null)
+const selectedSubCategory = ref(null)
 
-// 대분류가 변경되면 소분류를 초기화
-function handleCategoryChange() {
-  selectedSubCategory.value = categories.value.subCategories
+// 기타 변수
+const coachingName = ref('')
+const coachingSummary = ref('')
+const contentHTML = ref('')
+
+/**
+ * METHODS
+ */
+const createNewCoaching = () => {
+  if (
+    selectedCategory.value === null ||
+    selectedSubCategory.value === null ||
+    coachingName.value === '' ||
+    coachingSummary.value === '' ||
+    contentHTML.value === ''
+  ) {
+    alert('작성하지 않은 항목이 있습니다.')
+    return
+  }
+  const token = getAccessToken()
+  const longId = decodeToken(token).longId
+  const dto = new CreateCoachingRequestDto(
+    selectedCategory.value,
+    selectedSubCategory.value,
+    coachingName.value,
+    coachingSummary.value,
+    contentHTML.value
+  )
+  console.log(dto)
+  postNewCoaching(
+    token,
+    longId,
+    dto,
+    () => {
+      alert('등록 완료')
+      router.push({ name: 'Desktop-5-3' })
+    },
+    (error) => {
+      alert('등록 실패')
+      console.log(error)
+    }
+  )
 }
 </script>
 <template>
@@ -28,44 +86,42 @@ function handleCategoryChange() {
       <div class="category-box">
         <div class="big-category">
           <label for="category">대분류</label>
-          <select v-model="selectedCategory" id="category" @change="handleCategoryChange">
-            <option v-for="category in categories" :key="category.label" :value="category.label">
-              {{ category.label }}
-            </option>
-          </select>
+          <q-select
+            filled
+            v-model="selectedCategory"
+            :options="mainCategories"
+            label="생성하실 코칭의 대분류를 선택하세요."
+          />
         </div>
         <div class="small-category">
           <label for="subCategory">소분류</label>
-          <select v-model="selectedSubCategory" id="subCategory">
-            <option
-              v-for="subCategory in selectedCategory
-                ? categories.find((cat) => cat.label === selectedCategory).subCategories
-                : []"
-              :key="subCategory"
-              :value="subCategory"
-            >
-              {{ subCategory }}
-            </option>
-          </select>
+          <q-select
+            filled
+            v-model="selectedSubCategory"
+            :options="subCategories"
+            label="생성하실 코칭의 소분류를 선택하세요."
+          />
         </div>
       </div>
       <div class="title">코칭 이름</div>
       <div class="input">
-        <CustomInput placeholder='ex)이준학의 "야 너도 농구 할 수 있어".' />
+        <CustomInput placeholder='이준학의 "야 너도 농구 할 수 있어".' v-model="coachingName" />
       </div>
       <div class="title">코칭 한줄 요약</div>
       <div class="input">
-        <CustomInput placeholder="전혀 성장하지 않은 당신을 위한 맞춤 농구교실." />
+        <CustomInput placeholder="전혀 성장하지 않은 당신을 위한 맞춤 농구교실." v-model="coachingSummary" />
       </div>
       <div class="title">코칭 상세설명</div>
 
-      <div class="quill input">
-        <QuillEditor theme="snow" />
+      <div class="quill-input">
+        <QuillEditor theme="snow" v-model:content="contentHTML" contentType="html" style="min-height: 20vh" />
       </div>
 
       <div>
         <div class="menu SMN_effect-42">
-          <RouterLink :to="{ name: 'Desktop-5-3' }"><span data-hover="코칭생성">코칭생성</span></RouterLink>
+          <a href="#" @click.prevent="createNewCoaching">
+            <span data-hover="코칭생성" style="font-size: 1.2rem">코칭생성</span>
+          </a>
         </div>
       </div>
     </div>
@@ -79,32 +135,33 @@ function handleCategoryChange() {
 .category-box {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
 .big-category {
-  width: 100%;
+  width: 90%;
+  margin-right: 2rem;
 }
 .small-category {
-  width: 100%;
+  width: 90%;
+  margin-right: 2rem;
 }
-.input {
+.quill-input {
+  min-height: 25vh;
   margin-bottom: 2rem;
 }
-.quill-container {
-  min-height: 25vh;
-}
-.quill {
-  height: 100%;
+.input {
+  margin-bottom: 1rem;
 }
 
 .menu {
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: center;
   margin: 0 2rem;
 }
 .menu a {
-  color: rgba(0, 0, 0, 0.8);
+  color: #034c8c;
   font-size: 10pt;
   font-weight: 400;
   padding: 15px 25px;
@@ -124,7 +181,7 @@ function handleCategoryChange() {
   width: 100%;
   height: 100%;
   border-radius: 1.5rem;
-  background-color: #6e6e6e;
+  background-color: #034c8c;
   transform-origin: 100% 50%;
   transform: scale(0, 1);
   top: 0;

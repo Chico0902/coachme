@@ -24,21 +24,21 @@ import { validateProfileImage } from '@/utils/functions/member'
  * VARIABLES
  */
 
-// variables
-const openModal = ref(false)
-const changeImageModal = ref(false)
-const pw = ref('')
-const newNick = ref('')
-const newEmail = ref('')
-const newProfileText = ref('')
-
 // store에서 받아옴
 const authStore = useAuthStore()
 const memberStore = useMemberStore()
 const { accessToken } = storeToRefs(authStore)
 const { profileImageUrl, profileText } = storeToRefs(memberStore)
 const tokenValue = decodeToken(accessToken.value)
-const longId = tokenValue.id
+const longId = tokenValue.longId
+
+// input values
+const openModal = ref(false)
+const changeImageModal = ref(false)
+const pw = ref('')
+const newNick = ref('')
+const newEmail = ref('')
+const newProfileText = ref(profileText.value)
 
 // API에서 받아옴
 const stringId = ref('')
@@ -64,21 +64,28 @@ const isValidNickName = computed(() => {
 
 // 최초 멤버 정보 받아오기
 onBeforeMount(() => {
-  getMemberInfo(accessToken.value, longId, (success) => {
-    stringId.value = success.data.stringId
-    name.value = success.data.name
-    nick.value = success.data.nick
-    email.value = success.data.email
-  })
+  getMemberInfo(
+    accessToken.value,
+    longId,
+    (success) => {
+      stringId.value = success.data.stringId
+      name.value = success.data.name
+      nick.value = success.data.nick
+      email.value = success.data.email
+    },
+    (fail) => console.log(fail)
+  )
 })
 
 // 프로필 이미지 수정
 const changeProfileImage = (newImage) => {
+  const newFile = new FormData()
+  newFile.append('newFile', newImage)
   if (validateProfileImage(newImage)) {
     postProfileImage(
       accessToken.value,
       longId,
-      newImage,
+      newFile,
       (success) => {
         alert('이미지 업로드 완료')
         profileImageUrl.value = success.data.profileImageUrl
@@ -96,9 +103,8 @@ const deleteProfileImg = () => {
       accessToken.value,
       longId,
       () => {
-        alert('프로필이미지 삭제 완료')
-        profileImageUrl.value = '/src/assets/icons/coame.png'
-        changeImageModal.value = false
+        alert('프로필 이미지 삭제완료')
+        profileImageUrl.value = '/assets/icons/coame.png'
       },
       (fail) => console.log(fail)
     )
@@ -117,7 +123,6 @@ function changeProfileText(newProfileText) {
       () => {
         alert('프로필 변경 완료')
         profileText.value = newProfileText
-        console.log(profileText.value)
       },
       (fail) => console.log(fail)
     )
@@ -126,25 +131,28 @@ function changeProfileText(newProfileText) {
 
 // 회원정보 수정
 const changeMemberInfo = (pw, newNick, newEmail) => {
-  try {
-    // dto 생성 및 호출
-    const dto = new MemberInfoChangeRequestDto(pw, newNick, newEmail)
-    patchMemberInfo(
-      longId,
-      dto,
-      (success) => {
-        alert(success.data.message)
-        window.location.reload()
-      },
-      // API 호출 실패 시 오류메시지 콘솔에 출력
-      (fail) => {
-        console.log(fail)
-      }
-    )
-    // 검증 실패 시 오류메시지 출력
-  } catch (e) {
-    alert(e.message)
+  // 정상요청 검증
+  if (!(validatePassword(pw) && validateNickName(newNick))) {
+    alert('유효하지 않은 입력값이 있습니다.')
+    return
   }
+  // dto 생성 및 호출
+  const dto = new MemberInfoChangeRequestDto(pw, newNick, newEmail)
+  patchMemberInfo(
+    accessToken.value,
+    longId,
+    dto,
+    () => {
+      alert('회원정보 수정 완료')
+      window.location.reload()
+    },
+    // API 호출 실패 시 오류메시지 콘솔에 출력
+    (fail) => {
+      console.log(fail)
+      if (fail.response.status === 401) alert('잘못된 비밀번호입니다.')
+      else alert('잘못된 요청입니다.')
+    }
+  )
 }
 </script>
 <template>

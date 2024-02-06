@@ -30,6 +30,7 @@ watch(
           { name: '라이브관리', link: 'Desktop-5-5' },
           { name: '영상관리', link: 'Desktop-5-7' }
         ]
+        router.push({ name: 'Desktop-5-2' })
         break
       }
       case false: {
@@ -40,6 +41,7 @@ watch(
           { name: '영상보기', link: 'Desktop-9' },
           { name: '회원탈퇴', link: 'Desktop-10' }
         ]
+        router.push({ name: 'Desktop-6' })
         break
       }
     }
@@ -83,13 +85,7 @@ onBeforeMount(() => {
 </script>
 <template>
   <div class="sidebar">
-    <q-toggle
-      v-if="showToggle"
-      color="primary"
-      v-model="changePrivilege"
-      icon="img:/src/assets/icons/1.png"
-      size="100px"
-    />
+    <q-toggle v-if="showToggle" color="primary" v-model="changePrivilege" icon="img:/assets/icons/1.png" size="100px" />
     <div
       v-for="button in sideButtons"
       :key="button.name"

@@ -4,12 +4,15 @@
 <script setup>
 import { ref } from 'vue';
 
+<<<<<<< HEAD
 const props = defineProps({
-  isCoach : {
-    type : Boolean
+  isCoach: {
+    type: Boolean
   }
-}); 
+});
 
+=======
+>>>>>>> 4a33d8b12539af3db6c5eba86d9181dbf0670d8b
 const videoStatus = ref(true)
 const micStatus = ref(true)
 
@@ -38,7 +41,7 @@ const chatSwitch = () => {
 const peopleSwitch = () => {
   isPeopleOpen.value = !isPeopleOpen.value
   isChatOpen.value = false
-  
+
   const data = { chat: isChatOpen.value, people: isPeopleOpen.value }
   emit('changePeopleStatus', data)
 } // 참가자 목록 클릭 
@@ -90,7 +93,8 @@ const peopleSwitch = () => {
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
         <strong>녹화하기</strong>
       </q-tooltip>
-    </q-btn>    <q-btn flat>
+    </q-btn>
+    <q-btn flat>
       <span class="material-symbols-outlined">
         meeting_room
       </span>
@@ -130,5 +134,4 @@ const peopleSwitch = () => {
 .material-symbols-outlined {
   font-size: 36px;
 }
-
 </style>

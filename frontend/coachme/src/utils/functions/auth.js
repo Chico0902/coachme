@@ -1,3 +1,32 @@
+import router from '@/router'
+
+/**
+ * Session Storage에서 토큰 받아오는 함수
+ * @returns {String} accessToken : 토큰 정보(String)
+ * @throws 토큰 없음 : '로그인 정보가 없습니다.' 잘못된 토큰 : '잘못된 토큰 형식입니다.'
+ */
+export function getAccessToken() {
+  // Exception : 세션스토리지에 token이 없을 때
+  const token = sessionStorage.getItem('auth')
+  if (token === '' || token === undefined || token === null) {
+    throw new Error('로그인 정보가 없습니다.')
+  }
+
+  // Exception : 잘못된 token 타입
+  const parsedToken = JSON.parse(token)
+  if (parsedToken === '' || parsedToken === undefined || parsedToken === null) {
+    throw new Error('잘못된 토큰 형식입니다.')
+  }
+
+  // Exception : 잘못된 AccessToken 타입
+  const accessToken = parsedToken.accessToken
+  if (typeof accessToken != 'string') {
+    throw new Error('잘못된 토큰 형식입니다.')
+  }
+
+  return accessToken
+}
+
 /**
  * 토큰을 입력받아서 토큰 결과를 조회하는 함수
  * @param {String} token JWT
@@ -6,37 +35,42 @@
  * @throws 잘못된 토큰 : '잘못된 토큰 형식입니다.'
  */
 export function decodeToken(token) {
-  // Exception : not empty
-  if (token === '' || token === undefined || token === null) {
-    throw new Error('로그인 정보가 없습니다.')
-  }
+  try {
+    // Exception : not empty
+    if (token === '' || token === undefined || token === null) {
+      throw new Error('로그인 정보가 없습니다.')
+    }
 
-  // Exception : 잘못된 타입
-  if (typeof token != 'string') {
-    throw new Error('잘못된 토큰 형식입니다.')
-  }
+    // Exception : 잘못된 타입
+    if (typeof token != 'string') {
+      throw new Error('잘못된 토큰 형식입니다.')
+    }
 
-  // Exception : JWT는 '.'으로 구분된 세 부분(header, payload, signature)으로 이루어져 있어야 한다.
-  if (token.split('.').length != 3) throw new Error('잘못된 토큰 형식입니다.')
-  const base64Url = token.split('.')[1]
+    // Exception : JWT는 '.'으로 구분된 세 부분(header, payload, signature)으로 이루어져 있어야 한다.
+    if (token.split('.').length != 3) throw new Error('잘못된 토큰 형식입니다.')
+    const base64Url = token.split('.')[1]
 
-  // URL-Safe하도록 문자열 대체하는 정규표현식
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    // URL-Safe하도록 문자열 대체하는 정규표현식
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
 
-  // base64로 디코딩 후 JSON객체로 파싱
-  const decodedToken = JSON.parse(
-    decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map(function (c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-        })
-        .join('')
+    // base64로 디코딩 후 JSON객체로 파싱
+    const decodedToken = JSON.parse(
+      decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+          })
+          .join('')
+      )
     )
-  )
 
-  // 디코딩 된 토큰 반환(Object)
-  return decodedToken
+    // 디코딩 된 토큰 반환(Object)
+    return decodedToken
+  } catch (e) {
+    alert(e)
+    router.push('/login')
+  }
 }
 
 /**
