@@ -1,25 +1,22 @@
-<!-- 코미와 진실의 방으로 가는 버튼 -->
-
 <script setup>
 const props = defineProps({
-  name : { // 코미 이름
+  name : { // 코치 이름
     type : String
   }, 
   isCoach : {
     type : Boolean
   }
 }); 
-
 </script>
 
 <template>
-  <div style="width: 14vw; height: 16.5vh; background-color: gray;">
-    <q-btn v-if="props.isCoach" flat style="margin-left: 9vw; margin-top: 1.0vh;">
+  <div style="width: 60vw; height: 70vh; background-color: gray;">
+    <q-btn v-if="!props.isCoach" flat style="margin-left: 55vw; margin-top: 1.3vh;">
       <span class="material-symbols-outlined" style="font-size: 32px;">
         meeting_room
       </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-        <Strong>{{ props.name }} 님과 진실의 방으로 가기</Strong>
+        <Strong> {{ name }} 님에게 진실의 방 요청하기</Strong>
       </q-tooltip>
     </q-btn>
   </div>
