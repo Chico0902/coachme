@@ -47,9 +47,8 @@ export function getCoachesByCategory(division1, division2, success, fail) {
             message : String
           }
  */
-export function getMyPortfolio(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/coaches/portfolio/${longId}`).then(success).catch(fail)
+export async function getMyPortfolio(token, longId, success, fail) {
+  authAxios.get(`/coaches/portfolio/${longId}`).then(success).catch(fail)
 }
 
 /**

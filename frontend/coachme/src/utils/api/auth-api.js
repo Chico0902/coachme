@@ -53,7 +53,7 @@ export function postLoginRequest(dto, success, fail) {
             message : String
           }
  */
-export function getRefresh(success, fail) {
+export async function getRefresh(success, fail) {
   axios
     .get(`${VITE_BACKEND_URL}/auth/refresh`, {
       withCredentials: true,
