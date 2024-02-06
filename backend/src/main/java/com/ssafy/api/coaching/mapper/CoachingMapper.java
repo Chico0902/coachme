@@ -1,6 +1,7 @@
 package com.ssafy.api.coaching.mapper;
 
 import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
+import com.ssafy.api.coaching.dto.response.CoachDetail;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.dto.response.GetOneCoachingResponseDto;
@@ -48,4 +49,14 @@ public interface CoachingMapper {
 
   // [coaching-2] 코칭 수정 요청 시 해당 DTO를 코칭으로 변경한다.
   List<CoachesCoachingsResponseDto> coachingToCoachesCoachingsResponseDto(List<Coaching> coachingList);
+
+  @Mapping(source = "name", target = "coachingName")
+  @Mapping(source = "summary", target = "coachingSummary")
+  @Mapping(source = "mainCategory.name", target = "coachingMainCategory")
+  @Mapping(source = "subCategory.name", target = "coachingSubCategory")
+  CoachDetail coachingToCoachDetail(Coaching coaching);
+
+  List<CoachDetail> coachingToCoachDetailList(List<Coaching> list);
+
+
 }

@@ -44,6 +44,10 @@ public interface CoachingRepository extends JpaRepository<Coaching, Long> {
   @Query(value = "SELECT c FROM Coaching c " +
       "JOIN FETCH c.liveCoachings lc " +
       "WHERE c.coach.longId = ?1")
+  List<Coaching> findByLiveCoachingCoachId(Long longId);
+
+  @Query(value = "SELECT c FROM Coaching c " +
+      "WHERE c.coach.longId = :longId")
   List<Coaching> findByCoachId(Long longId);
 
 }

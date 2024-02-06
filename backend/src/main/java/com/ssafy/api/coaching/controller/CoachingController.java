@@ -1,6 +1,5 @@
 package com.ssafy.api.coaching.controller;
 
-import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
@@ -66,12 +65,29 @@ public class CoachingController {
     return new ResponseEntity<>(new ListDataDto(responseList), HttpStatus.OK);
   }
 
-  @GetMapping("/categories")
-  public ResponseEntity<ListDataDto> CoachingRequestDto(CoachesRequestDto dto) {
-    ListDataDto listDataDto = new ListDataDto(coachingService.getCoachingList(dto));
+  /**
+   * [coaching-3] 해당 분류 코칭의 정보를 받아온다.
+   * privilege : 0
+   *
+   * @param division1 : 카테고리 테이블 내의 MAIN 분류 / all
+   * @param division2 : 카테고리 테이블 내의 SUB 분류 / all
+   * @return - [200] list
+   */
+  @GetMapping("/categories/{division1}/{division2}")
+  public ResponseEntity<ListDataDto> CoachingRequestDto(
+      @PathVariable("division1") String division1,
+      @PathVariable("division2") String division2) {
+    ListDataDto listDataDto = new ListDataDto(coachingService.getCoachingList(division1, division2));
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
+  /**
+   * [coaching-4] 코칭의 상세 페이지를 조회한다.
+   * privilege : 0
+   *
+   * @param coachingId : 코칭 PK
+   * @return - [200] list
+   */
   @GetMapping("/{coachingId}")
   public ResponseEntity<CoachingDetailResponseDto> getCoachingDetail(@PathVariable("coachingId") long coachingId) {
     CoachingDetailResponseDto responseDto = coachingService.getCoachingDetail(coachingId);

@@ -188,6 +188,7 @@ public class MemberService {
 
   /**
    * 시간을 날짜와 시간으로 포맷팅하는 메서드
+   *
    * @param localDateTime - 라이브 코칭 시간
    * @return - 날짜와 시간을 담은 String 배열
    */

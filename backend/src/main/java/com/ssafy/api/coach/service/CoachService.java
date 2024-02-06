@@ -6,11 +6,15 @@ import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
 import com.ssafy.api.coach.dto.response.CoachesResponseDtos;
 import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
 import com.ssafy.api.coach.mapper.CoachMapper;
+import com.ssafy.api.coaching.dto.response.CoachDetail;
+import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
 import com.ssafy.api.member.repository.MemberRepository;
+import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.LiveCoaching;
+import com.ssafy.db.entity.Review;
 import com.ssafy.db.entity.type.CategoryType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +34,7 @@ public class CoachService {
   private final MemberRepository memberRepository;
   private final CoachingRepository coachingRepository;
   private final CategoryRepository categoryRepository;
+  private final ReviewRepository reviewRepository;
 
   public PortfolioResponseDto getPortfolio(long id) {
     return CoachMapper.instance.PortfolioToPortfolioResponseDto(memberRepository.getReferenceById(id).getPortfolio());
@@ -39,7 +44,9 @@ public class CoachService {
     memberRepository.getReferenceById(id).updatePortfolio(dto.getHtmlDocs());
   }
 
-
+  /**
+   * 분류별 코치 정보 조회
+   */
   public List<CoachesResponseDtos> getCoachList(String division1, String division2) {
     List<CoachesResponseDtos> list;
     Long mainCategoryId;
@@ -59,10 +66,28 @@ public class CoachService {
     return list;
   }
 
+  /**
+   * 코치 상세 페이지 조회
+   */
   public CoachDetailResponseDto getCoachDetail(long coachId) {
+    CoachDetailResponseDto dto = CoachMapper.instance.memberToCoachDetailResponseDto(memberRepository.getReferenceById(coachId));
+    List<CoachDetail> coaching = CoachingMapper.instance.coachingToCoachDetailList(coachingRepository.findByCoachId(coachId));
+    dto.setList(coaching);
 
+    List<Review> reviewList = reviewRepository.findAllByCoachId(coachId);
+    long sum = 0;
+    for (Review review : reviewList) {
+      sum += review.getScore();
+    }
 
-    return null;
+    dto.setReviewCount(reviewList.size());
+    if (sum != 0) {
+      dto.setReviewAvg((float) sum / reviewList.size());
+    } else {
+      dto.setReviewAvg(0);
+    }
+
+    return dto;
   }
 
   /**
@@ -73,7 +98,7 @@ public class CoachService {
    */
   public List<CalendarResponseDto> getCalender(Long longId) {
 
-    List<Coaching> coachingList = coachingRepository.findByCoachId(longId);
+    List<Coaching> coachingList = coachingRepository.findByLiveCoachingCoachId(longId);
     List<CalendarResponseDto> list = new ArrayList<>();
 
     for (Coaching c : coachingList) {
