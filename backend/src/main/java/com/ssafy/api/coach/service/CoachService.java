@@ -99,7 +99,7 @@ public class CoachService {
    * @param localDateTime - 라이브 코칭 시간
    * @return - 날짜와 시간을 담은 String 배열
    */
-  private String[] getDateAndTime(LocalDateTime localDateTime) {
+  public String[] getDateAndTime(LocalDateTime localDateTime) {
 
     String[] result = new String[2];
     DateTimeFormatter format_date = DateTimeFormatter.ofPattern("yyyy/MM/dd");

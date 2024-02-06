@@ -26,7 +26,7 @@ public class File extends BaseEntity {
   @Column(nullable = false, length = 50)
   private String name;
 
-  @Column(nullable = false, unique = true, length = 500)
+  @Column(nullable = false, length = 500)
   private String url;
 
   // methods
