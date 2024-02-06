@@ -46,7 +46,7 @@ const getData = computed(() => {
   <div>
     <template v-if="getData.length > 0">
       <q-card v-for="(coaching, index) in getData" :key="index"
-        style="margin-bottom: 3vh; min-width: 50vw; min-height:15vh;" rounded>
+        style="margin-bottom: 2vh; min-width: 50vw; min-height:15vh;" rounded>
         <q-item>
           <!-- 프로필 사진 -->
           <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 0.6vh; margin-right: 2vw;">
@@ -119,12 +119,6 @@ const getData = computed(() => {
   justify-content: center;
 }
 
-.material-symbols-outlined {
-  font-size: 38px;
-  color: #FCBF17;
-  margin-right: 0.3vw;
-}
-
 .rating {
   font-size: 15px;
 }
@@ -134,4 +128,5 @@ const getData = computed(() => {
   vertical-align: center;
   align-items: center;
 }
+
 </style>
