@@ -7,12 +7,12 @@
 <script setup>
 import selectCoachCard from '../molecules/SelectCoachCard.vue'
 
-import { onMounted } from 'vue'
+import { onMounted  } from 'vue'
 
 const props = defineProps({
   cards: {
-    type: Object
-  }
+    type: Object,
+  },
 })
 
 let like

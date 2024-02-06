@@ -44,6 +44,7 @@ const reviewData = (data) => {
 const breadCrumbs = ["Develop", "Devops"]
 // 해당 코칭의 대분류와 소분류
 
+
 const video = "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
 // 코칭 미리보기 영상 링크
 
