@@ -1,6 +1,7 @@
 package com.ssafy.api.coaching.controller;
 
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
+import com.ssafy.api.coaching.dto.request.SearchWordsRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
@@ -71,13 +72,15 @@ public class CoachingController {
    *
    * @param division1 : 카테고리 테이블 내의 MAIN 분류 / all
    * @param division2 : 카테고리 테이블 내의 SUB 분류 / all
+   * @param searchWordsRequestDto : 검색어 / all
    * @return - [200] list
    */
-  @GetMapping("/categories/{division1}/{division2}")
+  @PostMapping("/categories/{division1}/{division2}")
   public ResponseEntity<ListDataDto> CoachingRequestDto(
       @PathVariable("division1") String division1,
-      @PathVariable("division2") String division2) {
-    ListDataDto listDataDto = new ListDataDto(coachingService.getCoachingList(division1, division2));
+      @PathVariable("division2") String division2,
+      @RequestBody SearchWordsRequestDto searchWordsRequestDto) {
+    ListDataDto listDataDto = new ListDataDto(coachingService.getCoachingList(division1, division2, searchWordsRequestDto.getWords()));
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
