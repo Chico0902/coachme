@@ -74,6 +74,7 @@ const closeChat = () => {
   background-color: #FFEEC1;
   max-width: 400px;
   max-height: 500px;
+  overflow-y: auto;
 }
 
 .material-symbols-outlined {

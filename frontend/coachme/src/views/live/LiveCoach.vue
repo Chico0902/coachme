@@ -6,7 +6,7 @@ import LivePeopleList from '@/components/molecules/LivePeopleList.vue';
 
 import { ref, reactive } from 'vue';
 
-const users = ref(["h1", "h2", "h3", "h4", "h5"])
+const users = ref(["고코치", "고코미", "고양이", "옆동네 고양이", "코숏"])
 
 const isChatOpen = ref(false);
 const isPeopleOpen = ref(false);
@@ -27,16 +27,18 @@ const id = "coame"
 
 const directMessage = reactive([{
     "id": "coame",
-    "chat": ["hey, how are you?", "I'm so so these day"]
+    "chat": ["안녕하세요", "코칭에 대해 여쭤보고 싶은게 있어요."]
   }, {
     "id": "coach",
-    "chat": ["doing fine, how r you?"]
+    "chat": ["안녕하세요. 어떤게 궁금하신가요?"]
+  }, {
+    "id": "coame",
+    "chat": ["코칭 페이지에는 (중략)이라고 되어있는데 자세히 알고 싶어요"]
   }, {
     "id": "coach",
-    "chat": ["I just feel like typing a really, really, REALLY long message to annoy you..."]
-  }])
-
-const people = ref(["고코치", "고코미", "고양이"])
+    "chat": ["이 코칭에서는 (중략)하는 것을 알려드리며, 필요하시면 더 자세히 피드백을 해드리고 있습니다."]
+  }
+])
 
 </script>
 <template>
@@ -57,7 +59,7 @@ const people = ref(["고코치", "고코미", "고양이"])
         <!-- 코미 화면 -->
         <div class="coame element-with-scrollbar">
           <div v-for="(user, index) in users" :key="user">
-            <ComeLiveVideo :coame="user" :style="{ marginTop: index !== 0 ? '1vh' : '0' }"></ComeLiveVideo>
+            <ComeLiveVideo :name="user" :style="{ marginTop: index !== 0 ? '1vh' : '0' }"></ComeLiveVideo>
           </div>
         </div>
 
@@ -67,7 +69,7 @@ const people = ref(["고코치", "고코미", "고양이"])
         </div>
         <!-- 참가자 리스트 -->
         <div v-else-if="isPeopleOpen" class="people">
-          <LivePeopleList :people="people"></LivePeopleList>
+          <LivePeopleList :people="users"></LivePeopleList>
         </div>
       </div>
     </div>
@@ -157,7 +159,7 @@ const people = ref(["고코치", "고코미", "고양이"])
 }
 
 .people {
-  min-width: 24.2vw;
+  min-width: 15vw;
   height: 70vh;
   justify-content: center;
   align-items: flex-start;
