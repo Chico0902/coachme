@@ -145,7 +145,7 @@ public class Member extends BaseEntity {
 
   // 프로필 사진 기본으로 설정
   public void updateProfileImageToDefault() {
-    this.profileImage = new File(this, "default", "/src/assets/icons/coame.png");
+    this.profileImage = new File(this, "default", "/assets/icons/coame.png");
   }
 
   // 연관관계 편의 메서드

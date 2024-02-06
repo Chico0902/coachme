@@ -19,7 +19,7 @@ public class LiveCoaching extends BaseEntity {
   @JoinColumn(name = "coaching_id")
   private Coaching coaching;
 
-  @OneToMany(mappedBy = "liveCoaching", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "liveCoaching", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<CoameCoaching> coameCoachings = new ArrayList<>();
 
   @Column(name = "coaching_date", nullable = false)
