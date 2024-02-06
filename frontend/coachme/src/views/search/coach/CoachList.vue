@@ -16,7 +16,7 @@ const selectButton = ref(0)
 const SideButtonList = [
   [],
   [{ name: 'ALL' }, { name: 'House' }, { name: 'Furniture' }, { name: 'Lifestyle' }, { name: 'Design' }],
-  [{ name: 'ALL' }, { name: 'Cocking' }, { name: 'Knitting' }, { name: 'Art' }, { name: 'Beauty' }],
+  [{ name: 'ALL' }, { name: 'Cooking' }, { name: 'Knitting' }, { name: 'Art' }, { name: 'Beauty' }],
   [{ name: 'ALL' }, { name: 'Soccer' }, { name: 'Basketball' }, { name: 'Tennis' }, { name: 'Golf' }],
   [{ name: 'ALL' }, { name: 'Frontend' }, { name: 'Backend' }, { name: 'Database' }, { name: 'DevOps' }],
   [{ name: 'ALL' }, { name: 'Yoga' }, { name: 'Weight' }, { name: 'Running' }, { name: 'Crossfit' }]
@@ -38,7 +38,10 @@ onBeforeMount(() => {
   getCoachesByCategory(
     'all',
     'all',
-    (success) => (coaches.value = success.data.list),
+    (success) => {
+      coaches.value = success.data.list
+      console.log(success)
+    },
     (fail) => console.log(fail)
   )
 })
@@ -48,10 +51,14 @@ const clickCategory = (index, name) => {
   selectButton.value = index
   subCategories.value = SideButtonList[selectButton.value]
   selectedMainCategory.value = name
+  console.log(name)
   getCoachesByCategory(
     name.toLowerCase(),
     'all',
-    (success) => (coaches.value = success.data.list),
+    (success) => {
+      coaches.value = success.data.list
+      console.log(success)
+    },
     (fail) => console.log(fail)
   )
 }
@@ -62,7 +69,10 @@ const clickSubCategory = (name) => {
   getCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
     name.toLowerCase(),
-    (success) => console.log(success),
+    (success) => {
+      coaches.value = success.data.list
+      console.log(success)
+    },
     (fail) => console.log(fail)
   )
 }
