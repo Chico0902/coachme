@@ -4,6 +4,12 @@
 <script setup>
 import { ref } from 'vue';
 
+const props = defineProps({
+  isCoach : {
+    type : Boolean
+  }
+}); 
+
 const videoStatus = ref(true)
 const micStatus = ref(true)
 
@@ -77,7 +83,7 @@ const peopleSwitch = () => {
         <strong>참가자 목록</strong>
       </q-tooltip>
     </q-btn>
-    <q-btn flat>
+    <q-btn v-if="props.isCoach" flat>
       <span class="material-symbols-outlined">
         radio_button_checked
       </span>
