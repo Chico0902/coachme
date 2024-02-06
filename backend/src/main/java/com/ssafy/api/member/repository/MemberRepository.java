@@ -16,4 +16,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
       "WHERE m.elevateStatus = ?1")
   List<Member> findByElevateStatusWithPortfolio(ElevateStatus elevateStatus);
 
+  @Query(value = "SELECT m FROM Member m " +
+      "JOIN FETCH m.coameTaughtCourses ctc " +
+      "JOIN FETCH ctc.liveCoaching lc " +
+      "JOIN FETCH lc.coaching c " +
+      "WHERE m.longId = ?1")
+  Member findByIdWithDetail(Long longId);
 }

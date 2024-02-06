@@ -35,7 +35,7 @@ public class Coaching extends BaseEntity {
   @Column(nullable = false, length = 50)
   private String name;
 
-  @OneToMany(mappedBy = "coaching")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "coaching")
   private List<LiveCoaching> liveCoachings = new ArrayList<>();
 
   @OneToMany(mappedBy = "coaching")
