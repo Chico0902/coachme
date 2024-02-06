@@ -5,8 +5,10 @@ import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
+import { useCoachStore } from '@/stores/coach'
 import { getCoachesByCategory } from '@/utils/api/coach-api'
 import { onBeforeMount, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 
 /**
  * VARIABLES
@@ -23,15 +25,19 @@ const SideButtonList = [
 ]
 const subCategories = ref([])
 const isMatching = ref(false)
-const changeListAndMatching = () => {
-  isMatching.value = !isMatching.value
-}
 const selectedMainCategory = ref('')
-const coaches = ref([])
+
+// pinia
+const coachStore = useCoachStore()
+const { coaches } = storeToRefs(coachStore)
 
 /**
  * METHODS
  */
+
+const changeListAndMatching = () => {
+  isMatching.value = !isMatching.value
+}
 
 // 전체 코치 조회
 onBeforeMount(() => {
@@ -40,7 +46,7 @@ onBeforeMount(() => {
     'all',
     (success) => {
       coaches.value = success.data.list
-      console.log(success)
+      console.log(coaches.value)
     },
     (fail) => console.log(fail)
   )
@@ -51,7 +57,6 @@ const clickCategory = (index, name) => {
   selectButton.value = index
   subCategories.value = SideButtonList[selectButton.value]
   selectedMainCategory.value = name
-  console.log(name)
   getCoachesByCategory(
     name.toLowerCase(),
     'all',
@@ -65,7 +70,6 @@ const clickCategory = (index, name) => {
 
 // 소분류 코치 조회
 const clickSubCategory = (name) => {
-  console.log(name)
   getCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
     name.toLowerCase(),
@@ -91,8 +95,8 @@ const clickSubCategory = (name) => {
         <SearchCategorySidebar :button-list="subCategories" @click-sub-category="clickSubCategory" />
         <div class="mainpage">
           <!-- 코치 매칭 카드  -->
-          <CoachCardList v-if="isMatching" :cards="coaches" style="margin-left: 7vw"></CoachCardList>
-          <SearchCoachList v-else :coach="coaches" style="margin-top: 2vh; margin-left: 0.6vw"></SearchCoachList>
+          <CoachCardList v-if="isMatching" style="margin-left: 7vw"></CoachCardList>
+          <SearchCoachList v-else style="margin-top: 2vh; margin-left: 0.6vw"></SearchCoachList>
         </div>
         <!-- 채팅 버튼 -->
         <div class="chat-button">

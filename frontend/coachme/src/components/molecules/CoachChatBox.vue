@@ -1,28 +1,23 @@
-<!-- 우측 안내창 컴포넌트 
-필요한 정보 : 코치 이름
-coach : 코치 이름. 문자열
--->
-
 <script setup>
-import Labels from '../atoms/CardLabel.vue';
+import Labels from '../atoms/CardLabel.vue'
 import Like from '../atoms/CustomLike.vue'
-import CustomButton from '../atoms/CustomButton.vue';
+import CustomButton from '../atoms/CustomButton.vue'
 import { ref } from 'vue'
-import { useCounterStore } from "../../stores/chat-status.js"
+import { useChatStore } from '../../stores/chat-status.js'
 
-const store = useCounterStore();
+const store = useChatStore()
 const { requestDm } = store
 // 채팅 관련 store
 
 const props = defineProps({
-  coach : {  // 코치 이름
-    type : String,
-  },
+  coach: {
+    // 코치 이름
+    type: String
+  }
 })
 
-const chatLabel = ref(props.coach + "님께 문의해보세요.")
-// 코치이름에 따라 반응형으로 변경 
-
+const chatLabel = ref(props.coach + '님께 문의해보세요.')
+// 코치이름에 따라 반응형으로 변경
 </script>
 
 <template>
@@ -36,8 +31,11 @@ const chatLabel = ref(props.coach + "님께 문의해보세요.")
         <q-item-section>
           <div class="buttons card-margin">
             <Like></Like>
-            <CustomButton style="width: 100px; height: 20px; background-color: #FCBF17; color: black;" 
-            @click="requestDm()">채팅하기</CustomButton>
+            <CustomButton
+              style="width: 100px; height: 20px; background-color: #fcbf17; color: black"
+              @click="requestDm()"
+              >채팅하기</CustomButton
+            >
           </div>
         </q-item-section>
       </q-item-section>
