@@ -40,10 +40,9 @@ p {
   height: 8vh;
   border-radius: 1rem;
   margin-top: 0;
-  padding-left: 1rem;
   margin-bottom: 4.4vh;
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
 }
 
