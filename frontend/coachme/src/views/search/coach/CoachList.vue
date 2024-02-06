@@ -137,6 +137,7 @@ const clickSubCategory = (name) => {
         <!-- 사이드메뉴 -->
         <SearchCategorySidebar :button-list="subCategories" @click-sub-category="clickSubCategory" />
         <div class="rightPage">
+          <!-- 검색창 -->
           <div>
             <InputForm class="search" :background="bColor"></InputForm>
           </div>
@@ -238,7 +239,7 @@ const clickSubCategory = (name) => {
 .rightPage {
   background-color: white;
   width: 80%;
-  height: 80vh;
+  height: 75vh;
   margin-left: 4%;
   margin-top: 3vh;
   border-radius: 1.5rem;
@@ -255,6 +256,7 @@ const clickSubCategory = (name) => {
 
 #input {
   width: 50vw;
+  min-width: 450px;
 }
 
 .mainpage {

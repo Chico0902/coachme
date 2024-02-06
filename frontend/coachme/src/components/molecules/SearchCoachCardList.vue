@@ -149,7 +149,7 @@ function cancel() {
       <div class="frame">
         <!-- 코치 선택 리스트 -->
         <q-card v-for="card in props.cards" :key="card.id" class="card coach" 
-        style="background-color: white; margin-top: 1vh;">
+        style="background-color: white;">
           <!-- 지우지 말 것-->
           <div class="is-like">좋아요</div>
           <!-- 코치 카드 영역 -->
@@ -212,14 +212,15 @@ section {
 .frame {
   position: relative;
   width: 35vh;
-  height: 78vh;
+  height: 58vh;
   max-width: 400px;
-  max-height: 700px;
+  min-height: 410px;
   z-index: 1;
+  margin-top: -2vh;
 }
 
 .icons {
-  margin-top: -3.5vh;
+  margin-top: -1.7vh;
   user-select: none;
   z-index: 1;
 }
