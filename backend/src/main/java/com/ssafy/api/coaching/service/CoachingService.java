@@ -1,6 +1,5 @@
 package com.ssafy.api.coaching.service;
 
-import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
@@ -92,18 +91,22 @@ public class CoachingService {
     newCoaching.registCoaching(memberInDB);
   }
 
-  public List<CoachingResponseDtos> getCoachingList(CoachesRequestDto dto) {
+
+  /**
+   * 분류별 코칭 정보 조회
+   */
+  public List<CoachingResponseDtos> getCoachingList(String division1, String division2) {
     List<CoachingResponseDtos> list;
     Long mainCategoryId;
 
-    if (dto.getDivision1().equals("all")) {
+    if (division1.equals("all")) {
       list = coachingRepository.findByCoachingCategory(null, null);
-    } else if (dto.getDivision2().equals("all")) {
-      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
+    } else if (division2.equals("all")) {
+      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
       list = coachingRepository.findByCoachingCategory(mainCategoryId, null);
     } else {
-      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, dto.getDivision1());
-      Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, dto.getDivision2());
+      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
+      Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, division2);
 
       list = coachingRepository.findByCoachingCategory(mainCategoryId, subCategoryId);
     }
@@ -111,13 +114,16 @@ public class CoachingService {
     return list;
   }
 
+  /**
+   * 코칭 상세 페이지 조회
+   */
   public CoachingDetailResponseDto getCoachingDetail(long coachingId) {
     CoachingDetailResponseDto dto = CoachingMapper.instance.coachingToCoachingDetailResponseDto(coachingRepository.getReferenceById(coachingId));
 
     List<Review> reviewList = reviewRepository.findAllByCoachingId(coachingId);
     long sum = 0;
     for (Review review : reviewList) {
-      sum = review.getScore();
+      sum += review.getScore();
     }
 
     dto.setReviewCount(reviewList.size());
