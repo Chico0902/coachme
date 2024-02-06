@@ -2,8 +2,8 @@
 import CustomInput from '@/components/atoms/CustomInput.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
 import { ref, computed } from 'vue'
-import { CreateCoachingRequestDto } from '@/utils/api/dto/coaching-dto'
-import { postNewCoaching } from '@/utils/api/coaching-api'
+import { CreateCoachingRequestDto } from '@/utils/api/dto/coach-dto'
+import { postNewCoaching } from '@/utils/api/coach-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import router from '@/router'
 
@@ -44,7 +44,6 @@ const contentHTML = ref('')
 /**
  * METHODS
  */
-
 const createNewCoaching = () => {
   if (
     selectedCategory.value === null ||

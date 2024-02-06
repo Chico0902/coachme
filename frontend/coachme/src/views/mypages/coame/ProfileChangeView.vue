@@ -143,7 +143,7 @@ const changeMemberInfo = (pw, newNick, newEmail) => {
     longId,
     dto,
     () => {
-      alert('비밀번호 수정 완료')
+      alert('회원정보 수정 완료')
       window.location.reload()
     },
     // API 호출 실패 시 오류메시지 콘솔에 출력

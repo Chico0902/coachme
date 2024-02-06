@@ -25,7 +25,13 @@ const closeSidebar = () => {
 }
 // 사이드바에서 X키를 눌렀다면 오픈 여부 변경
 
-const sideMenu = ['Home', 'About', 'Service', 'Contact']
+const sideMenu = [
+  { name: '홈으로', link: '/' },
+  { name: '마이페이지', link: '/mypage' },
+  { name: '코치찾기', link: '/search/coach/list' },
+  { name: '코칭찾기', link: '/search/coaching/list' },
+  { name: '강의장', link: '/live/coaching' }
+]
 // 사이드바 메뉴는 여기서 변경
 </script>
 
