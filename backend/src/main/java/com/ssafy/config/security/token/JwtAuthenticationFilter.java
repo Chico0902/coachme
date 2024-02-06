@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 특정 api 이름 포함했는지만 확인(동적 매칭)
         (request.getRequestURI().contains(
-            "/api/coaches/categories"))) {
+            "/categories"))) {
       chain.doFilter(request, response);
       return;
     }

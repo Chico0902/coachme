@@ -95,20 +95,24 @@ public class CoachingService {
   /**
    * 분류별 코칭 정보 조회
    */
-  public List<CoachingResponseDtos> getCoachingList(String division1, String division2) {
+  public List<CoachingResponseDtos> getCoachingList(String division1, String division2, String words) {
     List<CoachingResponseDtos> list;
     Long mainCategoryId;
 
+    if(words.equals("all")) {
+      words = null;
+    }
+    log.info("words : {}", words);
     if (division1.equals("all")) {
-      list = coachingRepository.findByCoachingCategory(null, null);
+      list = coachingRepository.findByCoachingCategory(null, null, words);
     } else if (division2.equals("all")) {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
-      list = coachingRepository.findByCoachingCategory(mainCategoryId, null);
+      list = coachingRepository.findByCoachingCategory(mainCategoryId, null, words);
     } else {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
       Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, division2);
 
-      list = coachingRepository.findByCoachingCategory(mainCategoryId, subCategoryId);
+      list = coachingRepository.findByCoachingCategory(mainCategoryId, subCategoryId, words);
     }
 
     return list;
