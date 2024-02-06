@@ -43,7 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if ((Arrays.asList(
         "/api/auth/login",
         "/api/members",
-        "/api/members/duplicate/id"
+        "/api/members/duplicate/id",
+            "/api/ws-dm"
     ).contains(request.getRequestURI())) ||
 
         // 특정 api 이름 포함했는지만 확인(동적 매칭)
