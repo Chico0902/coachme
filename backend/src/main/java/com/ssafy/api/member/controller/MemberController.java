@@ -1,10 +1,12 @@
 package com.ssafy.api.member.controller;
 
 import com.ssafy.api.member.dto.request.*;
+import com.ssafy.api.member.dto.response.CalendarResponseDto;
 import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;
 import com.ssafy.api.member.service.MemberService;
+import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
 import com.ssafy.util.file.service.FileService;
 import jakarta.validation.Valid;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -169,6 +173,19 @@ public class MemberController {
     return new ResponseEntity<>(
         new MessageDto("Member is not duplicated, Usable id."), HttpStatus.OK);
 
+  }
+
+  /**
+   * [member-15] 코미가 마이페이지>코칭일정 메뉴에서 자신이 신청한 코칭 일정을 캘린더로 확인할 수 있다.
+   * privilege : 1
+   * @return [200] 신청한 코칭 정보 리스트
+   */
+  @GetMapping("/{longId}/calendar")
+  public ResponseEntity<?> getCalendar(@PathVariable Long longId) {
+
+    List<CalendarResponseDto> list = memberService.getCalendar(longId);
+
+    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
 }
 
