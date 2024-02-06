@@ -5,15 +5,10 @@ import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
-<<<<<<< HEAD
 import { useCoachStore } from '@/stores/coach'
 import { getCoachesByCategory } from '@/utils/api/coach-api'
 import { onBeforeMount, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-=======
-import { getCoachesByCategory } from '@/utils/api/coach-api'
-import { onBeforeMount, ref } from 'vue'
->>>>>>> 2b331f35f39075664154b86deeedd06347c42c93
 
 /**
  * VARIABLES
