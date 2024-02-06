@@ -4,15 +4,12 @@
 <script setup>
 import { ref } from 'vue';
 
-<<<<<<< HEAD
 const props = defineProps({
   isCoach: {
     type: Boolean
   }
 });
 
-=======
->>>>>>> 4a33d8b12539af3db6c5eba86d9181dbf0670d8b
 const videoStatus = ref(true)
 const micStatus = ref(true)
 
