@@ -44,17 +44,32 @@ public class CoachController {
     return new ResponseEntity<>(new MessageDto("Portfolio update successfully completed"), HttpStatus.OK);
   }
 
+  /**
+   * [coach-1] 해당 분류 코치의 정보를 받아온다.
+   * privilege : 0
+   *
+   * @param division1 : 카테고리 테이블 내의 MAIN 분류 / all
+   * @param division2 : 카테고리 테이블 내의 SUB 분류 / all
+   * @return - [200] list
+   */
   @GetMapping("/categories/{division1}/{division2}")
-  public ResponseEntity<ListDataDto> getCoachList(@PathVariable(name = "division1") String division1,
-                                                  @PathVariable(name = "division2") String division2) {
+  public ResponseEntity<ListDataDto> getCoachList(
+      @PathVariable("division1") String division1,
+      @PathVariable("division2") String division2) {
     ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(division1, division2));
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
+  /**
+   * [coaching-4] 코치의 상세 페이지를 조회한다.
+   * privilege : 0
+   *
+   * @param coachId : 코치 PK (Member longId)
+   * @return - [200] list
+   */
   @GetMapping("/{coachId}")
   public ResponseEntity<CoachDetailResponseDto> getCoachDetail(@PathVariable("coachId") long coachId) {
     CoachDetailResponseDto responseDto = coachService.getCoachDetail(coachId);
-
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 
@@ -66,9 +81,7 @@ public class CoachController {
    */
   @GetMapping("/{longId}/calender")
   public ResponseEntity<?> getCalender(@PathVariable Long longId) {
-
     List<CalendarResponseDto> list = coachService.getCalender(longId);
-
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
 

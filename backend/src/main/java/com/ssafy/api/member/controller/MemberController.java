@@ -178,6 +178,7 @@ public class MemberController {
   /**
    * [member-15] 코미가 마이페이지>코칭일정 메뉴에서 자신이 신청한 코칭 일정을 캘린더로 확인할 수 있다.
    * privilege : 1
+   *
    * @return [200] 신청한 코칭 정보 리스트
    */
   @GetMapping("/{longId}/calendar")
