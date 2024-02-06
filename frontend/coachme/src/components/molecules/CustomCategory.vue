@@ -3,8 +3,8 @@ import { ref } from 'vue'
 const category = ref([
   { style: 'grid_view', label: 'ALL', css: 'button-clicked' },
   { style: 'home', label: 'Life' },
-  { style: 'palette', label: 'Creation' },
-  { style: 'sports_and_outdoors', label: 'Sport' },
+  { style: 'palette', label: 'Creations' },
+  { style: 'sports_and_outdoors', label: 'Sports' },
   { style: 'terminal', label: 'Develop' },
   { style: 'favorite', label: 'Health' }
 ])
