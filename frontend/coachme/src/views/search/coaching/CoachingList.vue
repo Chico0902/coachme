@@ -116,7 +116,7 @@ const clickCategory = (index) => {
       <div class="mypage-outside">
         <!-- 사이드메뉴 -->
         <SearchCategorySidebar :button-list="selectedCategory" />
-        <div class="test">
+        <div class="rightPage">
           <div>
             <InputForm class="search" :background="bColor"></InputForm>
           </div>
@@ -167,7 +167,7 @@ const clickCategory = (index) => {
   justify-content: space-between;
 }
 
-.test {
+.rightPage {
   background-color: white;
   width: 80%;
   height: 80vh;
