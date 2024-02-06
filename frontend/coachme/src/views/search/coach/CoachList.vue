@@ -35,12 +35,6 @@ const { coaches } = storeToRefs(coachStore)
  * METHODS
  */
 
-const changeListAndMatching = () => {
-  isMatching.value = !isMatching.value
-}
-const selectedMainCategory = ref('')
-const coaches = ref([])
-
 // 전체 코치 조회
 onBeforeMount(() => {
   getCoachesByCategory(
