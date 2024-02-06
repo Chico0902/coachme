@@ -28,7 +28,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class CoachController {
-  
+
   private final CoachService coachService;
   private final CoachingService coachingService;
 
