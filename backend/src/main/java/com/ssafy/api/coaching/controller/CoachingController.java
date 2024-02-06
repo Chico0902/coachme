@@ -20,24 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class CoachingController {
-  private final CoachingService coachingService;
 
-  /**
-   * [coaching-2] 코치가 코칭을 개설한다.
-   * privilege : 2
-   *
-   * @return [200] 정상 개설완료
-   */
-  @PostMapping("/coachings/{longId}")
-  public ResponseEntity<MessageDto> createCoaching(
-      @PathVariable(name = "longId") Long longId,
-      @RequestBody CreateCoachingRequestDto dto) throws Exception {
-    // 코칭 등록
-    coachingService.createCoaching(longId, dto);
-    log.info("member id : {}", longId);
-    // 정상 등록완료(200)
-    return new ResponseEntity<>(new MessageDto("Coaching created successfully"), HttpStatus.CREATED);
-  }
+  private final CoachingService coachingService;
 
   /**
    * [coaching-6] 코미가 라이브 코칭을 수강 신청

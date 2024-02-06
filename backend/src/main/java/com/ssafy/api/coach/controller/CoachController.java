@@ -28,6 +28,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class CoachController {
+  
   private final CoachService coachService;
   private final CoachingService coachingService;
 
@@ -93,7 +94,7 @@ public class CoachController {
    *
    * @return [200] 정상 개설완료
    */
-  @PostMapping("/coachings/{longId}")
+  @PostMapping("/{longId}/coachings")
   public ResponseEntity<MessageDto> createCoaching(
       @PathVariable(name = "longId") Long longId,
       @RequestBody CreateCoachingRequestDto dto) throws Exception {
