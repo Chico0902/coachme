@@ -23,17 +23,10 @@ let current
 let MAX_DEFAULT_MOVE
 
 onMounted(() => {
-<<<<<<< HEAD
-  frame = document.querySelector('.frame')
-  // console.log(frame)
-  like = document.querySelector('#like')
-  hate = document.querySelector('#hate')
-=======
   if (props.cards.length > 0) {
     frame = document.querySelector('.frame')
     like = document.querySelector('#like')
     hate = document.querySelector('#hate')
->>>>>>> 4a33d8b12539af3db6c5eba86d9181dbf0670d8b
 
     current = frame.querySelector('.card:last-child')
     likeText = current.children[0]
