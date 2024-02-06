@@ -33,11 +33,12 @@ const cardPerPage = 3
 // 현재 페이지 데이터만 가져오기
 const getData = computed(() => {
   if (Array.isArray(props.coach)) {
-    return props.coach.slice((currentPage.value - 1) * cardPerPage, (currentPage.value - 1) * cardPerPage + cardPerPage)
+    return props.coach.slice((currentPage.value - 1) * cardPerPage, (currentPage.value - 1) * cardPerPage + cardPerPage);
   } else {
-    return []
+    return [];
   }
 })
+
 </script>
 
 <template>
