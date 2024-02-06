@@ -14,9 +14,9 @@ import profileImage from '../atoms/ProfileImage.vue';
 import labels from '../atoms/CardLabel.vue';
 import buttons from '../atoms/CustomButton.vue';
 import { ref, computed } from 'vue';
-import { useCounterStore } from "../../stores/chat-status.js"
+import { useChatStore } from "../../stores/chat-status.js"
 
-const store = useCounterStore();
+const store = useChatStore();
 const { requestDm } = store
 // 피니아에 저장된 채팅 활성화 함수
 
