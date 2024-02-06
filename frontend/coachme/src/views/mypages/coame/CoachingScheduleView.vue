@@ -1,43 +1,21 @@
-<script>
+<script setup>
+import ProfileImage from '@/components/atoms/ProfileImage.vue'
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const date = ref('2019/02/01')
-    const events = ['2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23']
-    const isModalVisible = ref(false)
-    const selectedDateEvents = ref([])
-    const showModal = () => {
-      isModalVisible.value = true
-      // 여기서 날짜에 해당하는 이벤트를 가져오는 로직을 추가할 수 있습니다.
-      selectedDateEvents.value = events.filter((event) => event === date.value)
-    }
-    const hideModal = () => {
-      isModalVisible.value = false
-    }
-    return {
-      date,
-      events,
-      isModalVisible,
-      selectedDateEvents,
-      showModal,
-      hideModal,
-      value: ref(true)
-    }
-  }
+const date = ref('2019/02/01')
+const events = ['2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23']
+const isModalVisible = ref(false)
+const selectedDateEvents = ref([])
+const showModal = () => {
+  isModalVisible.value = true
+  selectedDateEvents.value = events.filter((event) => event === date.value)
+}
+const hideModal = () => {
+  isModalVisible.value = false
 }
 </script>
 <template>
   <div class="outside">
-    <div class="togglebox">
-      <div>
-        <div class="q-pa-md q-gutter-lg">
-          <div>
-            <q-toggle v-model="value" color="yellow" label="코치/코미" />
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="coach-main">
       <div class="calendar-div">
         <div class="calendar">

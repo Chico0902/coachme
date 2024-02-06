@@ -73,10 +73,10 @@ export class ProfileImageRequestDto {
   /**
    * API번호 : member-9, 11
    * 프로필 사진 등록 및 수정 요청을 위한 DTO 클래스
-   * @param {FormData} profileImage 프로필 사진
    */
-  constructor(profileImage) {
-    this.profileImage = profileImage
+  constructor(newImage) {
+    this.data = new FormData()
+    this.data.append('newImage', newImage)
   }
 }
 

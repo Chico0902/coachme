@@ -10,20 +10,20 @@ img : 프로필 사진 주소
 -->
 
 <script setup>
-import profileImage from '../atoms/ProfileImage.vue';
-import labels from '../atoms/CardLabel.vue';
-import buttons from '../atoms/CustomButton.vue';
-import { ref, computed } from 'vue';
-import { useCounterStore } from "../../stores/chat-status.js"
+import profileImage from '../atoms/ProfileImage.vue'
+import labels from '../atoms/CardLabel.vue'
+import buttons from '../atoms/CustomButton.vue'
+import { ref, computed } from 'vue'
+import { useCounterStore } from '../../stores/chat-status.js'
 
-const store = useCounterStore();
+const store = useCounterStore()
 const { requestDm } = store
 // 피니아에 저장된 채팅 활성화 함수
 
 const props = defineProps({
   coach: {
-    type: [],
-  },
+    type: []
+  }
 })
 
 const currentPage = ref(1)
@@ -44,12 +44,16 @@ const getData = computed(() => {
 <template>
   <div>
     <template v-if="getData.length > 0">
-      <q-card v-for="(coach, index) in getData" :key="index" style="margin-bottom: 3vh; min-width: 50vw; min-height:15vh;"
-        rounded>
+      <q-card
+        v-for="(coach, index) in getData"
+        :key="index"
+        style="margin-bottom: 3vh; min-width: 50vw; min-height: 15vh"
+        rounded
+      >
         <q-item>
           <!-- 프로필 사진 -->
-          <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 0.6vh; margin-right: 2vw;">
-            <profileImage :img="`${coach.img}`" size="80px"></profileImage>
+          <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 0.6vh; margin-right: 2vw">
+            <profileImage :img="`${coach.profileImg}`" size="80px"></profileImage>
           </q-item-section>
 
           <!-- 구분선 -->
@@ -59,27 +63,26 @@ const getData = computed(() => {
           <q-item-section vertical>
             <!-- 코치 이름 -->
             <q-item-section>
-              <labels :label="coach.coachName" style="font-size: 25px;"></labels>
+              <labels :label="coach.memberName" style="font-size: 25px"></labels>
             </q-item-section>
 
             <!-- 별점, 버튼 섹션. 수평으로 배치-->
             <q-item-section horizontal>
               <q-item-section class="card">
                 <!-- 별점 아이콘과 별점-->
-                <div class="ratingForm" style="width: fit-content;">
+                <div class="ratingForm" style="width: fit-content">
                   <q-btn flat round color="amber-7" icon="star" disable></q-btn>
-                  <span class="rating">{{ coach.rating }} ({{ coach.reviewCount }})</span>
+                  <span class="rating">{{ coach.avgScore }} ({{ coach.reviewCount }})</span>
                 </div>
                 <!-- 공간 분리 -->
                 <q-space></q-space>
 
                 <!-- 문의하기 버튼 섹션-->
                 <div>
-                  <buttons label="문의하기" style="background-color: #FCBF17;" @click="requestDm()"></buttons>
+                  <buttons label="문의하기" style="background-color: #fcbf17" @click="requestDm()"></buttons>
                 </div>
               </q-item-section>
             </q-item-section>
-
           </q-item-section>
         </q-item>
       </q-card>
@@ -87,11 +90,11 @@ const getData = computed(() => {
 
     <!-- 검색 결과가 없을 때 -->
     <template v-else>
-      <q-item style="margin: 3vh;">
+      <q-item style="margin: 3vh">
         <q-item-section>
-          <q-card style="min-width: 50vw; min-height:15vh;" :rounded="true" :color="cardColor">
+          <q-card style="min-width: 50vw; min-height: 15vh" :rounded="true" :color="cardColor">
             <q-item-section class="q-mb-md">
-              <q-item-label class="text-h6" style="margin-top: 5.7vh;">검색 결과가 없습니다.</q-item-label>
+              <q-item-label class="text-h6" style="margin-top: 5.7vh">검색 결과가 없습니다.</q-item-label>
             </q-item-section>
           </q-card>
         </q-item-section>
@@ -101,8 +104,14 @@ const getData = computed(() => {
     <!-- 페이지네이션 -->
     <!-- 페이지의 개수 =  총 데이터 개수 / 3 -->
     <div class="q-pa-lg flex flex-center">
-      <q-pagination v-model="currentPage" color="blue-10" :min="1"
-        :max="coach ? Math.ceil(coach.length / cardPerPage) : 0" :max-pages="6" boundary-numbers></q-pagination>
+      <q-pagination
+        v-model="currentPage"
+        color="blue-10"
+        :min="1"
+        :max="coach ? Math.ceil(coach.length / cardPerPage) : 0"
+        :max-pages="6"
+        boundary-numbers
+      ></q-pagination>
     </div>
   </div>
 </template>
@@ -119,7 +128,7 @@ const getData = computed(() => {
 
 .material-symbols-outlined {
   font-size: 38px;
-  color: #FCBF17;
+  color: #fcbf17;
   margin-right: 0.3vw;
 }
 

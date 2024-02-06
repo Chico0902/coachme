@@ -1,31 +1,36 @@
 <script setup>
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
-import { requestElevation } from '@/utils/api/member-api'
-import { ElevationRequestDto } from '@/utils/api/dto/member-dto'
-import { useMemberStore } from '@/stores/member'
-import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { patchMyPortfolio } from '@/utils/api/coach-api'
+import { changePortfolioRequsetDto } from '@/utils/api/dto/coach-dto'
+import { onBeforeMount, ref } from 'vue'
+import { getMyPortfolio } from '@/utils/api/coach-api'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 
+/**
+ * VARIABLES
+ */
+
+// for api
+const token = getAccessToken()
+const longId = decodeToken(token).longId
+
+// for view
+const contentHTML = ref('')
 const color = '#fcbf17'
 const label = '수정하기'
 const textcolor = 'black'
-const memberStore = useMemberStore()
-const { longId } = storeToRefs(memberStore)
-const contentHTML = ref('')
 
-/**
- * TODO 이미지/영상 파일 업로드 시 해당 업로드파일 저장하는 로직도 추가
- */
-const regist = () => {
-  longId.value = 1
-  const dto = new ElevationRequestDto(longId.value, contentHTML.value)
-  console.log(dto)
-  requestElevation(
+// 코칭 수정하기
+const changePortfolio = () => {
+  const dto = new changePortfolioRequsetDto(longId, contentHTML.value)
+  patchMyPortfolio(
+    token,
+    longId,
     dto,
     (success) => {
       console.log(success)
-      alert('등록 완료!')
+      alert('코칭 수정완료')
     },
     (fail) => {
       console.log(fail)
@@ -33,6 +38,18 @@ const regist = () => {
     }
   )
 }
+
+onBeforeMount(() => {
+  getMyPortfolio(
+    token,
+    longId,
+    (success) => {
+      console.log(success)
+      contentHTML.value = success.data.htmlDocs
+    },
+    (fail) => console.log(fail)
+  )
+})
 </script>
 <template>
   <div class="main-font-container">
@@ -49,7 +66,7 @@ const regist = () => {
       :label="label"
       :background="color"
       :color="textcolor"
-      @click="regist"
+      @click="changePortfolio"
     ></CustomButton>
   </div>
 </template>

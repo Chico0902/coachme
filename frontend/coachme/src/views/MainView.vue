@@ -34,7 +34,8 @@ const memberStore = useMemberStore()
 const { accessToken } = storeToRefs(authStore)
 const { profileText, profileImageUrl } = storeToRefs(memberStore)
 const username = computed(() => {
-  return decodeToken(accessToken.value).name
+  if (accessToken.value != '') return decodeToken(accessToken.value).name
+  else return ''
 })
 
 // 코치(+코칭) 카드 라벨, 카드 캡션, 카드 이미지

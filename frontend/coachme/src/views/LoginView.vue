@@ -44,6 +44,7 @@ const login = (id, pw) => {
   postLoginRequest(
     dto,
     (success) => {
+      console.log(success)
       accessToken.value = success.headers['authorization']
       profileImageUrl.value = success.data.profileImageUrl
       profileText.value = success.data.profileText
