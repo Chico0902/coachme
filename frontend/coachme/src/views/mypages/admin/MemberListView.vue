@@ -28,7 +28,6 @@ const rows = ref([])
 
 onBeforeMount(() => {
   getAllMemberInfo(
-    accessToken.value,
     (success) => {
       rows.value = success.data.data
     },
