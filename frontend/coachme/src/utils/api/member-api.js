@@ -1,6 +1,4 @@
-import { jsonAxios, authAxios, fileAuthAxios } from '@/utils/http-commons'
-
-const axios = jsonAxios()
+import { publicAxios, authAxios, authFileAxios } from '@/utils/http-commons'
 
 /**
  * API번호 : member-2
@@ -23,7 +21,7 @@ const axios = jsonAxios()
           }
  */
 export function postMember(dto, success, fail) {
-  axios.post(`/members`, dto).then(success).catch(fail)
+  publicAxios.post(`/members`, dto).then(success).catch(fail)
 }
 
 /**
@@ -47,7 +45,7 @@ export function postMember(dto, success, fail) {
           }
  */
 export function patchPassword(dto, success, fail) {
-  axios.patch(`/members/passswords`, dto).then(success).catch(fail)
+  publicAxios.patch(`/members/passswords`, dto).then(success).catch(fail)
 }
 
 /**
@@ -71,9 +69,8 @@ export function patchPassword(dto, success, fail) {
             message : String
           }
  */
-export function postRequestElevation(token, dto, success, fail) {
-  const axios = authAxios(token)
-  axios.post(`/members/privileges/elevations`, dto).then(success).catch(fail)
+export function postRequestElevation(dto, success, fail) {
+  authAxios.post(`/members/privileges/elevations`, dto).then(success).catch(fail)
 }
 
 /**
@@ -100,9 +97,8 @@ export function postRequestElevation(token, dto, success, fail) {
             message : String
           }
  */
-export function getMemberInfo(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/members/${longId}`).then(success).catch(fail)
+export function getMemberInfo(longId, success, fail) {
+  authAxios.get(`/members/${longId}`).then(success).catch(fail)
 }
 
 /**
@@ -127,9 +123,8 @@ export function getMemberInfo(token, longId, success, fail) {
             message : String
           }
  */
-export function patchMemberInfo(token, longId, dto, success, fail) {
-  const axios = authAxios(token)
-  axios.patch(`/members/${longId}`, dto).then(success).catch(fail)
+export function patchMemberInfo(longId, dto, success, fail) {
+  authAxios.patch(`/members/${longId}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -152,9 +147,8 @@ export function patchMemberInfo(token, longId, dto, success, fail) {
             message : String
           }
  */
-export function getProfile(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/members/${longId}/profiles`).then(success).catch(fail)
+export function getProfile(longId, success, fail) {
+  authAxios.get(`/members/${longId}/profiles`).then(success).catch(fail)
 }
 
 /**
@@ -179,9 +173,8 @@ export function getProfile(token, longId, success, fail) {
             message : String
           }
  */
-export function postProfileText(token, longId, dto, success, fail) {
-  const axios = authAxios(token)
-  axios.post(`/members/${longId}/profiles/texts`, dto).then(success).catch(fail)
+export function postProfileText(longId, dto, success, fail) {
+  authAxios.post(`/members/${longId}/profiles/texts`, dto).then(success).catch(fail)
 }
 
 /**
@@ -206,9 +199,8 @@ export function postProfileText(token, longId, dto, success, fail) {
             message : String
           }
  */
-export function postProfileImage(token, longId, dto, success, fail) {
-  const axios = fileAuthAxios(token)
-  axios.post(`/members/${longId}/profiles/images`, dto).then(success).catch(fail)
+export function postProfileImage(longId, dto, success, fail) {
+  authFileAxios.post(`/members/${longId}/profiles/images`, dto).then(success).catch(fail)
 }
 
 /**
@@ -232,9 +224,8 @@ export function postProfileImage(token, longId, dto, success, fail) {
             message : String
           }
  */
-export function deleteProfileImage(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.delete(`/members/${longId}/profiles/images`).then(success).catch(fail)
+export function deleteProfileImage(longId, success, fail) {
+  authAxios.delete(`/members/${longId}/profiles/images`).then(success).catch(fail)
 }
 
 /**
@@ -258,5 +249,5 @@ export function deleteProfileImage(token, longId, success, fail) {
           }
  */
 export function validateDuplicateMember(dto, success, fail) {
-  axios.post(`/members/duplicate/id`, dto).then(success).catch(fail)
+  publicAxios.post(`/members/duplicate/id`, dto).then(success).catch(fail)
 }
