@@ -16,7 +16,7 @@ import router from '@/router'
 const chatStore = useChatStore()
 const authStore = useAuthStore()
 const { isLogin } = storeToRefs(authStore)
-const { chatList } = storeToRefs(chatStore)
+const { showChat, chatList } = storeToRefs(chatStore)
 const { closeDmWindow } = chatStore
 
 /**
@@ -33,6 +33,7 @@ onBeforeMount(() => {
   // 로그인 여부 확인
   if (isLogin.value === false) {
     alert('DM을 보내시려면 로그인이 필요합니다. 로그인 페이지로 이동합니다.')
+    showChat.value = false
     router.push('/login')
 
     // DM목록 받아오기
@@ -40,7 +41,6 @@ onBeforeMount(() => {
     const token = getAccessToken()
     const longId = decodeToken(token).longId
     getMyDmRooms(
-      token,
       longId,
       (success) => console.log(success),
       (fail) => console.log(fail)
