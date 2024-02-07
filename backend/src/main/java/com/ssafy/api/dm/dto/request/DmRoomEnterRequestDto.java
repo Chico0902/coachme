@@ -5,6 +5,6 @@ import lombok.Data;
 // DmRoom 입장에 사용되는 DTO
 @Data
 public class DmRoomEnterRequestDto {
-  private long coameId;
-  private long coachId;
+  private long member1;
+  private long member2;
 }

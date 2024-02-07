@@ -92,12 +92,12 @@ public class Member extends BaseEntity {
   private List<Review> receivedReviews = new ArrayList<>();
 
   // 코치가 참여하고 있는  DM Room
-  @OneToMany(mappedBy = "coach")
-  private List<DMRoom> coachDmRooms = new ArrayList<>();
+  @OneToMany(mappedBy = "member1")
+  private List<DMRoom> member1DmRooms = new ArrayList<>();
 
   // 코미가 참여하고 있는  DM Room
-  @OneToMany(mappedBy = "coame")
-  private List<DMRoom> coameDmRooms = new ArrayList<>();
+  @OneToMany(mappedBy = "member2")
+  private List<DMRoom> member2DmRooms = new ArrayList<>();
 
   // method
   // 회원정보 생성 시 권한을 설정하고 상태를 생성으로 바꾼다.

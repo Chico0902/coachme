@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class DmRoomResponseDto {
   private int roomId;
-  private long coameId;
-  private long coachId;
-  private LocalDateTime createDate;
+  private String img;
+  private String name;
+  private String lastDm;
 }
