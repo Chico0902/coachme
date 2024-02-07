@@ -56,8 +56,7 @@ onBeforeMount(() => {
         { name: '코치등록', link: 'Desktop-5-1', css: 'selected-button' },
         { name: '정보수정', link: 'Desktop-6' },
         { name: '코칭일정', link: 'Desktop-7' },
-        { name: '관심강의', link: 'Desktop-8' },
-        { name: '영상보기', link: 'Desktop-9' },
+        { name: '내 강의', link: 'Desktop-8' },
         { name: '회원탈퇴', link: 'Desktop-10' }
       ]
       break

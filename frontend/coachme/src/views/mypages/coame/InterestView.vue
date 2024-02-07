@@ -16,23 +16,23 @@ const size = '100px'
           <div class="now-coaching-num-title">현재까지 신청한 강의 수</div>
           <div class="now-coahing-num-detail">2개</div>
         </div>
-        <div class="jjim-num-box inside-num">
+        <!-- <div class="jjim-num-box inside-num">
           <div class="jjim-num-title">찜한 강의 수</div>
-          <div class="jjim-num-detail">4개</div>
-        </div>
+          <div class="jjim-num-detail">4개</div> -->
+        <!-- </div> -->
       </div>
     </div>
     <div class="jjim-list-outside">
-      <div class="jjim-switch-box">
+      <!-- <div class="jjim-switch-box">
         <div class="menu SMN_effect-12">
           <a href=""><span data-hover="Home">찜한코치</span></a>
           <a href=""><span data-hover="About">찜한 강의</span></a>
-        </div>
-      </div>
+        </div> -->
+      <!-- </div> -->
       <div class="jjim-toggle-box">
         <div class="jjim-toggle">
           <div class="jjim-toggle-title">수강한강의</div>
-          <div class="jjim-icon"><like /></div>
+          <!-- <div class="jjim-icon"><like /></div> -->
         </div>
         <div class="jjim-list-box">
           <div class="jjim-list">리스트</div>
