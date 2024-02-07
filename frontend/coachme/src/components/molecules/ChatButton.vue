@@ -31,7 +31,6 @@ const myId = 'coame'
 const clickDm = (coachLongId) => {
   const longId = decodeToken(accessToken.value).longId
   getEnterDmRoom(
-    accessToken.value,
     longId,
     coachLongId,
     (success) => console.log(success),
