@@ -6,13 +6,38 @@ import { ref } from 'vue';
 
 const videoStatus = ref(true)
 const micStatus = ref(true)
+const props = defineProps({ publisher: Object });
+const publisher = props.publisher;
+const audioOptions = ref({
+  audioOptions: true
+});
+const videoOptions = ref({
+  publishVideo: true
+});
+const showParticipantsList = ref(false);
+console.log(publisher);
 
 const videoSwitch = () => {
+  console.log(publisher);
   videoStatus.value = !videoStatus.value
+  if (publisher) {
+    if (this.audioOptions.publishAudio) {
+      publisher.publishAudio(true); // Publish audio
+    } else {
+      publisher.publishAudio(false); // Stop publishing audio
+    }
+  }
 }
 
 const micSwitch = () => {
   micStatus.value = !micStatus.value
+  if (this.publisher) {
+    if (this.audioOptions.publishAudio) {
+      this.publisher.publishAudio(true); // Publish audio
+    } else {
+      this.publisher.publishAudio(false); // Stop publishing audio
+    }
+  }
 }
 
 const emit = defineEmits(['changeChatStatus'], ['changePeopleStatus'])
@@ -32,7 +57,7 @@ const chatSwitch = () => {
 const peopleSwitch = () => {
   isPeopleOpen.value = !isPeopleOpen.value
   isChatOpen.value = false
-  
+
   const data = { chat: isChatOpen.value, people: isPeopleOpen.value }
   emit('changePeopleStatus', data)
 } // 참가자 목록 클릭 
@@ -84,7 +109,7 @@ const peopleSwitch = () => {
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
         <strong>녹화하기</strong>
       </q-tooltip>
-    </q-btn>    <q-btn flat>
+    </q-btn> <q-btn flat>
       <span class="material-symbols-outlined">
         meeting_room
       </span>
@@ -124,5 +149,4 @@ const peopleSwitch = () => {
 .material-symbols-outlined {
   font-size: 36px;
 }
-
 </style>
