@@ -52,6 +52,7 @@ const clickMenu = (data) => {
 
 const searchData = () => {
   const data = { menu: menu.value, input: input.value }
+  input.value = ''
   emit('searchData', data)
 } // 드롭다운에서 선택한 메뉴와 input에서 입력한 입력 데이터
 
@@ -68,7 +69,7 @@ const color = '#FFFFFF'
       @click-menu="clickMenu"
     >
     </dropdown>
-    <inputs v-model="input" style="width: 500px" @update-data="updateData"></inputs>
+    <inputs v-model="input" style="width: 45vw" @update-data="updateData"></inputs>
     <buttons
       style="height: 56px"
       :label="`${props.label}`"
