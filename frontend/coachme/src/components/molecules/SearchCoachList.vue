@@ -41,6 +41,7 @@ function checkIsNewDm(dm) {}
 const request = (id) => {
   console.log(id)
 }
+
 </script>
 
 <template>
@@ -102,7 +103,7 @@ const request = (id) => {
     <!-- 페이지의 개수 =  총 데이터 개수 / 3 -->
     <div class="q-pa-lg flex flex-center">
       <q-pagination v-model="currentPage" color="blue-10" :min="1"
-        :max="coach ? Math.ceil(coach.length / cardPerPage) : 0" :max-pages="6" boundary-numbers></q-pagination>
+        :max="coaches ? Math.ceil(coaches.length / cardPerPage) : 0" :max-pages="6" boundary-numbers></q-pagination>
     </div>
   </div>
 </template>
