@@ -21,9 +21,8 @@ import { authAxios } from '@/utils/http-commons'
             message : String
           }
  */
-export function getMyDmRooms(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/dm/room/${longId}`).then(success).catch(fail)
+export function getMyDmRooms(longId, success, fail) {
+  authAxios.get(`/dm/room/${longId}`).then(success).catch(fail)
 }
 
 /**
@@ -48,7 +47,7 @@ export function getMyDmRooms(token, longId, success, fail) {
             message : String
           }
  */
-export function getEnterDmRoom(token, myLongId, coachLongId, success, fail) {
+export function getEnterDmRoom(myLongId, coachLongId, success, fail) {
   const axios = authAxios(token)
   axios.get(`/dm/room/enter/${myLongId}/${coachLongId}`).then(success).catch(fail)
 }

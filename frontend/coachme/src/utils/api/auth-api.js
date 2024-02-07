@@ -26,10 +26,10 @@ console.log(VITE_BACKEND_URL)
 export function postLoginRequest(dto, success, fail) {
   axios
     .post(`${VITE_BACKEND_URL}/auth/login`, dto, {
-      withCredentials: true,
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
-      }
+      },
+      withCredentials: true
     })
     .then(success)
     .catch(fail)
@@ -54,13 +54,13 @@ export function postLoginRequest(dto, success, fail) {
             message : String
           }
  */
-export function getRefresh(success, fail) {
+export async function getRefresh(success, fail) {
   axios
     .get(`${VITE_BACKEND_URL}/auth/refresh`, {
-      withCredentials: true,
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
-      }
+      },
+      withCredentials: true
     })
     .then(success)
     .catch(fail)

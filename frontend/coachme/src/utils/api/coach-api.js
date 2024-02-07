@@ -1,4 +1,4 @@
-import { jsonAxios, authAxios } from '@/utils/http-commons'
+import { publicAxios, authAxios } from '@/utils/http-commons'
 
 /**
  * API번호 : coach-1
@@ -22,8 +22,7 @@ import { jsonAxios, authAxios } from '@/utils/http-commons'
           }
  */
 export function getCoachesByCategory(division1, division2, success, fail) {
-  const axios = jsonAxios()
-  axios.get(`/coaches/categories/${division1}/${division2}`).then(success).catch(fail)
+  publicAxios.get(`/coaches/categories/${division1}/${division2}`).then(success).catch(fail)
 }
 
 /**
@@ -47,9 +46,8 @@ export function getCoachesByCategory(division1, division2, success, fail) {
             message : String
           }
  */
-export function getMyPortfolio(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/coaches/portfolio/${longId}`).then(success).catch(fail)
+export async function getMyPortfolio(longId, success, fail) {
+  authAxios.get(`/coaches/portfolio/${longId}`).then(success).catch(fail)
 }
 
 /**
@@ -74,9 +72,8 @@ export function getMyPortfolio(token, longId, success, fail) {
             message : String
           }
  */
-export function patchMyPortfolio(token, longId, dto, success, fail) {
-  const axios = authAxios(token)
-  axios.patch(`/coaches/portfolio/${longId}`, dto).then(success).catch(fail)
+export function patchMyPortfolio(longId, dto, success, fail) {
+  authAxios.patch(`/coaches/portfolio/${longId}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -101,9 +98,8 @@ export function patchMyPortfolio(token, longId, dto, success, fail) {
             message : String
           }
  */
-export function postNewCoaching(token, longId, dto, success, fail) {
-  const axios = authAxios(token)
-  axios.post(`/coaches/${longId}/coachings`, dto).then(success).catch(fail)
+export function postNewCoaching(longId, dto, success, fail) {
+  authAxios.post(`/coaches/${longId}/coachings`, dto).then(success).catch(fail)
 }
 
 /**
@@ -127,7 +123,6 @@ export function postNewCoaching(token, longId, dto, success, fail) {
             message : String
           }
  */
-export function getMyCoaching(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/coaches/${longId}/coachings`).then(success).catch(fail)
+export function getMyCoaching(longId, success, fail) {
+  authAxios.get(`/coaches/${longId}/coachings`).then(success).catch(fail)
 }

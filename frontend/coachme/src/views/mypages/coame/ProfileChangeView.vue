@@ -65,7 +65,6 @@ const isValidNickName = computed(() => {
 // 최초 멤버 정보 받아오기
 onBeforeMount(() => {
   getMemberInfo(
-    accessToken.value,
     longId,
     (success) => {
       stringId.value = success.data.stringId
@@ -83,7 +82,6 @@ const changeProfileImage = (newImage) => {
   newFile.append('newFile', newImage)
   if (validateProfileImage(newImage)) {
     postProfileImage(
-      accessToken.value,
       longId,
       newFile,
       (success) => {
@@ -100,7 +98,6 @@ const changeProfileImage = (newImage) => {
 const deleteProfileImg = () => {
   if (confirm('이미지를 삭제하시겠습니까?')) {
     deleteProfileImage(
-      accessToken.value,
       longId,
       () => {
         alert('프로필 이미지 삭제완료')
@@ -117,7 +114,6 @@ function changeProfileText(newProfileText) {
   if (confirm('프로필을 변경하시겠습니까?')) {
     const dto = new ProfileTextRequestDto(newProfileText)
     postProfileText(
-      accessToken.value,
       longId,
       dto,
       () => {
@@ -139,7 +135,6 @@ const changeMemberInfo = (pw, newNick, newEmail) => {
   // dto 생성 및 호출
   const dto = new MemberInfoChangeRequestDto(pw, newNick, newEmail)
   patchMemberInfo(
-    accessToken.value,
     longId,
     dto,
     () => {
