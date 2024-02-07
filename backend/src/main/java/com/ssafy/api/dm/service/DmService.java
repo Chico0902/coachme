@@ -1,7 +1,6 @@
 package com.ssafy.api.dm.service;
 
 import com.ssafy.api.dm.dto.DmRedisDto;
-import com.ssafy.api.dm.dto.request.DmRoomEnterRequestDto;
 import com.ssafy.api.dm.dto.response.DmResponseDto;
 import com.ssafy.api.dm.dto.response.DmRoomEnterResponseDto;
 import com.ssafy.api.dm.dto.response.DmRoomResponseDto;
@@ -39,14 +38,14 @@ public class DmService {
    * @param : DmRoomEnterDto (long coame 코미 ID PK, long coach)
    * @return : DmRoomEnterResponseDto (long roomId, List<DmResponseDto> dmList)
    */
-  public DmRoomEnterResponseDto enterDmRoom(long member1Id, long member2Id) throws Exception{
+  public DmRoomEnterResponseDto enterDmRoom(long member1Id, long member2Id) throws Exception {
     Member member1 = memberRepository.getReferenceById(member1Id);
     Member member2 = memberRepository.getReferenceById(member2Id);
 
     DMRoom dmRoom = dmRoomRepository.findByMembers(member1, member2);
     DmRoomEnterResponseDto dmRoomEnterResponseDto = new DmRoomEnterResponseDto();
 
-    if(dmRoom == null){
+    if (dmRoom == null) {
       // DmRoom이 없으면 새로운 채팅방 생성
       DMRoom newRoom = DMRoom.builder()
           .member1(member1)
@@ -55,7 +54,7 @@ public class DmService {
 
       newRoom = dmRoomRepository.save(newRoom);
       dmRoomEnterResponseDto.setRoomId(newRoom.getId());
-    }else{
+    } else {
       dmRoomEnterResponseDto.setRoomId(dmRoom.getId());
       dmRoomEnterResponseDto.setDmList(getDmList(dmRoom.getId()));
     }
@@ -68,22 +67,21 @@ public class DmService {
    * @param : id (member PK)
    * @return : DmRoomResponseDto List (long roomId , long coameId, long coachId, LocalDateTime createDate)
    */
-  public List<DmRoomResponseDto> getDmRoomList(long id) throws Exception{
+  public List<DmRoomResponseDto> getDmRoomList(long id) throws Exception {
     List<DmRoomResponseDto> dmRoomList = new ArrayList<>();
     dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomCoameResponseDtoList(memberRepository.getReferenceById(id).getMember1DmRooms()));
     dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomCoachResponseDtoList(memberRepository.getReferenceById(id).getMember2DmRooms()));
 
-    for(DmRoomResponseDto dmroom : dmRoomList){
-      String lastDm = redisUtils.getLastDm( dmroom.getRoomId() + "_");
-      if(lastDm.isBlank()) {
+    for (DmRoomResponseDto dmroom : dmRoomList) {
+      String lastDm = redisUtils.getLastDm(dmroom.getRoomId() + "_");
+      if (lastDm.isBlank()) {
         DM mysqlDm = dmRepository.findByLastDm(dmroom.getRoomId());
 
         dmroom.setLastDm(mysqlDm != null ? mysqlDm.getMessage() : lastDm);
-      }else{
+      } else {
         dmroom.setLastDm(lastDm);
       }
     }
-
 
 
     return dmRoomList;
@@ -95,14 +93,14 @@ public class DmService {
    * @param : roomId (DmRoom PK)
    * @return : DmResponseDto (long member, String message, LocalDateTime createDate)
    */
-  public List<DmResponseDto> getDmList(long roomId) throws Exception{
+  public List<DmResponseDto> getDmList(long roomId) throws Exception {
     // mysql에서 읽어온 dm 내역
-    DMRoom room =  dmRoomRepository.getReferenceById(roomId);
+    DMRoom room = dmRoomRepository.getReferenceById(roomId);
     List<DmResponseDto> mySqlDmList = DmMapper.instance.DmToDmResponseDto(dmRepository.findByDmRoom(room));
     log.debug("MySQL list : {} ", mySqlDmList);
 
 
-    List<String[]> redisDmList = redisUtils.getKeysAndValuesStartingWithPrefix( roomId+ "_");
+    List<String[]> redisDmList = redisUtils.getKeysAndValuesStartingWithPrefix(roomId + "_");
 
     for (int i = 0; i < redisDmList.size(); i++) {
       String key = redisDmList.get(i)[0];

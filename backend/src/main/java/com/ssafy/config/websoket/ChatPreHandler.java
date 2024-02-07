@@ -23,44 +23,44 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Slf4j
 public class ChatPreHandler implements ChannelInterceptor {
 
-    private final JwtTokenProvider jwtTokenProvider;
+  private final JwtTokenProvider jwtTokenProvider;
 
-    @Override
-    public Message<?> preSend(Message<?> message, MessageChannel channel) {
+  @Override
+  public Message<?> preSend(Message<?> message, MessageChannel channel) {
 
-        StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-        log.debug("headerAccessor : {}" ,headerAccessor);
+    StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+    log.debug("headerAccessor : {}", headerAccessor);
 
-        String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
-        log.debug("authorizationHeader : {}",authorizationHeader);
+    String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
+    log.debug("authorizationHeader : {}", authorizationHeader);
 
-        StompCommand command = headerAccessor.getCommand();
+    StompCommand command = headerAccessor.getCommand();
 
 
-        if (command.equals(StompCommand.CONNECT)) {
-            if (authorizationHeader == null) {
-                throw new MalformedJwtException("jwt");
-            }
-            String accessToken = authorizationHeader.replaceAll("[\\[\\]]", "");
+    if (command.equals(StompCommand.CONNECT)) {
+      if (authorizationHeader == null) {
+        throw new MalformedJwtException("jwt");
+      }
+      String accessToken = authorizationHeader.replaceAll("[\\[\\]]", "");
 
-            boolean isTokenValid = jwtTokenProvider.validateToken(accessToken);
-            log.debug("isTokenValid : {}", isTokenValid);
+      boolean isTokenValid = jwtTokenProvider.validateToken(accessToken);
+      log.debug("isTokenValid : {}", isTokenValid);
 
-            if (isTokenValid) {
-                Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-                this.setAuthentication(authentication, message, headerAccessor);
-            }
-        }
-
-        if (command.equals(StompCommand.ERROR)) {
-            throw new MessageDeliveryException("error");
-        }
-
-        return message;
+      if (isTokenValid) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        this.setAuthentication(authentication, message, headerAccessor);
+      }
     }
 
-    private void setAuthentication(Authentication authentication, Message<?> message, StompHeaderAccessor headerAccessor) {
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        headerAccessor.setUser(authentication);
+    if (command.equals(StompCommand.ERROR)) {
+      throw new MessageDeliveryException("error");
     }
+
+    return message;
+  }
+
+  private void setAuthentication(Authentication authentication, Message<?> message, StompHeaderAccessor headerAccessor) {
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    headerAccessor.setUser(authentication);
+  }
 }

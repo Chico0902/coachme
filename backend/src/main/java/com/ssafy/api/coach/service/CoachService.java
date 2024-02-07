@@ -51,7 +51,7 @@ public class CoachService {
     List<CoachesResponseDtos> list;
     Long mainCategoryId;
 
-    if(words.equals("all")) {
+    if (words.equals("all")) {
       words = null;
     }
 

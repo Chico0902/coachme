@@ -4,7 +4,6 @@ import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
 import com.ssafy.api.coach.dto.request.SearchWordsRequestDto;
 import com.ssafy.api.coach.dto.response.CalendarResponseDto;
 import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
-import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
 import com.ssafy.api.coach.service.CoachService;
 import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
@@ -19,9 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/coaches")
@@ -32,27 +29,13 @@ public class CoachController {
   private final CoachService coachService;
   private final CoachingService coachingService;
 
-  @GetMapping("/portfolio/{longId}")
-  public ResponseEntity<PortfolioResponseDto> getPortfolio(@PathVariable("longId") long id) throws Exception {
-    PortfolioResponseDto portfolio = coachService.getPortfolio(id);
-    return new ResponseEntity<>(portfolio, HttpStatus.OK);
-  }
-
-  @PatchMapping("/portfolio/{longId}")
-  public ResponseEntity<MessageDto> updatePortfolio(
-      @PathVariable("longId") long id,
-      @RequestBody PortfolioRequestDto portfolioRequestDto) throws Exception {
-    coachService.updatePortfolio(id, portfolioRequestDto);
-    return new ResponseEntity<>(new MessageDto("Portfolio update successfully completed"), HttpStatus.OK);
-  }
-
   /**
    * [coach-1] 해당 분류 코치의 정보를 받아온다.
    * privilege : 0
    *
    * @param division1 : 카테고리 테이블 내의 MAIN 분류 / all
    * @param division2 : 카테고리 테이블 내의 SUB 분류 / all
-   * @return - [200] list
+   * @return - [200] 코치 정보(list)
    */
   @PostMapping("/categories/{division1}/{division2}")
   public ResponseEntity<ListDataDto> getCoachList(
@@ -64,28 +47,30 @@ public class CoachController {
   }
 
   /**
-   * [coaching-4] 코치의 상세 페이지를 조회한다.
-   * privilege : 0
+   * [coach-2] 코치는 본인의 포트폴리오를 조회한다.
    *
-   * @param coachId : 코치 PK (Member longId)
-   * @return - [200] list
+   * @param id - 코치 longId
+   * @return - [200] 포트폴리오 데이터
    */
-  @GetMapping("/{coachId}")
-  public ResponseEntity<CoachDetailResponseDto> getCoachDetail(@PathVariable("coachId") long coachId) {
-    CoachDetailResponseDto responseDto = coachService.getCoachDetail(coachId);
-    return new ResponseEntity<>(responseDto, HttpStatus.OK);
+  @GetMapping("/portfolio/{longId}")
+  public ResponseEntity<PortfolioResponseDto> getPortfolio(@PathVariable("longId") long id) throws Exception {
+    PortfolioResponseDto portfolio = coachService.getPortfolio(id);
+    return new ResponseEntity<>(portfolio, HttpStatus.OK);
   }
 
   /**
-   * [coach-10] 코치가 마이페이지>라이브관리 메뉴에서 자신이 만든 라이브 코칭 일정을 캘린더로 확인할 수 있다.
-   * privilege : 2
+   * [coach-3] 코치는 본인의 포트폴리오를 수정한다.
    *
-   * @return - [200] list
+   * @param id                  - 코치 longId
+   * @param portfolioRequestDto - 수정할 포트폴리오 데이터
+   * @return - [200] 수정 완료 메세지
    */
-  @GetMapping("/{longId}/calender")
-  public ResponseEntity<?> getCalender(@PathVariable Long longId) {
-    List<CalendarResponseDto> list = coachService.getCalender(longId);
-    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
+  @PatchMapping("/portfolio/{longId}")
+  public ResponseEntity<MessageDto> updatePortfolio(
+      @PathVariable("longId") long id,
+      @RequestBody PortfolioRequestDto portfolioRequestDto) throws Exception {
+    coachService.updatePortfolio(id, portfolioRequestDto);
+    return new ResponseEntity<>(new MessageDto("Portfolio update successfully completed"), HttpStatus.OK);
   }
 
   /**
@@ -112,13 +97,9 @@ public class CoachController {
    * @return [200] 정상 조회완료
    */
   @GetMapping("/{coachId}/coachings")
-  public ResponseEntity<Map<String, List<CoachesCoachingsResponseDto>>> getCoachingList(
-      @PathVariable(name = "coachId") Long longId) throws Exception {
-    Map<String, List<CoachesCoachingsResponseDto>> response = new HashMap<>();
-    // 해당 코치의 코칭 리스트 담기
-    response.put("data", coachingService.getCoachesCoachings(longId));
-    // 정상 등록완료(200)
-    return ResponseEntity.ok(response);
+  public ResponseEntity<?> getCoachingList(@PathVariable(name = "coachId") Long longId) throws Exception {
+
+    return new ResponseEntity<>(coachingService.getCoachesCoachings(longId), HttpStatus.OK);
   }
 
   /**
@@ -168,5 +149,30 @@ public class CoachController {
     coachingService.deleteCoaching(longId, id);
     // 정상 등록완료(200)
     return new ResponseEntity<>(new MessageDto("Coaching delete request successfully completed"), HttpStatus.OK);
+  }
+
+  /**
+   * [coach-10] 코치가 마이페이지>라이브관리 메뉴에서 자신이 만든 라이브 코칭 일정을 캘린더로 확인할 수 있다.
+   * privilege : 2
+   *
+   * @return - [200] list
+   */
+  @GetMapping("/{longId}/calender")
+  public ResponseEntity<?> getCalender(@PathVariable Long longId) {
+    List<CalendarResponseDto> list = coachService.getCalender(longId);
+    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
+  }
+
+  /**
+   * [coach-11] 코치의 상세 페이지를 조회한다.
+   * privilege : 0
+   *
+   * @param coachId : 코치 PK (Member longId)
+   * @return - [200] list
+   */
+  @GetMapping("/{coachId}")
+  public ResponseEntity<CoachDetailResponseDto> getCoachDetail(@PathVariable("coachId") long coachId) {
+    CoachDetailResponseDto responseDto = coachService.getCoachDetail(coachId);
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 }
