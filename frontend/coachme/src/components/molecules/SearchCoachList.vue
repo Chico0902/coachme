@@ -82,6 +82,10 @@ const request = (id) => {
                 <!-- 문의하기 버튼 섹션-->
                 <div>
                   <buttons label="문의하기" style="background-color: #fcbf17" @click="request(coach.id)"></buttons>
+                  <buttons
+                    label="포트폴리오 보기"
+                    style="margin-right: 1vw; background-color: #004c98; color: white"
+                  ></buttons>
                 </div>
               </q-item-section>
             </q-item-section>
