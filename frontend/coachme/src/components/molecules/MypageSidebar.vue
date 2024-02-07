@@ -107,6 +107,7 @@ p {
   width: 12%;
   height: 70vh;
   margin: auto;
+  min-width: 90px;
 }
 .sidebar-button {
   width: 100%;
@@ -129,5 +130,9 @@ p {
   opacity: 100%;
   color: #fff;
   cursor: pointer;
+}
+.side-toggle{
+  display: flex;
+  justify-content: center;
 }
 </style>
