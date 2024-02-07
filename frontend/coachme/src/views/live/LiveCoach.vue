@@ -1,6 +1,7 @@
 <script setup>
 import LiveMenuList from '@/components/molecules/LiveMenuList.vue'
 import ComeLiveVideo from '@/components/molecules/CoameLiveVideo.vue'
+import CoachLiveVideo from '@/components/molecules/CoachLiveVideo.vue';
 import LiveChat from '@/components/molecules/LiveChat.vue'
 import LivePeopleList from '@/components/molecules/LivePeopleList.vue';
 
@@ -10,6 +11,7 @@ const users = ref(["고코치", "고코미", "고양이", "옆동네 고양이",
 
 const isChatOpen = ref(false);
 const isPeopleOpen = ref(false);
+const isCoach = ref(true)
 
 const changeChatStatus = (status) => {
   isChatOpen.value = status.chat
@@ -53,13 +55,13 @@ const directMessage = reactive([{
       <div class="chat-outside">
         <!-- 코치 화면 -->
         <div class="coach">
-          <div style="width: 60vw; height: 70vh; background-color: gray;"></div>
+          <CoachLiveVideo :isCoach="isCoach"></CoachLiveVideo>
         </div>
 
         <!-- 코미 화면 -->
         <div class="coame element-with-scrollbar">
           <div v-for="(user, index) in users" :key="user">
-            <ComeLiveVideo :name="user" :style="{ marginTop: index !== 0 ? '1vh' : '0' }"></ComeLiveVideo>
+            <ComeLiveVideo :name="user" :isCoach  ="isCoach" :style="{ marginTop: index !== 0 ? '1vh' : '0' }"></ComeLiveVideo>
           </div>
         </div>
 
@@ -77,7 +79,8 @@ const directMessage = reactive([{
 
   <!-- 강의장 메뉴 리스트 -->
   <div class="buttons" style="background-color: #004C98;">
-    <LiveMenuList v-on:change-chat-status="changeChatStatus" v-on:change-people-status="changePeopleStatus"></LiveMenuList>
+    <LiveMenuList v-on:change-chat-status="changeChatStatus" v-on:change-people-status="changePeopleStatus"
+    :isCoach="isCoach"></LiveMenuList>
   </div>
 </template>
 

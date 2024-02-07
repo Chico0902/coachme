@@ -3,9 +3,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', () => {
+export const useLikeStore = defineStore('counter', () => {
   const count = ref(0) // 현재 웹페이지의 찜콩 버튼 개수
-  
+
   function incrementCount() {
     count.value++
   } // 찜콩 버튼이 생성되면 +1
@@ -13,6 +13,6 @@ export const useCounterStore = defineStore('counter', () => {
   function getCount() {
     return count.value
   } // id 생성용 getter
-  
-  return { count, incrementCount, getCount } 
+
+  return { count, incrementCount, getCount }
 })
