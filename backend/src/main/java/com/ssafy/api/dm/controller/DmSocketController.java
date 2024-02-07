@@ -20,13 +20,13 @@ public class DmSocketController {
   private final RedisUtils redisUtils;
 
   // 디엠방 입장(socket 통신 요청)
+
   @MessageMapping("/room/{roomId}")
   @SendTo("/topic/room/{roomId}")
   public DmSocketMessage enterDmRoom(DmSocketMessage message, @RequestParam("roomId") String roomId) {
-    log.debug("연결 성공 message : {}", roomId);
-
     return message;
   }
+
 
   // DM 전송
   @MessageMapping("/sendDm/{roomId}")

@@ -18,9 +18,10 @@ public class DmController {
   private final DmService dmService;
 
   // 디엠방 생성 API
-  @PostMapping("/room/enter")
-  public ResponseEntity<DmRoomEnterResponseDto> enterRoom(@RequestBody DmRoomEnterRequestDto dto) throws Exception {
-    DmRoomEnterResponseDto enterDmroom = dmService.enterDmRoom(dto);
+  @GetMapping("/room/enter/{member1Id}/{member2Id}")
+  public ResponseEntity<DmRoomEnterResponseDto> enterRoom(@PathVariable("member1Id") long member1Id,
+                                                          @PathVariable("member2Id") long member2Id) throws Exception {
+    DmRoomEnterResponseDto enterDmroom = dmService.enterDmRoom(member1Id, member2Id);
     return new ResponseEntity<>(enterDmroom, HttpStatus.OK);
   }
 

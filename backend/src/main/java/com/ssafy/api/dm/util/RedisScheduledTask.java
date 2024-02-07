@@ -74,8 +74,8 @@ public class RedisScheduledTask {
         List<DM> saveDmList = new ArrayList<>();
         for (int i = 0; i < dmList.size(); i++) {
           DMRoom room = roomMap.get((long) dmList.get(i).getRoomId());
-          Member member = room.getCoach().getLongId() == dmList.get(i).getMember() ?
-              room.getCoach() : room.getCoame();
+          Member member = room.getMember1().getLongId() == dmList.get(i).getMember() ?
+              room.getMember1() : room.getMember2();
           DM newDm = DM.builder()
               .dmRoom(room)
               .member(member)

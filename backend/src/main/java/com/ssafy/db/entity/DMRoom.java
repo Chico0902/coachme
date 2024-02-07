@@ -14,24 +14,23 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DMRoom extends BaseEntity {
+public class DMRoom extends BaseEntity{
   @Id
   @GeneratedValue
   @Column(name = "dmroom_id")
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "coame_member_id")
-  private Member coame;
+  @JoinColumn(name = "member2_id")
+  private Member member1;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "coach_member_id")
-  private Member coach;
+  @JoinColumn(name = "member1_id")
+  private Member member2;
 
 
   // 해당 DM Room에 있는 DM List
-  @OneToMany(mappedBy = "id")
+  @OneToMany(mappedBy = "id" )
   private List<DM> dmList = new ArrayList<>();
-
 
 }
