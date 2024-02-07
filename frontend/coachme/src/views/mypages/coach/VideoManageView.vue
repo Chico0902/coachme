@@ -7,13 +7,13 @@ import Coaching from '@/components/molecules/CoachingCard.vue'
   </div>
   <div class="coaching-outside">
     <div class="coaching-card">
-      <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
+      <coaching :label="label" :caption="caption" :ratio="ratio" :video="video" :visible="false"></coaching>
     </div>
     <div class="coaching-card">
-      <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
+      <coaching :label="label" :caption="caption" :ratio="ratio" :video="video" :visible="false"></coaching>
     </div>
     <div class="coaching-card">
-      <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
+      <coaching :label="label" :caption="caption" :ratio="ratio" :video="video" :visible="false"></coaching>
     </div>
   </div>
   <div class="pagenation">
