@@ -1,5 +1,6 @@
 <script setup>
 import navbar from '../components/molecules/NavBar.vue'
+import LoginNavBar from '@/components/molecules/LoginNavBar.vue'
 import buttons from '../components/atoms/CustomButton.vue'
 import carousel from '../components/atoms/CustomCarousel.vue'
 import search from '../components/molecules/MainSearch.vue'
@@ -12,11 +13,12 @@ import MainCategoryTitle from '../components/texts/MainCategoryTitle.vue'
 import MainCoachTitle from '../components/texts/MainCoachTitle.vue'
 import MainCoachingTitle from '../components/texts/MainCoachingTitle.vue'
 import profile from '../components/atoms/ProfileImage.vue'
-import { computed } from 'vue'
+import { ref, onMounted,onUnmounted, computed } from 'vue'
 import { useMemberStore } from '@/stores/member'
 import { useAuthStore } from '../stores/auth'
 import { storeToRefs } from 'pinia'
 import { decodeToken } from '@/utils/functions/auth'
+
 
 /**
  * VARIABLES
@@ -34,6 +36,7 @@ const memberStore = useMemberStore()
 const { accessToken } = storeToRefs(authStore)
 const { profileText, profileImageUrl } = storeToRefs(memberStore)
 const username = computed(() => {
+  console.log(decodeToken(accessToken.value))
   if (accessToken.value != '') return decodeToken(accessToken.value).name
   else return ''
 })
@@ -60,9 +63,28 @@ const logoutWithConfirm = () => {
   alert('로그아웃 되었습니다.')
   window.location.reload()
 }
+
+const screenWidth = ref(window.innerWidth);
+
+
+const updateScreenWidth = () => {
+  screenWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateScreenWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateScreenWidth)
+})
+
 </script>
 <template>
-  <div class="nav-bar">
+  <div v-if="screenWidth < 768" class="nav-bar">
+    <LoginNavBar />
+  </div>
+  <div v-else class="nav-bar">
     <template v-if="accessToken === ''">
       <navbar>
         <template #search-coach>
@@ -175,6 +197,7 @@ const logoutWithConfirm = () => {
 </template>
 
 <style scoped>
+
 .all {
   display: flex;
   justify-content: center;
@@ -195,6 +218,7 @@ const logoutWithConfirm = () => {
   margin-bottom: 5vh;
   display: flex;
   justify-content: center;
+  
 }
 .welcome {
   display: flex;
@@ -214,15 +238,18 @@ const logoutWithConfirm = () => {
   background: #fff;
   justify-content: center;
   text-align: center;
+  min-width: 50rem;
 }
-.search-title {
-  margin: auto;
-}
+
 .search-outside {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 10vh;
+  margin: 10vh auto;
+}
+.search-title {
+  margin: auto;
+  width: 70%;
 }
 .search {
   margin: auto;
@@ -232,32 +259,31 @@ const logoutWithConfirm = () => {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 15vh;
-  margin-bottom: 50vh;
+  margin: 10vh auto;
 }
 .category-imoji {
-  margin: auto;
-  margin-top: 5vh;
+  margin: 10vh auto;
   display: flex;
   justify-content: center;
   width: 100%;
 }
 .category-title {
-  margin: auto;
+  margin: 5vh auto;
+  width: 70%;
 }
 .coach-card-outside {
   display: flex;
   justify-content: space-around;
-}
-.coach-outside {
   width: 80%;
-  height: 30vh;
-  margin: 15vh auto;
-  margin-bottom: 25vh;
+}
 
+.coach-outside {
+  height: 30vh;
+  margin: 20vh auto;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
 }
 .coach-card {
   width: 200px;
@@ -266,19 +292,22 @@ const logoutWithConfirm = () => {
 }
 .coach-title {
   height: 70px;
+  margin: 5vh auto;
   width: 70%;
 }
 .coaching-card-outside {
   display: flex;
   justify-content: space-around;
+  width: 80%;
+
 }
 .coaching-outside {
-  width: 80%;
   height: 30vh;
-  margin: 15vh auto;
+  margin: 30vh auto;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
 }
 .coaching-card {
   width: 200px;
@@ -288,6 +317,7 @@ const logoutWithConfirm = () => {
 .coaching-title {
   height: 70px;
   width: 70%;
+  margin: 5vh auto;
 }
 .footer {
   margin-top: 30vh;
@@ -295,4 +325,5 @@ const logoutWithConfirm = () => {
   color: #034c8c;
   text-align: center;
 }
+
 </style>
