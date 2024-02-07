@@ -25,7 +25,6 @@ const longId = computed(() => {
 const regist = () => {
   const dto = new ElevationRequestDto(longId.value, contentHTML.value)
   postRequestElevation(
-    accessToken.value,
     dto,
     (success) => {
       console.log(success)

@@ -5,9 +5,9 @@ import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
-import InputForm from '@/components/molecules/InputForm.vue'
-import { getCoachesByCategory } from '@/utils/api/coach-api'
 import { useCoachStore } from '@/stores/coach'
+import InputForm from '@/components/molecules/InputForm.vue'
+import { postCoachesByCategory } from '@/utils/api/coach-api'
 import { onBeforeMount, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
@@ -26,7 +26,8 @@ const SideButtonList = [
 ]
 const subCategories = ref([])
 const isMatching = ref(false)
-const selectedMainCategory = ref('')
+const selectedMainCategory = ref('all')
+const selectedSubCategory = ref('all')
 
 // pinia
 const coachStore = useCoachStore()
@@ -42,10 +43,12 @@ const changeListAndMatching = () => {
 
 // 전체 코치 조회
 onBeforeMount(() => {
-  getCoachesByCategory(
-    'all',
-    'all',
+  postCoachesByCategory(
+    selectedMainCategory.value.toLowerCase(),
+    selectedSubCategory.value.toLowerCase(),
+    { words: 'all' },
     (success) => {
+      console.log(success)
       coaches.value = success.data.list
       console.log(coaches.value)
     },
@@ -58,9 +61,10 @@ const clickCategory = (index, name) => {
   selectButton.value = index
   subCategories.value = SideButtonList[selectButton.value]
   selectedMainCategory.value = name
-  getCoachesByCategory(
-    name.toLowerCase(),
-    'all',
+  postCoachesByCategory(
+    selectedMainCategory.value.toLowerCase(),
+    selectedSubCategory.value.toLowerCase(),
+    { words: 'all' },
     (success) => {
       coaches.value = success.data.list
       console.log(success)
@@ -71,9 +75,26 @@ const clickCategory = (index, name) => {
 
 // 소분류 코치 조회
 const clickSubCategory = (name) => {
-  getCoachesByCategory(
+  selectedSubCategory.value = name
+  postCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
-    name.toLowerCase(),
+    selectedSubCategory.value.toLowerCase(),
+    { words: 'all' },
+    (success) => {
+      coaches.value = success.data.list
+      console.log(success)
+    },
+    (fail) => console.log(fail)
+  )
+}
+
+// 검색 코치조회
+const searchByWords = (words) => {
+  if (words === '') words = 'all'
+  postCoachesByCategory(
+    selectedMainCategory.value.toLowerCase(),
+    selectedSubCategory.value.toLowerCase(),
+    { words: words },
     (success) => {
       coaches.value = success.data.list
       console.log(success)
@@ -97,7 +118,7 @@ const clickSubCategory = (name) => {
         <div class="rightPage">
           <!-- 검색창 -->
           <div>
-            <InputForm class="search" :background="bColor"></InputForm>
+            <InputForm class="search" :background="bColor" @inputData="searchByWords"></InputForm>
           </div>
           <div class="mainpage">
             <!-- 코치 매칭 카드  -->
