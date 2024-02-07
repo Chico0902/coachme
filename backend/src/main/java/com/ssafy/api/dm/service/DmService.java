@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -82,8 +84,6 @@ public class DmService {
         dmroom.setLastDm(lastDm);
       }
     }
-
-
     return dmRoomList;
   }
 
@@ -97,16 +97,28 @@ public class DmService {
     // mysql에서 읽어온 dm 내역
     DMRoom room = dmRoomRepository.getReferenceById(roomId);
     List<DmResponseDto> mySqlDmList = DmMapper.instance.DmToDmResponseDto(dmRepository.findByDmRoom(room));
-    log.debug("MySQL list : {} ", mySqlDmList);
-
 
     List<String[]> redisDmList = redisUtils.getKeysAndValuesStartingWithPrefix(roomId + "_");
+    Map<Long, String> memberName = new HashMap<>();
+    Map<Long, String> memberProfileUrl = new HashMap<>();
 
     for (int i = 0; i < redisDmList.size(); i++) {
       String key = redisDmList.get(i)[0];
-      DmRedisDto data = RedisUtils.parser(key);
-      data.setMessage(redisDmList.get(i)[1]);
-      mySqlDmList.add(DmMapper.instance.redisDtoToDmDto(data));
+      DmRedisDto redis = RedisUtils.parser(key);
+      long memberId = redis.getMember();
+
+      DmResponseDto returnData = new DmResponseDto();
+
+      if (!memberName.containsKey(memberId)) {
+        Member member = memberRepository.getReferenceById(memberId);
+        memberName.put(memberId, member.getName());
+        memberProfileUrl.put(memberId, member.getProfileImage().getUrl());
+      }
+      returnData.setMemberId(redis.getMember());
+      returnData.setMemberName(memberName.get(memberId));
+      returnData.setMemberProfileUrl(memberProfileUrl.get(memberId));
+      returnData.setMessage(redisDmList.get(i)[1]);
+      mySqlDmList.add(returnData);
     }
 
     return mySqlDmList;
