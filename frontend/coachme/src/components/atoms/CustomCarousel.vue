@@ -39,7 +39,7 @@ const autoplay = ref(true)
     @mouseenter="autoplay = false"
     @mouseleave="autoplay = true"
     class="rounded-borders"
-    style="height: 50vh"
+    
   >
     <!-- 캐러셀 이미지 공간 -->
     <q-carousel-slide
@@ -47,8 +47,10 @@ const autoplay = ref(true)
       :key="slide"
       :name="index"
       :img-src="slide"
+      style="background-size: contain; background-repeat: no-repeat;"
     ></q-carousel-slide>
   </q-carousel>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

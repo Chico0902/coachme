@@ -56,7 +56,6 @@ const hideModal = () => {
       </div>
     </div> -->
     </div>
-  </div>
 </template>
 
 <style scoped>

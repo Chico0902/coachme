@@ -123,6 +123,10 @@ const request = (id) => {
 </template>
 
 <style scoped>
+
+.card-outside {
+  width: 756px;
+}
 .card {
   display: flex;
   flex-wrap: wrap;
