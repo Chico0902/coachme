@@ -26,4 +26,7 @@ label : nav 버튼에 표시될 이름
   </q-toolbar>
 </template>
 
-<style scoped></style>
+<style scoped>
+.text-black {
+  min-width: 920px;
+}</style>
