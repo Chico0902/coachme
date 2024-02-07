@@ -10,8 +10,8 @@ import InputForm from './InputForm.vue'
 
 const props = defineProps({
   directMessage: {
-    type: Object
-    // 주의 directMessage chat 부분은 []로 싸인 배열이어야 함
+    type: Object,
+    // 주의 directMessage chat 부분은 []로 쌓인 배열이어야 함
   },
   myId: {
     // 내 id

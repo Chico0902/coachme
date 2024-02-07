@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const { VITE_BACKEND_URL } = import.meta.env
+console.log(VITE_BACKEND_URL)
 
 /**
  * API번호 : auth-1

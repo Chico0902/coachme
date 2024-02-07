@@ -92,15 +92,11 @@ const request = (id) => {
 
     <!-- 검색 결과가 없을 때 -->
     <template v-else>
-      <q-item style="margin: 3vh">
-        <q-item-section>
-          <q-card style="min-width: 50vw; min-height: 15vh" :rounded="true" :color="cardColor">
-            <q-item-section class="q-mb-md">
-              <q-item-label class="text-h6" style="margin-top: 5.7vh">검색 결과가 없습니다.</q-item-label>
-            </q-item-section>
-          </q-card>
+      <q-card style="min-width: 50vw; min-height: 15vh" :rounded="true" :color="cardColor">
+        <q-item-section class="q-mb-md">
+          <q-item-label class="text-h6" style="margin-top: 5.7vh">검색 결과가 없습니다.</q-item-label>
         </q-item-section>
-      </q-item>
+      </q-card>
     </template>
 
     <!-- 페이지네이션 -->

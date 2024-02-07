@@ -4,26 +4,25 @@ clicked : 클릭 이벤트가 담긴 함수, function으로 보낼 것. 디폴�
 -->
 
 <script setup>
-import { useCounterStore } from "../../stores/like-counter";
+import { useLikeStore } from '../../stores/like-counter'
 
-const store = useCounterStore();
+const store = useLikeStore()
 
 const { incrementCount, getCount } = store
 
 const props = defineProps({
-  clicked : { // 클릭 이벤트
-    type : Function,
-    default : () => {
-    }
-  },
-});
+  clicked: {
+    // 클릭 이벤트
+    type: Function,
+    default: () => {}
+  }
+})
 
 incrementCount() // 찜콩 버튼 개수 증가
 
 const number = getCount()
-const id = "checkbox" + number
+const id = 'checkbox' + number
 // 아이디는 checkbox + 찜콩 버튼 개수
-
 </script>
 
 <template>
@@ -34,7 +33,9 @@ const id = "checkbox" + number
         <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
           <path
             d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z"
-            id="heart" fill="#AAB8C2" />
+            id="heart"
+            fill="#AAB8C2"
+          />
           <circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5" />
 
           <g id="grp7" opacity="0" transform="translate(7 6)">
@@ -108,7 +109,7 @@ a {
   margin-top: 10px;
   display: inline-block;
   text-decoration: none;
-  color: #008A68;
+  color: #008a68;
 }
 
 svg {
@@ -118,7 +119,7 @@ svg {
 
   #heart {
     transform-origin: center;
-    animation: animateHeartOut .3s linear forwards;
+    animation: animateHeartOut 0.3s linear forwards;
   }
 
   #main-circ {
@@ -126,170 +127,170 @@ svg {
   }
 }
 
-[id^="checkbox"] {
+[id^='checkbox'] {
   display: none;
 }
 
-[id^="checkbox"]:checked+label svg {
+[id^='checkbox']:checked + label svg {
   #heart {
-    transform: scale(.2);
-    fill: #E2264D;
-    animation: animateHeart .3s linear forwards .25s;
+    transform: scale(0.2);
+    fill: #e2264d;
+    animation: animateHeart 0.3s linear forwards 0.25s;
   }
 
   #main-circ {
     transition: all 2s;
-    animation: animateCircle .3s linear forwards;
+    animation: animateCircle 0.3s linear forwards;
     opacity: 1;
   }
 
   #grp1 {
     opacity: 1;
-    transition: .1s all .3s;
+    transition: 0.1s all 0.3s;
 
     #oval1 {
       transform: scale(0) translate(0, -30px);
       transform-origin: 0 0 0;
-      transition: .5s transform .3s;
+      transition: 0.5s transform 0.3s;
     }
 
     #oval2 {
       transform: scale(0) translate(10px, -50px);
       transform-origin: 0 0 0;
-      transition: 1.5s transform .3s;
+      transition: 1.5s transform 0.3s;
     }
   }
 
   #grp2 {
     opacity: 1;
-    transition: .1s all .3s;
+    transition: 0.1s all 0.3s;
 
     #oval1 {
       transform: scale(0) translate(30px, -15px);
       transform-origin: 0 0 0;
-      transition: .5s transform .3s;
+      transition: 0.5s transform 0.3s;
     }
 
     #oval2 {
       transform: scale(0) translate(60px, -15px);
       transform-origin: 0 0 0;
-      transition: 1.5s transform .3s;
+      transition: 1.5s transform 0.3s;
     }
   }
 
   #grp3 {
     opacity: 1;
-    transition: .1s all .3s;
+    transition: 0.1s all 0.3s;
 
     #oval1 {
       transform: scale(0) translate(30px, 0px);
       transform-origin: 0 0 0;
-      transition: .5s transform .3s;
+      transition: 0.5s transform 0.3s;
     }
 
     #oval2 {
       transform: scale(0) translate(60px, 10px);
       transform-origin: 0 0 0;
-      transition: 1.5s transform .3s;
+      transition: 1.5s transform 0.3s;
     }
   }
 
   #grp4 {
     opacity: 1;
-    transition: .1s all .3s;
+    transition: 0.1s all 0.3s;
 
     #oval1 {
       transform: scale(0) translate(30px, 15px);
       transform-origin: 0 0 0;
-      transition: .5s transform .3s;
+      transition: 0.5s transform 0.3s;
     }
 
     #oval2 {
       transform: scale(0) translate(40px, 50px);
       transform-origin: 0 0 0;
-      transition: 1.5s transform .3s;
+      transition: 1.5s transform 0.3s;
     }
   }
 
   #grp5 {
     opacity: 1;
-    transition: .1s all .3s;
+    transition: 0.1s all 0.3s;
 
     #oval1 {
       transform: scale(0) translate(-10px, 20px);
       transform-origin: 0 0 0;
-      transition: .5s transform .3s;
+      transition: 0.5s transform 0.3s;
     }
 
     #oval2 {
       transform: scale(0) translate(-60px, 30px);
       transform-origin: 0 0 0;
-      transition: 1.5s transform .3s;
+      transition: 1.5s transform 0.3s;
     }
   }
 
   #grp6 {
     opacity: 1;
-    transition: .1s all .3s;
+    transition: 0.1s all 0.3s;
 
     #oval1 {
       transform: scale(0) translate(-30px, 0px);
       transform-origin: 0 0 0;
-      transition: .5s transform .3s;
+      transition: 0.5s transform 0.3s;
     }
 
     #oval2 {
       transform: scale(0) translate(-60px, -5px);
       transform-origin: 0 0 0;
-      transition: 1.5s transform .3s;
+      transition: 1.5s transform 0.3s;
     }
   }
 
   #grp7 {
     opacity: 1;
-    transition: .1s all .3s;
+    transition: 0.1s all 0.3s;
 
     #oval1 {
       transform: scale(0) translate(-30px, -15px);
       transform-origin: 0 0 0;
-      transition: .5s transform .3s;
+      transition: 0.5s transform 0.3s;
     }
 
     #oval2 {
       transform: scale(0) translate(-55px, -30px);
       transform-origin: 0 0 0;
-      transition: 1.5s transform .3s;
+      transition: 1.5s transform 0.3s;
     }
   }
 
   #grp2 {
     opacity: 1;
-    transition: .1s opacity .3s;
+    transition: 0.1s opacity 0.3s;
   }
 
   #grp3 {
     opacity: 1;
-    transition: .1s opacity .3s;
+    transition: 0.1s opacity 0.3s;
   }
 
   #grp4 {
     opacity: 1;
-    transition: .1s opacity .3s;
+    transition: 0.1s opacity 0.3s;
   }
 
   #grp5 {
     opacity: 1;
-    transition: .1s opacity .3s;
+    transition: 0.1s opacity 0.3s;
   }
 
   #grp6 {
     opacity: 1;
-    transition: .1s opacity .3s;
+    transition: 0.1s opacity 0.3s;
   }
 
   #grp7 {
     opacity: 1;
-    transition: .1s opacity .3s;
+    transition: 0.1s opacity 0.3s;
   }
 }
 
@@ -297,57 +298,57 @@ svg {
   40% {
     transform: scale(10);
     opacity: 1;
-    fill: #DD4688;
+    fill: #dd4688;
   }
 
   55% {
     transform: scale(11);
     opacity: 1;
-    fill: #D46ABF;
+    fill: #d46abf;
   }
 
   65% {
     transform: scale(12);
     opacity: 1;
-    fill: #CC8EF5;
+    fill: #cc8ef5;
   }
 
   75% {
     transform: scale(13);
     opacity: 1;
     fill: transparent;
-    stroke: #CC8EF5;
-    stroke-width: .5;
+    stroke: #cc8ef5;
+    stroke-width: 0.5;
   }
 
   85% {
     transform: scale(17);
     opacity: 1;
     fill: transparent;
-    stroke: #CC8EF5;
-    stroke-width: .2;
+    stroke: #cc8ef5;
+    stroke-width: 0.2;
   }
 
   95% {
     transform: scale(18);
     opacity: 1;
     fill: transparent;
-    stroke: #CC8EF5;
-    stroke-width: .1;
+    stroke: #cc8ef5;
+    stroke-width: 0.1;
   }
 
   100% {
     transform: scale(19);
     opacity: 1;
     fill: transparent;
-    stroke: #CC8EF5;
+    stroke: #cc8ef5;
     stroke-width: 0;
   }
 }
 
 @keyframes animateHeart {
   0% {
-    transform: scale(.2);
+    transform: scale(0.2);
   }
 
   40% {
