@@ -4,8 +4,8 @@ import { useAuthStore } from '@/stores/auth'
 import { useChatStore } from '../../stores/chat-status'
 import { storeToRefs } from 'pinia'
 import { onBeforeMount } from 'vue'
-import { decodeToken, getAccessToken } from '@/utils/functions/auth'
-import { getMyDmRooms, getEnterDmRoom } from '@/utils/api/dm-api'
+import { decodeToken } from '@/utils/functions/auth'
+import { getEnterDmRoom, getMyDmRooms } from '@/utils/api/dm-api'
 import router from '@/router'
 
 /**
@@ -15,38 +15,44 @@ import router from '@/router'
 // pinia 사용
 const chatStore = useChatStore()
 const authStore = useAuthStore()
-const { isLogin } = storeToRefs(authStore)
-const { showChat, chatList } = storeToRefs(chatStore)
-const { closeDmWindow } = chatStore
+const { isLogin, accessToken } = storeToRefs(authStore)
+const { selectDm, showChat, chatList, closeDmWindow, directMessages } = storeToRefs(chatStore)
 
 /**
  * METHODS
  */
 
-// emit 정의
-const emit = defineEmits(['clickDm'])
-const clickDm = (index) => {
-  emit('clickDm', index)
-}
-
+// 최초 DM방 목록 받아오기
 onBeforeMount(() => {
   // 로그인 여부 확인
   if (isLogin.value === false) {
     alert('DM을 보내시려면 로그인이 필요합니다. 로그인 페이지로 이동합니다.')
     showChat.value = false
     router.push('/login')
-
-    // DM목록 받아오기
   } else {
-    const token = getAccessToken()
-    const longId = decodeToken(token).longId
+    const longId = decodeToken(accessToken.value).longId
     getMyDmRooms(
       longId,
-      (success) => console.log(success),
+      (success) => {
+        chatList.value = success.data.list
+      },
       (fail) => console.log(fail)
     )
   }
 })
+
+function clickDm(coachLongId) {
+  const longId = decodeToken(accessToken.value).longId
+  getEnterDmRoom(
+    longId,
+    coachLongId,
+    (success) => {
+      directMessages.value = success.data.list
+      console.log(success)
+    },
+    (fail) => console.log(fail)
+  )
+}
 </script>
 
 <template>
@@ -65,19 +71,19 @@ onBeforeMount(() => {
 
     <q-separator spaced style="margin-top: 0"></q-separator>
 
-    <div v-for="dm in chatList" :key="dm.id">
-      <q-item clickable v-ripple @click="clickDm(dm.id)">
+    <div v-for="chat in chatList" :key="chat.memberId">
+      <q-item clickable v-ripple @click="clickDm(chat.memberId)">
         <!-- 프로필 사진 영역 -->
         <q-item-section avatar>
-          <profile :img="dm.img"></profile>
+          <profile :img="chat.img"></profile>
         </q-item-section>
 
         <!-- 주고받은 dm 영역-->
         <q-item-section>
           <!-- 이름 -->
-          <q-item-label>{{ dm.name }}</q-item-label>
+          <q-item-label>{{ chat.name }}</q-item-label>
           <!-- 마지막 dm -->
-          <q-item-label caption>{{ dm.lastDm }}</q-item-label>
+          <q-item-label caption>{{ chat.lastDm }}</q-item-label>
           <!-- 새로운 dm이 있을 경우 표시 -->
           <q-badge rounded floating color="red"></q-badge>
         </q-item-section>
