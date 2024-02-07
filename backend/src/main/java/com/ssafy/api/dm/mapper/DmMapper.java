@@ -37,7 +37,9 @@ public interface DmMapper {
 //  List<DmRoomResponseDto> dmRoomToDmRoomResponseDto(List<DMRoom> dmRoomList);
 
 
-  @Mapping(source = "member.longId", target = "member")
+  @Mapping(source = "member.longId", target = "memberId")
+  @Mapping(source = "member.name", target = "memberName")
+  @Mapping(source = "member.profileImage.url", target = "memberProfileUrl")
   DmResponseDto DmToDmResponseDto(DM dm);
 
   List<DmResponseDto> DmToDmResponseDto(List<DM> dmList);
