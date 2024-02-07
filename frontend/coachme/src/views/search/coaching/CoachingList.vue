@@ -6,11 +6,13 @@ import chatButton from '@/components/molecules/ChatButton.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 import SearchCoachingList from '@/components/molecules/SearchCoachingList.vue'
+import InputForm from '@/components/molecules/InputForm.vue'
 
 import { ref, reactive } from 'vue'
 
 const selectButton = ref(0)
 // 선택한 카테고리 index
+const bColor = "#FCBF17"
 
 const SideButtonList = [[
   { name: 'House', },
@@ -114,9 +116,14 @@ const clickCategory = (index) => {
       <div class="mypage-outside">
         <!-- 사이드메뉴 -->
         <SearchCategorySidebar :button-list="selectedCategory" />
-        <div class="mainpage">
-          <!-- 코칭 목록과 채팅 버튼-->
-          <SearchCoachingList :coaching="coaching" style="margin-left: 0.6vw; margin-top: 1vh;"></SearchCoachingList>
+        <div class="rightPage">
+          <div>
+            <InputForm class="search" :background="bColor"></InputForm>
+          </div>
+          <div class="mainpage">
+            <!-- 코칭 목록과 채팅 버튼-->
+            <SearchCoachingList :coaching="coaching" style="margin-left: 0.6vw; margin-top: 1vh;"></SearchCoachingList>
+          </div>
         </div>
         <div class="chat-button">
           <chatButton style="width: 50px; height: 50px;">
@@ -160,14 +167,33 @@ const clickCategory = (index) => {
   justify-content: space-between;
 }
 
-.mainpage {
+.rightPage {
   background-color: white;
   width: 80%;
-  height: 70vh;
-  margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  height: 80vh;
+  margin-left: 4%;
+  margin-top: 3vh;
   border-radius: 1.5rem;
+  overflow: scroll;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  -ms-overflow-style: none;
+}
+
+.search {
+  margin-left: 1vw;
+}
+
+#input {
+  width: 50vw;
+}
+
+.mainpage {
+  background-color: white;
+  width: 100%;
+  height: 70vh;
+  margin-top: -1vh;
   overflow: scroll;
   display: flex;
   text-align: center;
