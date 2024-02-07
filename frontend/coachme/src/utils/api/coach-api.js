@@ -2,7 +2,7 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
 
 /**
  * API번호 : coach-1
- * METHOD : GET
+ * METHOD : POST
  * URI : /coaches/categories/{division1}/{division2}
  * 권한 : 0
  * 설명 : 해당 분류 코치들의 정보를 받아온다.
@@ -21,7 +21,7 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
             message : String
           }
  */
-export function getCoachesByCategory(division1, division2, success, fail) {
+export function postCoachesByCategory(division1, division2, dto, success, fail) {
   publicAxios.get(`/coaches/categories/${division1}/${division2}`).then(success).catch(fail)
 }
 
