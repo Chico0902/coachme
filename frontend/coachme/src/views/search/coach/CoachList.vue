@@ -7,6 +7,7 @@ import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.
 import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
 import InputForm from '@/components/molecules/InputForm.vue'
 import { getCoachesByCategory } from '@/utils/api/coach-api'
+import { useCoachStore } from '@/stores/coach'
 import { onBeforeMount, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
@@ -111,14 +112,28 @@ const clickSubCategory = (name) => {
 
         <!-- 전환 버튼 -->
         <div class="matching-button">
-          <q-btn v-if="isMatching" round style="width: 50px; height: 50px" size="20px" color="blue-9" icon="list"
-            @click="changeListAndMatching">
+          <q-btn
+            v-if="isMatching"
+            round
+            style="width: 50px; height: 50px"
+            size="20px"
+            color="blue-9"
+            icon="list"
+            @click="changeListAndMatching"
+          >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
               <strong>리스트로 보기</strong>
             </q-tooltip>
           </q-btn>
-          <q-btn v-else round style="width: 50px; height: 50px" size="20px" color="blue-9" icon="style"
-            @click="changeListAndMatching">
+          <q-btn
+            v-else
+            round
+            style="width: 50px; height: 50px"
+            size="20px"
+            color="blue-9"
+            icon="style"
+            @click="changeListAndMatching"
+          >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
               <strong>매칭 하기</strong>
             </q-tooltip>
@@ -127,14 +142,28 @@ const clickSubCategory = (name) => {
 
         <!-- 전환 버튼 -->
         <div class="matching-button">
-          <q-btn v-if="isMatching" round style="width: 50px; height: 50px;" size="20px" color="blue-9" icon="list"
-            @click="changeListAndMatching">
+          <q-btn
+            v-if="isMatching"
+            round
+            style="width: 50px; height: 50px"
+            size="20px"
+            color="blue-9"
+            icon="list"
+            @click="changeListAndMatching"
+          >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
               <strong>리스트로 보기</strong>
             </q-tooltip>
           </q-btn>
-          <q-btn v-else round style="width: 50px; height: 50px;" size="20px" color="blue-9" icon="style"
-            @click="changeListAndMatching">
+          <q-btn
+            v-else
+            round
+            style="width: 50px; height: 50px"
+            size="20px"
+            color="blue-9"
+            icon="style"
+            @click="changeListAndMatching"
+          >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
               <strong>매칭 하기</strong>
             </q-tooltip>
@@ -143,14 +172,28 @@ const clickSubCategory = (name) => {
 
         <!-- 전환 버튼 -->
         <div class="matching-button">
-          <q-btn v-if="isMatching" round style="width: 50px; height: 50px;" size="20px" color="blue-9" icon="list"
-            @click="changeListAndMatching">
+          <q-btn
+            v-if="isMatching"
+            round
+            style="width: 50px; height: 50px"
+            size="20px"
+            color="blue-9"
+            icon="list"
+            @click="changeListAndMatching"
+          >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
               <strong>리스트로 보기</strong>
             </q-tooltip>
           </q-btn>
-          <q-btn v-else round style="width: 50px; height: 50px;" size="20px" color="blue-9" icon="style"
-            @click="changeListAndMatching">
+          <q-btn
+            v-else
+            round
+            style="width: 50px; height: 50px"
+            size="20px"
+            color="blue-9"
+            icon="style"
+            @click="changeListAndMatching"
+          >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
               <strong>매칭 하기</strong>
             </q-tooltip>
