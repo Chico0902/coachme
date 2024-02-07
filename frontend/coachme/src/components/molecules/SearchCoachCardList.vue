@@ -213,8 +213,8 @@ section {
   position: relative;
   width: 35vh;
   height: 58vh;
-  max-width: 400px;
-  min-height: 410px;
+  min-width: 265px;
+  min-height: 430px;
   z-index: 1;
   margin-top: -2vh;
 }
