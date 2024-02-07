@@ -29,7 +29,6 @@ const elevation = (array) => {
   console.log(array)
   const dto = new AdminElevateRequestDto(array)
   patchElevations(
-    accessToken.value,
     dto,
     () => {
       alert('권한상승 완료')
@@ -43,7 +42,6 @@ const elevation = (array) => {
 
 onBeforeMount(() => {
   getAllElevations(
-    accessToken.value,
     (success) => {
       rows.value = success.data.list
     },

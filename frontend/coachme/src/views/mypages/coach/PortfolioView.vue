@@ -25,7 +25,6 @@ const textcolor = 'black'
 const changePortfolio = () => {
   const dto = new changePortfolioRequsetDto(longId, contentHTML.value)
   patchMyPortfolio(
-    token,
     longId,
     dto,
     (success) => {
@@ -41,7 +40,6 @@ const changePortfolio = () => {
 
 onBeforeMount(() => {
   getMyPortfolio(
-    token,
     longId,
     (success) => {
       console.log(success)

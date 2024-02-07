@@ -29,11 +29,9 @@ const goCoachingDetail = (id) => {
 }
 
 onBeforeMount(() => {
-  const token = getAccessToken()
-  const longId = decodeToken(token).longId
+  const longId = decodeToken(getAccessToken()).longId
   // 본인 아이디로 본인의 코칭 조회
   getMyCoaching(
-    token,
     longId,
     (success) => {
       console.log(success)

@@ -55,8 +55,7 @@ const createNewCoaching = () => {
     alert('작성하지 않은 항목이 있습니다.')
     return
   }
-  const token = getAccessToken()
-  const longId = decodeToken(token).longId
+  const longId = decodeToken(getAccessToken()).longId
   const dto = new CreateCoachingRequestDto(
     selectedCategory.value,
     selectedSubCategory.value,
@@ -66,7 +65,6 @@ const createNewCoaching = () => {
   )
   console.log(dto)
   postNewCoaching(
-    token,
     longId,
     dto,
     () => {
