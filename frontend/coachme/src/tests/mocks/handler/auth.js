@@ -25,7 +25,7 @@ const mockAdminLoginResponseDto = {
 export default [
   http.post('http://localhost/auth/login', async ({ request }) => {
     const newPost = await request.json()
-    switch (newPost.id) {
+    switch (newPost.stringId) {
       case 'coach':
         return HttpResponse.json(mockCoachLoginResponseDto)
       case 'admin':

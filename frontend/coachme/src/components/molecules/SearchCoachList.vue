@@ -1,30 +1,25 @@
-<!-- 코칭 리스트 컴포넌트 
-필요한 정보는 코칭 정보
-coach : 코치 정보. object. 기본 값 없음
-
-object에 필용한 정보 : 코치id, 코치 이름, 별점, 프로필 사진 주소
-coachId : 코치의 id ->
-coachName : 코치 이름
-rating : 별점
-img : 프로필 사진 주소
--->
-
 <script setup>
 import profileImage from '../atoms/ProfileImage.vue'
 import labels from '../atoms/CardLabel.vue'
 import buttons from '../atoms/CustomButton.vue'
 import { ref, computed } from 'vue'
-import { useCounterStore } from '../../stores/chat-status.js'
+import { useChatStore } from '../../stores/chat-status.js'
+import { useCoachStore } from '@/stores/coach'
+import { storeToRefs } from 'pinia'
 
-const store = useCounterStore()
-const { requestDm } = store
-// 피니아에 저장된 채팅 활성화 함수
+/**
+ * VARIABLES
+ */
 
-const props = defineProps({
-  coach: {
-    type: []
-  }
-})
+// pinia 사용
+
+// var
+const chatStore = useChatStore()
+const coachStore = useCoachStore()
+const { coaches } = storeToRefs(coachStore)
+
+// function
+const { requestDm } = chatStore
 
 const currentPage = ref(1)
 const cardPerPage = 3
@@ -32,13 +27,20 @@ const cardPerPage = 3
 
 // 현재 페이지 데이터만 가져오기
 const getData = computed(() => {
-  if (Array.isArray(props.coach)) {
-    return props.coach.slice((currentPage.value - 1) * cardPerPage, (currentPage.value - 1) * cardPerPage + cardPerPage);
+  if (Array.isArray(coaches.value)) {
+    return coaches.value.slice(
+      (currentPage.value - 1) * cardPerPage,
+      (currentPage.value - 1) * cardPerPage + cardPerPage
+    )
   } else {
     return [];
   }
 })
 
+function checkIsNewDm(dm) {}
+const request = (id) => {
+  console.log(id)
+}
 </script>
 
 <template>
@@ -106,6 +108,10 @@ const getData = computed(() => {
 </template>
 
 <style scoped>
+
+.card-outside {
+  width: 756px;
+}
 .card {
   display: flex;
   flex-wrap: wrap;

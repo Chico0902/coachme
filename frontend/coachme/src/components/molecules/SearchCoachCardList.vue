@@ -6,14 +6,13 @@
 
 <script setup>
 import selectCoachCard from '../molecules/SelectCoachCard.vue'
-
+import { useCoachStore } from '@/stores/coach'
+import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 
-const props = defineProps({
-  cards: {
-    type: Object,
-  },
-})
+const coachStore = useCoachStore()
+const { coaches } = storeToRefs(coachStore)
+const cards = { coaches }
 
 let like
 let likeText

@@ -12,13 +12,21 @@ import CustomInput from '../components/atoms/CustomInput.vue'
 import CustomButton from '../components/atoms/CustomButton.vue'
 import footerBar from '../components/molecules/CustomFooter.vue'
 
-// variables
+/**
+ * VARIABLES
+ */
+
+// default variables
 const id = ref('')
 const pw = ref('')
+
+// store variables
 const authStore = useAuthStore()
 const memberStore = useMemberStore()
-const { accessToken } = storeToRefs(authStore)
+const { accessToken, isLogin } = storeToRefs(authStore)
 const { profileText, profileImageUrl } = storeToRefs(memberStore)
+
+// router
 const router = useRouter()
 
 // 아이디 검증
@@ -46,6 +54,7 @@ const login = (id, pw) => {
     (success) => {
       console.log(success)
       accessToken.value = success.headers['authorization']
+      isLogin.value = true
       profileImageUrl.value = success.data.profileImageUrl
       profileText.value = success.data.profileText
       alert('로그인 성공')

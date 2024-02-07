@@ -8,6 +8,7 @@ import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
 import InputForm from '@/components/molecules/InputForm.vue'
 import { getCoachesByCategory } from '@/utils/api/coach-api'
 import { onBeforeMount, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 
 /**
  * VARIABLES
@@ -24,15 +25,19 @@ const SideButtonList = [
 ]
 const subCategories = ref([])
 const isMatching = ref(false)
-const changeListAndMatching = () => {
-  isMatching.value = !isMatching.value
-}
 const selectedMainCategory = ref('')
-const coaches = ref([])
+
+// pinia
+const coachStore = useCoachStore()
+const { coaches } = storeToRefs(coachStore)
 
 /**
  * METHODS
  */
+
+const changeListAndMatching = () => {
+  isMatching.value = !isMatching.value
+}
 
 // 전체 코치 조회
 onBeforeMount(() => {
@@ -41,7 +46,7 @@ onBeforeMount(() => {
     'all',
     (success) => {
       coaches.value = success.data.list
-      console.log(success)
+      console.log(coaches.value)
     },
     (fail) => console.log(fail)
   )
@@ -52,7 +57,6 @@ const clickCategory = (index, name) => {
   selectButton.value = index
   subCategories.value = SideButtonList[selectButton.value]
   selectedMainCategory.value = name
-  console.log(name)
   getCoachesByCategory(
     name.toLowerCase(),
     'all',
@@ -66,7 +70,6 @@ const clickCategory = (index, name) => {
 
 // 소분류 코치 조회
 const clickSubCategory = (name) => {
-  console.log(name)
   getCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
     name.toLowerCase(),

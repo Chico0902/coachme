@@ -5,16 +5,18 @@ myId : 자신의 아이디
 -->
 
 <script setup>
-import InputForm from './InputForm.vue';
+import { onBeforeMount } from 'vue'
+import InputForm from './InputForm.vue'
 
 const props = defineProps({
   directMessage: {
     type: Object,
     // 주의 directMessage chat 부분은 []로 쌓인 배열이어야 함
   },
-  myId: { // 내 id
+  myId: {
+    // 내 id
     type: String
-  }, 
+  }
 })
 
 const emit = defineEmits(['closeDm'], ['closeChat'])
@@ -26,7 +28,6 @@ const closeDm = () => {
 const closeChat = () => {
   emit('closeChat')
 } // dm창 자체를 닫기
-
 </script>
 
 <template>
@@ -34,15 +35,11 @@ const closeChat = () => {
     <div class="q-pa-md row justify-center chat-box">
       <!-- dm 리스트로 돌아가는 버튼 -->
       <q-btn flat @click="closeDm">
-        <span class="material-symbols-outlined">
-          Home
-        </span>
+        <span class="material-symbols-outlined"> Home </span>
       </q-btn>
       <!-- dm창을 닫는 버튼 -->
       <q-btn flat @click="closeChat">
-        <span class="material-symbols-outlined">
-          Close
-        </span>
+        <span class="material-symbols-outlined"> Close </span>
       </q-btn>
       <div style="width: 100%; max-width: 400px">
         <div v-for="list in props.directMessage" :key="list">
@@ -71,7 +68,7 @@ const closeChat = () => {
   max-height: max-content;
 }
 .chat-box {
-  background-color: #FFEEC1;
+  background-color: #ffeec1;
   max-width: 400px;
   max-height: 500px;
   overflow-y: auto;
