@@ -1,9 +1,9 @@
-package com.ssafy.api.coach.dto;
+package com.ssafy.api.coaching.dto.request;
 
 import lombok.Data;
 
 @Data
-public class CoachesCoachingsResponseDto {
+public class CoachingInfoChangeRequestDto {
   private String main;
   private String sub;
   private String name;
