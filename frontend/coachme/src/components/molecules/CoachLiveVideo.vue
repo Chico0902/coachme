@@ -3,15 +3,15 @@ const props = defineProps({
   name : { // 코치 이름
     type : String
   }, 
-  isCoach : {
+  isCoach : { // 코치 여부
     type : Boolean
   }
 }); 
 </script>
 
 <template>
-  <div style="width: 60vw; height: 70vh; background-color: gray;">
-    <q-btn v-if="!props.isCoach" flat style="margin-left: 55vw; margin-top: 1.3vh;">
+  <div class="coach-video">
+    <q-btn v-if="!props.isCoach" flat class="btn" size="xl" style="margin-top: 0.9vh; margin-right: 0.5vw;">
       <span class="material-symbols-outlined" style="font-size: 32px;">
         meeting_room
       </span>
@@ -22,4 +22,16 @@ const props = defineProps({
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.coach-video {
+  width: 60vw; 
+  height: 70vh; 
+  background-color: gray; 
+  display: flex; 
+  justify-content: flex-end; 
+  align-items: flex-start;
+}
+.material-symbols-outlined {
+  font-size: 40px;
+}
+</style>
