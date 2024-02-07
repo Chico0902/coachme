@@ -22,7 +22,7 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
           }
  */
 export function postCoachesByCategory(division1, division2, dto, success, fail) {
-  publicAxios.get(`/coaches/categories/${division1}/${division2}`).then(success).catch(fail)
+  publicAxios.post(`/coaches/categories/${division1}/${division2}`, dto).then(success).catch(fail)
 }
 
 /**
