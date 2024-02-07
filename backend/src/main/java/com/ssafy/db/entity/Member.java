@@ -153,4 +153,12 @@ public class Member extends BaseEntity {
     this.coameTaughtCourses.add(coameCoaching);
   }
 
+  public void addLikeCoach(Member coach) {
+    this.
+  }
+
+  public void addLikeCoach(Member coame, Member coach) {
+    this.
+  }
+
 }

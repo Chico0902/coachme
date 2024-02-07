@@ -25,4 +25,10 @@ public class Likes extends BaseEntity {
 
   @Enumerated(value = EnumType.STRING)
   private ReviewLikeType likeType;
+
+  public void addLikeCoach(Member coame, Member coach) {
+    this.coame = coame;
+    this.coach = coach;
+    this.likeType = ReviewLikeType.COACH;
+  }
 }

@@ -1,4 +1,4 @@
-package com.ssafy.api.coaching.dto.request;
+package com.ssafy.api.coaching.dto.response;
 
 import lombok.Data;
 
