@@ -1,6 +1,5 @@
 package com.ssafy.api.coaching.controller;
 
-import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.request.SearchWordsRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
@@ -54,8 +53,8 @@ public class CoachingController {
    * [coaching-3] 해당 분류 코칭의 정보를 받아온다.
    * privilege : 0
    *
-   * @param division1 : 카테고리 테이블 내의 MAIN 분류 / all
-   * @param division2 : 카테고리 테이블 내의 SUB 분류 / all
+   * @param division1             : 카테고리 테이블 내의 MAIN 분류 / all
+   * @param division2             : 카테고리 테이블 내의 SUB 분류 / all
    * @param searchWordsRequestDto : 검색어 / all
    * @return - [200] list
    */

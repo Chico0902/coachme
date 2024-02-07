@@ -99,7 +99,7 @@ public class CoachingService {
     List<CoachingResponseDtos> list;
     Long mainCategoryId;
 
-    if(words.equals("all")) {
+    if (words.equals("all")) {
       words = null;
     }
     log.info("words : {}", words);

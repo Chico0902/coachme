@@ -61,7 +61,7 @@ public class RedisUtils {
     try (var cursor = stringRedisTemplate.scan(options)) {
       while (cursor.hasNext()) {
         String value = stringRedisTemplate.opsForValue().get(cursor.next());
-        if(value.compareTo(lastDm) > 0) lastDm = value;
+        if (value.compareTo(lastDm) > 0) lastDm = value;
       }
     }
 

@@ -31,6 +31,7 @@ public interface DmMapper {
 
   @IterableMapping(qualifiedByName = {"coach"})
   List<DmRoomResponseDto> dmRoomToDmRoomCoachResponseDtoList(List<DMRoom> dmRoom);
+
   @IterableMapping(qualifiedByName = {"coame"})
   List<DmRoomResponseDto> dmRoomToDmRoomCoameResponseDtoList(List<DMRoom> dmRoom);
 //  List<DmRoomResponseDto> dmRoomToDmRoomResponseDto(List<DMRoom> dmRoomList);
@@ -38,9 +39,11 @@ public interface DmMapper {
 
   @Mapping(source = "member.longId", target = "member")
   DmResponseDto DmToDmResponseDto(DM dm);
+
   List<DmResponseDto> DmToDmResponseDto(List<DM> dmList);
 
   DmResponseDto redisDtoToDmDto(DmRedisDto dmRedisDto);
+
   List<DmResponseDto> redisDtoToDmResponseDtoList(List<DmRedisDto> dmList);
 
 }

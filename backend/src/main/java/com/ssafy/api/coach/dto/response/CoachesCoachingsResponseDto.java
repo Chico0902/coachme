@@ -11,5 +11,5 @@ public class CoachesCoachingsResponseDto {
   private String name;
   private String summary;
   private String htmlDocs;
-  
+
 }
