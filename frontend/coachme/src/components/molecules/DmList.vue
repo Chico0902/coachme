@@ -1,46 +1,75 @@
-<!-- dm 리스트 컴포넌트
-필요한 정보 : dm 리스트
-dm 리스트에 필요한 정보 : 프로필 사진 링크, 이름, 마지막 dm, 마지막 dm을 보낸 시간(수정 시간)
--->
 <script setup>
-import profile from '../atoms/ProfileImage.vue';
-import { useCounterStore } from "../../stores/chat-status";
+import profile from '../atoms/ProfileImage.vue'
+import { useAuthStore } from '@/stores/auth'
+import { useChatStore } from '../../stores/chat-status'
+import { storeToRefs } from 'pinia'
+import { onBeforeMount } from 'vue'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { getMyDmRooms, getEnterDmRoom } from '@/utils/api/dm-api'
+import router from '@/router'
 
-const store = useCounterStore();
+/**
+ * VARIABLES
+ */
 
-const { closeDmWindow } = store
+// pinia 사용
+const chatStore = useChatStore()
+const authStore = useAuthStore()
+const { isLogin } = storeToRefs(authStore)
+const { chatList } = storeToRefs(chatStore)
+const { closeDmWindow } = chatStore
 
-const props = defineProps({
-  dmList: {
-    type: Array,
-  }
-})
+/**
+ * METHODS
+ */
 
+// emit 정의
 const emit = defineEmits(['clickDm'])
-
 const clickDm = (index) => {
   emit('clickDm', index)
 }
 
+onBeforeMount(() => {
+  // 로그인 여부 확인
+  if (isLogin.value === false) {
+    alert('DM을 보내시려면 로그인이 필요합니다. 로그인 페이지로 이동합니다.')
+    router.push('/login')
+
+    // DM목록 받아오기
+  } else {
+    const token = getAccessToken()
+    const longId = decodeToken(token).longId
+    getMyDmRooms(
+      token,
+      longId,
+      (success) => console.log(success),
+      (fail) => console.log(fail)
+    )
+  }
+})
 </script>
 
 <template>
   <q-list bordered class="rounded-borders" style="width: 100%; max-width: 400px">
     <q-item>
-      <q-item-label header>주고 받은 DM</q-item-label>
-      <!-- 닫기 버튼 -->
-        <q-btn flat @click="closeDmWindow()" style="margin-right: -2vw; margin-left: 5vw;">
-          <span class="material-symbols-outlined">
-            Close
-          </span>
+      <q-item-section>
+        <q-item-label class="text-h6" style="font-size: 1.1rem">디엠 목록</q-item-label>
+      </q-item-section>
+
+      <q-item-section side top>
+        <q-btn flat @click="closeDmWindow()" style="margin-right: -2vw; margin-left: 5vw">
+          <span class="material-symbols-outlined"> Close </span>
         </q-btn>
+      </q-item-section>
     </q-item>
-    <q-separator spaced></q-separator>
-    <div v-for="(dm, index) in props.dmList" :key="dm">
-      <q-item clickable v-ripple @click="clickDm(index)">
+
+    <q-separator spaced style="margin-top: 0"></q-separator>
+
+    <div v-for="dm in chatList" :key="dm.id">
+      <q-item clickable v-ripple @click="clickDm(dm.id)">
         <!-- 프로필 사진 영역 -->
         <q-item-section avatar>
-          <profile :img="`${dm.img}`"></profile>
+          <profile :img="dm.img"></profile>
         </q-item-section>
 
         <!-- 주고받은 dm 영역-->
@@ -55,7 +84,7 @@ const clickDm = (index) => {
       </q-item>
 
       <!-- 가장 밑에 있는 dm일 경우, 구분자를 출력하지 않음 -->
-      <div v-if="index != props.dmList.length - 1"><q-separator spaced></q-separator></div>
+      <div v-if="index != chatList.length - 1"><q-separator spaced></q-separator></div>
     </div>
   </q-list>
 </template>
