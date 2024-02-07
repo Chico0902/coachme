@@ -33,7 +33,7 @@ const getData = computed(() => {
       (currentPage.value - 1) * cardPerPage + cardPerPage
     )
   } else {
-    return []
+    return [];
   }
 })
 
@@ -46,12 +46,8 @@ const request = (id) => {
 <template>
   <div>
     <template v-if="getData.length > 0">
-      <q-card
-        v-for="(coach, index) in getData"
-        :key="index"
-        style="margin-bottom: 3vh; min-width: 50vw; min-height: 15vh"
-        rounded
-      >
+      <q-card v-for="(coach, index) in getData" :key="index" style="margin-bottom: 3vh; min-width: 50vw; min-height: 15vh"
+        rounded>
         <q-item>
           <!-- 프로필 사진 -->
           <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 0.6vh; margin-right: 2vw">
@@ -81,7 +77,8 @@ const request = (id) => {
 
                 <!-- 문의하기 버튼 섹션-->
                 <div>
-                  <buttons label="문의하기" style="background-color: #fcbf17" @click="request(coach.id)"></buttons>
+                  <buttons label="포트폴리오 보기" style="margin-right: 1vw; background-color: #004C98; color: white;"></buttons>
+                  <buttons label="채팅하기" style="background-color: #fcbf17" @click="requestDm()"></buttons>
                 </div>
               </q-item-section>
             </q-item-section>
@@ -92,28 +89,20 @@ const request = (id) => {
 
     <!-- 검색 결과가 없을 때 -->
     <template v-else>
-      <q-item style="margin: 3vh">
-        <q-item-section>
-          <q-card style="min-width: 50vw; min-height: 15vh" :rounded="true" :color="cardColor">
-            <q-item-section class="q-mb-md">
-              <q-item-label class="text-h6" style="margin-top: 5.7vh">검색 결과가 없습니다.</q-item-label>
-            </q-item-section>
-          </q-card>
+
+      <q-card style="min-width: 50vw; min-height: 15vh" :rounded="true" :color="cardColor">
+        <q-item-section class="q-mb-md">
+          <q-item-label class="text-h6" style="margin-top: 5.7vh">검색 결과가 없습니다.</q-item-label>
         </q-item-section>
-      </q-item>
+      </q-card>
+
     </template>
 
     <!-- 페이지네이션 -->
     <!-- 페이지의 개수 =  총 데이터 개수 / 3 -->
     <div class="q-pa-lg flex flex-center">
-      <q-pagination
-        v-model="currentPage"
-        color="blue-10"
-        :min="1"
-        :max="coach ? Math.ceil(coach.length / cardPerPage) : 0"
-        :max-pages="6"
-        boundary-numbers
-      ></q-pagination>
+      <q-pagination v-model="currentPage" color="blue-10" :min="1"
+        :max="coach ? Math.ceil(coach.length / cardPerPage) : 0" :max-pages="6" boundary-numbers></q-pagination>
     </div>
   </div>
 </template>

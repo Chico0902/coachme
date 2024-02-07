@@ -33,16 +33,16 @@ p {
   width: 12%;
   height: 70vh;
   margin: auto;
+  margin-top: 3vh;
 }
 .sidebar-button {
   width: 100%;
   height: 8vh;
   border-radius: 1rem;
   margin-top: 0;
-  padding-left: 1rem;
   margin-bottom: 4.4vh;
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
 }
 
