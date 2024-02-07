@@ -7,6 +7,7 @@ import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.
 import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
 import InputForm from '@/components/molecules/InputForm.vue'
 import { getCoachesByCategory } from '@/utils/api/coach-api'
+import { useCoachStore } from '@/stores/coach.js'
 import { onBeforeMount, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
