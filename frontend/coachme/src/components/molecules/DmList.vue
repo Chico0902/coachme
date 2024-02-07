@@ -41,7 +41,6 @@ onBeforeMount(() => {
     const token = getAccessToken()
     const longId = decodeToken(token).longId
     getMyDmRooms(
-      token,
       longId,
       (success) => console.log(success),
       (fail) => console.log(fail)
