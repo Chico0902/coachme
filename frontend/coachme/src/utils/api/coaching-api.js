@@ -87,8 +87,8 @@ export function getLiveCoachingCoame(liveCoachingId, success, fail) {
             message : String
           }
   */
-export function postCoachingInfoDetail(division1,division2, dto, success, fail) {
-  publicAxios.get(`/coachings/categories/${division1}/${division2}`,dto).then(success).catch(fail)
+export function postCoachingInfoDetail(division1, division2, dto, success, fail) {
+  publicAxios.post(`/coachings/categories/${division1}/${division2}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -118,9 +118,9 @@ export function postCoachingInfoDetail(division1,division2, dto, success, fail) 
             message : String
           }
   */
-          export function getCoachingDetailPage(coachingId, success, fail) {
-            authAxios.get(`/coachings/${coachingId}`).then(success).catch(fail)
-          }
+export function getCoachingDetailPage(coachingId, success, fail) {
+  authAxios.get(`/coachings/${coachingId}`).then(success).catch(fail)
+}
 
 /**
  * API번호 : coaching-5
@@ -142,9 +142,9 @@ export function postCoachingInfoDetail(division1,division2, dto, success, fail) 
             message : String
           }
   */
-          export function getPopularCoachingList(success, fail) {
-            publicAxios.get(`/coachings/popular`).then(success).catch(fail)
-          }
+export function getPopularCoachingList(success, fail) {
+  publicAxios.get(`/coachings/popular`).then(success).catch(fail)
+}
 
 /**
  * API번호 : coaching-6
@@ -167,6 +167,6 @@ export function postCoachingInfoDetail(division1,division2, dto, success, fail) 
             message : String
           }
   */
-          export function getCoachingDetailPage(coachingId, success, fail) {
-            authAxios.get(`/coachings/${coachingId}`).then(success).catch(fail)
-          }
+export function getCoachingDetailPage(coachingId, success, fail) {
+  authAxios.get(`/coachings/${coachingId}`).then(success).catch(fail)
+}
