@@ -1,6 +1,8 @@
 <script setup>
 import Coaching from '@/components/molecules/CoachingCard.vue'
-import { ref, computed } from 'vue';
+import { ref, computed, onBeforeMount } from 'vue';
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { getVideoList } from '@/utils/api/coach-api'
 
 const videos = ref([
   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 1, videoUrl: "https://naver.com", videoName: "기본편" },
@@ -12,15 +14,20 @@ const videos = ref([
   { coachingId: 3, coachingName: "기본부터 진행하는 농구 교실", videoId: 5, videoUrl: "https://naver.com", videoName: "기초편" },
 ]);
 
+// const videos = ref([])
+
 const coachingOptions = Array.from(new Set(videos.value.map(video => video.coachingId)))
   .map(coachingId => {
     const matchingVideo = videos.value.find(video => video.coachingId === coachingId);
     return { value: matchingVideo.coachingId, label: matchingVideo.coachingName };
   });
+// 드롭다운 메뉴에 필요한 제목과 id 리스트 - 중복 제거
 
 const coachingOptionsWithAll = [{ value: null, label: "전체보기" }, ...coachingOptions];
+// 드롭다운 메뉴
 
 const selectedCoachingId = ref(null);
+// 선택한 코칭의 id
 
 const groupedFilteredVideos = computed(() => {
   const filtered = selectedCoachingId.value !== null ?
@@ -36,6 +43,22 @@ const groupedFilteredVideos = computed(() => {
   });
   return grouped;
 });
+// 각 코칭 별로 코칭 영상 리스트를 추출
+
+onBeforeMount(() => {
+  const longId = decodeToken(getAccessToken()).longId
+  // 본인 아이디로 코칭 영상 리스트 조회
+  getVideoList(
+    longId,
+    (success) => {
+      console.log(success)
+      videos.value = success.data.list
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
+})
 
 </script>
 <template>
