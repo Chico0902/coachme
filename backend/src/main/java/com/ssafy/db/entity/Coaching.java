@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,10 @@ public class Coaching extends BaseEntity {
   private List<LiveCoaching> liveCoachings = new ArrayList<>();
 
   @OneToMany(mappedBy = "coaching")
-  private List<VideoCoaching> videoCoachings = new ArrayList<>();
+  private List<File> videoCoachings = new ArrayList<>();
+
+  @Column(name = "represent")
+  private Long represent;
 
   @Column
   private Integer price;
@@ -86,5 +90,13 @@ public class Coaching extends BaseEntity {
     this.mainCategory = main;
     this.subCategory = sub;
     this.subCategory.addCategoryList(this);
+  }
+
+  public void registRepresent(Long fileId) {
+    this.represent = fileId;
+  }
+
+  public void addLiveCoaching(LiveCoaching liveCoaching) {
+    this.liveCoachings.add(liveCoaching);
   }
 }
