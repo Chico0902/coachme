@@ -56,7 +56,7 @@ const props = defineProps({
         <labels caption :label="`${props.caption}`"></labels>
       </q-item-section>
       <!-- 공간 차지-->
-      <q-item-section>
+      <q-item-section v-if="visible">
         <q-space></q-space>
       </q-item-section>
       <!-- 찜콩 버튼-->
