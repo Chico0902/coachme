@@ -1,6 +1,35 @@
 <script setup>
 // 코칭 리스트 api받아와야함
 
+import { ref,computed } from 'vue';
+
+
+
+
+const combinedDateTime = computed(() => {
+  if (coachingDate.value && coachingTime.value) {
+    return `${coachingDate.value}T${coachingTime.value}`;
+  } else {
+    return '';
+  }
+});
+
+
+const coachingDate = ref('');
+const coachingTime = ref('');
+
+
+const formattedDateTime = computed(() => {
+  return combinedDateTime.value;
+});
+
+const coachingDateTime = ref('');
+
+const sendDataToAPI = () => {
+  console.log('API:', coachingDateTime.value);
+};
+
+
 </script>
 
 <template>
@@ -17,6 +46,14 @@
     </div>
     <div class="coaching-date box">
       <div class="coaching-date title">
+        코칭일자 및 시간
+      </div>
+      <div class="coaching-date input">
+        <input type="datetime-local" v-model="coachingDateTime" />
+      </div>
+    </div>
+    <!-- <div class="coaching-date box">
+      <div class="coaching-date title">
         코칭일자
       </div>
       <div class="coaching-date input">
@@ -30,9 +67,9 @@
           <input type="time" v-model="coachingTime" />
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="menu SMN_effect-42">
-      <RouterLink :to="{ name: 'Desktop-5-5' }">
+      <RouterLink :to="{ name: 'Desktop-5-5' }" @click="sendDataToAPI">
         <span data-hover="라이브 생성2">라이브 생성2</span>
       </RouterLink>
     </div>
