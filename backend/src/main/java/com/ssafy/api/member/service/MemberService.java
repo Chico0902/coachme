@@ -1,20 +1,15 @@
 package com.ssafy.api.member.service;
 
+import com.ssafy.api.coaching.dto.response.CoameTakingCoachingDto;
 import com.ssafy.api.coaching.repository.CoachingRepository;
 import com.ssafy.api.member.dto.request.ElevationRequestDto;
 import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.api.member.dto.request.ProfileTextRequestDto;
-import com.ssafy.api.member.dto.response.CalendarResponseDto;
-import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
-import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
-import com.ssafy.api.member.dto.response.ProfileResponseDto;
+import com.ssafy.api.member.dto.response.*;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.db.entity.CoameCoaching;
-import com.ssafy.db.entity.File;
-import com.ssafy.db.entity.LiveCoaching;
-import com.ssafy.db.entity.Member;
+import com.ssafy.db.entity.*;
 import com.ssafy.util.file.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -202,5 +197,30 @@ public class MemberService {
     result[1] = localDateTime.format(format_time);
 
     return result;
+  }
+
+  /**
+   * 코미가 수강하는 코칭 리스트 반환하는 메서드
+   *
+   * @param longId - 코미 Id
+   * @return - 코칭 정보 리스트
+   */
+  @Transactional(readOnly = true)
+  public List<CoameTakingCoachingDto> getCoameCoachingList(Long longId) {
+
+    Member member = memberRepository.getReferenceById(longId);
+    List<CoameTakingCoachingDto> list = new ArrayList<>();
+
+    for (CoameCoaching coameCoaching : member.getCoameTaughtCourses()) {
+      LiveCoaching liveCoaching = coameCoaching.getLiveCoaching();
+
+      CoameTakingCoachingDto coameTakingCoachingDto = new CoameTakingCoachingDto();
+      coameTakingCoachingDto.setId(liveCoaching.getId());
+      coameTakingCoachingDto.setCoachingName(liveCoaching.getCoaching().getName());
+      coameTakingCoachingDto.setCoachName(liveCoaching.getCoaching().getCoach().getName());
+      list.add(coameTakingCoachingDto);
+    }
+
+    return list;
   }
 }

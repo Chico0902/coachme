@@ -1,5 +1,6 @@
 package com.ssafy.api.member.controller;
 
+import com.ssafy.api.coaching.dto.response.CoameTakingCoachingDto;
 import com.ssafy.api.member.dto.request.*;
 import com.ssafy.api.member.dto.response.CalendarResponseDto;
 import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
@@ -185,6 +186,19 @@ public class MemberController {
   public ResponseEntity<?> getCalendar(@PathVariable Long longId) {
 
     List<CalendarResponseDto> list = memberService.getCalendar(longId);
+
+    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
+  }
+  /**
+   * [member-16] 코미가 자신이 수강신청한 코칭을 확인할 수 있다.
+   * privilege : 1
+   *
+   * @return [200] 신청한 코칭 정보 리스트
+   */
+  @GetMapping("/{coameId}/coachings")
+  public ResponseEntity<?> getCoameTakingCoaching(@PathVariable(name = "coameId") Long longId) {
+
+    List<CoameTakingCoachingDto> list = memberService.getCoameCoachingList(longId);
 
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
