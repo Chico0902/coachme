@@ -48,6 +48,5 @@ export function getMyDmRooms(longId, success, fail) {
           }
  */
 export function getEnterDmRoom(myLongId, coachLongId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/dm/room/enter/${myLongId}/${coachLongId}`).then(success).catch(fail)
+  authAxios.get(`/dm/room/enter/${myLongId}/${coachLongId}`).then(success).catch(fail)
 }
