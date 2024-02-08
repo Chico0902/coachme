@@ -2,6 +2,8 @@ package com.ssafy.api.coach.mapper;
 
 import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
 import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
+import com.ssafy.api.coach.dto.response.VideoResponseDto;
+import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.Member;
 import com.ssafy.db.entity.Portfolio;
 import org.mapstruct.Mapper;
@@ -18,6 +20,5 @@ public interface CoachMapper {
   @Mapping(source = "name", target = "coachName")
   @Mapping(source = "portfolio.htmlDocs", target = "portFolioHtmlDocs")
   CoachDetailResponseDto memberToCoachDetailResponseDto(Member coachId);
-
 
 }

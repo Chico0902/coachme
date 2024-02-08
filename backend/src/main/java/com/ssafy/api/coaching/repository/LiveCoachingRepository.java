@@ -11,4 +11,5 @@ public interface LiveCoachingRepository extends JpaRepository<LiveCoaching, Long
       "JOIN FETCH cm.profileImage pi " +
       "WHERE lc.id = ?1")
   LiveCoaching findByIdWithDetails(Long liveCoachingId);
+
 }

@@ -1,21 +1,24 @@
 package com.ssafy.api.coach.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
+import com.ssafy.api.coach.dto.request.CreateLiveRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
-import com.ssafy.api.coach.dto.response.CalendarResponseDto;
-import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
-import com.ssafy.api.coach.dto.response.CoachesResponseDtos;
-import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
+import com.ssafy.api.coach.dto.response.*;
 import com.ssafy.api.coach.mapper.CoachMapper;
 import com.ssafy.api.coaching.dto.response.CoachDetail;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
+import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.Coaching;
+import com.ssafy.db.entity.File;
 import com.ssafy.db.entity.LiveCoaching;
 import com.ssafy.db.entity.Review;
 import com.ssafy.db.entity.type.CategoryType;
+import com.ssafy.util.file.Mapper.FileMapper;
+import com.ssafy.util.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,10 +34,13 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class CoachService {
+
   private final MemberRepository memberRepository;
   private final CoachingRepository coachingRepository;
   private final CategoryRepository categoryRepository;
   private final ReviewRepository reviewRepository;
+  private final FileRepository fileRepository;
+  private final LiveCoachingRepository liveCoachingRepository;
 
   public PortfolioResponseDto getPortfolio(long id) {
     return CoachMapper.instance.PortfolioToPortfolioResponseDto(memberRepository.getReferenceById(id).getPortfolio());
@@ -138,5 +144,21 @@ public class CoachService {
     result[1] = localDateTime.format(format_time);
 
     return result;
+  }
+
+  public List<VideoResponseDto> getVideos(Long coachId) {
+
+    List<File> fileList = fileRepository.findByCoachIdWithCoaching(coachId);
+
+    return FileMapper.instance.fileToVideoResponseDto(fileList);
+  }
+
+  public void createLiveCoaching(CreateLiveRequestDto createLiveRequestDto) {
+    log.error("date : {}", createLiveRequestDto.getDate());
+    Coaching coaching = coachingRepository.getReferenceById(createLiveRequestDto.getCoachingId());
+    LiveCoaching liveCoaching = new LiveCoaching();
+    liveCoaching.createLiveCoaching(coaching, createLiveRequestDto.getDate());
+    log.error("live coaching : {}", liveCoaching.getId());
+    liveCoachingRepository.save(liveCoaching);
   }
 }

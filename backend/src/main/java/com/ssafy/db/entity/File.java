@@ -23,6 +23,10 @@ public class File extends BaseEntity {
   @JoinColumn(name = "member_id")
   private Member uploader;
 
+  @ManyToOne
+  @JoinColumn(name = "coaching_id")
+  private Coaching coaching;
+
   @Column(nullable = false, length = 50)
   private String name;
 
