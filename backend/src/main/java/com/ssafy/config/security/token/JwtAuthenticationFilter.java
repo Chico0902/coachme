@@ -88,8 +88,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
 
       // Redis에 저장된 Refresh Token 꺼내오기
-      String stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();
-      String refreshTokenInRedis = jwtTokenProvider.getRefreshTokenInRedis(stringId);
+      String stringId = null;
+      String refreshTokenInRedis = null;
+      if(jwtTokenProvider.validateToken(refreshTokenInHeader)) {
+        stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();
+        refreshTokenInRedis = jwtTokenProvider.getRefreshTokenInRedis(stringId);
+      } else {
+        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token Expired"));
+        response.getWriter().write(jsonString);
+        return;
+      }
 
       // Refresh Token 검증
       if (refreshTokenInRedis != null && refreshTokenInRedis.equals(refreshTokenInHeader)) {
@@ -109,8 +117,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
       // Refresh Token이 만료되었거나, 저장된 Refresh Token과 다를 경우
       else {
-        log.error("Refresh Token Expired !");
-        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token Expired"));
+        String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Refresh Token Forged"));
         response.getWriter().write(jsonString);
         return;
       }
@@ -119,7 +126,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 토큰 만료 시 리프레시 토큰 재요청 전송
     String tokenInHeader = jwtTokenProvider.getTokenInHeader(request);
     if (!(jwtTokenProvider.validateToken(tokenInHeader))) {
-      log.error("Access Token Expired !");
       String jsonString = objectMapper.writeValueAsString(new ExceptionDto("Access Token Expired"));
       response.getWriter().write(jsonString);
       return;
@@ -128,7 +134,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 유효한 토큰이면 인증 객체 생성해서 SecurityContext에 저장 후 다음 필터로 이동
     Authentication auth = jwtTokenProvider.getAuthentication(tokenInHeader);
     SecurityContextHolder.getContext().setAuthentication(auth);
-    log.info("Authorities : {}", auth.getAuthorities());
 
     chain.doFilter(request, response);
   }

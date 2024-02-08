@@ -131,7 +131,6 @@ public class JwtTokenProvider {
    */
   public String getTokenInHeader(HttpServletRequest request) {
     String requestHeaderAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
-    log.error("input token : {}", requestHeaderAuth);
 
     // Header의 토큰이 잘못되었을 때 예외처리
     if (requestHeaderAuth == null || !requestHeaderAuth.startsWith("Bearer"))
@@ -165,7 +164,7 @@ public class JwtTokenProvider {
     try {
       getClaims(encryptedToken);
       return true;
-    } catch (ExpiredJwtException e) {
+    } catch (Exception e) {
       return false;
     }
   }
