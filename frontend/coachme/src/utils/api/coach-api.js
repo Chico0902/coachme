@@ -21,7 +21,7 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
             message : String
           }
  */
-export function postCoachesByCategory(division1, division2, dto, success, fail) {
+export function getCoachesByCategory(division1, division2, success, fail) {
   publicAxios.get(`/coaches/categories/${division1}/${division2}`).then(success).catch(fail)
 }
 
