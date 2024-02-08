@@ -31,7 +31,6 @@ export function getMyDmRooms(longId, success, fail) {
  * URI : /dm/room/{longId(member PK)}
  * 권한 : 1
  * 설명 : 회원이 DM방에 들어간다(디엠방 생성) / 회원과 코치의 DM방을 불러온다
- * @param {String} token accessToken(pinia 사용시 accessToken.value)
  * @param {Number} myLongId 본인 id(pk)
  * @param {Number} coachLongId 상대방 id(pk)
  * @param {Promise} success

@@ -94,7 +94,7 @@ const searchByWords = (words) => {
   postCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
     selectedSubCategory.value.toLowerCase(),
-    { words: words },
+    { words: words.input },
     (success) => {
       coaches.value = success.data.list
       console.log(success)
