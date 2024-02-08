@@ -209,7 +209,7 @@ export function postCreateLiveCoaching(coachId, dto, success, fail) {
           }
  */
 export function getVideoList(coachId, success, fail) {
-  authAxios.ps(`/coaches/${coachId}/videos`).then(success).catch(fail)
+  authAxios.get(`/coaches/${coachId}/videos`).then(success).catch(fail)
 }
 
 /**
