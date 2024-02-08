@@ -37,7 +37,6 @@ public class CoachingService {
 
   /**
    * 라이브 코칭을 수강하는 코미 목록을 반환하는 메서드
-   *
    * @param id - 라이브 코칭 id
    * @return - 코미 목록
    */
@@ -49,7 +48,6 @@ public class CoachingService {
 
   /**
    * 라이브 코칭 신청 메서드
-   *
    * @param liveCoachingId - 라이브 코칭 id
    * @param coameId        - 코미 id
    */
@@ -190,5 +188,15 @@ public class CoachingService {
   public void deleteCoaching(Long longId, Long id) {
     Coaching coaching = coachingRepository.getReferenceById(id);
     coachingRepository.delete(coaching);
+  }
+
+  /**
+   * 코칭 pk와 파일 pk를 받아 코칭의 대표 동영상으로 등록시켜주는 메서드
+   * @param coachingId - 코칭 pk
+   * @param fileId - 파일 pk
+   */
+  public void registRepresentVideo(Long coachingId, Long fileId) {
+    Coaching coaching = coachingRepository.getReferenceById(coachingId);
+    coaching.registRepresent(fileId);
   }
 }
