@@ -76,14 +76,17 @@ const request = (id) => {
                 <!-- 별점 아이콘과 별점-->
                 <div class="ratingForm" style="width: fit-content">
                   <q-btn flat round color="amber-7" icon="star" disable></q-btn>
-                  <span class="rating">{{ coach.avgScore }} ({{ coach.reviewCount }})</span>
+                  <span class="rating">{{ coach.avgScore !== null ? coach.avgScore : 0 }} ({{ coach.reviewCount }})</span>
                 </div>
                 <!-- 공간 분리 -->
                 <q-space></q-space>
 
                 <!-- 문의하기 버튼 섹션-->
                 <div>
-                  <buttons label="문의하기" style="background-color: #fcbf17" @click="request(coach.coachId)"></buttons>
+                  <buttons label="문의하기"
+                  style="margin-right: 1vw; background-color: #fcbf17"
+                  @click="request(coach.coachId)"
+                  ></buttons>
                   <buttons
                     label="상세보기"
                     style="margin-right: 1vw; background-color: #004c98; color: white"
