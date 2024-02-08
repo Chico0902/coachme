@@ -7,12 +7,6 @@ import router from './router'
 import 'quasar/dist/quasar.css'
 import '@quasar/extras/material-icons/material-icons.css'
 
-// MSW Mocking Server(가짜 서버) 실행
-import { worker } from './tests/mocks/worker'
-if (import.meta.env.MODE === 'development') {
-  worker.start()
-}
-
 // 앱 생성
 const app = createApp(App)
 

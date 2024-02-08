@@ -25,9 +25,8 @@ import { authAxios } from '@/utils/http-commons'
             message : String
           }
  */
-export function getAllMemberInfo(token, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/admin/members`).then(success).catch(fail)
+export function getAllMemberInfo(success, fail) {
+  authAxios.get(`/admin/members`).then(success).catch(fail)
 }
 
 /**
@@ -51,9 +50,8 @@ export function getAllMemberInfo(token, success, fail) {
             message : String
           }
  */
-export function getAllElevations(token, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/admin/privileges/elevations`).then(success).catch(fail)
+export function getAllElevations(success, fail) {
+  authAxios.get(`/admin/privileges/elevations`).then(success).catch(fail)
 }
 
 /**
@@ -76,7 +74,6 @@ export function getAllElevations(token, success, fail) {
             message : String
           }
  */
-export function patchElevations(token, dto, success, fail) {
-  const axios = authAxios(token)
-  axios.patch(`/admin/privileges/elevations`, dto).then(success).catch(fail)
+export function patchElevations(dto, success, fail) {
+  authAxios.patch(`/admin/privileges/elevations`, dto).then(success).catch(fail)
 }

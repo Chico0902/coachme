@@ -10,7 +10,11 @@ export default [
             name: 'Desktop-13',
             component: () => import('../../views/search/coach/CoachList.vue')
           },
-          { path: 'detail:id', name: 'Desktop-15', component: () => import('../../views/search/coach/CoachDetail.vue') }
+          {
+            path: 'detail/:id',
+            name: 'Desktop-15',
+            component: () => import('../../views/search/coach/CoachDetail.vue')
+          }
         ]
       },
       {
@@ -22,7 +26,7 @@ export default [
             component: () => import('../../views/search/coaching/CoachingList.vue')
           },
           {
-            path: 'detail:id',
+            path: 'detail/:id',
             name: 'Desktop-16',
             component: () => import('../../views/search/coaching/CoachingDetail.vue')
           }
