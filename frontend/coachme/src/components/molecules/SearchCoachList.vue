@@ -40,6 +40,7 @@ const getData = computed(() => {
 function checkIsNewDm(dm) {}
 const request = (id) => {
   console.log(id)
+  requestDm()
 }
 </script>
 
@@ -81,10 +82,11 @@ const request = (id) => {
 
                 <!-- 문의하기 버튼 섹션-->
                 <div>
-                  <buttons label="문의하기" style="background-color: #fcbf17" @click="request(coach.id)"></buttons>
+                  <buttons label="문의하기" style="background-color: #fcbf17" @click="request(coach.coachId)"></buttons>
                   <buttons
-                    label="포트폴리오 보기"
+                    label="상세보기"
                     style="margin-right: 1vw; background-color: #004c98; color: white"
+                    @click="$router.push(`/search/coach/detail/${coach.coachId}`)"
                   ></buttons>
                 </div>
               </q-item-section>
@@ -110,7 +112,7 @@ const request = (id) => {
         v-model="currentPage"
         color="blue-10"
         :min="1"
-        :max="coach ? Math.ceil(coach.length / cardPerPage) : 0"
+        :max="coaches ? Math.ceil(coaches.length / cardPerPage) : 0"
         :max-pages="6"
         boundary-numbers
       ></q-pagination>

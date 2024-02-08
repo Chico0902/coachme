@@ -21,8 +21,8 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
             message : String
           }
  */
-export function getCoachesByCategory(division1, division2, success, fail) {
-  publicAxios.get(`/coaches/categories/${division1}/${division2}`).then(success).catch(fail)
+export function postCoachesByCategory(division1, division2, dto, success, fail) {
+  publicAxios.post(`/coaches/categories/${division1}/${division2}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -152,9 +152,9 @@ export function getMyCoaching(longId, success, fail) {
             message : String
           }
  */
-          export function getLiveCoachingCalendar(longId, success, fail) {
-            authAxios.get(`/coaches/${longId}/calendar`).then(success).catch(fail)
-          }
+export function getLiveCoachingCalendar(longId, success, fail) {
+  authAxios.get(`/coaches/${longId}/calendar`).then(success).catch(fail)
+}
 
 /**
  * API번호 : coach-12
@@ -208,10 +208,10 @@ export function postCreateLiveCoaching(coachId, dto, success, fail) {
             message : String
           }
  */
-          export function getVideoList(coachId, success, fail) {
-            authAxios.ps(`/coaches/${coachId}/videos`).then(success).catch(fail)
-          }
-          
+export function getVideoList(coachId, success, fail) {
+  authAxios.ps(`/coaches/${coachId}/videos`).then(success).catch(fail)
+}
+
 /**
  * API번호 : coach-14
  * METHOD : GET
@@ -235,6 +235,6 @@ export function postCreateLiveCoaching(coachId, dto, success, fail) {
             message : String
           }
  */
-          export function getPopularList( success, fail) {
-            publicAxios.ps(`/coaches/popular`).then(success).catch(fail)
-          }
+export function getPopularList(success, fail) {
+  publicAxios.ps(`/coaches/popular`).then(success).catch(fail)
+}
