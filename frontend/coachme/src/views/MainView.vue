@@ -98,7 +98,7 @@ onUnmounted(() => {
           </RouterLink>
         </template>
         <template #live>
-          <RouterLink :to="{ name: 'Desktop-17-2' }">
+          <RouterLink :to="{ name: 'Desktop-17-1' }">
             <buttons flat :name="`live`" :label="`강의장`"></buttons>
           </RouterLink>
         </template>

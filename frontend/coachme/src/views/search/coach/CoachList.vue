@@ -28,6 +28,7 @@ const subCategories = ref([])
 const isMatching = ref(false)
 const selectedMainCategory = ref('all')
 const selectedSubCategory = ref('all')
+const bColor = "#FCBF17"
 
 // pinia
 const coachStore = useCoachStore()
@@ -123,7 +124,7 @@ const searchByWords = (words) => {
           <div class="mainpage">
             <!-- 코치 매칭 카드  -->
             <CoachCardList v-if="isMatching" :cards="coaches"></CoachCardList>
-            <SearchCoachList v-else :coach="coaches" style="margin-top: 2vh; margin-left: 0.6vw"></SearchCoachList>
+            <SearchCoachList v-else style="margin-top: 2vh; margin-left: 0.6vw"></SearchCoachList>
           </div>
         </div>
         <!-- 채팅 버튼 -->

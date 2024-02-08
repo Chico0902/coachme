@@ -25,8 +25,12 @@ const props = defineProps({
       </q-card-section>
 
       <!-- 미리보기 -->
-      <q-card-section>
+      <q-card-section v-if="props.video">
         <q-video :ratio="16 / 9" :src="props.video"></q-video>
+      </q-card-section>
+
+      <q-card-section v-else>
+        미리보기 영상이 없습니다.
       </q-card-section>
     </q-card>
   </q-dialog>
