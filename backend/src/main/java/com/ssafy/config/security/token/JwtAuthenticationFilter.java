@@ -46,7 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/members/duplicate/id",
         "/api/ws-dm",
         "/api/live/sessions",
-        "/api/live/sessions/SessionA/connections"
+        "/api/live/sessions/SessionA/connections",
+        "/api/members/{coameId}/coachings"
     ).contains(request.getRequestURI())) ||
 
         // 특정 api 이름 포함했는지만 확인(동적 매칭)

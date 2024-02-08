@@ -79,7 +79,7 @@ public class CoachController {
    *
    * @return [200] 정상 개설완료
    */
-  @PostMapping("/{longId}/coachings")
+  @PostMapping("/{coachId}/coachings")
   public ResponseEntity<MessageDto> createCoaching(
       @PathVariable(name = "longId") Long longId,
       @RequestBody CreateCoachingRequestDto dto) throws Exception {
