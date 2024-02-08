@@ -128,12 +128,6 @@ const getData = computed(() => {
   justify-content: center;
 }
 
-.material-symbols-outlined {
-  font-size: 38px;
-  color: #fcbf17;
-  margin-right: 0.3vw;
-}
-
 .rating {
   font-size: 15px;
 }
@@ -143,4 +137,5 @@ const getData = computed(() => {
   vertical-align: center;
   align-items: center;
 }
+
 </style>

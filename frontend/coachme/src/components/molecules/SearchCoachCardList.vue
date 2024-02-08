@@ -22,7 +22,7 @@ let current
 let MAX_DEFAULT_MOVE
 
 onMounted(() => {
-  if (props.cards.length > 0) {
+  if (cards.length > 0) {
     frame = document.querySelector('.frame')
     like = document.querySelector('#like')
     hate = document.querySelector('#hate')
