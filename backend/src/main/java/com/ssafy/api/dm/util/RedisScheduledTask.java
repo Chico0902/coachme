@@ -41,7 +41,7 @@ public class RedisScheduledTask {
     List<DmRedisDto> dmList = new ArrayList<>();
 
     try {
-      ScanOptions scanOptions = ScanOptions.scanOptions().match("*").count(PAGE_SIZE).build();
+      ScanOptions scanOptions = ScanOptions.scanOptions().match("0-9*").count(PAGE_SIZE).build();
       Cursor<String> cursor = stringRedisTemplate.scan(scanOptions);
 
       int count = 0;
@@ -52,13 +52,15 @@ public class RedisScheduledTask {
         String value = stringRedisTemplate.opsForValue().get(key);
 
         DmRedisDto data = RedisUtils.parser(key);
-        memberList.add(data.getMember());
-        dmRoomList.add((long) data.getRoomId());
-        if (!"".equals(value)) {
-          data.setMessage(value);
+        if(data != null){
+          memberList.add(data.getMember());
+          dmRoomList.add((long) data.getRoomId());
+          if (!"".equals(value)) {
+            data.setMessage(value);
+          }
+          dmList.add(data);
+          count++;
         }
-        dmList.add(data);
-        count++;
       }
 
       if (count == 0) {
