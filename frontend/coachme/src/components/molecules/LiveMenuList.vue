@@ -38,7 +38,6 @@ const chatSwitch = () => {
 const peopleSwitch = () => {
   isPeopleOpen.value = !isPeopleOpen.value
   isChatOpen.value = false
-  
   const data = { chat: isChatOpen.value, people: isPeopleOpen.value }
   emit('changePeopleStatus', data)
 } // 참가자 목록 클릭 
