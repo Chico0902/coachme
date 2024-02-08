@@ -26,7 +26,7 @@ export default [
             component: () => import('../../views/search/coaching/CoachingList.vue')
           },
           {
-            path: 'detail',
+            path: 'detail/:id',
             name: 'Desktop-16',
             component: () => import('../../views/search/coaching/CoachingDetail.vue')
           }

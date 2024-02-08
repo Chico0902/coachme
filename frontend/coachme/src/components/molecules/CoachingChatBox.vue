@@ -29,10 +29,10 @@ const chatLabel = ref(props.coach + '님께 문의해보세요.')
           <Labels label="이 코칭에 관심이 있으신가요?" class="card-margin" style="margin: auto"></Labels>
           <Labels :label="chatLabel" class="card-margin" style="margin: auto"></Labels>
         </q-item-section>
+
+        <!-- 찜콩 버튼 -->
         <q-item-section style="margin: 0vh auto -2vh;">
-          <CustomButton flat>
             <CustomLike></CustomLike>
-          </CustomButton>
         </q-item-section>
 
         <!-- 코칭 신청하기 버튼과 채팅하기 버튼 -->
