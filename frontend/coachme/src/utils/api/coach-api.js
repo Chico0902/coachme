@@ -179,7 +179,7 @@ export function getLiveCoachingCalendar(longId, success, fail) {
           }
  */
 export function postCreateLiveCoaching(coachId, dto, success, fail) {
-  authAxios.ps(`/coaches/${coachId}/live`, dto).then(success).catch(fail)
+  authAxios.post(`/coaches/${coachId}/live`, dto).then(success).catch(fail)
 }
 
 /**
@@ -209,7 +209,7 @@ export function postCreateLiveCoaching(coachId, dto, success, fail) {
           }
  */
 export function getVideoList(coachId, success, fail) {
-  authAxios.ps(`/coaches/${coachId}/videos`).then(success).catch(fail)
+  authAxios.get(`/coaches/${coachId}/videos`).then(success).catch(fail)
 }
 
 /**
@@ -236,5 +236,5 @@ export function getVideoList(coachId, success, fail) {
           }
  */
 export function getPopularList(success, fail) {
-  publicAxios.ps(`/coaches/popular`).then(success).catch(fail)
+  publicAxios.get(`/coaches/popular`).then(success).catch(fail)
 }
