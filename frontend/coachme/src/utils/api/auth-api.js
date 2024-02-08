@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const { VITE_BACKEND_URL } = import.meta.env
-console.log(VITE_BACKEND_URL)
 
 /**
  * API번호 : auth-1
@@ -26,10 +25,10 @@ console.log(VITE_BACKEND_URL)
 export function postLoginRequest(dto, success, fail) {
   axios
     .post(`${VITE_BACKEND_URL}/auth/login`, dto, {
-      withCredentials: true,
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
-      }
+      },
+      withCredentials: true
     })
     .then(success)
     .catch(fail)
@@ -41,27 +40,27 @@ export function postLoginRequest(dto, success, fail) {
  * URI : /auth/refresh
  * 권한 : 0
  * 설명 : Access Token 만료 시 Refresh Token을 반환한다. 
- * @param {Promise} success
- * 설명 : 해당 토큰 유효함
- * 코드 : 200
- * body : {
-            message : String
-          }
- * @param {Promise} fail
+ * @param {Promise} fail 오류 처리를 위한 함수
  * 설명 : 잘못된 토큰
  * 코드 : 403
  * body : {
             message : String
           }
  */
-export function getRefresh(success, fail) {
-  axios
-    .get(`${VITE_BACKEND_URL}/auth/refresh`, {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      }
-    })
-    .then(success)
-    .catch(fail)
+export function getRefresh(fail) {
+  return new Promise((resolve) =>
+    axios
+      .get(`${VITE_BACKEND_URL}/auth/refresh`, {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        withCredentials: true
+      })
+      .then((success) => {
+        const accessToken = { accessToken: success.headers.authorization }
+        sessionStorage.setItem('auth', JSON.stringify(accessToken))
+      })
+      .then(resolve())
+      .catch(fail)
+  )
 }

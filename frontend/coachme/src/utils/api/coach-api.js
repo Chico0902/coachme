@@ -1,8 +1,8 @@
-import { jsonAxios, authAxios } from '@/utils/http-commons'
+import { publicAxios, authAxios } from '@/utils/http-commons'
 
 /**
  * API번호 : coach-1
- * METHOD : GET
+ * METHOD : POST
  * URI : /coaches/categories/{division1}/{division2}
  * 권한 : 0
  * 설명 : 해당 분류 코치들의 정보를 받아온다.
@@ -21,9 +21,8 @@ import { jsonAxios, authAxios } from '@/utils/http-commons'
             message : String
           }
  */
-export function getCoachesByCategory(division1, division2, success, fail) {
-  const axios = jsonAxios()
-  axios.get(`/coaches/categories/${division1}/${division2}`).then(success).catch(fail)
+export function postCoachesByCategory(division1, division2, dto, success, fail) {
+  publicAxios.post(`/coaches/categories/${division1}/${division2}`, dto).then(success).catch(fail)
 }
 
 /**
@@ -47,9 +46,8 @@ export function getCoachesByCategory(division1, division2, success, fail) {
             message : String
           }
  */
-export function getMyPortfolio(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/coaches/portfolio/${longId}`).then(success).catch(fail)
+export async function getMyPortfolio(longId, success, fail) {
+  authAxios.get(`/coaches/portfolio/${longId}`).then(success).catch(fail)
 }
 
 /**
@@ -60,7 +58,7 @@ export function getMyPortfolio(token, longId, success, fail) {
  * 설명 : 코치는 본인의 포트폴리오를 수정한다.
  * @param {String} token accessToken(pinia 사용시 accessToken.value)
  * @param {Number} longId 사용자(코치) pk
- * @param {String} dto 포트폴리오 수정 dto
+ * @param {object} dto 포트폴리오 수정 dto
  * @param {Promise} success
  * 설명 : 정상 수정완료
  * 코드 : 200
@@ -74,20 +72,19 @@ export function getMyPortfolio(token, longId, success, fail) {
             message : String
           }
  */
-export function patchMyPortfolio(token, longId, dto, success, fail) {
-  const axios = authAxios(token)
-  axios.patch(`/coaches/portfolio/${longId}`, dto).then(success).catch(fail)
+export function patchMyPortfolio(longId, dto, success, fail) {
+  authAxios.patch(`/coaches/portfolio/${longId}`, dto).then(success).catch(fail)
 }
 
 /**
- * API번호 : coaching-5
+ * API번호 : coach-5
  * METHOD : POST
  * URI : /coaches/{longId(member)}/coachings
  * 권한 : 2
  * 설명 : 코치가 코칭을 개설한다.
  * @param {String} token accessToken(pinia 사용시 accessToken.value)
  * @param {Number} longId 사용자(코치) pk
- * @param {CreateCoachingRequestDto} dto 코칭 개설 dto
+ * @param {object} dto 코칭 개설 dto
  * @param {Promise} success
  * 설명 : 정상 개설완료
  * 코드 : 200
@@ -101,13 +98,12 @@ export function patchMyPortfolio(token, longId, dto, success, fail) {
             message : String
           }
  */
-export function postNewCoaching(token, longId, dto, success, fail) {
-  const axios = authAxios(token)
-  axios.post(`/coaches/${longId}/coachings`, dto).then(success).catch(fail)
+export function postNewCoaching(longId, dto, success, fail) {
+  authAxios.post(`/coaches/${longId}/coachings`, dto).then(success).catch(fail)
 }
 
 /**
- * API번호 : coaching-6
+ * API번호 : coach-6
  * METHOD : GET
  * URI : /coaches/{longId(member)}/coachings
  * 권한 : 2
@@ -127,7 +123,118 @@ export function postNewCoaching(token, longId, dto, success, fail) {
             message : String
           }
  */
-export function getMyCoaching(token, longId, success, fail) {
-  const axios = authAxios(token)
-  axios.get(`/coaches/${longId}/coachings`).then(success).catch(fail)
+export function getMyCoaching(longId, success, fail) {
+  authAxios.get(`/coaches/${longId}/coachings`).then(success).catch(fail)
+}
+
+/**
+ * API번호 : coach-10
+ * METHOD : GET
+ * URI : /coaches/{longId(coach_longId)}/calendar
+ * 권한 : 2
+ * 설명 : 코치가 마이페이지>라이브관리 메뉴에서 자신이 만든 라이브 코칭 일정을 캘린더로 확인할 수 있다.
+ * @param {Number} longId 사용자(코치) pk
+ * @param {Promise} success
+ * 설명 : 정상 개설완료
+ * 코드 : 200
+ * "list": [
+        {
+            "id": Long,
+            "className": String,
+            "date": String,
+            "time": String
+        }
+    ]
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청[400], 서버 오류[500]
+ * 코드 : 400, 500
+ * body : {
+            message : String
+          }
+ */
+export function getLiveCoachingCalendar(longId, success, fail) {
+  authAxios.get(`/coaches/${longId}/calendar`).then(success).catch(fail)
+}
+
+/**
+ * API번호 : coach-12
+ * METHOD : POST
+ * URI : /coaches/{coach_id}/live
+ * 권한 : 2
+ * 설명 : 코치가 라이브 코칭을 생성한다.
+ * @param {Number} coachId 사용자(코치) pk
+ * @param {Object} dto
+ * 코칭id, 라이브코칭 시간(날짜+시간)
+ * @param {Promise} success
+ * 설명 : 정상 개설완료
+ * 코드 : 200
+ * body : {
+            message : String
+          }
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청[400], 서버 오류[500]
+ * 코드 : 400, 500
+ * body : {
+            message : String
+          }
+ */
+export function postCreateLiveCoaching(coachId, dto, success, fail) {
+  authAxios.ps(`/coaches/${coachId}/live`, dto).then(success).catch(fail)
+}
+
+/**
+ * API번호 : coach-13
+ * METHOD : GET
+ * URI : /coaches/{coach_id}/videos
+ * 권한 : 2
+ * 설명 : 코치가 자신의 영상 목록을 조회할 수 있다.
+ * @param {Number} coachId 사용자(코치) pk
+ * @param {Promise} success
+ * 설명 : 정상 개설완료
+ * 코드 : 200
+ * list: [
+				{
+						"videoId": Long,
+						"videoName": String,
+						"url": String,
+						"coachingId": Long,
+						"coachingName": String
+				}
+		]
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청[400], 서버 오류[500]
+ * 코드 : 400, 500
+ * body : {
+            message : String
+          }
+ */
+export function getVideoList(coachId, success, fail) {
+  authAxios.ps(`/coaches/${coachId}/videos`).then(success).catch(fail)
+}
+
+/**
+ * API번호 : coach-14
+ * METHOD : GET
+ * URI : /coaches/popular
+ * 권한 : 0
+ * 설명 : 모든 사용자가 메인페이지에서 인기코치를 확인할 수 있다.
+ * 
+ * @param {Promise} success
+ * 설명 : 정상 개설완료
+ * 코드 : 200
+ * 코치 id, 코치 프로필 url, 코치 이름, 리뷰 평균 점수, 좋아요 표시(디폴트 : 활성화 안됨)
+ * list: [
+				{
+						
+				}
+		]
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청[400], 서버 오류[500]
+ * 코드 : 400, 500
+ * body : {
+            message : String
+          }
+ */
+export function getPopularList(success, fail) {
+  publicAxios.ps(`/coaches/popular`).then(success).catch(fail)
 }
