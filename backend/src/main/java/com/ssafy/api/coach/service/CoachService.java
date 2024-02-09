@@ -23,9 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -107,44 +104,17 @@ public class CoachService {
    */
   public List<CalendarResponseDto> getCalender(Long longId) {
 
-    List<Coaching> coachingList = coachingRepository.findByLiveCoachingCoachId(longId);
-    List<CalendarResponseDto> list = new ArrayList<>();
+    List<LiveCoaching> liveCoachingList = liveCoachingRepository.findByCoachId(longId);
 
-    for (Coaching c : coachingList) {
-      for (LiveCoaching lc : c.getLiveCoachings()) {
-
-        CalendarResponseDto calendarResponseDto = new CalendarResponseDto();
-        calendarResponseDto.setId(lc.getId());
-        calendarResponseDto.setClassName(c.getName());
-
-        String[] dateAndTime = getDateAndTime(lc.getCoachingDate());
-        calendarResponseDto.setDate(dateAndTime[0]);
-        calendarResponseDto.setTime(dateAndTime[1]);
-        list.add(calendarResponseDto);
-      }
-    }
-
-    return list;
+    return CoachingMapper.instance.liveCoachingToCalendarResponseDto(liveCoachingList);
   }
 
   /**
-   * 시간을 날짜와 시간으로 포맷팅하는 메서드
+   * 코치의 영상 목록을 리스트로 가져오는 메서드
    *
-   * @param localDateTime - 라이브 코칭 시간
-   * @return - 날짜와 시간을 담은 String 배열
+   * @param coachId - 코치 pk
+   * @return - 파일 목록 리스트
    */
-  public String[] getDateAndTime(LocalDateTime localDateTime) {
-
-    String[] result = new String[2];
-    DateTimeFormatter format_date = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-    DateTimeFormatter format_time = DateTimeFormatter.ofPattern("HH:mm");
-
-    result[0] = localDateTime.format(format_date);
-    result[1] = localDateTime.format(format_time);
-
-    return result;
-  }
-
   public List<VideoResponseDto> getVideos(Long coachId) {
 
     List<File> fileList = fileRepository.findByCoachIdWithCoaching(coachId);
@@ -152,12 +122,16 @@ public class CoachService {
     return FileMapper.instance.fileToVideoResponseDto(fileList);
   }
 
+  /**
+   * 코치가 라이브 코칭을 생성하는 메서드
+   *
+   * @param createLiveRequestDto - 생성할 라이브 코칭 정보
+   */
   public void createLiveCoaching(CreateLiveRequestDto createLiveRequestDto) {
-    log.error("date : {}", createLiveRequestDto.getDate());
+
     Coaching coaching = coachingRepository.getReferenceById(createLiveRequestDto.getCoachingId());
     LiveCoaching liveCoaching = new LiveCoaching();
     liveCoaching.createLiveCoaching(coaching, createLiveRequestDto.getDate());
-    log.error("live coaching : {}", liveCoaching.getId());
     liveCoachingRepository.save(liveCoaching);
   }
 }
