@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -13,5 +15,6 @@ public class DmResponseDto {
   private long memberId;
   private String memberName;
   private String memberProfileUrl;
-  private String message;
+  private List<String> message;
+  private String createDate;
 }

@@ -90,7 +90,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       // Redis에 저장된 Refresh Token 꺼내오기
       String stringId = null;
       String refreshTokenInRedis = null;
-      if(jwtTokenProvider.validateToken(refreshTokenInHeader)) {
+      if (jwtTokenProvider.validateToken(refreshTokenInHeader)) {
         stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();
         refreshTokenInRedis = jwtTokenProvider.getRefreshTokenInRedis(stringId);
       } else {

@@ -3,10 +3,7 @@ package com.ssafy.api.coaching.service;
 import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
-import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
-import com.ssafy.api.coaching.dto.response.CoachingResponseDtos;
-import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
-import com.ssafy.api.coaching.dto.response.GetOneCoachingResponseDto;
+import com.ssafy.api.coaching.dto.response.*;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
@@ -37,6 +34,7 @@ public class CoachingService {
 
   /**
    * 라이브 코칭을 수강하는 코미 목록을 반환하는 메서드
+   *
    * @param id - 라이브 코칭 id
    * @return - 코미 목록
    */
@@ -48,6 +46,7 @@ public class CoachingService {
 
   /**
    * 라이브 코칭 신청 메서드
+   *
    * @param liveCoachingId - 라이브 코칭 id
    * @param coameId        - 코미 id
    */
@@ -191,9 +190,33 @@ public class CoachingService {
   }
 
   /**
+   * 메인페이지_인기 코칭 조회
+   */
+  public List<CoachingPopularResponseDto> getPopularCoaching() {
+//    CoachingPopularResponseDto dto = new CoachingPopularResponseDto();
+//    List<Coaching> popularList = coachingRepository.findByPopularCoacing();
+//
+//    for(Coaching list : popularList){
+//      CoachingPopularResponseDto dto = new CoachingPopularResponseDto();
+//      dto.setCoacingId(list.getId());
+//      dto.setCoacingName(list.getName());
+//
+//      int sum = 0;
+//      for (Review review : list.getReceivedReviews()){
+//        sum += review.getScore();
+//      }
+//      dto.setCoacingReviewAvg(sum/list.getReceivedReviews().size());
+//
+//    }
+
+    return null;
+  }
+
+  /**
    * 코칭 pk와 파일 pk를 받아 코칭의 대표 동영상으로 등록시켜주는 메서드
+   *
    * @param coachingId - 코칭 pk
-   * @param fileId - 파일 pk
+   * @param fileId     - 파일 pk
    */
   public void registRepresentVideo(Long coachingId, Long fileId) {
     Coaching coaching = coachingRepository.getReferenceById(coachingId);

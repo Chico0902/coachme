@@ -70,6 +70,7 @@ public class CoachingController {
   /**
    * [coaching-4] 코칭의 상세 페이지를 조회한다.
    * privilege : 0
+   *
    * @param coachingId : 코칭 PK
    * @return - [200] list
    */
@@ -81,10 +82,24 @@ public class CoachingController {
   }
 
   /**
+   * [coaching-4] 메인페이지에서 인기코칭을 확인할 수 있다.
+   * privilege : 0
+   *
+   * @return - [200] list
+   */
+  @GetMapping("/popular")
+  public ResponseEntity<ListDataDto> getPopularCoaching() {
+    ListDataDto responseDto = new ListDataDto(coachingService.getPopularCoaching());
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
+  }
+
+
+  /**
    * [coaching-6] 코치가 특정 코칭의 대표 영상을 설정할 수 있다.
    * privilege : 2
+   *
    * @param coachingId - 코칭 pk
-   * @param fileId - 파일 pk
+   * @param fileId     - 파일 pk
    * @return - [200] 등록 성공 메세지
    */
   @GetMapping("/{coachingId}/videos/{fileId}")

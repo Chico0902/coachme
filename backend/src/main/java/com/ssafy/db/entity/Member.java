@@ -153,4 +153,9 @@ public class Member extends BaseEntity {
     this.coameTaughtCourses.add(coameCoaching);
   }
 
+  public void addCoachReview(Review review) {
+    this.receivedReviews.add(review);
+  }
+
+
 }

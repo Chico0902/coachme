@@ -52,7 +52,7 @@ public class RedisScheduledTask {
         String value = stringRedisTemplate.opsForValue().get(key);
 
         DmRedisDto data = RedisUtils.parser(key);
-        if(data != null){
+        if (data != null) {
           memberList.add(data.getMember());
           dmRoomList.add((long) data.getRoomId());
           if (!"".equals(value)) {
