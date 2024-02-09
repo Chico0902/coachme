@@ -1,96 +1,84 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { getDmsByMemberId, getDmsByRoomId, getMyDmRooms } from '@/utils/api/dm-api'
+import router from '@/router'
+import member from '@/tests/mocks/handler/member'
 
 export const useChatStore = defineStore('chatStatus', () => {
-  const isChatList = ref(true) // dm 리스트가 표시되는지
-  const showChat = ref(false) // dm창 자체가 열려있는지
-  const joinedRoomId = ref('')
-  const chatList = ref([
-    {
-      img: 'https://cdn.quasar.dev/img/avatar2.jpg',
-      name: 'Mary',
-      lastDm: 'Hello',
-      roomId: 1
-    },
-    {
-      img: 'https://cdn.quasar.dev/img/avatar4.jpg',
-      name: 'John',
-      lastDm: 'Your suggestion is considered.',
-      roomId: 3
-    },
-    {
-      img: 'https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg',
-      name: 'White Cat',
-      lastDm: 'meow',
-      roomId: 5
-    }
-  ])
+  const useDmWindow = ref(false)
+  const roomId = ref('')
+  const myLongId = ref('')
+  const coachId = ref('')
+  const coachName = ref('김코치')
+  const coachImageUrl = ref('https://cdn.quasar.dev/img/avatar2.jpg')
+  const chatList = ref([])
   /**
    * dm 리스트
    * 프로필사진, 이름, 마지막 메시지
    */
 
-  const directMessages = ref([
-    {
-      memberId: '1',
-      memberName: '남코미',
-      memberProfileUrl: '/assets/img/logo.png',
-      message: 'hey, how are you?'
-    },
-    {
-      memberId: '1',
-      memberName: '남코미',
-      memberProfileUrl: '/assets/img/logo.png',
-      message: "I'm so so these day"
-    },
-    {
-      memberId: '2',
-      memberName: '김코치',
-      memberProfileUrl: '/assets/img/logo.png',
-      message: 'doing fine, how r you?'
-    },
-    {
-      memberId: '1',
-      memberName: '남코미',
-      memberProfileUrl: '/assets/img/logo.png',
-      chat: 'I just feel like typing a really, really, REALLY long message to annoy you...'
-    }
-  ])
-  /* 주고받은 dm 내용
-  예시로 작성되었으며, 1:1 리스트에 표시될 내역
-  */
+  const chats = ref([])
 
-  const selectDm = () => {
-    isChatList.value = !isChatList.value
-  } // dm리스트에서 하나의 방을 골랐을 때
+  // 채팅목록 가져오기
+  async function openChatList() {
+    // 로그인 여부 체크
+    myLongId.value = decodeToken(getAccessToken()).longId
+    // 채팅목록 가져오기 api
+    getMyDmRooms(
+      myLongId.value,
+      (success) => (chatList.value = success.data.list),
+      (fail) => console.log(fail)
+    )
+  }
 
-  const backToList = () => {
-    isChatList.value = !isChatList.value
-  } // 1:1dm에서 홈버튼을 눌렀을 때
+  // 채팅목록에서 1개 선택
+  function openChatByRoomId(getRoomId, getCoachName, getProfileImg) {
+    roomId.value = getRoomId
+    coachName.value = getCoachName
+    coachImageUrl.value = getProfileImg
+    getDmsByRoomId(
+      getRoomId,
+      (success) => {
+        chats.value = success.data.list
+      },
+      (fail) => console.log(fail)
+    )
+    useDmWindow.value = true
+  }
 
-  const closeDmWindow = () => {
-    showChat.value = !showChat.value
-  } // 어느 창이든 닫기 버튼을 눌렀을 때
+  // 문의하기
+  function openChatByMemberId(getCoachId, getCoachName, getProfileImg) {
+    // 로그인 여부 체크
+    myLongId.value = decodeToken(getAccessToken()).longId
+    coachId.value = getCoachId
+    coachName.value = getCoachName
+    coachImageUrl.value = getProfileImg
 
-  const resetDm = () => {
-    isChatList.value = true
-  } // dm 창 자체가 닫혔을 때, 리스트로 돌아가도록 설정
-
-  const requestDm = () => {
-    showChat.value = true
-    isChatList.value = true
-  } // 코치 카드에서 채팅하기 버튼 클릭 했을 때 작동 버튼
+    getDmsByMemberId(
+      myLongId.value,
+      coachId.value,
+      (success) => {
+        console.log(success)
+        chats.value = success.data.dmList
+        roomId.value = success.data.roomId
+      },
+      (fail) => console.log(fail)
+    )
+    useDmWindow.value = true
+  }
 
   return {
-    joinedRoomId,
-    isChatList,
-    showChat,
+    useDmWindow,
     chatList,
-    directMessages,
-    selectDm,
-    backToList,
-    closeDmWindow,
-    resetDm,
-    requestDm
+    chats,
+    roomId,
+    myLongId,
+    coachId,
+    coachName,
+    coachImageUrl,
+    openChatList,
+    openChatByRoomId,
+    openChatByMemberId
   }
 })
