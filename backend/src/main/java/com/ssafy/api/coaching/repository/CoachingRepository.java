@@ -1,7 +1,6 @@
 package com.ssafy.api.coaching.repository;
 
 import com.ssafy.api.coach.dto.response.CoachesResponseDtos;
-import com.ssafy.api.coaching.dto.response.CoachingPopularResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachingResponseDtos;
 import com.ssafy.db.entity.Coaching;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,8 +25,9 @@ public interface CoachingRepository extends JpaRepository<Coaching, Long> {
       "WHERE (:subCategoryId IS NULL OR c.sub_category_id = :subCategoryId) " +
       "AND (:mainCategoryId IS NULL OR c.main_category_id = :mainCategoryId) " +
       "AND (:words IS NULL OR m.name like %:words%) " +
+      "AND (:memberId IS NULL OR m.member_id != :memberId) " +
       "group by m.name, m.string_id, f.url", nativeQuery = true)
-  List<CoachesResponseDtos> findByCoachCategory(Long mainCategoryId, Long subCategoryId, String words);
+  List<CoachesResponseDtos> findByCoachCategory(Long mainCategoryId, Long subCategoryId, String words, String memberId);
 
   @Query(value = "SELECT " +
       "    c.coaching_id as coachingId, " +
@@ -50,14 +50,7 @@ public interface CoachingRepository extends JpaRepository<Coaching, Long> {
       "WHERE c.coach.longId = :longId")
   List<Coaching> findByCoachId(Long longId);
 
-
-  //  @Query("SELECT c FROM Review r JOIN r.coaching c ORDER BY AVG(r.score) DESC limit 5")
-  @Query("SELECT NEW com.ssafy.api.coaching.dto.response.CoachingPopularResponseDto" +
-      "(c.id, c.name, AVG(r.score)) FROM Coaching c JOIN Review r GROUP BY c.id, c.name")
-//  @Query("SELECT c FROM Review r JOIN r.coaching c ORDER BY AVG(r.score) DESC limit 5")
-  List<CoachingPopularResponseDto> findByPopularCoacing();
-
-//  @Query("SELECT r FROM Review r ORDER BY r.scoreAverage DESC")
-//  List<Review> findTop5ByOrderByScoreAverageDesc();
+  @Query("SELECT c FROM Review r right JOIN r.coaching c GROUP BY c ORDER BY AVG(r.score) DESC limit 5")
+  List<Coaching> findByPopularCoacing();
 
 }

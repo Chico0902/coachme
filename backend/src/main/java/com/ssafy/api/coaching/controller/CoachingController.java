@@ -103,7 +103,8 @@ public class CoachingController {
    * @return - [200] 등록 성공 메세지
    */
   @GetMapping("/{coachingId}/videos/{fileId}")
-  public ResponseEntity<?> registRepresentVideo(@PathVariable Long coachingId, @PathVariable Long fileId) {
+  public ResponseEntity<?> registRepresentVideo(@PathVariable("coachingId") Long coachingId,
+                                                @PathVariable("fileId") Long fileId) {
     coachingService.registRepresentVideo(coachingId, fileId);
     return new ResponseEntity<>(new MessageDto("regist video successfully"), HttpStatus.OK);
   }
