@@ -1,15 +1,19 @@
 <script setup>
 import CoachCardList from '@/components/molecules/SearchCoachCardList.vue'
-import chatButton from '@/components/molecules/ChatButton.vue'
+import DmWindow from '@/components/molecules/DmWindow.vue'
 import CustomCategory from '@/components/molecules/CustomCategory.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
-import { useCoachStore } from '@/stores/coach'
 import InputForm from '@/components/molecules/InputForm.vue'
+import DmList from '@/components/molecules/DmList.vue'
+import { useCoachStore } from '@/stores/coach'
 import { postCoachesByCategory } from '@/utils/api/coach-api'
 import { onBeforeMount, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useChatStore } from '@/stores/chat-status'
+import { useAuthStore } from '@/stores/auth'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 
 /**
  * VARIABLES
@@ -32,12 +36,18 @@ const bColor = "#FCBF17"
 
 // pinia
 const coachStore = useCoachStore()
+const chatStore = useChatStore()
+const authStore = useAuthStore()
+const { isLogin } = storeToRefs(authStore)
 const { coaches } = storeToRefs(coachStore)
+const { useDmWindow } = storeToRefs(chatStore)
 
+// 로그인 여부
+const loginMemberId = isLogin.value ? decodeToken(getAccessToken()).longId : -1
 /**
  * METHODS
  */
-
+const { openChatList } = chatStore
 const changeListAndMatching = () => {
   isMatching.value = !isMatching.value
 }
@@ -47,7 +57,7 @@ onBeforeMount(() => {
   postCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
     selectedSubCategory.value.toLowerCase(),
-    { words: 'all' },
+    { words: 'all', loginMemberId },
     (success) => {
       console.log(success)
       coaches.value = success.data.list
@@ -65,7 +75,7 @@ const clickCategory = (index, name) => {
   postCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
     selectedSubCategory.value.toLowerCase(),
-    { words: 'all' },
+    { words: 'all', loginMemberId },
     (success) => {
       coaches.value = success.data.list
       console.log(success)
@@ -80,7 +90,7 @@ const clickSubCategory = (name) => {
   postCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
     selectedSubCategory.value.toLowerCase(),
-    { words: 'all' },
+    { words: 'all', loginMemberId },
     (success) => {
       coaches.value = success.data.list
       console.log(success)
@@ -95,7 +105,7 @@ const searchByWords = (words) => {
   postCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
     selectedSubCategory.value.toLowerCase(),
-    { words: words.input },
+    { words: words.input, loginMemberId },
     (success) => {
       coaches.value = success.data.list
       console.log(success)
@@ -119,7 +129,7 @@ const searchByWords = (words) => {
         <div class="rightPage">
           <!-- 검색창 -->
           <div>
-            <InputForm class="search" :background="bColor" @inputData="searchByWords"></InputForm>
+            <InputForm class="search" @inputData="searchByWords"></InputForm>
           </div>
           <div class="mainpage">
             <!-- 코치 매칭 카드  -->
@@ -127,70 +137,26 @@ const searchByWords = (words) => {
             <SearchCoachList v-else style="margin-top: 2vh; margin-left: 0.6vw"></SearchCoachList>
           </div>
         </div>
+
         <!-- 채팅 버튼 -->
         <div class="chat-button">
-          <chatButton style="width: 50px; height: 50px"> </chatButton>
+          <q-btn round size="20px" color="amber-7" icon="chat" @click="openChatList()"></q-btn>
+          <!-- dm 영역 -->
+          <q-menu style="max-height: 400px; max-width: 400px">
+            <DmList />
+          </q-menu>
         </div>
-
-        <!-- 전환 버튼 -->
-        <div class="matching-button">
-          <q-btn
-            v-if="isMatching"
-            round
-            style="width: 50px; height: 50px"
-            size="20px"
-            color="blue-9"
-            icon="list"
-            @click="changeListAndMatching"
-          >
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-              <strong>리스트로 보기</strong>
-            </q-tooltip>
-          </q-btn>
-          <q-btn
-            v-else
-            round
-            style="width: 50px; height: 50px"
-            size="20px"
-            color="blue-9"
-            icon="style"
-            @click="changeListAndMatching"
-          >
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-              <strong>매칭 하기</strong>
-            </q-tooltip>
-          </q-btn>
-        </div>
-
-        <!-- 전환 버튼 -->
-        <div class="matching-button">
-          <q-btn
-            v-if="isMatching"
-            round
-            style="width: 50px; height: 50px"
-            size="20px"
-            color="blue-9"
-            icon="list"
-            @click="changeListAndMatching"
-          >
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-              <strong>리스트로 보기</strong>
-            </q-tooltip>
-          </q-btn>
-          <q-btn
-            v-else
-            round
-            style="width: 50px; height: 50px"
-            size="20px"
-            color="blue-9"
-            icon="style"
-            @click="changeListAndMatching"
-          >
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-              <strong>매칭 하기</strong>
-            </q-tooltip>
-          </q-btn>
-        </div>
+        <q-layout
+          v-if="useDmWindow === true"
+          view="lHh Lpr lFf"
+          container
+          style="height: 400px"
+          class="shadow-2 rounded-borders dm-window-container"
+        >
+          <q-page-container>
+            <DmWindow />
+          </q-page-container>
+        </q-layout>
 
         <!-- 전환 버튼 -->
         <div class="matching-button">
@@ -304,6 +270,18 @@ const searchByWords = (words) => {
   text-align: center;
 }
 
+.dm-window-container {
+  position: fixed;
+  bottom: 150px;
+  right: 10vw;
+  color: #fff;
+  background-color: white;
+  text-align: center;
+  z-index: 7000;
+  max-height: 600px;
+  max-width: 300px;
+  overflow: scroll;
+}
 .chat-button {
   position: fixed;
   bottom: 60px;
