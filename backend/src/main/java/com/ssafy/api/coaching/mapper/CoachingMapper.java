@@ -31,6 +31,7 @@ public interface CoachingMapper {
   @Mapping(source = "coame.stringId", target = "stringId")
   @Mapping(source = "coame.name", target = "name")
   @Mapping(source = "coame.profileImage.url", target = "url")
+  @Mapping(source = "coame.profileText", target = "profileText")
   CoameListResponseDto coachingToCoameListResponseDto(CoameCoaching coameCoaching);
 
   List<CoameListResponseDto> coachingToCoameListResponseDto(List<CoameCoaching> coameCoachings);
