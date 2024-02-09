@@ -1,7 +1,6 @@
 package com.ssafy.util.file.Mapper;
 
 import com.ssafy.api.coach.dto.response.VideoResponseDto;
-import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.File;
 import com.ssafy.util.file.dto.response.FileResponseDto;
 import org.mapstruct.Mapper;
