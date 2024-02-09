@@ -51,6 +51,6 @@ public interface CoachingRepository extends JpaRepository<Coaching, Long> {
   List<Coaching> findByCoachId(Long longId);
 
   @Query("SELECT c FROM Review r right JOIN r.coaching c GROUP BY c ORDER BY AVG(r.score) DESC limit 5")
-  List<Coaching> findByPopularCoacing();
+  List<Coaching> findByPopularCoaching();
 
 }

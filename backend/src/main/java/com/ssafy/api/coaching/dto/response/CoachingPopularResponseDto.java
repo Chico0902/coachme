@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CoachingPopularResponseDto {
-  long coacingId;
-  String coacingVideoUrl;
-  String coacingName;
-  float coacingReviewAvg;
+  long coachingId;
+  String coachingVideoUrl;
+  String coachingName;
+  float coachingReviewAvg;
 }

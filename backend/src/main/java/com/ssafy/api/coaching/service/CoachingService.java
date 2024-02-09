@@ -198,22 +198,22 @@ public class CoachingService {
   public List<CoachingPopularResponseDto> getPopularCoaching() {
     List<CoachingPopularResponseDto> popularList = new ArrayList<>();
 
-    List<Coaching> coachingList = coachingRepository.findByPopularCoacing();
+    List<Coaching> coachingList = coachingRepository.findByPopularCoaching();
 
     for (Coaching list : coachingList) {
       CoachingPopularResponseDto dto = new CoachingPopularResponseDto();
-      dto.setCoacingId(list.getId());
-      dto.setCoacingName(list.getName());
+      dto.setCoachingId(list.getId());
+      dto.setCoachingName(list.getName());
 
       int sum = 0;
       for (Review review : list.getReceivedReviews()) {
         sum += review.getScore();
       }
       if (!list.getReceivedReviews().isEmpty()) {
-        dto.setCoacingReviewAvg((float) sum / list.getReceivedReviews().size());
+        dto.setCoachingReviewAvg((float) sum / list.getReceivedReviews().size());
       }
       if (list.getRepresent() != null) {
-        dto.setCoacingVideoUrl(list.getRepresent().getUrl());
+        dto.setCoachingVideoUrl(list.getRepresent().getUrl());
       }
       popularList.add(dto);
     }
