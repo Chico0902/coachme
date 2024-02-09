@@ -2,7 +2,6 @@ package com.ssafy.api.dm.util;
 
 import com.ssafy.api.dm.dto.DmRedisDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class RedisUtils {
 
   private final StringRedisTemplate stringRedisTemplate;
@@ -57,25 +55,22 @@ public class RedisUtils {
   public String getLastDm(String prefix) {
     String pattern = prefix + "*";
     ScanOptions options = ScanOptions.scanOptions().match(pattern).build();
-    String lastDm = "";
-
-    LocalDateTime latestDateTime = LocalDateTime.MIN; // 가장 최근 날짜와 시간을 저장할 변수
+    String lastDm = null; // 가장 최근 value를 저장할 변수
+    String lastTime = null; // 가장 최근 시간을 저장할 변수
 
     try (var cursor = stringRedisTemplate.scan(options)) {
       while (cursor.hasNext()) {
         String key = cursor.next();
-        String value = stringRedisTemplate.opsForValue().get(key);
-        String dateString = key.split("_")[2]; // 키에서 날짜 부분 추출
-        LocalDateTime dateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-        if (dateTime.isAfter(latestDateTime)) {
-          latestDateTime = dateTime; // 가장 최근 날짜와 시간 갱신
-          lastDm = value; // 최근 날짜와 시간에 해당하는 값을 lastDm에 저장
+        String[] parts = key.split("_");
+        String timestamp = parts[parts.length - 1];
+        if (lastTime == null || timestamp.compareTo(lastTime) > 0) {
+          lastTime = timestamp; // 가장 최근 시간 업데이트
+          lastDm = stringRedisTemplate.opsForValue().get(key);
         }
       }
     }
     return lastDm;
   }
-
 
   public static DmRedisDto parser(String data) {
     Pattern pattern = Pattern.compile("(\\d+)_(\\w+)_(\\d+)");

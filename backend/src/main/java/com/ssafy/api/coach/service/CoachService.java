@@ -55,14 +55,14 @@ public class CoachService {
     Long mainCategoryId;
 
     String words = coachesRequestDto.getWords();
-    String memberId = String.valueOf(coachesRequestDto.getLoginMemberId());
+    long memberId = coachesRequestDto.getLoginMemberId();
 
     if (coachesRequestDto.getWords().equals("all")) {
       words = null;
     }
 
     if (coachesRequestDto.getLoginMemberId() == -1) {
-      memberId = null;
+      memberId = -1;
     }
 
     if (division1.equals("all")) {
