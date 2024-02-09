@@ -1,7 +1,7 @@
 package com.ssafy.api.member.controller;
 
+import com.ssafy.api.coach.dto.response.CalendarResponseDto;
 import com.ssafy.api.member.dto.request.*;
-import com.ssafy.api.member.dto.response.CalendarResponseDto;
 import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;

@@ -1,17 +1,17 @@
 package com.ssafy.api.member.service;
 
-import com.ssafy.api.coaching.repository.CoachingRepository;
+import com.ssafy.api.coach.dto.response.CalendarResponseDto;
+import com.ssafy.api.coaching.mapper.CoachingMapper;
+import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.member.dto.request.ElevationRequestDto;
 import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.api.member.dto.request.ProfileTextRequestDto;
-import com.ssafy.api.member.dto.response.CalendarResponseDto;
 import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
-import com.ssafy.db.entity.CoameCoaching;
 import com.ssafy.db.entity.File;
 import com.ssafy.db.entity.LiveCoaching;
 import com.ssafy.db.entity.Member;
@@ -24,9 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +37,7 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final FileService fileService;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
-  private final CoachingRepository coachingRepository;
+  private final LiveCoachingRepository liveCoachingRepository;
 
   /**
    * 회원정보 요청을 받아서 비밀번호를 암호화하고 Member 엔티티로 저장
@@ -168,39 +165,9 @@ public class MemberService {
    */
   public List<CalendarResponseDto> getCalendar(Long longId) {
 
-    Member member = memberRepository.findByIdWithDetail(longId);
-    List<CalendarResponseDto> list = new ArrayList<>();
+    List<LiveCoaching> liveCoachingList = liveCoachingRepository.findByCoameId(longId);
 
-    for (CoameCoaching coameCoaching : member.getCoameTaughtCourses()) {
-      LiveCoaching liveCoaching = coameCoaching.getLiveCoaching();
-
-      CalendarResponseDto calendarResponseDto = new CalendarResponseDto();
-      calendarResponseDto.setId(liveCoaching.getId());
-      calendarResponseDto.setClassName(liveCoaching.getCoaching().getName());
-      String[] dateAndTime = getDateAndTime(liveCoaching.getCoachingDate());
-      calendarResponseDto.setDate(dateAndTime[0]);
-      calendarResponseDto.setTime(dateAndTime[1]);
-      list.add(calendarResponseDto);
-    }
-
-    return list;
+    return CoachingMapper.instance.liveCoachingToCalendarResponseDto(liveCoachingList);
   }
 
-  /**
-   * 시간을 날짜와 시간으로 포맷팅하는 메서드
-   *
-   * @param localDateTime - 라이브 코칭 시간
-   * @return - 날짜와 시간을 담은 String 배열
-   */
-  public String[] getDateAndTime(LocalDateTime localDateTime) {
-
-    String[] result = new String[2];
-    DateTimeFormatter format_date = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-    DateTimeFormatter format_time = DateTimeFormatter.ofPattern("HH:mm");
-
-    result[0] = localDateTime.format(format_date);
-    result[1] = localDateTime.format(format_time);
-
-    return result;
-  }
 }
