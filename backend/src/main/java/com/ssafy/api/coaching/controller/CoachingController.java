@@ -23,7 +23,7 @@ public class CoachingController {
   private final CoachingService coachingService;
 
   /**
-   * [coaching-6] 코미가 라이브 코칭을 수강 신청
+   * [coaching-1] 코미가 라이브 코칭을 수강 신청
    * privilege : 1
    *
    * @return [200] 정상 등록완료
@@ -37,7 +37,7 @@ public class CoachingController {
   }
 
   /**
-   * [coaching-7] 회원정보 권한 상승 요청 시, 유효한 요청인지 확인 후 권한 상승 목록에 추가한다.
+   * [coaching-2] 코치가 마이페이지>라이브관리에서 라이브코칭을 선택하면 해당 코칭을 수강하고 있는 수강생 목록을 조회한다.
    * privilege : 2
    *
    * @return [200] 코미 id, 이름, 프로필사진 URL
