@@ -200,8 +200,6 @@ public class CoachingService {
 
     List<Coaching> coachingList = coachingRepository.findByPopularCoacing();
 
-    log.debug("coachingList.size() {}", coachingList.get(0));
-
     for (Coaching list : coachingList) {
       CoachingPopularResponseDto dto = new CoachingPopularResponseDto();
       dto.setCoacingId(list.getId());

@@ -25,9 +25,9 @@ public interface CoachingRepository extends JpaRepository<Coaching, Long> {
       "WHERE (:subCategoryId IS NULL OR c.sub_category_id = :subCategoryId) " +
       "AND (:mainCategoryId IS NULL OR c.main_category_id = :mainCategoryId) " +
       "AND (:words IS NULL OR m.name like %:words%) " +
-      "AND (:memberId IS NULL OR m.member_id != :memberId) " +
+      "AND (:memberId = -1 OR m.member_id != :memberId) " +
       "group by m.name, m.string_id, f.url", nativeQuery = true)
-  List<CoachesResponseDtos> findByCoachCategory(Long mainCategoryId, Long subCategoryId, String words, String memberId);
+  List<CoachesResponseDtos> findByCoachCategory(Long mainCategoryId, Long subCategoryId, String words, long memberId);
 
   @Query(value = "SELECT " +
       "    c.coaching_id as coachingId, " +
