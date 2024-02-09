@@ -41,8 +41,9 @@ public class Coaching extends BaseEntity {
   @OneToMany(mappedBy = "coaching")
   private List<File> videoCoachings = new ArrayList<>();
 
-  @Column(name = "represent")
-  private Long represent;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "represent_id")
+  private File represent;
 
   @Column
   private Integer price;
@@ -95,8 +96,8 @@ public class Coaching extends BaseEntity {
     this.receivedReviews.add(review);
   }
 
-  public void registRepresent(Long fileId) {
-    this.represent = fileId;
+  public void registRepresent(File file) {
+    this.represent = file;
   }
 
   public void addLiveCoaching(LiveCoaching liveCoaching) {
