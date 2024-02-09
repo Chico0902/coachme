@@ -6,7 +6,12 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
  * URI : /coaches/categories/{division1}/{division2}
  * 권한 : 0
  * 설명 : 해당 분류 코치들의 정보를 받아온다.
+ * @param {Object} dto 
  * @param {String} division1 메인 카테고리
+ * dto : {
+            "words": String,
+            "loginMemberId": Long(로그인 안했으면 -1)
+          }
  * @param {String} division2 서브 카테고리
  * @param {Promise} success
  * 설명 : 정상 조회완료
