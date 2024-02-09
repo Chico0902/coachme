@@ -100,8 +100,8 @@ public class CoachController {
    */
   @GetMapping("/{coachId}/coachings")
   public ResponseEntity<?> getCoachingList(@PathVariable(name = "coachId") Long longId) throws Exception {
-
-    return new ResponseEntity<>(coachingService.getCoachesCoachings(longId), HttpStatus.OK);
+    ListDataDto list = new ListDataDto(coachingService.getCoachesCoachings(longId));
+    return new ResponseEntity<>(list, HttpStatus.OK);
   }
 
   /**
