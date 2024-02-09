@@ -10,6 +10,8 @@ liked : 찜콩버튼 클릭시 발생할 함수. function. 기본값 없음
 <script setup>
 import labels from '../atoms/CardLabel.vue'
 import like from '../atoms/CustomLike.vue'
+import { setRepresentativeVideo } from '@/utils/api/coaching-api'
+
 const props = defineProps({
   label: {
     type: String,
@@ -27,6 +29,12 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  coachingId: {
+    type: String
+  },
+  videoId: {
+    type: Number
+  },
   liked: {
     type: Function,
     default: () => {}
@@ -36,6 +44,23 @@ const props = defineProps({
     default: true
   }
 })
+
+const setVideo = () => {
+
+  setRepresentativeVideo(
+    props.coachingId, props.videoId,
+    (success) => {
+      console.log(success.data)
+      alert("대표 영상으로 등록되었습니다.")
+    },
+    (fail) => {
+      console.log(fail.data)
+      alert("대표 영상 등록이 실패하였습니다.")
+    }
+  )
+  
+}
+
 </script>
 
 <template>
@@ -56,12 +81,23 @@ const props = defineProps({
         <labels caption :label="`${props.caption}`"></labels>
       </q-item-section>
       <!-- 공간 차지-->
-      <q-item-section v-if="visible">
+      <q-item-section>
         <q-space></q-space>
       </q-item-section>
       <!-- 찜콩 버튼-->
       <q-item-section v-if="visible">
         <like :clicked="liked"></like>
+      </q-item-section>
+      <!-- 대표 영상 설정 -->
+      <q-item-section v-if="!visible">
+        <q-btn
+          padding="xs"
+          color="amber-7"
+          icon="check"
+          @click="setVideo"
+        >
+        <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
+      </q-btn>
       </q-item-section>
     </q-item>
   </q-card>

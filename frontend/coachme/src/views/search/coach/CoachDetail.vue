@@ -5,7 +5,13 @@ import ChatBox from '@/components/molecules/CoachChatBox.vue';
 import DetailTopBar from '@/components/molecules/DetailTopBar.vue';
 import ChatButton from '@/components/molecules/ChatButton.vue';
 import Reviews from '@/components/molecules/ReviewDetailCard.vue';
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+
+const props = defineProps({
+  id : {  
+    type :  Number
+  },
+})
 
 const coachings = ["soccer", "soccer2", "football"]
 // 제공 코칭 리스트
@@ -37,6 +43,10 @@ const reviewData = (data) => {
   review : data.review})
   review.value = review.value + 1
 } // 리뷰 입력폼에서 입력받은 리뷰와 별점을 처리하는 함수
+
+onBeforeMount(() => {
+
+})
 
 </script>
 
