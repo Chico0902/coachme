@@ -45,20 +45,20 @@ const groupedFilteredVideos = computed(() => {
 });
 // 각 코칭 별로 코칭 영상 리스트를 추출
 
-onBeforeMount(() => {
-  const longId = decodeToken(getAccessToken()).longId
-  // 본인 아이디로 코칭 영상 리스트 조회
-  getVideoList(
-    longId,
-    (success) => {
-      console.log(success)
-      videos.value = success.data.list
-    },
-    (fail) => {
-      console.log(fail)
-    }
-  )
-})
+  onBeforeMount(() => {
+    const longId = decodeToken(getAccessToken()).longId
+    // 본인 아이디로 코칭 영상 리스트 조회
+    getVideoList(
+      longId,
+      (success) => {
+        console.log(success.data)
+        videos.value = success.data.list
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    )
+  })
 
 </script>
 <template>
@@ -75,7 +75,8 @@ onBeforeMount(() => {
       <div class="coaching-group-title">{{ coachingName }}</div>
       <div class="coaching-outside element-with-scrollbar">
         <div v-for="video in videosGroup" :key="video.videoId" class="coaching-card">
-          <coaching :label="video.videoName" :caption="caption" :ratio="ratio" :video="video" :visible="false">
+          <coaching :label="video.videoName" :caption="caption" :ratio="ratio" 
+          :video="video" :visible="false" :coachingId="video.coachingId" :videoId="video.videoId">
           </coaching>
         </div>
       </div>
