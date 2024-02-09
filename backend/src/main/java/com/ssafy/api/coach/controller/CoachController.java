@@ -181,11 +181,12 @@ public class CoachController {
   /**
    * [coach-12] 코치가 라이브 코칭을 생성한다.
    * privilege : 2
+   *
    * @param createLiveRequestDto - 생성할 라이브 코칭 정보
    * @return - [200] 라이브 코칭 생성 완료 메세지
    */
   @PostMapping("/{coachId}/live")
-  public ResponseEntity<?> createLiveCoaching(@RequestBody CreateLiveRequestDto createLiveRequestDto){
+  public ResponseEntity<?> createLiveCoaching(@RequestBody CreateLiveRequestDto createLiveRequestDto) {
     coachService.createLiveCoaching(createLiveRequestDto);
     return new ResponseEntity<>(new MessageDto("create live successfuly"), HttpStatus.OK);
   }
@@ -193,6 +194,7 @@ public class CoachController {
   /**
    * [coach-13] 코치가 자신의 영상 목록을 조회할 수 있다.
    * privilege : 2
+   *
    * @param coachId - 코치 pk
    * @return - [200] 영상 정보 리스트
    */
