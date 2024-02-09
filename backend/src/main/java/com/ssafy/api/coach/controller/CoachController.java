@@ -1,8 +1,8 @@
 package com.ssafy.api.coach.controller;
 
+import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coach.dto.request.CreateLiveRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
-import com.ssafy.api.coach.dto.request.SearchWordsRequestDto;
 import com.ssafy.api.coach.dto.response.CalendarResponseDto;
 import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
 import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
@@ -43,8 +43,8 @@ public class CoachController {
   public ResponseEntity<ListDataDto> getCoachList(
       @PathVariable("division1") String division1,
       @PathVariable("division2") String division2,
-      @RequestBody SearchWordsRequestDto searchWordsRequestDto) {
-    ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(division1, division2, searchWordsRequestDto.getWords()));
+      @RequestBody CoachesRequestDto coachesRequestDto) {
+    ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(division1, division2, coachesRequestDto));
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
