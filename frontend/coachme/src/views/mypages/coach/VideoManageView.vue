@@ -4,17 +4,17 @@ import { ref, computed, onBeforeMount } from 'vue';
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getVideoList } from '@/utils/api/coach-api'
 
-const videos = ref([
-  { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 1, videoUrl: "https://naver.com", videoName: "기본편" },
-  { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 2, videoUrl: "https://naver.com", videoName: "연습편" },
-  { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 6, videoUrl: "https://naver.com", videoName: "실전편" },
-  { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 7, videoUrl: "https://naver.com", videoName: "종합" },
-  { coachingId: 2, coachingName: "김지원의 따뜻한 뜨개질 세계", videoId: 3, videoUrl: "https://naver.com", videoName: "기초" },
-  { coachingId: 2, coachingName: "김지원의 따뜻한 뜨개질 세계", videoId: 4, videoUrl: "https://naver.com", videoName: "프로젝트" },
-  { coachingId: 3, coachingName: "기본부터 진행하는 농구 교실", videoId: 5, videoUrl: "https://naver.com", videoName: "기초편" },
-]);
+// const videos = ref([
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 1, videoUrl: "https://naver.com", videoName: "기본편" },
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 2, videoUrl: "https://naver.com", videoName: "연습편" },
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 6, videoUrl: "https://naver.com", videoName: "실전편" },
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 7, videoUrl: "https://naver.com", videoName: "종합" },
+//   { coachingId: 2, coachingName: "김지원의 따뜻한 뜨개질 세계", videoId: 3, videoUrl: "https://naver.com", videoName: "기초" },
+//   { coachingId: 2, coachingName: "김지원의 따뜻한 뜨개질 세계", videoId: 4, videoUrl: "https://naver.com", videoName: "프로젝트" },
+//   { coachingId: 3, coachingName: "기본부터 진행하는 농구 교실", videoId: 5, videoUrl: "https://naver.com", videoName: "기초편" },
+// ]);
 
-// const videos = ref([])
+const videos = ref([])
 
 const coachingOptions = Array.from(new Set(videos.value.map(video => video.coachingId)))
   .map(coachingId => {
