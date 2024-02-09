@@ -167,6 +167,6 @@ export function getPopularCoachingList(success, fail) {
             message : String
           }
   */
-export function getCoachingDetailPage(coachingId, success, fail) {
+export function getmainvideo(coachingId, success, fail) {
   authAxios.get(`/coachings/${coachingId}`).then(success).catch(fail)
 }

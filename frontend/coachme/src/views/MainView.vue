@@ -18,6 +18,7 @@ import { useMemberStore } from '@/stores/member'
 import { useAuthStore } from '../stores/auth'
 import { storeToRefs } from 'pinia'
 import { decodeToken } from '@/utils/functions/auth'
+import { getPopularCoachingList } from '@/utils/api/coaching-api'
 
 
 /**
@@ -71,6 +72,12 @@ const updateScreenWidth = () => {
   screenWidth.value = window.innerWidth
 }
 
+// 인기코칭
+const popularCocing = () => {
+  console.log(getPopularCoachingList.value)
+
+}
+
 onMounted(() => {
   window.addEventListener('resize', updateScreenWidth)
 })
@@ -78,6 +85,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', updateScreenWidth)
 })
+
 
 </script>
 <template>
