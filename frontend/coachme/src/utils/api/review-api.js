@@ -85,7 +85,7 @@ export function postcoachingReview(dto, success, fail) {
             message : String
           }
  */
-export function patchMyReview(dto, success, fail) {
+export function patchMyReview(reviewId, dto, success, fail) {
   authAxios.patch(`/review/${reviewId}`, dto).then(success).catch(fail)
 }
 
@@ -147,7 +147,7 @@ export function deleteMyReview(success, fail) {
           }
  */
 export function getCoachReview(coachId, success, fail) {
-  publicAxios.get(`/review/${coachId}`).then(success).catch(fail)
+  publicAxios.get(`/review/coach/${coachId}`).then(success).catch(fail)
 }
 
 /**
@@ -183,6 +183,6 @@ export function getCoachReview(coachId, success, fail) {
             message : String
           }
  */
-export function getCoachReview(coachingId, success, fail) {
+export function getCoachingReview(coachingId, success, fail) {
   publicAxios.get(`/review/coaching/${coachingId}`).then(success).catch(fail)
 }
