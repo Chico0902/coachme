@@ -12,12 +12,14 @@ import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.entity.type.CategoryType;
+import com.ssafy.util.file.repository.FileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,6 +33,7 @@ public class CoachingService {
   private final CoachingRepository coachingRepository;
   private final CategoryRepository categoryRepository;
   private final ReviewRepository reviewRepository;
+  private final FileRepository fileRepository;
 
   /**
    * 라이브 코칭을 수강하는 코미 목록을 반환하는 메서드
@@ -93,7 +96,7 @@ public class CoachingService {
    * 분류별 코칭 정보 조회
    */
   public List<CoachingResponseDtos> getCoachingList(String division1, String division2, String words) {
-    List<CoachingResponseDtos> list;
+    List<CoachingResponseDtos> coachingList;
     Long mainCategoryId;
 
     if (words.equals("all")) {
@@ -101,18 +104,18 @@ public class CoachingService {
     }
     log.info("words : {}", words);
     if (division1.equals("all")) {
-      list = coachingRepository.findByCoachingCategory(null, null, words);
+      coachingList = coachingRepository.findByCoachingCategory(null, null, words);
     } else if (division2.equals("all")) {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
-      list = coachingRepository.findByCoachingCategory(mainCategoryId, null, words);
+      coachingList = coachingRepository.findByCoachingCategory(mainCategoryId, null, words);
     } else {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
       Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, division2);
 
-      list = coachingRepository.findByCoachingCategory(mainCategoryId, subCategoryId, words);
+      coachingList = coachingRepository.findByCoachingCategory(mainCategoryId, subCategoryId, words);
     }
 
-    return list;
+    return coachingList;
   }
 
   /**
@@ -193,23 +196,31 @@ public class CoachingService {
    * 메인페이지_인기 코칭 조회
    */
   public List<CoachingPopularResponseDto> getPopularCoaching() {
-//    CoachingPopularResponseDto dto = new CoachingPopularResponseDto();
-//    List<Coaching> popularList = coachingRepository.findByPopularCoacing();
-//
-//    for(Coaching list : popularList){
-//      CoachingPopularResponseDto dto = new CoachingPopularResponseDto();
-//      dto.setCoacingId(list.getId());
-//      dto.setCoacingName(list.getName());
-//
-//      int sum = 0;
-//      for (Review review : list.getReceivedReviews()){
-//        sum += review.getScore();
-//      }
-//      dto.setCoacingReviewAvg(sum/list.getReceivedReviews().size());
-//
-//    }
+    List<CoachingPopularResponseDto> popularList = new ArrayList<>();
 
-    return null;
+    List<Coaching> coachingList = coachingRepository.findByPopularCoacing();
+
+    log.debug("coachingList.size() {}", coachingList.get(0));
+
+    for (Coaching list : coachingList) {
+      CoachingPopularResponseDto dto = new CoachingPopularResponseDto();
+      dto.setCoacingId(list.getId());
+      dto.setCoacingName(list.getName());
+
+      int sum = 0;
+      for (Review review : list.getReceivedReviews()) {
+        sum += review.getScore();
+      }
+      if (!list.getReceivedReviews().isEmpty()) {
+        dto.setCoacingReviewAvg((float) sum / list.getReceivedReviews().size());
+      }
+      if (list.getRepresent() != null) {
+        dto.setCoacingVideoUrl(list.getRepresent().getUrl());
+      }
+      popularList.add(dto);
+    }
+
+    return popularList;
   }
 
   /**
@@ -220,6 +231,7 @@ public class CoachingService {
    */
   public void registRepresentVideo(Long coachingId, Long fileId) {
     Coaching coaching = coachingRepository.getReferenceById(coachingId);
-    coaching.registRepresent(fileId);
+    File file = fileRepository.getReferenceById(fileId);
+    coaching.registRepresent(file);
   }
 }

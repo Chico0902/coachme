@@ -1,5 +1,6 @@
 package com.ssafy.api.coach.service;
 
+import com.ssafy.api.coach.dto.request.CoachesRequestDto;
 import com.ssafy.api.coach.dto.request.CreateLiveRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
 import com.ssafy.api.coach.dto.response.*;
@@ -49,24 +50,31 @@ public class CoachService {
   /**
    * 분류별 코치 정보 조회
    */
-  public List<CoachesResponseDtos> getCoachList(String division1, String division2, String words) {
+  public List<CoachesResponseDtos> getCoachList(String division1, String division2, CoachesRequestDto coachesRequestDto) {
     List<CoachesResponseDtos> list;
     Long mainCategoryId;
 
-    if (words.equals("all")) {
+    String words = coachesRequestDto.getWords();
+    String memberId = String.valueOf(coachesRequestDto.getLoginMemberId());
+
+    if (coachesRequestDto.getWords().equals("all")) {
       words = null;
     }
 
+    if (coachesRequestDto.getLoginMemberId() == -1) {
+      memberId = null;
+    }
+
     if (division1.equals("all")) {
-      list = coachingRepository.findByCoachCategory(null, null, words);
+      list = coachingRepository.findByCoachCategory(null, null, words, memberId);
     } else if (division2.equals("all")) {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
-      list = coachingRepository.findByCoachCategory(mainCategoryId, null, words);
+      list = coachingRepository.findByCoachCategory(mainCategoryId, null, words, memberId);
     } else {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
       Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, division2);
 
-      list = coachingRepository.findByCoachCategory(mainCategoryId, subCategoryId, words);
+      list = coachingRepository.findByCoachCategory(mainCategoryId, subCategoryId, words, memberId);
     }
 
     return list;
