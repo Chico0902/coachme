@@ -58,5 +58,13 @@ public interface CoachingMapper {
 
   List<CoachDetail> coachingToCoachDetailList(List<Coaching> list);
 
+//  @Mapping(source = "name", target = "coacingId")
+//  @Mapping(source = "summary", target = "coacingVideoUrl")
+//  @Mapping(source = "mainCategory.name", target = "coacingName")
+////  @Mapping(source = "", target = "coacingReviewAvg")
+//  CoachDetail coachingToCoachingPopularResponseDto(Coaching coaching);
+//
+//  List<CoachDetail> coachingToCoachingPopularResponseDtoList(List<Coaching> list);
+
 
 }

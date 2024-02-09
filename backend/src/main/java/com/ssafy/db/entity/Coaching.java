@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +89,10 @@ public class Coaching extends BaseEntity {
     this.mainCategory = main;
     this.subCategory = sub;
     this.subCategory.addCategoryList(this);
+  }
+
+  public void addCoachingReview(Review review) {
+    this.receivedReviews.add(review);
   }
 
   public void registRepresent(Long fileId) {

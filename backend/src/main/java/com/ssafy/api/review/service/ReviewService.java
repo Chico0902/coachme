@@ -42,6 +42,7 @@ public class ReviewService {
         .build();
 
     reviewRepository.save(review);
+    memberRepository.getReferenceById(dto.getCoachId()).addCoachReview(review);
   }
 
   public void writeCoachingReview(CoachingReviewWriteRequestDto dto) {
@@ -57,6 +58,7 @@ public class ReviewService {
         .build();
 
     reviewRepository.save(review);
+    coachingRepository.getReferenceById(dto.getCoachingId()).addCoachingReview(review);
   }
 
   public void modifyReview(long reviewId, ReviewUpdateRequestDto dto) {
@@ -69,13 +71,13 @@ public class ReviewService {
   }
 
   public List<CoachReviewsResponseDto> getCoachReviews(long coachId) {
-    List<Review> reviews = reviewRepository.findAllByCoachId(coachId);
+    List<Review> reviews = memberRepository.getReferenceById(coachId).getReceivedReviews();
 
     return ReviewMapper.instance.reviewToCoachReviewsResponseDtoList(reviews);
   }
 
   public List<CoachingReviewsResponseDto> getCoachingReviews(long coachingId) {
-    List<Review> reviews = reviewRepository.findAllByCoachingId(coachingId);
+    List<Review> reviews = coachingRepository.getReferenceById(coachingId).getReceivedReviews();
 
     return ReviewMapper.instance.reviewToCoachingReviewsResponseDtoList(reviews);
   }

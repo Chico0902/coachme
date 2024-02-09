@@ -1,6 +1,7 @@
 package com.ssafy.api.coaching.repository;
 
 import com.ssafy.api.coach.dto.response.CoachesResponseDtos;
+import com.ssafy.api.coaching.dto.response.CoachingPopularResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachingResponseDtos;
 import com.ssafy.db.entity.Coaching;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -53,5 +54,15 @@ public interface CoachingRepository extends JpaRepository<Coaching, Long> {
   @Query(value = "SELECT c FROM Coaching c " +
       "WHERE c.coach.longId = :longId")
   List<Coaching> findByCoachId(Long longId);
+
+
+  //  @Query("SELECT c FROM Review r JOIN r.coaching c ORDER BY AVG(r.score) DESC limit 5")
+  @Query("SELECT NEW com.ssafy.api.coaching.dto.response.CoachingPopularResponseDto" +
+      "(c.id, c.name, AVG(r.score)) FROM Coaching c JOIN Review r GROUP BY c.id, c.name")
+//  @Query("SELECT c FROM Review r JOIN r.coaching c ORDER BY AVG(r.score) DESC limit 5")
+  List<CoachingPopularResponseDto> findByPopularCoacing();
+
+//  @Query("SELECT r FROM Review r ORDER BY r.scoreAverage DESC")
+//  List<Review> findTop5ByOrderByScoreAverageDesc();
 
 }

@@ -1,6 +1,5 @@
 package com.ssafy.api.coach.service;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.ssafy.api.coach.dto.request.CreateLiveRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
 import com.ssafy.api.coach.dto.response.*;
