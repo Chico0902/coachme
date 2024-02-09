@@ -12,14 +12,14 @@ import Labels from '../atoms/CardLabel.vue';
 import { ref } from 'vue'
 
 const props = defineProps({
-  reviews : {  
-    type : Object,
+  reviews: {
+    type: Object,
   },
-  ratingModel : {
-    type : Number
-  },  
-  reviewCount : {
-    type : Number
+  ratingModel: {
+    type: Number
+  },
+  reviewCount: {
+    type: Number
   }
 })
 
@@ -48,7 +48,8 @@ const updateData = (data) => {
             <q-rating v-model="coachRating" size="2em" color="orange" readonly></q-rating>
             <span style="font-size: 18px; margin-left: 1.2vw;">{{ ratingModel }}</span>
           </div>
-          <div style="text-align: left; margin-top: 2vh; margin-bottom: 3vh; font-size: 18px;">{{ reviewCount }}개의 리뷰</div>
+          <div style="text-align: left; margin-top: 2vh; margin-bottom: 3vh; font-size: 18px;">{{ reviewCount }}개의 리뷰
+          </div>
         </q-item-section>
 
         <q-separator></q-separator>
@@ -69,11 +70,16 @@ const updateData = (data) => {
         </q-item-section>
 
         <!-- 리뷰가 보여지는 곳 -->
-        <q-item-section class="card-margin">
+        <q-item-section v-if="reviews && reviews.length > 0" class="card-margin">         
           <div v-for="(review, index) in reviews" :key="review">
             <Reviews :reviews="review"></Reviews>
             <!-- 마지막 리뷰 이외에는 구분선-->
             <div v-if="index != reviews.length - 1"><q-separator spaced></q-separator></div>
+          </div>
+        </q-item-section>
+        <q-item-section v-else class="card-margin">         
+          <div style="font-size: 16px; margin: 5vh 0vh 5vh;">
+            리뷰가 없습니다.
           </div>
         </q-item-section>
 
@@ -86,5 +92,4 @@ const updateData = (data) => {
 .card-margin {
   margin-left: 0;
 }
-
 </style>

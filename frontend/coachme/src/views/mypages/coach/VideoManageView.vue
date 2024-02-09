@@ -51,7 +51,7 @@ const groupedFilteredVideos = computed(() => {
     getVideoList(
       longId,
       (success) => {
-        console.log(success.data)
+        console.log(success)
         videos.value = success.data.list
       },
       (fail) => {
@@ -81,6 +81,11 @@ const groupedFilteredVideos = computed(() => {
         </div>
       </div>
     </div>
+
+    <div v-if="!groupedFilteredVideos || Object.keys(groupedFilteredVideos).length === 0" class="no-video-message card-section">
+      해당하는 영상이 없습니다.
+    </div>
+
   </div>
 </template>
 
