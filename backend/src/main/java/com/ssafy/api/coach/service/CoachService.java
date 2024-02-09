@@ -12,10 +12,7 @@ import com.ssafy.api.coaching.repository.CoachingRepository;
 import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
-import com.ssafy.db.entity.Coaching;
-import com.ssafy.db.entity.File;
-import com.ssafy.db.entity.LiveCoaching;
-import com.ssafy.db.entity.Review;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.entity.type.CategoryType;
 import com.ssafy.util.file.Mapper.FileMapper;
 import com.ssafy.util.file.repository.FileRepository;
@@ -24,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -142,4 +140,34 @@ public class CoachService {
     liveCoaching.createLiveCoaching(coaching, createLiveRequestDto.getDate());
     liveCoachingRepository.save(liveCoaching);
   }
+
+  /**
+   * 메인페이지_인기 코치 조회
+   */
+  public List<PopularCoachResponseDto> getPopularCoach() {
+    List<PopularCoachResponseDto> popularList = new ArrayList<>();
+
+    List<Member> coachList = memberRepository.findByPopularCoach();
+
+    for (Member coach : coachList) {
+      PopularCoachResponseDto dto = new PopularCoachResponseDto();
+      dto.setCoachId(coach.getLongId());
+      dto.setCoachName(coach.getName());
+      dto.setCoachProfileImageUrl(coach.getProfileImage().getUrl());
+
+      int sum = 0;
+      for (Review review : coach.getReceivedReviews()) {
+        sum += review.getScore();
+      }
+      if (!coach.getReceivedReviews().isEmpty()) {
+        dto.setCoachingReviewAvg((float) sum / coach.getReceivedReviews().size());
+      } else {
+        dto.setCoachingReviewAvg(0);
+      }
+      popularList.add(dto);
+    }
+
+    return popularList;
+  }
+
 }
