@@ -22,4 +22,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
       "JOIN FETCH lc.coaching c " +
       "WHERE m.longId = ?1")
   Member findByIdWithDetail(Long longId);
+
+
+  @Query("SELECT c FROM Review r right JOIN r.coach c GROUP BY c ORDER BY AVG(r.score) DESC limit 5")
+  List<Member> findByPopularCoach();
 }

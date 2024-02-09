@@ -203,4 +203,19 @@ public class CoachController {
     List<VideoResponseDto> list = coachService.getVideos(coachId);
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
+
+
+  /**
+   * [coach-14] 모든 사용자가 메인페이지에서 인기코치를 확인할 수 있다.
+   * privilege : 0
+   *
+   * @return - [200] list
+   */
+  @GetMapping("/popular")
+  public ResponseEntity<ListDataDto> getPopularCoach() {
+    ListDataDto responseDto = new ListDataDto(coachService.getPopularCoach());
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
+  }
+
+
 }
