@@ -1,5 +1,6 @@
 package com.ssafy.api.coaching.mapper;
 
+import com.ssafy.api.coach.dto.response.CalendarResponseDto;
 import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachDetail;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
@@ -7,6 +8,7 @@ import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.dto.response.GetOneCoachingResponseDto;
 import com.ssafy.db.entity.Coaching;
 import com.ssafy.db.entity.CoameCoaching;
+import com.ssafy.db.entity.LiveCoaching;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -57,6 +59,12 @@ public interface CoachingMapper {
   CoachDetail coachingToCoachDetail(Coaching coaching);
 
   List<CoachDetail> coachingToCoachDetailList(List<Coaching> list);
+
+  @Mapping(source = "coaching.name", target = "className")
+  @Mapping(source = "coachingDate", target = "date")
+  CalendarResponseDto liveCoachingToCalendarResponseDto(LiveCoaching liveCoaching);
+
+  List<CalendarResponseDto> liveCoachingToCalendarResponseDto(List<LiveCoaching> liveCoaching);
 
 //  @Mapping(source = "name", target = "coacingId")
 //  @Mapping(source = "summary", target = "coacingVideoUrl")
