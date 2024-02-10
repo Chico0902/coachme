@@ -109,7 +109,7 @@ export function patchMyReview(reviewId, dto, success, fail) {
             message : String
           }
  */
-export function deleteMyReview(success, fail) {
+export function deleteMyReview(reviewId, success, fail) {
   authAxios.delete(`/review/${reviewId}`).then(success).catch(fail)
 }
 
@@ -147,7 +147,7 @@ export function deleteMyReview(success, fail) {
           }
  */
 export function getCoachReview(coachId, success, fail) {
-  publicAxios.get(`/review/coach/${coachId}`).then(success).catch(fail)
+  authAxios.get(`/review/coach/${coachId}`).then(success).catch(fail)
 }
 
 /**

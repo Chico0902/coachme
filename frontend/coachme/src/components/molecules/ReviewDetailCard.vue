@@ -9,7 +9,7 @@ reviewCount : 리뷰수. 숫자. 코치가 받은 리뷰 수
 import InputForm from './InputForm.vue';
 import Reviews from './ReviewCard.vue';
 import Labels from '../atoms/CardLabel.vue';
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   reviews: {
@@ -25,14 +25,13 @@ const props = defineProps({
 
 const emit = defineEmits(['reviewData'])
 
-const coachRating = ref(props.ratingModel)
+const coachRating = computed(() => props.ratingModel);
 const reviewRating = ref(5)
 // 리뷰 입력 구역의 별점 -> 이 값이 리뷰에 포함됨
 
 const updateData = (data) => {
   const reviewData = { review: data.input, rating: reviewRating.value }
   emit('reviewData', reviewData)
-  reviewRating.value = 5
 }
 // 입력폼에서 입력받은 내용과 별점을 상위 컴포넌트로 보내는 함수
 
@@ -46,7 +45,7 @@ const updateData = (data) => {
         <q-item-section class="card-margin">
           <div class="row no-wrap items-center" style="margin-top: 2vh;">
             <q-rating v-model="coachRating" size="2em" color="orange" readonly></q-rating>
-            <span style="font-size: 18px; margin-left: 1.2vw;">{{ ratingModel }}</span>
+            <span style="font-size: 18px; margin-left: 1.2vw;">{{ coachRating }}</span>
           </div>
           <div style="text-align: left; margin-top: 2vh; margin-bottom: 3vh; font-size: 18px;">{{ reviewCount }}개의 리뷰
           </div>

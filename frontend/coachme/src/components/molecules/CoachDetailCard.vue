@@ -9,7 +9,7 @@ reviewCount : 코치 리뷰 수. 숫자
 <script setup>
 import ProfileImage from '../atoms/ProfileImage.vue';
 import Labels from '../atoms/CardLabel.vue';
-import { ref } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   coach : {  // 코치 이름
@@ -26,8 +26,7 @@ const props = defineProps({
   }
 })
 
-console.log(props.coach)
-const ratingScore = ref(props.ratingModel)
+const ratingScore = computed(() => props.ratingModel);
 
 </script>
 

@@ -27,7 +27,6 @@ const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
 onBeforeMount(() => {
   const coachId = route.params.id
 
-    // 본인 아이디로 코칭 영상 리스트 조회
     getCoachDetailPage(
       coachId,
       (success) => {
@@ -43,7 +42,7 @@ onBeforeMount(() => {
       coachId, 
       (success) => {
         console.log(success)
-        reviews.value = success.data
+        reviews.value = success.data.list
       },
       (fail) => {
         console.log(fail)
