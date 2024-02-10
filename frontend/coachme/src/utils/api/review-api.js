@@ -184,5 +184,5 @@ export function getCoachReview(coachId, success, fail) {
           }
  */
 export function getCoachingReview(coachingId, success, fail) {
-  publicAxios.get(`/review/coaching/${coachingId}`).then(success).catch(fail)
+  authAxios.get(`/review/coaching/${coachingId}`).then(success).catch(fail)
 }

@@ -1,78 +1,162 @@
 <script setup>
-import { ref } from 'vue'
-const date = ref('2019/02/01')
-const events = ['2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23']
-const isModalVisible = ref(false)
-const selectedDateEvents = ref([])
-const showModal = () => {
-  isModalVisible.value = true
-  // 여기서 날짜에 해당하는 이벤트를 가져오는 로직을 추가할 수 있습니다.
-  selectedDateEvents.value = events.filter((event) => event === date.value)
+import profile from '@/components/atoms/ProfileImage.vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
+import { useLiveCoachingStore } from '@/stores/live-coaching'
+import { storeToRefs } from 'pinia'
+import { useMemberStore } from '@/stores/member'
+import { getLiveCoachingCalendar } from '@/utils/api/coach-api'
+import { getLiveCoachingCoame } from '@/utils/api/coaching-api'
+
+/**
+ * VARIABLES
+ */
+
+// in pinia
+const memberStore = useMemberStore()
+const liveCoachingStore = useLiveCoachingStore()
+const { longId } = memberStore
+const { students, liveCoachings, allLiveCoachings, events } = storeToRefs(liveCoachingStore)
+
+// 현재시간 계산
+const now = computed(() => {
+  const nowObject = new Date()
+  const nowMonth = nowObject.getMonth() + 1 < 10 ? `0${nowObject.getMonth() + 1}` : nowObject.getMonth() + 1
+  const nowDate = nowObject.getDate() < 10 ? `0${nowObject.getDate()}` : nowObject.getDate()
+  return `${nowObject.getFullYear()}-${nowMonth}-${nowDate}`
+})
+const date = ref(now.value)
+console.log(date.value)
+
+/**
+ * METHODS
+ */
+
+function parseDateTime(dateTime) {
+  return new Date(
+    dateTime.substring(0, 4),
+    dateTime.substring(5, 7) - 1,
+    dateTime.substring(8, 10),
+    dateTime.substring(11, 13),
+    dateTime.substring(14, 16)
+  )
 }
-const hideModal = () => {
-  isModalVisible.value = false
+
+function parseLiveCoachingData(list) {
+  allLiveCoachings.value = []
+  events.value = []
+  list.forEach((element) => {
+    // 라이브코칭 배열 생성
+    const date = parseDateTime(element.date)
+    const dateKey = element.date.substring(0, 10).replace(/-/g, '/')
+    const _time = element.date.substring(11, 16)
+    if (allLiveCoachings.value[dateKey] == undefined)
+      allLiveCoachings.value[dateKey] = [{ id: element.id, className: element.className, time: _time }]
+    else allLiveCoachings.value[dateKey].push({ id: element.id, className: element.className, time: _time })
+
+    // 오늘 라이브코칭 있는지 확인
+    const today = new Date()
+    if (
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate()
+    )
+      liveCoachings.value.push({ id: element.id, className: element.className, time: _time })
+    // 이벤트 배열 생성
+    events.value.push(dateKey)
+  })
 }
-const studentData = [
-  { name: '김싸피', imageUrl: 'https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg' },
-  { name: '홍길동', imageUrl: 'https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg' }
-]
 
-const selectedStudent = ref(null)
+function getLiveCoachingStudent(coachingId) {
+  getLiveCoachingCoame(
+    coachingId,
+    (success) => console.log(success),
+    (fail) => console.log(fail)
+  )
+}
 
-const showStudentList = (event) => {
-  // Find the corresponding student data for the clicked event
-  const eventData = studentData.find((student) => student.name === event)
-
-  // Store selected student data
-  selectedStudent.value = eventData
-
-  // Display the modal
-  isModalVisible.value = true
+onBeforeMount(() => {
+  getLiveCoachingCalendar(
+    longId,
+    (success) => {
+      console.log(success)
+      parseLiveCoachingData(success.data.list)
+    },
+    (fail) => console.log(fail)
+  )
+})
+watch(
+  () => date.value,
+  () => {
+    const dateKey = getDateKey(date.value)
+    liveCoachings.value = allLiveCoachings.value[dateKey]
+  }
+)
+function getDateKey(date) {
+  return date.substring(0, 10).replace(/-/g, '/')
 }
 </script>
 <template>
   <div class="outside">
     <div class="coach-main">
-      <div class="calendar-div">
+      <div class="main-container">
         <div class="calendar">
-          <div class="q-pa-md">
-            <div class="q-gutter-md">
-              <q-date v-model="date" :events="events" class="custom-q-date" @click="showModal" />
-            </div>
-          </div>
-          <div class="coaching-create-box">
-            <div class="menu SMN_effect-42">
-              <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="라이브생성1">라이브생성1</span></RouterLink>
-            </div>
+          <q-date v-model="date" :events="events" class="custom-q-date" mask="YYYY-MM-DD" />
+        </div>
+        <div class="memo">
+          <template v-if="liveCoachings == undefined || liveCoachings.length === 0">
+            <p style="font-size: 0.8rem; color: #5f5f5f">등록된 라이브 코칭이 없습니다.</p>
+          </template>
+          <template v-else>
+            <template v-for="liveCoaching in liveCoachings" :key="liveCoaching.id">
+              <div @click="getLiveCoachingStudent(liveCoaching.id)">
+                <q-field
+                  color="green"
+                  bg-color="amber-5"
+                  outlined
+                  :label="liveCoaching.time"
+                  stack-label
+                  style="margin-bottom: 1rem"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="event" color="primary" />
+                  </template>
+                  <template v-slot:control>
+                    <div class="self-center full-width no-outline" tabindex="0">{{ liveCoaching.className }}</div>
+                  </template>
+                </q-field>
+              </div>
+            </template>
+          </template>
+          <div class="menu SMN_effect-42">
+            <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="등록하기">등록하기</span></RouterLink>
           </div>
         </div>
-        <div class="memo" v-show="isModalVisible">
-          <div>
-            <!-- 모달 내용 -->
-            <div class="memo-list" v-for="event in selectedDateEvents" :key="event" @click="showStudentList(event)">
-              {{ event }}
-            </div>
-            <button @click="hideModal" class="close-button">X</button>
-          </div>
-        </div>
-      </div>
-      <div class="coaching-deatil-title">수강생 목록</div>
-      <div class="coaching-detail">
-        <div class="name-box">
-          <div class="coaching-img">
-            <q-avatar size="50px">
-              <img src="https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg" />
-            </q-avatar>
-          </div>
-          <div class="coame-name">김싸피</div>
-        </div>
-        <div class="name-box">
-          <div class="coaching-img">
-            <q-avatar size="50px">
-              <img src="https://src.hidoc.co.kr/image/lib/2022/11/15/1668491763670_0.jpg" />
-            </q-avatar>
-          </div>
-          <div class="coaching-name">홍길동</div>
+        <div class="coaching-detail">
+          <p class="coaching-detail-title">수강생 목록</p>
+          <template v-if="students == undefined || students.length === 0">
+            <p style="font-size: 0.8rem; color: #5f5f5f">검색된 수강생이 없습니다.</p>
+          </template>
+          <template v-else>
+            <template v-for="student in students" :key="student.id">
+              <q-item clickable v-ripple>
+                <!-- 프로필 사진 영역 -->
+                <q-item-section avatar>
+                  <q-item>
+                    <profile :img="student.imageUrl"></profile>
+                  </q-item>
+                </q-item-section>
+
+                <q-item-section>
+                  <!-- 이름 -->
+                  <q-item-label>{{ student.name }}</q-item-label>
+                  <!-- 마지막 dm -->
+                  <q-item-label caption>{{ student.profile }}</q-item-label>
+                </q-item-section>
+
+                <!-- 새로운 dm이 있을 경우 표시 -->
+              </q-item>
+            </template>
+          </template>
         </div>
       </div>
     </div>
@@ -88,24 +172,22 @@ const showStudentList = (event) => {
 }
 .coaching-plan-box {
   display: flex;
-  justify-content: space-around; /* 가로 중앙 정렬 */
+  justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
 }
 .coame-name {
   display: inline-block;
   margin: 20px 0;
 }
-.coaching-deatil-title {
+.coaching-detail {
+  min-width: 15%;
+  max-width: 30%;
+}
+.coaching-detail-title {
   width: 80%;
   margin: 2rem auto;
-}
-
-.name-box {
-  display: flex;
-  justify-content: space-around; /* 가로 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
-  border-color: black;
-  border: solid 1px;
+  text-align: center;
+  font-size: 1.1rem;
 }
 .coaching-img {
   margin: 20px 0;
@@ -115,48 +197,26 @@ const showStudentList = (event) => {
   background-color: rgb(233, 233, 233);
   border-radius: 1.5rem;
 }
-.coaching-detail {
-  display: flex;
-  justify-content: center;
-  background-color: aliceblue;
-  /* border-radius: 1.5rem; */
-  align-items: left;
-  flex-direction: column;
-  width: 80%;
-  margin: auto;
-}
 .coach-main {
-  background-color: rgb(222, 222, 222);
-  /* position: relative; */
   width: 90%;
   margin: 20px auto;
   border-radius: 1.5rem;
 }
-.calendar-div {
+.main-container {
   display: flex;
-  justify-content: center;
-  position: relative;
-  margin: 0 0 0 60px;
-  display: inline-block;
+  justify-content: space-evenly;
 }
 .memo {
-  position: absolute;
-  top: 0;
-  left: 100%;
-  margin: 2rem;
-  background-color: rgb(250, 244, 185);
-  width: 300px;
-  height: 400px;
-  border-radius: 1.5rem;
-}
-.memo-list {
-  margin: 20px;
+  margin-top: 2rem;
+  min-width: 100px;
+  max-width: 30%;
+  border-radius: 0.5rem;
+  text-align: center;
 }
 .custom-q-date {
   display: inline-block;
   font-size: small;
-  width: 300px;
-  height: 350px;
+  max-width: 30%;
   margin: 10px;
   padding: 5px;
 }
@@ -180,19 +240,18 @@ const showStudentList = (event) => {
   padding: 0;
 }
 .calendar {
-  margin: 1rem;
+  margin-top: 1rem;
 }
 .menu {
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin: 2rem;
 }
 .menu a {
   color: rgba(0, 0, 0, 0.8);
   font-size: 10pt;
   font-weight: 400;
   padding: 15px 25px;
-  /**/
   position: relative;
   display: inline-blockk;
   text-decoration: none;
@@ -208,7 +267,7 @@ const showStudentList = (event) => {
   width: 100%;
   height: 100%;
   border-radius: 1.5rem;
-  background-color: #6e6e6e;
+  background-color: #034c8c;
   transform-origin: 100% 50%;
   transform: scale(0, 1);
   top: 0;
@@ -221,7 +280,7 @@ const showStudentList = (event) => {
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: rgb(0, 0, 0);
+  background-color: 034c8c (0, 0, 0);
   left: 0;
   bottom: 0;
   transform-origin: 0% 50%;

@@ -3,7 +3,6 @@ import navbar from '@/components/molecules/LoginNavBar.vue'
 import CoachDetailCard from '@/components/molecules/CoachDetailCard.vue';
 import ChatBox from '@/components/molecules/CoachChatBox.vue';
 import DetailTopBar from '@/components/molecules/DetailTopBar.vue';
-import ChatButton from '@/components/molecules/ChatButton.vue';
 import Reviews from '@/components/molecules/ReviewDetailCard.vue';
 import { ref, onBeforeMount  } from 'vue'
 import { useRoute } from "vue-router";
@@ -27,6 +26,7 @@ const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
 onBeforeMount(() => {
   const coachId = route.params.id
 
+  // 코치 id로 코치 포트폴리오 
     getCoachDetailPage(
       coachId,
       (success) => {
@@ -37,7 +37,8 @@ onBeforeMount(() => {
         console.log(fail)
       }
     )
-
+    
+    // 코칭 id로 코칭 리뷰 
     getCoachReview(
       coachId, 
       (success) => {
@@ -66,7 +67,7 @@ onBeforeMount(() => {
             <CoachDetailCard :coach="coachDetail.coachName" :rating-model="coachDetail.reviewAvg" 
             :review-count="coachDetail.reviewCount"></CoachDetailCard>
             <q-separator></q-separator>
-        
+
             <!-- 코치 포트폴리오 중단 메뉴 -->
             <div class="portfolio-menu">
               <DetailTopBar :menus="menus"></DetailTopBar>
@@ -100,7 +101,6 @@ onBeforeMount(() => {
               v-bind:review-count="coachDetail.reviewCount"
               @review-data="reviewData"></Reviews>
             </div>
-            
           </div>
         </div>
         <!-- 우측 안내창 -->
@@ -110,15 +110,13 @@ onBeforeMount(() => {
 
         <!-- 채팅 플로팅 버튼 -->
         <div class="chat-button">
-          <ChatButton style="width: 50px; height: 50px;">
-          </ChatButton>
+          <q-btn round size="20px" color="amber-7" icon="chat"></q-btn>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="footer">
-  </div>
+  <div class="footer"></div>
 </template>
 
 <style scoped>
@@ -165,8 +163,8 @@ onBeforeMount(() => {
   flex-direction: row;
   -ms-overflow-style: none;
 }
-.mainpage::-webkit-scrollbar{
-  display:none;
+.mainpage::-webkit-scrollbar {
+  display: none;
 }
 
 .profile {
@@ -180,11 +178,11 @@ onBeforeMount(() => {
 }
 
 .chat-button {
-  position:fixed;
-  bottom:13vh;
-  right:14vw;
-  color:#FFF;
-  text-align:center;
+  position: fixed;
+  bottom: 13vh;
+  right: 14vw;
+  color: #fff;
+  text-align: center;
 }
 
 h2 {
@@ -212,7 +210,6 @@ h2 {
 }
 
 .coach-review {
-  
 }
 
 .footer {
