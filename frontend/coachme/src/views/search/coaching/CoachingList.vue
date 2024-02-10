@@ -7,6 +7,7 @@ import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.
 import SearchCoachingList from '@/components/molecules/SearchCoachingList.vue'
 import InputForm from '@/components/molecules/InputForm.vue'
 import DmList from '@/components/molecules/DmList.vue'
+import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import DmWindow from '@/components/molecules/DmWindow.vue'
 import { useChatStore } from '@/stores/chat-status'
 import { useAuthStore } from '@/stores/auth'
@@ -157,7 +158,9 @@ const searchByWords = (words) => {
     </div>
   </div>
   <!-- footer 위치 -->
-  <div class="footer"></div>
+  <div class="footer">
+    <footerBar />
+  </div>
 </template>
 
 <style scoped>

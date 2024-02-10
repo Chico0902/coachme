@@ -23,11 +23,6 @@ const showPortfolio = (htmlDocs) => {
   show.value = true
 }
 
-const goCoachingDetail = (id) => {
-  console.log(id)
-  router.push(`/search/coach/detail/${id}`)
-}
-
 onBeforeMount(() => {
   const longId = decodeToken(getAccessToken()).longId
   // 본인 아이디로 본인의 코칭 조회
@@ -58,7 +53,7 @@ onBeforeMount(() => {
             <q-list class="list" v-ripple v-for="(coaching, index) in coachings" :key="index">
               <q-item>
                 <q-item-section>
-                  <a href="#" @click.prevent="goCoachingDetail(coaching.id)">
+                  <a href="#" @click.prevent="router.push(`/search/coaching/detail/${coaching.id}`)">
                     <q-item-label class="coaching-name">{{ coaching.name }}</q-item-label>
                     <q-item-label caption class="coaching-caption">{{ coaching.summary }}</q-item-label>
                   </a>

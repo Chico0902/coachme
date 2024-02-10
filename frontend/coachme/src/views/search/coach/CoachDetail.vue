@@ -1,11 +1,12 @@
 <script setup>
 import navbar from '@/components/molecules/LoginNavBar.vue'
-import CoachDetailCard from '@/components/molecules/CoachDetailCard.vue';
-import ChatBox from '@/components/molecules/CoachChatBox.vue';
-import DetailTopBar from '@/components/molecules/DetailTopBar.vue';
-import Reviews from '@/components/molecules/ReviewDetailCard.vue';
-import { ref, onBeforeMount  } from 'vue'
-import { useRoute } from "vue-router";
+import CoachDetailCard from '@/components/molecules/CoachDetailCard.vue'
+import ChatBox from '@/components/molecules/CoachChatBox.vue'
+import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
+import Reviews from '@/components/molecules/ReviewDetailCard.vue'
+import footerBar from '@/components/molecules/CustomShortFooter.vue'
+import { ref, onBeforeMount } from 'vue'
+import { useRoute } from 'vue-router'
 import { getCoachDetailPage } from '@/utils/api/coach-api'
 import { getCoachReview } from '@/utils/api/review-api'
 
@@ -26,27 +27,27 @@ const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
 onBeforeMount(() => {
   const coachId = route.params.id
 
-    getCoachDetailPage(
-      coachId,
-      (success) => {
-        console.log(success)
-        coachDetail.value = success.data
-      },
-      (fail) => {
-        console.log(fail)
-      }
-    )
+  getCoachDetailPage(
+    coachId,
+    (success) => {
+      console.log(success)
+      coachDetail.value = success.data
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
 
-    getCoachReview(
-      coachId, 
-      (success) => {
-        console.log(success)
-        reviews.value = success.data.list
-      },
-      (fail) => {
-        console.log(fail)
-      }
-    )
+  getCoachReview(
+    coachId,
+    (success) => {
+      console.log(success)
+      reviews.value = success.data.list
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
 })
 </script>
 
@@ -61,8 +62,11 @@ onBeforeMount(() => {
         <div class="mainpage">
           <div class="profile">
             <!-- 코치 상세 정보 -->
-            <CoachDetailCard :coach="coachDetail.coachName" :rating-model="coachDetail.reviewAvg" 
-            :review-count="coachDetail.reviewCount"></CoachDetailCard>
+            <CoachDetailCard
+              :coach="coachDetail.coachName"
+              :rating-model="coachDetail.reviewAvg"
+              :review-count="coachDetail.reviewCount"
+            ></CoachDetailCard>
             <q-separator></q-separator>
 
             <!-- 코치 포트폴리오 중단 메뉴 -->
@@ -73,8 +77,7 @@ onBeforeMount(() => {
             <!-- 코치 소개. 직접 작성한 부분이 이곳에 들어감 -->
             <div class="coach-introduction">
               <h2>코치 소개</h2>
-              <div v-html="coachDetail.portFolioHtmlDocs" class="coach-desc">
-              </div>
+              <div v-html="coachDetail.portFolioHtmlDocs" class="coach-desc"></div>
             </div>
 
             <q-separator></q-separator>
@@ -82,10 +85,16 @@ onBeforeMount(() => {
             <!-- 제공 코칭 목록 -->
             <div class="coaching-category">
               <h2>제공 코칭</h2>
-              <div style="margin-left: 0.8vw;">
-                <q-chip icon="book" size="1.2rem" class="row no-wrap items-center" v-for="coaching in coachDetail.list" :key="coaching">
+              <div style="margin-left: 0.8vw">
+                <q-chip
+                  icon="book"
+                  size="1.2rem"
+                  class="row no-wrap items-center"
+                  v-for="coaching in coachDetail.list"
+                  :key="coaching"
+                >
                   {{ coaching.coachingName }}
-                </q-chip> 
+                </q-chip>
               </div>
             </div>
 
@@ -94,9 +103,12 @@ onBeforeMount(() => {
             <!-- 리뷰 -->
             <div class="coach-review">
               <h2>리뷰</h2>
-              <Reviews :reviews="reviews" :rating-model="coachDetail.reviewAvg" 
-              v-bind:review-count="coachDetail.reviewCount"
-              @review-data="reviewData"></Reviews>
+              <Reviews
+                :reviews="reviews"
+                :rating-model="coachDetail.reviewAvg"
+                v-bind:review-count="coachDetail.reviewCount"
+                @review-data="reviewData"
+              ></Reviews>
             </div>
           </div>
         </div>
@@ -113,7 +125,9 @@ onBeforeMount(() => {
     </div>
   </div>
 
-  <div class="footer"></div>
+  <div class="footer">
+    <footerBar />
+  </div>
 </template>
 
 <style scoped>
