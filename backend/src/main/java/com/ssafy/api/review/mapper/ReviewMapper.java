@@ -15,6 +15,7 @@ public interface ReviewMapper {
 
   @Mapping(source = "coame.longId", target = "coameId")
   @Mapping(source = "coach.longId", target = "coachId")
+  @Mapping(source = "coame.nickName", target = "nickName")
   CoachReviewsResponseDto reviewToCoachReviewsResponseDto(Review review);
 
   List<CoachReviewsResponseDto> reviewToCoachReviewsResponseDtoList(List<Review> reviewList);
@@ -22,6 +23,7 @@ public interface ReviewMapper {
 
   @Mapping(source = "coame.longId", target = "coameId")
   @Mapping(source = "coaching.id", target = "coachingId")
+  @Mapping(source = "coame.nickName", target = "nickName")
   CoachingReviewsResponseDto reviewToCoachingReviewsResponseDto(Review review);
 
   List<CoachingReviewsResponseDto> reviewToCoachingReviewsResponseDtoList(List<Review> reviewList);
