@@ -6,83 +6,114 @@ import navbar from '@/components/molecules/LoginNavBar.vue'
 import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 import SearchCoachingList from '@/components/molecules/SearchCoachingList.vue'
 import InputForm from '@/components/molecules/InputForm.vue'
+import DmList from '@/components/molecules/DmList.vue'
+import footerBar from '@/components/molecules/CustomShortFooter.vue'
+import DmWindow from '@/components/molecules/DmWindow.vue'
+import { useChatStore } from '@/stores/chat-status'
+import { useAuthStore } from '@/stores/auth'
+import { useCoachingStore } from '@/stores/coaching'
+import { ref, onBeforeMount } from 'vue'
+import { storeToRefs } from 'pinia'
+import { postCoachingsByCategory } from '@/utils/api/coaching-api'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 
-import { ref, reactive } from 'vue'
+/**
+ * VARIABLES
+ */
 
 const selectButton = ref(0)
-// 선택한 카테고리 index
-const bColor = '#FCBF17'
-
-const SideButtonList = [
-  [{ name: 'House' }, { name: 'Furniture' }, { name: 'Lifestyle' }, { name: 'Design' }, { name: 'Etc' }],
-  [{ name: 'Cocking' }, { name: 'Knitting' }, { name: 'Art' }, { name: 'Beauty' }, { name: 'Etc' }],
-  [{ name: 'Soccer' }, { name: 'Basketball' }, { name: 'Tennis' }, { name: 'Golf' }, { name: 'Etc' }],
-  [{ name: 'Frontend' }, { name: 'Backend' }, { name: 'Database' }, { name: 'Devops' }, { name: 'Etc' }],
-  [{ name: 'Yoga' }, { name: 'Weight' }, { name: 'Running' }, { name: 'Crossfit' }, { name: 'Etc' }]
+const sideButtonList = [
+  [],
+  [{ name: 'ALL' }, { name: 'House' }, { name: 'Furniture' }, { name: 'Lifestyle' }, { name: 'Design' }],
+  [{ name: 'ALL' }, { name: 'Cooking' }, { name: 'Knitting' }, { name: 'Art' }, { name: 'Beauty' }],
+  [{ name: 'ALL' }, { name: 'Soccer' }, { name: 'Basketball' }, { name: 'Tennis' }, { name: 'Golf' }],
+  [{ name: 'ALL' }, { name: 'Frontend' }, { name: 'Backend' }, { name: 'Database' }, { name: 'DevOps' }],
+  [{ name: 'ALL' }, { name: 'Yoga' }, { name: 'Weight' }, { name: 'Running' }, { name: 'Crossfit' }]
 ]
-// 선택한 카테고리에 따라 변경될 사이드 메뉴 리스트, 소분류
+const subCategories = ref([])
+const selectedMainCategory = ref('all')
+const selectedSubCategory = ref('all')
 
-const coaching = reactive([
-  {
-    coachId: '1',
-    coachingName: 'title one',
-    rating: '4.7',
-    reviewCount: 122,
-    img: 'https://cdn.quasar.dev/img/avatar1.jpg'
-  },
-  {
-    coachId: '2',
-    coachingName: 'title two',
-    rating: '4.6',
-    reviewCount: 122,
-    img: 'https://cdn.quasar.dev/img/avatar2.jpg'
-  },
-  {
-    coachId: '3',
-    coachingName: 'title three',
-    rating: '4.5',
-    reviewCount: 122,
-    img: 'https://cdn.quasar.dev/img/avatar3.jpg'
-  },
-  {
-    coachId: '4',
-    coachingName: 'title four',
-    rating: '3.9',
-    reviewCount: 122,
-    img: 'https://cdn.quasar.dev/img/avatar4.jpg'
-  },
-  {
-    coachId: '5',
-    coachingName: 'title five',
-    rating: '4',
-    reviewCount: 122,
-    img: 'https://cdn.quasar.dev/img/avatar5.jpg'
-  },
-  {
-    coachId: '6',
-    coachingName: 'title six',
-    rating: '4.9',
-    reviewCount: 122,
-    img: 'https://cdn.quasar.dev/img/avatar6.jpg'
-  },
-  {
-    coachId: '7',
-    coachingName: 'title seven',
-    rating: '4.1',
-    reviewCount: 122,
-    img: 'https://cdn.quasar.dev/img/avatar1.jpg'
-  }
-]) // 코칭 목록 예시
+// pinia
+const coachingStore = useCoachingStore()
+const chatStore = useChatStore()
+const authStore = useAuthStore()
+const { isLogin } = storeToRefs(authStore)
+const { coachings } = storeToRefs(coachingStore)
+const { useDmWindow } = storeToRefs(chatStore)
 
-const selectedCategory = ref([])
-// 선택된 상단 메뉴 리스트. props로 전달되는 리스트
+// 로그인 여부
+const loginMemberId = isLogin.value ? decodeToken(getAccessToken()).longId : -1
 
-const clickCategory = (index) => {
+/**
+ * METHODS
+ */
+
+const { openChatList } = chatStore
+
+// 전체 코칭 조회
+onBeforeMount(() => {
+  postCoachingsByCategory(
+    selectedMainCategory.value.toLowerCase(),
+    selectedSubCategory.value.toLowerCase(),
+    { words: 'all', loginMemberId },
+    (success) => {
+      console.log(success)
+      coachings.value = success.data.list
+      console.log(coachings.value)
+    },
+    (fail) => console.log(fail)
+  )
+})
+
+// 대분류 코치 조회
+const clickCategory = (index, name) => {
   console.log(index)
+  console.log(name)
   selectButton.value = index
-  selectedCategory.value = SideButtonList[selectButton.value]
+  subCategories.value = sideButtonList[selectButton.value]
+  selectedMainCategory.value = name
+  postCoachingsByCategory(
+    selectedMainCategory.value.toLowerCase(),
+    selectedSubCategory.value.toLowerCase(),
+    { words: 'all', loginMemberId },
+    (success) => {
+      coachings.value = success.data.list
+      console.log(success)
+    },
+    (fail) => console.log(fail)
+  )
 }
-// 카테고리 클릭시 상단 사이드 메뉴 변경
+
+// 소분류 코치 조회
+const clickSubCategory = (name) => {
+  selectedSubCategory.value = name
+  postCoachingsByCategory(
+    selectedMainCategory.value.toLowerCase(),
+    selectedSubCategory.value.toLowerCase(),
+    { words: 'all', loginMemberId },
+    (success) => {
+      coachings.value = success.data.list
+      console.log(success)
+    },
+    (fail) => console.log(fail)
+  )
+}
+
+// 검색 코치조회
+const searchByWords = (words) => {
+  if (words === '') words = 'all'
+  postCoachingsByCategory(
+    selectedMainCategory.value.toLowerCase(),
+    selectedSubCategory.value.toLowerCase(),
+    { words: words.input, loginMemberId },
+    (success) => {
+      coachings.value = success.data.list
+      console.log(success)
+    },
+    (fail) => console.log(fail)
+  )
+}
 </script>
 <template>
   <!-- nav -->
@@ -95,24 +126,41 @@ const clickCategory = (index) => {
       <CustomCategory style="margin-top: 3vh" @click-category="clickCategory"></CustomCategory>
       <div class="mypage-outside">
         <!-- 사이드메뉴 -->
-        <SearchCategorySidebar :button-list="selectedCategory" />
+        <SearchCategorySidebar :button-list="subCategories" @click-sub-category="clickSubCategory" />
         <div class="rightPage">
           <div>
-            <InputForm class="search" :background="bColor"></InputForm>
+            <InputForm class="search" @inputData="searchByWords"></InputForm>
           </div>
           <div class="mainpage">
             <!-- 코칭 목록과 채팅 버튼-->
-            <SearchCoachingList :coaching="coaching" style="margin-left: 0.6vw; margin-top: 1vh"></SearchCoachingList>
+            <SearchCoachingList :coaching="coachings" style="margin-left: 0.6vw; margin-top: 1vh"></SearchCoachingList>
           </div>
         </div>
         <div class="chat-button">
-          <q-btn round size="20px" color="amber-7" icon="chat"></q-btn>
+          <q-btn round size="20px" color="amber-7" icon="chat" @click="openChatList()"></q-btn>
+          <!-- dm 영역 -->
+          <q-menu style="max-height: 400px; max-width: 400px">
+            <DmList />
+          </q-menu>
         </div>
+        <q-layout
+          v-if="useDmWindow === true"
+          view="lHh Lpr lFf"
+          container
+          style="height: 400px"
+          class="shadow-2 rounded-borders dm-window-container"
+        >
+          <q-page-container>
+            <DmWindow />
+          </q-page-container>
+        </q-layout>
       </div>
     </div>
   </div>
   <!-- footer 위치 -->
-  <div class="footer"></div>
+  <div class="footer">
+    <footerBar />
+  </div>
 </template>
 
 <style scoped>

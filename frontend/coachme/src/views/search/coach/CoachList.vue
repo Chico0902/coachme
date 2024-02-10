@@ -7,6 +7,7 @@ import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.
 import SearchCoachList from '@/components/molecules/SearchCoachList.vue'
 import InputForm from '@/components/molecules/InputForm.vue'
 import DmList from '@/components/molecules/DmList.vue'
+import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import { useCoachStore } from '@/stores/coach'
 import { postCoachesByCategory } from '@/utils/api/coach-api'
 import { onBeforeMount, ref } from 'vue'
@@ -20,7 +21,7 @@ import { decodeToken, getAccessToken } from '@/utils/functions/auth'
  */
 
 const selectButton = ref(0)
-const SideButtonList = [
+const sideButtonList = [
   [],
   [{ name: 'ALL' }, { name: 'House' }, { name: 'Furniture' }, { name: 'Lifestyle' }, { name: 'Design' }],
   [{ name: 'ALL' }, { name: 'Cooking' }, { name: 'Knitting' }, { name: 'Art' }, { name: 'Beauty' }],
@@ -32,7 +33,6 @@ const subCategories = ref([])
 const isMatching = ref(false)
 const selectedMainCategory = ref('all')
 const selectedSubCategory = ref('all')
-const bColor = "#FCBF17"
 
 // pinia
 const coachStore = useCoachStore()
@@ -44,9 +44,11 @@ const { useDmWindow } = storeToRefs(chatStore)
 
 // 로그인 여부
 const loginMemberId = isLogin.value ? decodeToken(getAccessToken()).longId : -1
+
 /**
  * METHODS
  */
+
 const { openChatList } = chatStore
 const changeListAndMatching = () => {
   isMatching.value = !isMatching.value
@@ -70,7 +72,7 @@ onBeforeMount(() => {
 // 대분류 코치 조회
 const clickCategory = (index, name) => {
   selectButton.value = index
-  subCategories.value = SideButtonList[selectButton.value]
+  subCategories.value = sideButtonList[selectButton.value]
   selectedMainCategory.value = name
   postCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
@@ -191,7 +193,9 @@ const searchByWords = (words) => {
     </div>
   </div>
   <!-- footer 위치 -->
-  <div class="footer"></div>
+  <div class="footer">
+    <footerBar />
+  </div>
 </template>
 
 <style scoped>

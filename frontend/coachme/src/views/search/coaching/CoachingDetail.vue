@@ -6,6 +6,7 @@ import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
+import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import { ref, onMounted, onBeforeMount, computed } from 'vue'
 import { useRoute } from "vue-router";
 import { getCoachingDetailPage } from '@/utils/api/coaching-api'
@@ -221,7 +222,9 @@ const groupedFilteredVideos = computed(() => {
     </div>
   </div>
 
-  <div class="footer"></div>
+  <div class="footer">
+    <footerBar />
+  </div>
 </template>
 
 <style scoped>
