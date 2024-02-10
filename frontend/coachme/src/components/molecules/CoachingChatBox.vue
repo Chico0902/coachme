@@ -18,6 +18,7 @@ const props = defineProps({
 
 const chatLabel = ref(props.coach + '님께 문의해보세요.')
 // 코치이름에 따라 반응형으로 변경
+console.log(props.like)
 </script>
 
 <template>
