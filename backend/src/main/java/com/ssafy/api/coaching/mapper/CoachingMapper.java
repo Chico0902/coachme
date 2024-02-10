@@ -40,6 +40,8 @@ public interface CoachingMapper {
   @Mapping(source = "coach.name", target = "coachName")
   @Mapping(source = "coach.profileImage.url", target = "coachProfileImageUrl")
   @Mapping(source = "name", target = "coachingName")
+  @Mapping(source = "mainCategory.name", target = "mainCategory")
+  @Mapping(source = "subCategory.name", target = "subCategory")
   CoachingDetailResponseDto coachingToCoachingDetailResponseDto(Coaching coaching);
 
   // [coaching-2] 코칭 수정 요청 시 해당 DTO를 코칭으로 변경한다.
