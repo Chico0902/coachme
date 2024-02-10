@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useMemberStore = defineStore('member', {
   state: () => {
     return {
+      longId: Number,
       profileText: '프로필을 등록하세요.',
       profileImageUrl: '/assets/icons/coame.png'
     }
@@ -12,7 +13,7 @@ export const useMemberStore = defineStore('member', {
     strategies: [
       {
         storage: sessionStorage,
-        paths: ['profileText', 'profileImageUrl']
+        paths: ['longId', 'profileText', 'profileImageUrl']
       }
     ]
   }

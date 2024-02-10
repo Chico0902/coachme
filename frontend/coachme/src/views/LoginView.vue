@@ -11,6 +11,7 @@ import navbar from '../components/molecules/LoginNavBar.vue'
 import CustomInput from '../components/atoms/CustomInput.vue'
 import CustomButton from '../components/atoms/CustomButton.vue'
 import footerBar from '../components/molecules/CustomFooter.vue'
+import { decodeToken } from '@/utils/functions/auth'
 
 /**
  * VARIABLES
@@ -24,7 +25,7 @@ const pw = ref('')
 const authStore = useAuthStore()
 const memberStore = useMemberStore()
 const { accessToken, isLogin } = storeToRefs(authStore)
-const { profileText, profileImageUrl } = storeToRefs(memberStore)
+const { longId, profileText, profileImageUrl } = storeToRefs(memberStore)
 
 // router
 const router = useRouter()
@@ -54,6 +55,7 @@ const login = (id, pw) => {
     (success) => {
       console.log(success)
       accessToken.value = success.headers['authorization']
+      longId.value = decodeToken(success.headers['authorization']).longId
       isLogin.value = true
       profileImageUrl.value = success.data.profileImageUrl
       profileText.value = success.data.profileText
