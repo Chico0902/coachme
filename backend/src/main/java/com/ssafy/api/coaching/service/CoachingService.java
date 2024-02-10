@@ -8,6 +8,7 @@ import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
 import com.ssafy.api.coaching.repository.LiveCoachingRepository;
+import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.*;
@@ -43,8 +44,8 @@ public class CoachingService {
    */
   @Transactional(readOnly = true)
   public List<CoameListResponseDto> getCoameList(Long id) {
-    LiveCoaching liveCoaching = liveCoachingRepository.findByIdWithDetails(id);
-    return CoachingMapper.instance.coachingToCoameListResponseDto(liveCoaching.getCoameCoachings());
+    List<Member> memberList = memberRepository.findByLiveCoachingIdWithDetails(id);
+    return MemberMapper.instance.memberToCoameListResponseDto(memberList);
   }
 
   /**

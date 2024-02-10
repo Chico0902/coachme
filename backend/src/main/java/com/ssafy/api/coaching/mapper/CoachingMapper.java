@@ -28,14 +28,6 @@ public interface CoachingMapper {
    * cf) 같은 이름의 필드는 명시안해도 알아서 번역
    */
 
-  @Mapping(source = "coame.stringId", target = "stringId")
-  @Mapping(source = "coame.name", target = "name")
-  @Mapping(source = "coame.profileImage.url", target = "url")
-  @Mapping(source = "coame.profileText", target = "profileText")
-  CoameListResponseDto coachingToCoameListResponseDto(CoameCoaching coameCoaching);
-
-  List<CoameListResponseDto> coachingToCoameListResponseDto(List<CoameCoaching> coameCoachings);
-
   // [coaching-2] 코칭 조회 요청 시 해당 코칭을 반환한다.
   @Mapping(source = "mainCategory.name", target = "main")
   @Mapping(source = "subCategory.name", target = "sub")
