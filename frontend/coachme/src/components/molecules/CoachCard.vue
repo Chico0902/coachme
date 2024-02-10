@@ -18,7 +18,7 @@ const props = defineProps({
     default: ''
   }, // 카드 캡션
   caption: {
-    type: String,
+    type: Number,
     default: ''
   }, // 프로필 사진 주소
   img: {
