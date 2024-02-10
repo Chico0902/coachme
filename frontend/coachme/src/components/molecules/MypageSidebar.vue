@@ -1,10 +1,12 @@
 <script setup>
 import router from '@/router'
 import { ref, onBeforeMount, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const props = defineProps({ privilege: String })
 const privilege = props.privilege
 const changePrivilege = ref(true)
+const route = useRoute()
 const sideButtons = ref([])
 let showToggle
 
@@ -53,23 +55,58 @@ onBeforeMount(() => {
     case 'COAME': {
       showToggle = false
       sideButtons.value = [
-        { name: '코치등록', link: 'Desktop-5-1', css: 'selected-button' },
+        { name: '코치등록', link: 'Desktop-5-1' },
         { name: '정보수정', link: 'Desktop-6' },
         { name: '코칭일정', link: 'Desktop-7' },
-        { name: '관심강의', link: 'Desktop-8' },
         { name: '영상보기', link: 'Desktop-9' },
         { name: '회원탈퇴', link: 'Desktop-10' }
       ]
+
+      // 라우터 파라미터로 css 변경
+      switch (route.path.split('/')[2]) {
+        case 'regist':
+          sideButtons.value[0].css = 'selected-button'
+          break
+        case 'profile':
+          sideButtons.value[1].css = 'selected-button'
+          break
+        case 'coaching':
+          sideButtons.value[2].css = 'selected-button'
+          break
+        case 'video':
+          sideButtons.value[3].css = 'selected-button'
+          break
+        case 'resign':
+          sideButtons.value[4].css = 'selected-button'
+          break
+      }
       break
     }
     case 'COACH': {
       showToggle = true
       sideButtons.value = [
-        { name: '포트폴리오', link: 'Desktop-5-2', css: 'selected-button' },
+        { name: '포트폴리오', link: 'Desktop-5-2' },
         { name: '코칭관리', link: 'Desktop-5-3' },
         { name: '라이브관리', link: 'Desktop-5-5' },
         { name: '영상관리', link: 'Desktop-5-7' }
       ]
+
+      // 라우터 파라미터로 css 변경
+      if (route.path.split('/')[1] === 'mypage-coach')
+        switch (route.path.split('/')[2]) {
+          case 'portfolio':
+            sideButtons.value[0].css = 'selected-button'
+            break
+          case 'coaching':
+            sideButtons.value[1].css = 'selected-button'
+            break
+          case 'live':
+            sideButtons.value[2].css = 'selected-button'
+            break
+          case 'video':
+            sideButtons.value[3].css = 'selected-button'
+            break
+        }
       break
     }
     case 'ADMIN': {
@@ -131,7 +168,7 @@ p {
   color: #fff;
   cursor: pointer;
 }
-.side-toggle{
+.side-toggle {
   display: flex;
   justify-content: center;
 }

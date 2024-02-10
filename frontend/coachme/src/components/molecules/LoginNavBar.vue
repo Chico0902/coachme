@@ -9,9 +9,12 @@ import sidebar from '../atoms/Sidebar.vue'
 import { ref } from 'vue'
 import { useMemberStore } from '@/stores/member'
 import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 
 const memberStore = useMemberStore()
+const authStore = useAuthStore()
 const { profileImageUrl } = storeToRefs(memberStore)
+const { isLogin } = storeToRefs(authStore)
 
 const sidebarOpen = ref(false)
 // 사이드바 오픈 여부
@@ -32,6 +35,10 @@ const sideMenu = [
   { name: '코칭찾기', link: '/search/coaching/list' },
   { name: '강의장', link: '/live/coaching' }
 ]
+
+if (isLogin.value === true) sideMenu.push({ name: '로그아웃', link: '/login' })
+else sideMenu.push({ name: '로그인', link: '/login' })
+
 // 사이드바 메뉴는 여기서 변경
 </script>
 

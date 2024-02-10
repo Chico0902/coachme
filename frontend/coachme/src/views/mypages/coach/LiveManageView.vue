@@ -17,6 +17,12 @@ const liveCoachingStore = useLiveCoachingStore()
 const { longId } = memberStore
 const { students, liveCoachings, allLiveCoachings, events } = storeToRefs(liveCoachingStore)
 
+// 로컬변수
+const students_ = ref([])
+const liveCoachings_ = ref([])
+const allLiveCoachings_ = ref([])
+const events_ = ref([])
+
 // 현재시간 계산
 const now = computed(() => {
   const nowObject = new Date()
@@ -31,6 +37,24 @@ console.log(date.value)
  * METHODS
  */
 
+// 로컬변수 -> 피니아
+watch(
+  () => students_,
+  () => (students.value = students_.value)
+)
+watch(
+  () => liveCoachings_,
+  () => (liveCoachings.value = liveCoachings_.value)
+)
+watch(
+  () => allLiveCoachings_,
+  () => (allLiveCoachings.value = allLiveCoachings_.value)
+)
+watch(
+  () => events_,
+  () => (events.value = events_.value)
+)
+
 function parseDateTime(dateTime) {
   return new Date(
     dateTime.substring(0, 4),
@@ -42,16 +66,17 @@ function parseDateTime(dateTime) {
 }
 
 function parseLiveCoachingData(list) {
-  allLiveCoachings.value = []
-  events.value = []
+  allLiveCoachings_.value = []
+  liveCoachings_.value = []
+  events_.value = []
   list.forEach((element) => {
     // 라이브코칭 배열 생성
     const date = parseDateTime(element.date)
     const dateKey = element.date.substring(0, 10).replace(/-/g, '/')
     const _time = element.date.substring(11, 16)
-    if (allLiveCoachings.value[dateKey] == undefined)
-      allLiveCoachings.value[dateKey] = [{ id: element.id, className: element.className, time: _time }]
-    else allLiveCoachings.value[dateKey].push({ id: element.id, className: element.className, time: _time })
+    if (allLiveCoachings_.value[dateKey] == undefined)
+      allLiveCoachings_.value[dateKey] = [{ id: element.id, className: element.className, time: _time }]
+    else allLiveCoachings_.value[dateKey].push({ id: element.id, className: element.className, time: _time })
 
     // 오늘 라이브코칭 있는지 확인
     const today = new Date()
@@ -60,9 +85,9 @@ function parseLiveCoachingData(list) {
       date.getMonth() === today.getMonth() &&
       date.getDate() === today.getDate()
     )
-      liveCoachings.value.push({ id: element.id, className: element.className, time: _time })
+      liveCoachings_.value.push({ id: element.id, className: element.className, time: _time })
     // 이벤트 배열 생성
-    events.value.push(dateKey)
+    events_.value.push(dateKey)
   })
 }
 
@@ -88,7 +113,7 @@ watch(
   () => date.value,
   () => {
     const dateKey = getDateKey(date.value)
-    liveCoachings.value = allLiveCoachings.value[dateKey]
+    liveCoachings_.value = allLiveCoachings_.value[dateKey]
   }
 )
 function getDateKey(date) {
@@ -100,14 +125,14 @@ function getDateKey(date) {
     <div class="coach-main">
       <div class="main-container">
         <div class="calendar">
-          <q-date v-model="date" :events="events" class="custom-q-date" mask="YYYY-MM-DD" />
+          <q-date v-model="date" :events="events_" class="custom-q-date" mask="YYYY-MM-DD" />
         </div>
         <div class="memo">
-          <template v-if="liveCoachings == undefined || liveCoachings.length === 0">
+          <template v-if="liveCoachings_ == undefined || liveCoachings_.length === 0">
             <p style="font-size: 0.8rem; color: #5f5f5f">등록된 라이브 코칭이 없습니다.</p>
           </template>
           <template v-else>
-            <template v-for="liveCoaching in liveCoachings" :key="liveCoaching.id">
+            <template v-for="liveCoaching in liveCoachings_" :key="liveCoaching.id">
               <div @click="getLiveCoachingStudent(liveCoaching.id)">
                 <q-field
                   color="green"
@@ -133,11 +158,11 @@ function getDateKey(date) {
         </div>
         <div class="coaching-detail">
           <p class="coaching-detail-title">수강생 목록</p>
-          <template v-if="students == undefined || students.length === 0">
+          <template v-if="students_ == undefined || students_.length === 0">
             <p style="font-size: 0.8rem; color: #5f5f5f">검색된 수강생이 없습니다.</p>
           </template>
           <template v-else>
-            <template v-for="student in students" :key="student.id">
+            <template v-for="student in students_" :key="student.id">
               <q-item clickable v-ripple>
                 <!-- 프로필 사진 영역 -->
                 <q-item-section avatar>
