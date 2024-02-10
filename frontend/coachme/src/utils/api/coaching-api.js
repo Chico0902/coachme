@@ -87,7 +87,7 @@ export function getLiveCoachingCoame(liveCoachingId, success, fail) {
             message : String
           }
   */
-export function postCoachingInfoDetail(division1, division2, dto, success, fail) {
+export function postCoachingsByCategory(division1, division2, dto, success, fail) {
   publicAxios.post(`/coachings/categories/${division1}/${division2}`, dto).then(success).catch(fail)
 }
 
