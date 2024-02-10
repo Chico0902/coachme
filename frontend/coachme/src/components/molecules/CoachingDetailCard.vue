@@ -13,7 +13,7 @@ import Labels from '../atoms/CardLabel.vue';
 import CustomBreadCrumbs from '../atoms/CustomBreadCrumbs.vue';
 import CustomButton from '../atoms/CustomButton.vue';
 import VideoModal from './VideoModal.vue';
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   title : { // 코칭 제목
@@ -36,15 +36,11 @@ const props = defineProps({
   }, 
   reviewCount : { // 리뷰 수
     type : Number
-  }, 
-  lastEditDate : { // 최종 수정일
-    type : String
   }
 })
 
-const ratingScore = ref(props.ratingModel) 
+const ratingScore = computed(() => Math.round(props.ratingModel * 10) / 10);
 // 코치의 평점
-const lastDate = ref("최종 수정 일시 : " + props.lastEditDate) 
 
 const videoPreviews = ref(false)
 // 미리보기 영상 모달 띄우기 여부
@@ -83,15 +79,10 @@ const videoPreviews = ref(false)
         </q-item-section>
 
         <!-- 코칭 미리보기 영역 -->
-        <q-item-section style="margin-left: 10vw; margin-top: 2vh;">
+        <q-item-section style="margin-left: 10vw; margin-top: 2vh; margin-bottom: 2vh;">
           <CustomButton rounded label="코칭 미리보기" style="background-color: #FCBF17;" 
           @click="videoPreviews = true"></CustomButton>
           <VideoModal v-model="videoPreviews" :video="props.previewVideoSrc"></VideoModal>
-        </q-item-section>
-
-        <!-- 최종 수정일 -->
-        <q-item-section>
-          <Labels style="font-size: 18px; margin-top: 5vh; margin-bottom: 2vh; text-align: left;" :label="lastDate"></Labels>
         </q-item-section>
 
       </q-item-section>
