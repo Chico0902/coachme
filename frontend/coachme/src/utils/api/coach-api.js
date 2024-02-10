@@ -161,6 +161,37 @@ export function getLiveCoachingCalendar(longId, success, fail) {
   authAxios.get(`/coaches/${longId}/calendar`).then(success).catch(fail)
 }
 
+
+/**
+ * API번호 : coach-11
+ * METHOD : GET
+ * URI : /coaches/{coachId}
+ * 권한 : 1
+ * 설명 : 코미가 코치 상세 페이지를 조회한다.
+ * @param {Number} coachId 사용자(코치) pk
+ * @param {Promise} success
+ * 설명 : 정상 조회완료
+ * 코드 : 200
+ * body : {
+    "coachName": String,
+    "coachProfileImageUrl": String,
+    "htmlDocs": String,
+    "list": Object,
+    "reviewCount": Long,
+    "reviewAvg": float,
+    "likeCount": Long
+}
+  * @param {Promise} fail
+  * 설명 : 잘못된 요청[400], 서버 오류[500]
+  * 코드 : 400, 500
+  * body : {
+            message : String
+          }
+  */
+export function getCoachDetailPage(coachId, success, fail) {
+  authAxios.get(`/coaches/${coachId}`).then(success).catch(fail)
+}
+
 /**
  * API번호 : coach-12
  * METHOD : POST
