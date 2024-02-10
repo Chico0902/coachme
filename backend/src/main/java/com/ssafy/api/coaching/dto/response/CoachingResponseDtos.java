@@ -1,14 +1,11 @@
 package com.ssafy.api.coaching.dto.response;
 
 public interface CoachingResponseDtos {
-
-  Long getCoachingId();
-
-  String getCoachingName();
-
+  Long getCoachId();
+  String getMemberName();
   String getProfileImg();
-
+  Long getCoachingId();
+  String getCoachingName();
   Long getReviewCount();
-
-  Long getAvgScore();
+  Float getAvgScore();
 }
