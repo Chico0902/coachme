@@ -2,7 +2,6 @@
 
 <script setup>
 import CustomCategory from '@/components/molecules/CustomCategory.vue'
-import chatButton from '@/components/molecules/ChatButton.vue'
 import navbar from '@/components/molecules/LoginNavBar.vue'
 import SearchCategorySidebar from '@/components/molecules/SearchCategorySidebar.vue'
 import SearchCoachingList from '@/components/molecules/SearchCoachingList.vue'
@@ -12,84 +11,66 @@ import { ref, reactive } from 'vue'
 
 const selectButton = ref(0)
 // 선택한 카테고리 index
-const bColor = "#FCBF17"
+const bColor = '#FCBF17'
 
-const SideButtonList = [[
-  { name: 'House', },
-  { name: 'Furniture' },
-  { name: 'Lifestyle' },
-  { name: 'Design' },
-  { name : 'Etc'},
-], [
-  { name: 'Cocking' },
-  { name: 'Knitting' },
-  { name: 'Art' },
-  { name: 'Beauty' },
-  { name : 'Etc'},
-], [
-  { name: 'Soccer' },
-  { name: 'Basketball' },
-  { name: 'Tennis' },
-  { name: 'Golf' },
-  { name : 'Etc'},
-], [
-  { name: 'Frontend' },
-  { name: 'Backend' },
-  { name: 'Database' },
-  { name: 'Devops' },
-  { name : 'Etc'},
-], [
-  { name: 'Yoga' },
-  { name: 'Weight' },
-  { name: 'Running' },
-  { name: 'Crossfit' },
-  { name : 'Etc'},
-],]
+const SideButtonList = [
+  [{ name: 'House' }, { name: 'Furniture' }, { name: 'Lifestyle' }, { name: 'Design' }, { name: 'Etc' }],
+  [{ name: 'Cocking' }, { name: 'Knitting' }, { name: 'Art' }, { name: 'Beauty' }, { name: 'Etc' }],
+  [{ name: 'Soccer' }, { name: 'Basketball' }, { name: 'Tennis' }, { name: 'Golf' }, { name: 'Etc' }],
+  [{ name: 'Frontend' }, { name: 'Backend' }, { name: 'Database' }, { name: 'Devops' }, { name: 'Etc' }],
+  [{ name: 'Yoga' }, { name: 'Weight' }, { name: 'Running' }, { name: 'Crossfit' }, { name: 'Etc' }]
+]
 // 선택한 카테고리에 따라 변경될 사이드 메뉴 리스트, 소분류
 
 const coaching = reactive([
   {
-    coachId: "1",
-    coachingName: "title one",
-    rating: "4.7",
+    coachId: '1',
+    coachingName: 'title one',
+    rating: '4.7',
     reviewCount: 122,
-    img: "https://cdn.quasar.dev/img/avatar1.jpg"
-  }, {
-    coachId: "2",
-    coachingName: "title two",
-    rating: "4.6",
+    img: 'https://cdn.quasar.dev/img/avatar1.jpg'
+  },
+  {
+    coachId: '2',
+    coachingName: 'title two',
+    rating: '4.6',
     reviewCount: 122,
-    img: "https://cdn.quasar.dev/img/avatar2.jpg"
-  }, {
-    coachId: "3",
-    coachingName: "title three",
-    rating: "4.5",
+    img: 'https://cdn.quasar.dev/img/avatar2.jpg'
+  },
+  {
+    coachId: '3',
+    coachingName: 'title three',
+    rating: '4.5',
     reviewCount: 122,
-    img: "https://cdn.quasar.dev/img/avatar3.jpg"
-  }, {
-    coachId: "4",
-    coachingName: "title four",
-    rating: "3.9",
+    img: 'https://cdn.quasar.dev/img/avatar3.jpg'
+  },
+  {
+    coachId: '4',
+    coachingName: 'title four',
+    rating: '3.9',
     reviewCount: 122,
-    img: "https://cdn.quasar.dev/img/avatar4.jpg"
-  }, {
-    coachId: "5",
-    coachingName: "title five",
-    rating: "4",
+    img: 'https://cdn.quasar.dev/img/avatar4.jpg'
+  },
+  {
+    coachId: '5',
+    coachingName: 'title five',
+    rating: '4',
     reviewCount: 122,
-    img: "https://cdn.quasar.dev/img/avatar5.jpg"
-  }, {
-    coachId: "6",
-    coachingName: "title six",
-    rating: "4.9",
+    img: 'https://cdn.quasar.dev/img/avatar5.jpg'
+  },
+  {
+    coachId: '6',
+    coachingName: 'title six',
+    rating: '4.9',
     reviewCount: 122,
-    img: "https://cdn.quasar.dev/img/avatar6.jpg"
-  }, {
-    coachId: "7",
-    coachingName: "title seven",
-    rating: "4.1",
+    img: 'https://cdn.quasar.dev/img/avatar6.jpg'
+  },
+  {
+    coachId: '7',
+    coachingName: 'title seven',
+    rating: '4.1',
     reviewCount: 122,
-    img: "https://cdn.quasar.dev/img/avatar1.jpg"
+    img: 'https://cdn.quasar.dev/img/avatar1.jpg'
   }
 ]) // 코칭 목록 예시
 
@@ -102,7 +83,6 @@ const clickCategory = (index) => {
   selectedCategory.value = SideButtonList[selectButton.value]
 }
 // 카테고리 클릭시 상단 사이드 메뉴 변경
-
 </script>
 <template>
   <!-- nav -->
@@ -112,7 +92,7 @@ const clickCategory = (index) => {
   <div class="all">
     <div class="main-layout">
       <!-- 카테고리 -->
-      <CustomCategory style="margin-top: 3vh;" @click-category="clickCategory"></CustomCategory>
+      <CustomCategory style="margin-top: 3vh" @click-category="clickCategory"></CustomCategory>
       <div class="mypage-outside">
         <!-- 사이드메뉴 -->
         <SearchCategorySidebar :button-list="selectedCategory" />
@@ -122,19 +102,17 @@ const clickCategory = (index) => {
           </div>
           <div class="mainpage">
             <!-- 코칭 목록과 채팅 버튼-->
-            <SearchCoachingList :coaching="coaching" style="margin-left: 0.6vw; margin-top: 1vh;"></SearchCoachingList>
+            <SearchCoachingList :coaching="coaching" style="margin-left: 0.6vw; margin-top: 1vh"></SearchCoachingList>
           </div>
         </div>
         <div class="chat-button">
-          <chatButton style="width: 50px; height: 50px;">
-          </chatButton>
+          <q-btn round size="20px" color="amber-7" icon="chat"></q-btn>
         </div>
       </div>
     </div>
   </div>
   <!-- footer 위치 -->
-  <div class="footer">
-  </div>
+  <div class="footer"></div>
 </template>
 
 <style scoped>
@@ -200,15 +178,15 @@ const clickCategory = (index) => {
   flex-direction: row;
   -ms-overflow-style: none;
 }
-.mainpage::-webkit-scrollbar{
-  display:none;
+.mainpage::-webkit-scrollbar {
+  display: none;
 }
 
-.mainpage{
+.mainpage {
   -ms-overflow-style: none;
 }
-.mainpage::-webkit-scrollbar{
-  display:none;
+.mainpage::-webkit-scrollbar {
+  display: none;
 }
 
 .footer {
@@ -219,12 +197,10 @@ const clickCategory = (index) => {
 }
 
 .chat-button {
-  position:fixed;
-  bottom:60px;
-  right:14vw;
-  color:#FFF;
-  text-align:center;
+  position: fixed;
+  bottom: 60px;
+  right: 14vw;
+  color: #fff;
+  text-align: center;
 }
 </style>
-
-
