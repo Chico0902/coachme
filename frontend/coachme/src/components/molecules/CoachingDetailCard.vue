@@ -79,7 +79,7 @@ const videoPreviews = ref(false)
         </q-item-section>
 
         <!-- 코칭 미리보기 영역 -->
-        <q-item-section style="margin-left: 10vw; margin-top: 2vh; margin-bottom: 2vh;">
+        <q-item-section style="margin-left: 10vw; margin-top: 2vh; margin-bottom: 2vh; width: 17vw;">
           <CustomButton rounded label="코칭 미리보기" style="background-color: #FCBF17;" 
           @click="videoPreviews = true"></CustomButton>
           <VideoModal v-model="videoPreviews" :video="props.previewVideoSrc"></VideoModal>
