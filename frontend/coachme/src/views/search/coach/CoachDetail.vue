@@ -12,8 +12,8 @@ import { getCoachReview } from '@/utils/api/review-api'
 
 const route = useRoute()
 
-const coachDetail = ref([])
-const reviews = ref([])
+const coachDetail = ref([]) // 코치 상세
+const reviews = ref([]) // 리뷰
 
 const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
 // 중단 메뉴 리스트
@@ -27,28 +27,31 @@ const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
 onBeforeMount(() => {
   const coachId = route.params.id
 
-  getCoachDetailPage(
-    coachId,
-    (success) => {
-      console.log(success)
-      coachDetail.value = success.data
-    },
-    (fail) => {
-      console.log(fail)
-    }
-  )
-
-  getCoachReview(
-    coachId,
-    (success) => {
-      console.log(success)
-      reviews.value = success.data.list
-    },
-    (fail) => {
-      console.log(fail)
-    }
-  )
+  // 코치 id로 코치 포트폴리오 
+    getCoachDetailPage(
+      coachId,
+      (success) => {
+        console.log(success)
+        coachDetail.value = success.data
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    )
+    
+    // 코칭 id로 코칭 리뷰 
+    getCoachReview(
+      coachId, 
+      (success) => {
+        console.log(success)
+        reviews.value = success.data.list
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    )
 })
+
 </script>
 
 <template>
