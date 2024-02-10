@@ -37,6 +37,7 @@ public interface CoachingMapper {
   @Mapping(source = "subCategory.name", target = "sub")
   CoachesCoachingsResponseDto coachingToCoachesCoachingsResponseDto(Coaching coaching);
 
+  @Mapping(source = "coach.longId", target = "coachId")
   @Mapping(source = "coach.name", target = "coachName")
   @Mapping(source = "coach.profileImage.url", target = "coachProfileImageUrl")
   @Mapping(source = "name", target = "coachingName")
