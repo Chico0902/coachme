@@ -2,7 +2,7 @@
 import Labels from '../atoms/CardLabel.vue'
 import CustomButton from '../atoms/CustomButton.vue'
 import CustomLike from '../atoms/CustomLike.vue'
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useChatStore } from '../../stores/chat-status.js'
 
 const store = useChatStore()
@@ -16,9 +16,8 @@ const props = defineProps({
   }
 })
 
-const chatLabel = ref(props.coach + '님께 문의해보세요.')
+const chatLabel = computed(() => props.coach + '님께 문의해보세요.');
 // 코치이름에 따라 반응형으로 변경
-console.log(props.like)
 </script>
 
 <template>
