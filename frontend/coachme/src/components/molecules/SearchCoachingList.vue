@@ -1,30 +1,25 @@
-<!-- 코칭 리스트 컴포넌트 
-필요한 정보는 코칭 정보
-coaching : 코칭 정보. object. 기본 값 없음
-
-object에 필용한 정보 : 코칭 이름, 별점, 프로필 사진 주소
-coachId : 코치의 id ->
-coachingName : 코칭 이름
-rating : 별점
-img : 프로필 사진 주소
--->
-
 <script setup>
 import profileImage from '../atoms/ProfileImage.vue'
 import labels from '../atoms/CardLabel.vue'
 import buttons from '../atoms/CustomButton.vue'
 import { ref, computed } from 'vue'
 import { useChatStore } from '../../stores/chat-status.js'
+import { useCoachingStore } from '@/stores/coaching'
+import { storeToRefs } from 'pinia'
 
-const store = useChatStore()
-const { requestDm } = store
-// 피니아에 저장된 채팅 활성화 함수
+/**
+ * VARIABLES
+ */
 
-const props = defineProps({
-  coaching: {
-    type: Object
-  }
-})
+// pinia 사용
+
+// var
+const chatStore = useChatStore()
+const coachingStore = useCoachingStore()
+const { coachings } = storeToRefs(coachingStore)
+
+// function
+const { openChatByMemberId } = chatStore
 
 const currentPage = ref(1)
 const cardPerPage = 3
@@ -32,8 +27,8 @@ const cardPerPage = 3
 
 // 현재 페이지 데이터만 가져오기
 const getData = computed(() => {
-  if (Array.isArray(props.coaching)) {
-    return props.coaching.slice(
+  if (coachings != undefined && coachings.value != undefined && Array.isArray(coachings.value)) {
+    return coachings.value.slice(
       (currentPage.value - 1) * cardPerPage,
       (currentPage.value - 1) * cardPerPage + cardPerPage
     )
@@ -46,12 +41,17 @@ const getData = computed(() => {
 <template>
   <div>
     <template v-if="getData.length > 0">
-      <q-card v-for="(coaching, index) in getData" :key="index"
-        style="margin-bottom: 2vh; min-width: 50vw; min-height:15vh;" rounded>
+      <q-card
+        v-for="(coaching, index) in getData"
+        :key="index"
+        style="margin-bottom: 2vh; min-width: 50vw; min-height: 15vh"
+        rounded
+      >
         <q-item>
           <!-- 프로필 사진 -->
           <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 0.6vh; margin-right: 2vw">
-            <profileImage :img="`${coaching.img}`" size="80px"></profileImage>
+            <profileImage :img="`${coaching.profileImg}`" size="80px"></profileImage>
+            <q-item-label caption style="margin: auto; margin-top: 0.5rem">코치 이름</q-item-label>
           </q-item-section>
 
           <!-- 구분선 -->
@@ -70,7 +70,9 @@ const getData = computed(() => {
                 <!-- 별점 아이콘과 별점-->
                 <div class="ratingForm" style="width: fit-content">
                   <q-btn flat round color="amber-7" icon="star" disable></q-btn>
-                  <span class="rating">{{ coaching.rating }} ({{ coaching.reviewCount }})</span>
+                  <span class="rating"
+                    >{{ coaching.avgScore !== null ? coaching.avgScore : 0 }} ({{ coaching.reviewCount }})</span
+                  >
                 </div>
                 <!-- 공간 분리 -->
                 <q-space></q-space>
@@ -78,10 +80,15 @@ const getData = computed(() => {
                 <!-- 코칭 신청과 문의하기 버튼 섹션-->
                 <div>
                   <buttons
-                    label="코칭 신청"
-                    style="margin-right: 1vw; background-color: #004c98; color: white"
+                    label="문의하기"
+                    style="background-color: #fcbf17"
+                    @click="openChatByMemberId(coaching.coachId, coaching.memberName, coaching.profileImg)"
                   ></buttons>
-                  <buttons label="문의하기" style="background-color: #fcbf17" @click="requestDm()"></buttons>
+                  <buttons
+                    label="상세보기"
+                    style="margin-right: 1vw; background-color: #004c98; color: white"
+                    @click="$router.push(`/search/coaching/detail/${coaching.coachingId}`)"
+                  ></buttons>
                 </div>
               </q-item-section>
             </q-item-section>
@@ -110,7 +117,7 @@ const getData = computed(() => {
         v-model="currentPage"
         color="blue-10"
         :min="1"
-        :max="coaching ? Math.ceil(coaching.length / cardPerPage) : 0"
+        :max="coachings ? Math.ceil(coachings.length / cardPerPage) : 0"
         :max-pages="6"
         boundary-numbers
       ></q-pagination>
@@ -137,5 +144,4 @@ const getData = computed(() => {
   vertical-align: center;
   align-items: center;
 }
-
 </style>

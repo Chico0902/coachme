@@ -27,7 +27,7 @@ const cardPerPage = 3
 
 // 현재 페이지 데이터만 가져오기
 const getData = computed(() => {
-  if (Array.isArray(coaches.value)) {
+  if (coaches != undefined && coaches.value != undefined && Array.isArray(coaches.value)) {
     return coaches.value.slice(
       (currentPage.value - 1) * cardPerPage,
       (currentPage.value - 1) * cardPerPage + cardPerPage
@@ -69,7 +69,9 @@ const getData = computed(() => {
                 <!-- 별점 아이콘과 별점-->
                 <div class="ratingForm" style="width: fit-content">
                   <q-btn flat round color="amber-7" icon="star" disable></q-btn>
-                  <span class="rating">{{ coach.avgScore !== null ? coach.avgScore : 0 }} ({{ coach.reviewCount }})</span>
+                  <span class="rating"
+                    >{{ coach.avgScore !== null ? coach.avgScore : 0 }} ({{ coach.reviewCount }})</span
+                  >
                 </div>
                 <!-- 공간 분리 -->
                 <q-space></q-space>
