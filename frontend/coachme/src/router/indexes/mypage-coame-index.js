@@ -32,15 +32,6 @@ export default [
         }
       },
       {
-        path: 'interest',
-        name: 'Desktop-8',
-        props: true,
-        components: {
-          sidebar: () => import('@/components/molecules/MypageSidebar.vue'),
-          main: () => import('@/views/mypages/coame/InterestView.vue')
-        }
-      },
-      {
         path: 'video',
         name: 'Desktop-9',
         props: true,
