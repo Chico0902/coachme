@@ -87,13 +87,13 @@ onBeforeMount(() => {
 watch(
   () => date.value,
   () => {
-    console.log(date.value)
-    console.log(allLiveCoachings.value)
-    console.log(allLiveCoachings.value[date.value])
-    liveCoachings.value = allLiveCoachings.value[date.value]
-    console.log(liveCoachings.value)
+    const dateKey = getDateKey(date.value)
+    liveCoachings.value = allLiveCoachings.value[dateKey]
   }
 )
+function getDateKey(date) {
+  return date.substring(0, 10).replace(/-/g, '/')
+}
 </script>
 <template>
   <div class="outside">
