@@ -31,7 +31,7 @@ authAxios.interceptors.request.use((config) => {
 })
 
 // 인증 만료 시 토큰 재발급을 위한 인터셉터
-authAxios.interceptors.response.use(
+const refreshInterceptor = authAxios.interceptors.response.use(
   function (success) {
     return success
   },
@@ -40,12 +40,10 @@ authAxios.interceptors.response.use(
       if (fail.response.status === 401) {
         // 엑세스 토큰 만료일 경우, 토큰 재발급 요청
         if (fail.response.data.message === 'Access Token Expired') {
-          await getRefresh((fail) => {
-            alert(fail)
-            window.location.reload()
-            router.push('/login')
-          })
+          console.log('access token expired')
+          await getRefresh()
           fail.config.headers.Authorization = `Bearer ${getAccessToken()}`
+          authAxios.interceptors.response.eject(refreshInterceptor)
           return await authAxios.request(fail.config)
 
           // 리프레쉬 토큰 만료일 경우, 로그인 페이지로 이동
