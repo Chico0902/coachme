@@ -20,7 +20,7 @@ import { decodeToken, getAccessToken } from '@/utils/functions/auth'
  */
 
 const selectButton = ref(0)
-const SideButtonList = [
+const sideButtonList = [
   [],
   [{ name: 'ALL' }, { name: 'House' }, { name: 'Furniture' }, { name: 'Lifestyle' }, { name: 'Design' }],
   [{ name: 'ALL' }, { name: 'Cooking' }, { name: 'Knitting' }, { name: 'Art' }, { name: 'Beauty' }],
@@ -32,7 +32,6 @@ const subCategories = ref([])
 const isMatching = ref(false)
 const selectedMainCategory = ref('all')
 const selectedSubCategory = ref('all')
-const bColor = "#FCBF17"
 
 // pinia
 const coachStore = useCoachStore()
@@ -44,9 +43,11 @@ const { useDmWindow } = storeToRefs(chatStore)
 
 // 로그인 여부
 const loginMemberId = isLogin.value ? decodeToken(getAccessToken()).longId : -1
+
 /**
  * METHODS
  */
+
 const { openChatList } = chatStore
 const changeListAndMatching = () => {
   isMatching.value = !isMatching.value
@@ -70,7 +71,7 @@ onBeforeMount(() => {
 // 대분류 코치 조회
 const clickCategory = (index, name) => {
   selectButton.value = index
-  subCategories.value = SideButtonList[selectButton.value]
+  subCategories.value = sideButtonList[selectButton.value]
   selectedMainCategory.value = name
   postCoachesByCategory(
     selectedMainCategory.value.toLowerCase(),
