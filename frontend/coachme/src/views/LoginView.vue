@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import { postLoginRequest } from '../utils/api/auth-api'
 import { LoginRequestDto } from '../utils/api/dto/auth-dto'
 import { validateId, validatePassword, validateLogin } from '../utils/functions/member'
@@ -68,6 +68,14 @@ const login = (id, pw) => {
     }
   )
 }
+
+onBeforeMount(() => {
+  isLogin.value = false
+  accessToken.value = ''
+  profileText.value = '프로필을 등록하세요.'
+  profileImageUrl.value = '/assets/icons/coame.png'
+  longId.value = ''
+})
 </script>
 
 <template>
