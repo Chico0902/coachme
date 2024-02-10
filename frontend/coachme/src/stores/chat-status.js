@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getDmsByMemberId, getDmsByRoomId, getMyDmRooms } from '@/utils/api/dm-api'
 import router from '@/router'
-import member from '@/tests/mocks/handler/member'
 
 export const useChatStore = defineStore('chatStatus', () => {
   const useDmWindow = ref(false)
@@ -50,7 +49,12 @@ export const useChatStore = defineStore('chatStatus', () => {
   // 문의하기
   function openChatByMemberId(getCoachId, getCoachName, getProfileImg) {
     // 로그인 여부 체크
-    myLongId.value = decodeToken(getAccessToken()).longId
+    try {
+      myLongId.value = decodeToken(getAccessToken()).longId
+    } catch (e) {
+      alert(e)
+      router.push('/login')
+    }
     coachId.value = getCoachId
     coachName.value = getCoachName
     coachImageUrl.value = getProfileImg
