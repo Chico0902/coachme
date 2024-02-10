@@ -20,7 +20,7 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
             message : String
           }
  */
-export function postLiveCoachingEntrnce (roomId, success, fail) {
+export function postLiveCoachingEntrnce(roomId, success, fail) {
   authAxios.post(`/live/sessions/${roomId}/connections`).then(success).catch(fail)
 }
 
@@ -47,6 +47,6 @@ export function postLiveCoachingEntrnce (roomId, success, fail) {
             message : String
           }
  */
-export function postconnectLiveCoaching(dto, success, fail) {
+export function postConnectLiveCoaching(dto, success, fail) {
   authAxios.post(`/live/sessions`, dto).then(success).catch(fail)
 }

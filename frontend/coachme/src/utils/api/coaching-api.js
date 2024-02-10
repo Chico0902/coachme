@@ -22,7 +22,7 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
           }
  */
 export function getApplyLiveCoaching(liveCoachingId, coameId, success, fail) {
-  authAxios.get(`/coaches/live/${liveCoachingId}/${coameId}`).then(success).catch(fail)
+  authAxios.get(`/coachings/live/${liveCoachingId}/${coameId}`).then(success).catch(fail)
 }
 
 /**
@@ -51,7 +51,7 @@ export function getApplyLiveCoaching(liveCoachingId, coameId, success, fail) {
           }
   */
 export function getLiveCoachingCoame(liveCoachingId, success, fail) {
-  authAxios.get(`/coaches/live/${liveCoachingId}/coames`).then(success).catch(fail)
+  authAxios.get(`/coachings/live/${liveCoachingId}/coames`).then(success).catch(fail)
 }
 
 /**
@@ -167,6 +167,6 @@ export function getPopularCoachingList(success, fail) {
             message : String
           }
   */
-export function getCoachingDetailPage(coachingId, success, fail) {
+export function getCoachingDetailPage_(coachingId, success, fail) {
   authAxios.get(`/coachings/${coachingId}`).then(success).catch(fail)
 }
