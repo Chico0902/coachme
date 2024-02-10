@@ -1,6 +1,6 @@
 <script setup>
 import { Client } from '@stomp/stompjs'
-import { onBeforeMount, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
+import { onBeforeMount, onBeforeUnmount, ref, watch } from 'vue'
 import { useChatStore } from '@/stores/chat-status'
 import { storeToRefs } from 'pinia'
 import { getAccessToken } from '@/utils/functions/auth'
