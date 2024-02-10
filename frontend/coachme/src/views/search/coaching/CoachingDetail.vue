@@ -6,6 +6,7 @@ import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
+import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import { ref, onMounted } from 'vue'
 
 const menus = ref(['코칭 소개', '라이브 일정', '영상 목록', '리뷰'])
@@ -197,7 +198,9 @@ const ratio = 16 / 9
     </div>
   </div>
 
-  <div class="footer"></div>
+  <div class="footer">
+    <footerBar />
+  </div>
 </template>
 
 <style scoped>
