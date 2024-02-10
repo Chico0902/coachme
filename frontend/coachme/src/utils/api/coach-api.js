@@ -271,6 +271,6 @@ export function getVideoList(coachId, success, fail) {
             message : String
           }
  */
-export function getPopularList(success, fail) {
+export function getPopularCoachList(success, fail) {
   publicAxios.get(`/coaches/popular`).then(success).catch(fail)
 }

@@ -77,16 +77,12 @@ const setVideo = () => {
     <q-item>
       <!-- 캡션과 라벨 -->
       <q-item-section>
-        <labels :label="`${props.label}`"></labels>
+        <labels class="coaching-name" :label="`${props.label}`"></labels>
         <labels caption :label="`${props.caption}`"></labels>
       </q-item-section>
-      <!-- 공간 차지-->
-      <q-item-section>
-        <q-space></q-space>
-      </q-item-section>
       <!-- 찜콩 버튼-->
-      <q-item-section v-if="visible">
-        <like :clicked="liked"></like>
+      <q-item-section v-if="visible" class="likebtn">
+        <like class="likebtn" :clicked="liked"></like>
       </q-item-section>
       <!-- 대표 영상 설정 -->
       <q-item-section v-if="!visible">
@@ -107,5 +103,13 @@ const setVideo = () => {
 .my-card {
   width: 100%;
   min-width: 15vw;
+}
+.coaching-name{
+  min-width: 150px;
+
+}
+.likebtn{
+  display: flex;
+  justify-content: right
 }
 </style>
