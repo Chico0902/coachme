@@ -10,7 +10,7 @@ liked : 찜콩버튼 클릭시 발생할 함수. function. 기본값 없음
 <script setup>
 import labels from '../atoms/CardLabel.vue'
 import like from '../atoms/CustomLike.vue'
-import { setRepresentativeVideo } from '@/utils/api/coaching-api'
+import { getMainVideo } from '@/utils/api/coaching-api'
 
 const props = defineProps({
   label: {
@@ -46,21 +46,19 @@ const props = defineProps({
 })
 
 const setVideo = () => {
-
-  setRepresentativeVideo(
-    props.coachingId, props.videoId,
+  getMainVideo(
+    props.coachingId,
+    props.videoId,
     (success) => {
       console.log(success.data)
-      alert("대표 영상으로 등록되었습니다.")
+      alert('대표 영상으로 등록되었습니다.')
     },
     (fail) => {
       console.log(fail.data)
-      alert("대표 영상 등록이 실패하였습니다.")
+      alert('대표 영상 등록이 실패하였습니다.')
     }
   )
-  
 }
-
 </script>
 
 <template>
@@ -86,14 +84,9 @@ const setVideo = () => {
       </q-item-section>
       <!-- 대표 영상 설정 -->
       <q-item-section v-if="!visible">
-        <q-btn
-          padding="xs"
-          color="amber-7"
-          icon="check"
-          @click="setVideo"
-        >
-        <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
-      </q-btn>
+        <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
+          <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
+        </q-btn>
       </q-item-section>
     </q-item>
   </q-card>
@@ -104,12 +97,11 @@ const setVideo = () => {
   width: 100%;
   min-width: 15vw;
 }
-.coaching-name{
+.coaching-name {
   min-width: 150px;
-
 }
-.likebtn{
+.likebtn {
   display: flex;
-  justify-content: right
+  justify-content: right;
 }
 </style>
