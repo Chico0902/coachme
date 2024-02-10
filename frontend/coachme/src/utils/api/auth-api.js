@@ -1,3 +1,4 @@
+import router from '@/router'
 import axios from 'axios'
 
 const { VITE_BACKEND_URL } = import.meta.env
@@ -47,7 +48,7 @@ export function postLoginRequest(dto, success, fail) {
             message : String
           }
  */
-export function getRefresh(fail) {
+export function getRefresh() {
   return new Promise((resolve) =>
     axios
       .get(`${VITE_BACKEND_URL}/auth/refresh`, {
@@ -57,10 +58,17 @@ export function getRefresh(fail) {
         withCredentials: true
       })
       .then((success) => {
+        console.log(success)
         const accessToken = { accessToken: success.headers.authorization }
         sessionStorage.setItem('auth', JSON.stringify(accessToken))
+        resolve()
       })
-      .then(resolve())
-      .catch(fail)
+      .catch((fail) => {
+        console.log(fail)
+        if (fail.response.data.message === 'Refresh Token Expired') {
+          alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
+          router.push('/login')
+        }
+      })
   )
 }
