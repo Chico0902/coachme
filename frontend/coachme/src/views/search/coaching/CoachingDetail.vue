@@ -6,49 +6,37 @@ import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
+import { ref, onMounted, onBeforeMount, computed } from 'vue'
+import { useRoute } from "vue-router";
+import { getCoachingDetailPage } from '@/utils/api/coaching-api'
+import { getVideoList } from '@/utils/api/coach-api'
+import { getCoachingReview } from '@/utils/api/review-api'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
-import { ref, onMounted } from 'vue'
+
+const route = useRoute()
 
 const menus = ref(['코칭 소개', '라이브 일정', '영상 목록', '리뷰'])
 // 중단 메뉴 리스트
 
-const title = ref('이것만 알면 당신도 잘 할 수 있다.')
-const name = ref('고코치')
-const ratingModel = ref(4.3)
-const review = ref(124)
-const lastEdit = ref('2024. 01. 29')
-// 코치 정보 예시
+const videoCoachingId = ref(1) // 영상 조회용 코칭 id
+const coachingDetail = ref([]) // 코칭 상세
+const reviews = ref([]) // 리뷰
+const breadCrumbs = ref([]) // 대분류 소분류
 
-const reviews = ref([
-  {
-    name: '고양이',
-    reviewDate: '2024/01/30 11:26 AM',
-    ratingModel: 4.5,
-    review: '좋은 강의입니다.'
-  },
-  {
-    name: '고코미',
-    reviewDate: '2024/01/30 02:50 PM',
-    ratingModel: 4.0,
-    review: '마음에 들었습니다.'
-  }
-])
-// 리뷰 예시
+// const videos = ref([
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 1, videoUrl: "https://naver.com", videoName: "기본편" },
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 2, videoUrl: "https://naver.com", videoName: "연습편" },
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 6, videoUrl: "https://naver.com", videoName: "실전편" },
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 7, videoUrl: "https://naver.com", videoName: "종합" },
+// ]);
+
+const videos = ref([])
 
 const reviewData = (data) => {
-  reviews.value.push({
-    name: '옆집 고양이',
-    reviewDate: '2024/01/31 03:44 PM',
-    ratingModel: data.rating,
-    review: data.review
-  })
-  review.value = review.value + 1
+
 } // 리뷰 입력폼에서 입력받은 리뷰와 별점을 처리하는 함수
 
-const breadCrumbs = ['Develop', 'Devops']
-// 해당 코칭의 대분류와 소분류
-
-const video = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
+const videoLink = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
 // 코칭 미리보기 영상 링크
 
 var today = new Date()
@@ -95,9 +83,63 @@ onMounted(() => {
 })
 // 최초 오늘 날짜의 코칭 예정을 미리 구하여 처리하기
 
-const label = 'whiteCat'
-const caption = 'Cat is white'
 const ratio = 16 / 9
+
+onBeforeMount(() => {
+  const coachingId = route.params.id
+  const coachId = ref()
+
+  // 코칭 id로 코칭 상세페이지 
+  getCoachingDetailPage(
+    coachingId,
+    (success) => {
+      console.log(success)
+      coachingDetail.value = success.data
+      breadCrumbs.value = [coachingDetail.value.mainCategory, coachingDetail.value.subCategory]
+      coachId.value = coachingDetail.value.coachId
+      videoCoachingId.value = coachingId
+
+      // 코치 id를 획득한 뒤, 코칭 영상 조회
+      getVideoList(
+        coachId.value,
+        (success) => {
+          console.log(success)
+          videos.value = success.data.list
+        },
+        (fail) => {
+          console.log(fail)
+        }
+      )
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
+  // 코칭 id로 리뷰 목록
+  getCoachingReview(
+    coachingId,
+    (success) => {
+      console.log(success)
+      reviews.value = success.data.list
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
+})
+
+const groupedFilteredVideos = computed(() => {
+  const filtered = videos.value.filter(video => video.coachingId == videoCoachingId.value);
+
+  const grouped = [];
+  filtered.forEach(video => {
+    grouped.push(video);
+  });
+
+  return grouped;
+});
+// 코치의 전체 영상 중, 현재 코칭에 해당하는 영상만 추출
+
 </script>
 
 <template>
@@ -111,16 +153,9 @@ const ratio = 16 / 9
         <div class="mainpage">
           <div class="profile">
             <!-- 코칭 상세 정보 -->
-            <CoachingDetailCard
-              :title="title"
-              :coach="name"
-              :rating-model="ratingModel"
-              :review-count="review"
-              :last-edit-date="lastEdit"
-              :bread-crumbs="breadCrumbs"
-              :previewVideoSrc="video"
-              style="margin-left: 0.6vw"
-            >
+            <CoachingDetailCard :title="coachingDetail.coachingName" :coach="coachingDetail.coachName"
+              :rating-model="coachingDetail.reviewAvg" :review-count="coachingDetail.reviewCount"
+              :bread-crumbs="breadCrumbs" :previewVideoSrc="videoLink" style="margin-left: 0.6vw">
             </CoachingDetailCard>
             <q-separator></q-separator>
 
@@ -132,7 +167,7 @@ const ratio = 16 / 9
             <!-- 코칭 소개. 직접 작성한 부분이 이곳에 들어감 -->
             <div class="coaching-introduction">
               <h2>코칭 소개</h2>
-              <div class="coaching-desc">소개합니다.</div>
+              <div v-html="coachingDetail.htmlDocs" class="coaching-desc"></div>
             </div>
 
             <q-separator></q-separator>
@@ -141,14 +176,8 @@ const ratio = 16 / 9
             <div class="coaching-live-schedule">
               <h2>라이브 일정</h2>
               <div class="coaching-live-calender">
-                <q-date
-                  name="Schedule"
-                  v-model="date"
-                  @click="scheduleTimeTable(date)"
-                  color="blue-10"
-                  today-btn
-                  :events="filteredDates"
-                ></q-date>
+                <q-date name="Schedule" v-model="date" @click="scheduleTimeTable(date)" color="blue-10" today-btn
+                  :events="filteredDates"></q-date>
                 <CoachingScheduleList :date="date" :timeTable="filteredTimeTable"></CoachingScheduleList>
               </div>
             </div>
@@ -158,15 +187,14 @@ const ratio = 16 / 9
             <!-- 영상 목록 -->
             <div class="coaching-video-list">
               <h2>영상 목록</h2>
-              <div class="coaching-card-outside">
-                <div class="coaching-card">
-                  <CoachingCard :label="label" :caption="caption" :ratio="ratio" :video="video"></CoachingCard>
+              <div class="coaching-card-outside element-with-scrollbar">
+                <div v-if="groupedFilteredVideos.length > 0">
+                  <div v-for="videoGroup in groupedFilteredVideos" :key="videoGroup.coachingName" class="coaching-card">
+                    <CoachingCard :label="videoGroup.videoName" :ratio="ratio"></CoachingCard>
+                  </div>
                 </div>
-                <div class="coaching-card">
-                  <CoachingCard :label="label" :caption="caption" :ratio="ratio" :video="video"></CoachingCard>
-                </div>
-                <div class="coaching-card">
-                  <CoachingCard :label="label" :caption="caption" :ratio="ratio" :video="video"></CoachingCard>
+                <div v-else class="coaching-card" style="font-size: 16px;">
+                  조회 가능한 영상이 없습니다.
                 </div>
               </div>
             </div>
@@ -176,18 +204,14 @@ const ratio = 16 / 9
             <!-- 리뷰 -->
             <div class="coaching-review">
               <h2>리뷰</h2>
-              <Reviews
-                :reviews="reviews"
-                :rating-model="ratingModel"
-                v-bind:review-count="review"
-                @review-data="reviewData"
-              ></Reviews>
+              <Reviews :reviews="reviews" :rating-model="coachingDetail.reviewAvg"
+                v-bind:review-count="coachingDetail.reviewCount" @review-data="reviewData"></Reviews>
             </div>
           </div>
         </div>
         <!-- 우측 안내창 -->
         <div class="chat-box">
-          <ChatBox :coach="name"></ChatBox>
+          <ChatBox :coach="coachingDetail.coachName"></ChatBox>
         </div>
 
         <!-- 채팅 플로팅 버튼 -->
@@ -278,16 +302,27 @@ h2 {
   text-align: left;
 }
 
-.coaching-card {
-  margin-right: 1.5vw;
+.coaching-card-outside {
+  display: flex;
+  margin-left: 1.2vw;
+  margin-top: 2vh;
+  margin-bottom: 5vh;
+  overflow-x: scroll;
 }
+
+.coaching-card {
+  margin: 30px 15px 30px;
+}
+
 .coaching-introduction {
   text-align: left;
   margin-bottom: 4vh;
 }
 
 .coaching-desc {
-  margin-left: 1.1vw;
+  margin-left: 1.2vw;
+  margin-top: 2vh;
+  font-size: 16px;
 }
 
 .coaching-live-schedule {
@@ -306,12 +341,12 @@ h2 {
   margin-bottom: 3vh;
 }
 
-.coaching-card-outside {
-  display: flex;
-  justify-content: space-around;
-  margin-left: 1.2vw;
-  margin-top: 2vh;
-  margin-bottom: 5vh;
+.element-with-scrollbar {
+  overflow: hidden;
+}
+
+.element-with-scrollbar:hover {
+  overflow: auto;
 }
 
 .footer {

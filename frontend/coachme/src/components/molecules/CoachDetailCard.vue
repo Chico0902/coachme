@@ -26,7 +26,8 @@ const props = defineProps({
   }
 })
 
-const ratingScore = computed(() => props.ratingModel);
+const ratingScore = computed(() => Math.round(props.ratingModel * 10) / 10);
+
 
 </script>
 
