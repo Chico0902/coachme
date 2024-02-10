@@ -25,7 +25,8 @@ const props = defineProps({
 
 const emit = defineEmits(['reviewData'])
 
-const coachRating = computed(() => props.ratingModel);
+const coachRating = computed(() => Math.round(props.ratingModel * 10) / 10);
+
 const reviewRating = ref(5)
 // 리뷰 입력 구역의 별점 -> 이 값이 리뷰에 포함됨
 
