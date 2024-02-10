@@ -11,7 +11,8 @@ review : 리뷰 내용
 import Labels from '../atoms/CardLabel.vue';
 import EditButton from '../materialIcon/EditButton.vue';
 import DeleteButton from '../materialIcon/DeleteButton.vue';
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 
 const props = defineProps({
   reviews : {  
@@ -19,8 +20,10 @@ const props = defineProps({
   },
 })
 
-const ratingScore = ref(props.reviews.ratingModel)
+const ratingScore = computed(() => props.reviews.score);
 // v-model 적용을 위한 별점 저장
+
+const longId = decodeToken(getAccessToken()).longId
 
 </script>
 
@@ -30,12 +33,7 @@ const ratingScore = ref(props.reviews.ratingModel)
       <q-item-section vertical class="card-margin">
         <!-- 리뷰 작성자 -->
         <q-item-section class="card-margin top-section" horizontal>
-          <Labels style="font-size: 24px; margin-top: 6vh; width: fit-content;" :label="props.reviews.name"></Labels>
-        </q-item-section>
-        
-        <!-- 리뷰 작성일 -->
-        <q-item-section class="card-margin">
-          <Labels style="font-size: 16px; margin-top: 1.5vh; width: fit-content; color: gray;" :label="props.reviews.reviewDate"></Labels>
+          <Labels style="font-size: 24px; margin-top: 6vh; width: fit-content;" :label="props.reviews.nickName"></Labels>
         </q-item-section>
 
         <!-- 별점 표시 섹션 -->
@@ -48,11 +46,11 @@ const ratingScore = ref(props.reviews.ratingModel)
 
         <!-- 리뷰 내용 -->
         <q-item-section class="card-margin">
-          <Labels style="font-size: 18px; margin-top: 6vh; width: fit-content;" :label="props.reviews.review"></Labels>
+          <Labels style="font-size: 18px; margin-top: 6vh; width: fit-content;" :label="props.reviews.comment"></Labels>
         </q-item-section>
 
         <!-- 수정, 삭제버튼 -->
-        <q-item-section class="card-margin">
+        <q-item-section class="card-margin" v-if="longId === props.reviews.coameId">
           <div class="row no-wrap items-center justify-end" style="margin-top: -4vh; color : gray;">
             <EditButton style="width: fit-content;"></EditButton>
             <DeleteButton style="width: fit-content;"></DeleteButton>

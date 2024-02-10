@@ -5,9 +5,9 @@ clicked : 클릭 이벤트가 담긴 함수, function으로 보낼 것. 디폴�
 
 <script setup>
 import { useLikeStore } from '../../stores/like-counter'
+import { ref } from 'vue'
 
 const store = useLikeStore()
-
 const { incrementCount, getCount } = store
 
 const props = defineProps({
@@ -15,19 +15,22 @@ const props = defineProps({
     // 클릭 이벤트
     type: Function,
     default: () => {}
+  }, like: {
+    type: Boolean,
   }
 })
 
 incrementCount() // 찜콩 버튼 개수 증가
 
+const checked = ref(props.like);
 const number = getCount()
-const id = 'checkbox' + number
+const LikeId = 'checkbox' + number
 // 아이디는 checkbox + 찜콩 버튼 개수
 </script>
 
 <template>
   <div>
-    <input type="checkbox" :id="id" @click="props.clicked()" />
+    <input type="checkbox" :id="LikeId" v-model="checked" @click="props.clicked()" />
     <label :for="id">
       <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
         <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">

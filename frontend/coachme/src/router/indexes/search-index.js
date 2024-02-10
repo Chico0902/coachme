@@ -28,7 +28,8 @@ export default [
           {
             path: 'detail/:id',
             name: 'Desktop-16',
-            component: () => import('../../views/search/coaching/CoachingDetail.vue')
+            component: () => import('../../views/search/coaching/CoachingDetail.vue'),
+            props: true
           }
         ]
       }
