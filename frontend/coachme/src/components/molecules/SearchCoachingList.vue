@@ -51,7 +51,7 @@ const getData = computed(() => {
           <!-- 프로필 사진 -->
           <q-item-section horizontal avatar style="margin-left: 2vw; margin-top: 0.6vh; margin-right: 2vw">
             <profileImage :img="`${coaching.profileImg}`" size="80px"></profileImage>
-            <q-item-label caption style="margin: auto; margin-top: 0.5rem">코치 이름</q-item-label>
+            <q-item-label caption style="margin: auto; margin-top: 0.5rem">{{ coaching.memberName }}</q-item-label>
           </q-item-section>
 
           <!-- 구분선 -->
