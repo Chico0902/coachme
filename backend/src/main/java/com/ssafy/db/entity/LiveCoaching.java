@@ -1,7 +1,10 @@
 package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,6 +12,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LiveCoaching extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,5 +33,11 @@ public class LiveCoaching extends BaseEntity {
 
   public void addCoameCoahing(CoameCoaching coameCoaching) {
     this.coameCoachings.add(coameCoaching);
+  }
+
+  public void createLiveCoaching(Coaching coaching, LocalDateTime date) {
+    this.coaching = coaching;
+    this.coachingDate = date;
+    coaching.addLiveCoaching(this);
   }
 }

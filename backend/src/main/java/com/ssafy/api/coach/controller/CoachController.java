@@ -1,10 +1,12 @@
 package com.ssafy.api.coach.controller;
 
+import com.ssafy.api.coach.dto.request.CoachesRequestDto;
+import com.ssafy.api.coach.dto.request.CreateLiveRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
-import com.ssafy.api.coach.dto.request.SearchWordsRequestDto;
 import com.ssafy.api.coach.dto.response.CalendarResponseDto;
 import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
 import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
+import com.ssafy.api.coach.dto.response.VideoResponseDto;
 import com.ssafy.api.coach.service.CoachService;
 import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
@@ -41,8 +43,8 @@ public class CoachController {
   public ResponseEntity<ListDataDto> getCoachList(
       @PathVariable("division1") String division1,
       @PathVariable("division2") String division2,
-      @RequestBody SearchWordsRequestDto searchWordsRequestDto) {
-    ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(division1, division2, searchWordsRequestDto.getWords()));
+      @RequestBody CoachesRequestDto coachesRequestDto) {
+    ListDataDto listDataDto = new ListDataDto(coachService.getCoachList(division1, division2, coachesRequestDto));
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
@@ -98,8 +100,8 @@ public class CoachController {
    */
   @GetMapping("/{coachId}/coachings")
   public ResponseEntity<?> getCoachingList(@PathVariable(name = "coachId") Long longId) throws Exception {
-
-    return new ResponseEntity<>(coachingService.getCoachesCoachings(longId), HttpStatus.OK);
+    ListDataDto list = new ListDataDto(coachingService.getCoachesCoachings(longId));
+    return new ResponseEntity<>(list, HttpStatus.OK);
   }
 
   /**
@@ -157,7 +159,7 @@ public class CoachController {
    *
    * @return - [200] list
    */
-  @GetMapping("/{longId}/calender")
+  @GetMapping("/{longId}/calendar")
   public ResponseEntity<?> getCalender(@PathVariable Long longId) {
     List<CalendarResponseDto> list = coachService.getCalender(longId);
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
@@ -175,4 +177,45 @@ public class CoachController {
     CoachDetailResponseDto responseDto = coachService.getCoachDetail(coachId);
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
+
+  /**
+   * [coach-12] 코치가 라이브 코칭을 생성한다.
+   * privilege : 2
+   *
+   * @param createLiveRequestDto - 생성할 라이브 코칭 정보
+   * @return - [200] 라이브 코칭 생성 완료 메세지
+   */
+  @PostMapping("/{coachId}/live")
+  public ResponseEntity<?> createLiveCoaching(@RequestBody CreateLiveRequestDto createLiveRequestDto) {
+    coachService.createLiveCoaching(createLiveRequestDto);
+    return new ResponseEntity<>(new MessageDto("create live successfuly"), HttpStatus.OK);
+  }
+
+  /**
+   * [coach-13] 코치가 자신의 영상 목록을 조회할 수 있다.
+   * privilege : 2
+   *
+   * @param coachId - 코치 pk
+   * @return - [200] 영상 정보 리스트
+   */
+  @GetMapping("/{coachId}/videos")
+  public ResponseEntity<?> getVideos(@PathVariable Long coachId) {
+    List<VideoResponseDto> list = coachService.getVideos(coachId);
+    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
+  }
+
+
+  /**
+   * [coach-14] 모든 사용자가 메인페이지에서 인기코치를 확인할 수 있다.
+   * privilege : 0
+   *
+   * @return - [200] list
+   */
+  @GetMapping("/popular")
+  public ResponseEntity<ListDataDto> getPopularCoach() {
+    ListDataDto responseDto = new ListDataDto(coachService.getPopularCoach());
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
+  }
+
+
 }

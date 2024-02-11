@@ -1,6 +1,7 @@
 package com.ssafy.api.member.mapper;
 
 import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
+import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
@@ -36,24 +37,9 @@ public interface MemberMapper {
 
   List<AdminMembersResponseDto> memberToAdminMemberResponseDto(List<Member> memberList);
 
-//  @Mapping(source = "stringId", target = "id")
-//  @Mapping(source = "password", target = "pw")
-//  @Mapping(source = "nickName", target = "nick")
-//  MemberInfoResponseDto memberToMemberInfoResponseDto(Member member);
-//
-//  @Mapping(source = "stringId", target = "id")
-//  @Mapping(source = "nickName", target = "nick")
-//  @Mapping(source = "privilege", target = "priv")
-//  @Mapping(source = "elevated", target = "elev")
-//  MemberListResponseDto memberToMemberListResponseDto(Member member);
-//
-//  List<MemberListResponseDto> memberToMemberListResponseDto(List<Member> memberList);
-//
-//  @Mapping(source = "portfolio.htmlDocs", target = "description")
-//  PortfolioResponseDto memberToPortfolioResponseDto(Member member);
-//
-//  List<PortfolioResponseDto> memberToPortfolioResponseDto(List<Member> member);
-//
-//  @Mapping(source = "stringId", target = "id")
-//  MemberDuplicateRequestDto memberToMemberDuplicateDto(Member member);
+  @Mapping(source = "profileImage.url", target = "url")
+  CoameListResponseDto memberToCoameListResponseDto(Member member);
+
+  List<CoameListResponseDto> memberToCoameListResponseDto(List<Member> member);
+
 }

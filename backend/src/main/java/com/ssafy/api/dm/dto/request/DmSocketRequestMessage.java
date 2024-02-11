@@ -1,4 +1,4 @@
-package com.ssafy.api.dm.dto;
+package com.ssafy.api.dm.dto.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 // 소켓 통신시 사용되는 메세지 DTO 클래스
 @Data
 @NoArgsConstructor
-public class DmSocketMessage {
+public class DmSocketRequestMessage {
 
   private String content;
   private String sender;
@@ -20,8 +20,8 @@ public class DmSocketMessage {
   }
 
   // JSON 문자열을 DmMessage 객체로 역직렬화
-  public static DmSocketMessage fromJson(String json) throws JsonProcessingException {
+  public static DmSocketRequestMessage fromJson(String json) throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
-    return objectMapper.readValue(json, DmSocketMessage.class);
+    return objectMapper.readValue(json, DmSocketRequestMessage.class);
   }
 }

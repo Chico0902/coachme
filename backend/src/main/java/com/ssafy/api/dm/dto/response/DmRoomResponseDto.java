@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DmRoomResponseDto {
   private int roomId;
-  private String img;
-  private String name;
+  private String memberProfileUrl;
+  private String memberName;
   private String lastDm;
 }

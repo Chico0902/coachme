@@ -47,11 +47,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/ws-dm",
         "/api/live/sessions",
         "/api/live/sessions/SessionA/connections",
-        "/api/members/{coameId}/coachings",
-        "/api/like/5/coaches/1",
-        "/api/like/5/coachings/1",
-        "/api/like/check/5/coaches/1",
-        "/api/like/check/5/coachings/1"
+        "/api/coachings/popular",
+        "/api/coaches/popular"
     ).contains(request.getRequestURI())) ||
 
         // 특정 api 이름 포함했는지만 확인(동적 매칭)
@@ -95,7 +92,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       // Redis에 저장된 Refresh Token 꺼내오기
       String stringId = null;
       String refreshTokenInRedis = null;
-      if(jwtTokenProvider.validateToken(refreshTokenInHeader)) {
+      if (jwtTokenProvider.validateToken(refreshTokenInHeader)) {
         stringId = jwtTokenProvider.getClaims(refreshTokenInHeader).getSubject();
         refreshTokenInRedis = jwtTokenProvider.getRefreshTokenInRedis(stringId);
       } else {

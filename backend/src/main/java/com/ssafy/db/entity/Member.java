@@ -161,4 +161,9 @@ public class Member extends BaseEntity {
     this.sendLikes.add(like);
   }
 
+  public void addCoachReview(Review review) {
+    this.receivedReviews.add(review);
+  }
+
+
 }

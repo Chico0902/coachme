@@ -1,8 +1,9 @@
 package com.ssafy.api.member.controller;
 
+import com.ssafy.api.coach.dto.response.CalendarResponseDto;
+import com.ssafy.api.coaching.dto.response.CoameTakingCoachingDto;
 import com.ssafy.api.coaching.dto.response.CoameTakingCoachingDto;
 import com.ssafy.api.member.dto.request.*;
-import com.ssafy.api.member.dto.response.CalendarResponseDto;
 import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
 import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.dto.response.ProfileResponseDto;
@@ -203,63 +204,3 @@ public class MemberController {
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
 }
-
-//  //Email과 name의 일치여부를 check하는 컨트롤러
-////  @GetMapping("/check/findPw")
-////  public @ResponseBody Map<String, Boolean> pw_find(String userEmail, String userName){
-////    Map<String,Boolean> json = new HashMap<>();
-////    boolean pwFindCheck = userService.userEmailCheck(userEmail,userName);
-////
-////    System.out.println(pwFindCheck);
-////    json.put("check", pwFindCheck);
-////    return json;
-////  }
-//
-//  //등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경하는 컨트롤러
-//  @PostMapping("/passwords")
-//  public ResponseEntity<Map<String, String>> resetPassword(@RequestParam String memberId, @RequestParam String email) {
-//    try {
-////      findPwService.requestResetPassword(memberId, email);
-//      Map<String, String> responseMap = new HashMap<>();
-//      responseMap.put("message", "Reset password email sent successfully");
-//      return new ResponseEntity<>(responseMap, HttpStatus.OK);
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//
-//      // 에러 응답
-//      Map<String, String> errorMap = new HashMap<>();
-//      errorMap.put("error", "Error sending reset password email");
-//      return new ResponseEntity<>(errorMap, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//  }
-////  @PutMapping("/reset")
-////  public ResponseEntity<String> resetPassword(@RequestParam String username, @RequestParam String newPassword) {
-////    try {
-////      resetPasswordService.resetPassword(username, newPassword);
-////      return new ResponseEntity<>("Password reset successfully", HttpStatus.OK);
-////    } catch (Exception e) {
-////      e.printStackTrace();
-////      return new ResponseEntity<>("Error resetting password", HttpStatus.INTERNAL_SERVER_ERROR);
-////    }
-////  }
-////  public @ResponseBody void sendEmail(String userEmail, String userName){
-////    MailDto dto = sendEmailService.createMailAndChangePassword(userEmail, userName);
-////    sendEmailService.mailSend(dto);
-////
-////  }
-//
-////  id : String(max : 20)
-////  email : String(max : 50)
-//
-//  //회원정보 수정
-////  @PatchMapping("/{id}")
-////  public ResponseEntity<String> UpdateMember(@PathVariable("id") Long memberId, @RequestBody UpdateMemberDto updateMemberDto) {
-////    try {
-////      memberService.updateMember(memberId, updateMemberDto);
-////      return new ResponseEntity<>("Member information updated successfully", HttpStatus.OK);
-////    } catch (Exception e) {
-////      e.printStackTrace();
-////      return new ResponseEntity<>("Error updating member information", HttpStatus.INTERNAL_SERVER_ERROR);
-////    }
-////  }
-//}

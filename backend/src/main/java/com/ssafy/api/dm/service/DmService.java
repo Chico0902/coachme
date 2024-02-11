@@ -1,6 +1,7 @@
 package com.ssafy.api.dm.service;
 
 import com.ssafy.api.dm.dto.DmRedisDto;
+import com.ssafy.api.dm.dto.response.DmListDto;
 import com.ssafy.api.dm.dto.response.DmResponseDto;
 import com.ssafy.api.dm.dto.response.DmRoomEnterResponseDto;
 import com.ssafy.api.dm.dto.response.DmRoomResponseDto;
@@ -17,10 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -41,8 +40,8 @@ public class DmService {
    * @return : DmRoomEnterResponseDto (long roomId, List<DmResponseDto> dmList)
    */
   public DmRoomEnterResponseDto enterDmRoom(long member1Id, long member2Id) throws Exception {
-    Member member1 = memberRepository.getReferenceById(member1Id);
-    Member member2 = memberRepository.getReferenceById(member2Id);
+    Member member1 = memberRepository.findById(member1Id).get();
+    Member member2 = memberRepository.findById(member2Id).get();
 
     DMRoom dmRoom = dmRoomRepository.findByMembers(member1, member2);
     DmRoomEnterResponseDto dmRoomEnterResponseDto = new DmRoomEnterResponseDto();
@@ -55,6 +54,7 @@ public class DmService {
           .build();
 
       newRoom = dmRoomRepository.save(newRoom);
+      dmRoomEnterResponseDto.setDmList(new ArrayList<>());
       dmRoomEnterResponseDto.setRoomId(newRoom.getId());
     } else {
       dmRoomEnterResponseDto.setRoomId(dmRoom.getId());
@@ -71,15 +71,17 @@ public class DmService {
    */
   public List<DmRoomResponseDto> getDmRoomList(long id) throws Exception {
     List<DmRoomResponseDto> dmRoomList = new ArrayList<>();
-    dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomCoameResponseDtoList(memberRepository.getReferenceById(id).getMember1DmRooms()));
-    dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomCoachResponseDtoList(memberRepository.getReferenceById(id).getMember2DmRooms()));
+    List<DMRoom> member1 = memberRepository.getReferenceById(id).getMember1DmRooms();
+    List<DMRoom> member2 = memberRepository.getReferenceById(id).getMember2DmRooms();
+
+    dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomMember1ResponseDtoList(member1));
+    dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomMember1ResponseDtoList(member2));
 
     for (DmRoomResponseDto dmroom : dmRoomList) {
       String lastDm = redisUtils.getLastDm(dmroom.getRoomId() + "_");
-      if (lastDm.isBlank()) {
+      if (lastDm == null) {
         DM mysqlDm = dmRepository.findByLastDm(dmroom.getRoomId());
-
-        dmroom.setLastDm(mysqlDm != null ? mysqlDm.getMessage() : lastDm);
+        dmroom.setLastDm(mysqlDm != null ? mysqlDm.getMessage() : "");
       } else {
         dmroom.setLastDm(lastDm);
       }
@@ -96,31 +98,93 @@ public class DmService {
   public List<DmResponseDto> getDmList(long roomId) throws Exception {
     // mysql에서 읽어온 dm 내역
     DMRoom room = dmRoomRepository.getReferenceById(roomId);
-    List<DmResponseDto> mySqlDmList = DmMapper.instance.DmToDmResponseDto(dmRepository.findByDmRoom(room));
+    List<DmListDto> mySqlDmList = DmMapper.instance.DmToDmResponseDto(dmRepository.findByDmRoom(room));
 
+    // Redis에서 읽어온 dm 내역
     List<String[]> redisDmList = redisUtils.getKeysAndValuesStartingWithPrefix(roomId + "_");
     Map<Long, String> memberName = new HashMap<>();
     Map<Long, String> memberProfileUrl = new HashMap<>();
 
+    // Redis DM 목록 처리
     for (int i = 0; i < redisDmList.size(); i++) {
       String key = redisDmList.get(i)[0];
       DmRedisDto redis = RedisUtils.parser(key);
       long memberId = redis.getMember();
 
-      DmResponseDto returnData = new DmResponseDto();
+      DmListDto redisToDmList = new DmListDto();
 
+      // 멤버 정보가 없는 경우 추가
       if (!memberName.containsKey(memberId)) {
         Member member = memberRepository.getReferenceById(memberId);
         memberName.put(memberId, member.getName());
         memberProfileUrl.put(memberId, member.getProfileImage().getUrl());
       }
-      returnData.setMemberId(redis.getMember());
-      returnData.setMemberName(memberName.get(memberId));
-      returnData.setMemberProfileUrl(memberProfileUrl.get(memberId));
-      returnData.setMessage(redisDmList.get(i)[1]);
-      mySqlDmList.add(returnData);
+
+      redisToDmList.setMemberId(redis.getMember());
+      redisToDmList.setMemberName(memberName.get(memberId));
+      redisToDmList.setMemberProfileUrl(memberProfileUrl.get(memberId));
+      redisToDmList.setMessage(redisDmList.get(i)[1]);
+      redisToDmList.setCreateDate(redis.getCreateDate());
+      mySqlDmList.add(redisToDmList);
     }
 
-    return mySqlDmList;
+    mySqlDmList.sort(Comparator.comparing(DmListDto::getCreateDate));
+
+    return groupDmListByMemberAndTime(mySqlDmList);
+  }
+
+  // DM 목록을 멤버와 시간에 따라 그룹화하는 메소드
+  public static List<DmResponseDto> groupDmListByMemberAndTime(List<DmListDto> dmListDtoList) {
+    // 그룹화된 데이터를 담을 맵
+    Map<String, String> memberInfo = new HashMap<>();
+    List<String> msgList = new ArrayList<>();
+    List<DmResponseDto> dmResponseDtoList = new ArrayList<>();
+
+    // 이전 멤버 이름과 이전 생성 시간을 추적하기 위한 변수들
+    long prevMemberId = -1;
+    String prevCreateTime = null;
+
+    // DM 목록을 순회하며 그룹화
+    for (DmListDto dmListDto : dmListDtoList) {
+      long memberId = dmListDto.getMemberId();
+      String createTime = dmListDto.getCreateDate().truncatedTo(ChronoUnit.MINUTES).toString();
+      if (memberId != prevMemberId || !createTime.equals(prevCreateTime)) {
+        if (prevMemberId != -1) {
+          // 이전 내역 리스트에 담기
+          DmResponseDto dto = new DmResponseDto();
+          dto.setMemberId(prevMemberId);
+          dto.setMemberName(memberInfo.get("memberName"));
+          dto.setMemberProfileUrl(memberInfo.get("memberProfileUrl"));
+          dto.setCreateDate(memberInfo.get("createDate"));
+          dto.setMessage(msgList);
+          dmResponseDtoList.add(dto);
+        }
+
+        // 새로운 내역 리스트에 담기
+        memberInfo = new HashMap<>();
+        memberInfo.put("memberName", dmListDto.getMemberName());
+        memberInfo.put("memberProfileUrl", dmListDto.getMemberProfileUrl());
+        memberInfo.put("createDate", dmListDto.getCreateDate().truncatedTo(ChronoUnit.MINUTES).toString());
+
+        msgList = new ArrayList<>();
+        msgList.add(dmListDto.getMessage());
+      } else {
+        msgList.add(dmListDto.getMessage());
+      }
+      prevMemberId = memberId;
+      prevCreateTime = createTime;
+    }
+
+    DmResponseDto dto = new DmResponseDto();
+    dto.setMemberId(prevMemberId);
+    dto.setMemberName(memberInfo.get("memberName"));
+    dto.setMemberProfileUrl(memberInfo.get("memberProfileUrl"));
+    dto.setCreateDate(memberInfo.get("createDate"));
+    dto.setMessage(msgList);
+    dmResponseDtoList.add(dto);
+
+    return dmResponseDtoList;
   }
 }
+
+

@@ -1,28 +1,26 @@
 package com.ssafy.api.coach.service;
 
+import com.ssafy.api.coach.dto.request.CoachesRequestDto;
+import com.ssafy.api.coach.dto.request.CreateLiveRequestDto;
 import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
-import com.ssafy.api.coach.dto.response.CalendarResponseDto;
-import com.ssafy.api.coach.dto.response.CoachDetailResponseDto;
-import com.ssafy.api.coach.dto.response.CoachesResponseDtos;
-import com.ssafy.api.coach.dto.response.PortfolioResponseDto;
+import com.ssafy.api.coach.dto.response.*;
 import com.ssafy.api.coach.mapper.CoachMapper;
 import com.ssafy.api.coaching.dto.response.CoachDetail;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
+import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
-import com.ssafy.db.entity.Coaching;
-import com.ssafy.db.entity.LiveCoaching;
-import com.ssafy.db.entity.Review;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.entity.type.CategoryType;
+import com.ssafy.util.file.Mapper.FileMapper;
+import com.ssafy.util.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +29,13 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class CoachService {
+
   private final MemberRepository memberRepository;
   private final CoachingRepository coachingRepository;
   private final CategoryRepository categoryRepository;
   private final ReviewRepository reviewRepository;
+  private final FileRepository fileRepository;
+  private final LiveCoachingRepository liveCoachingRepository;
 
   public PortfolioResponseDto getPortfolio(long id) {
     return CoachMapper.instance.PortfolioToPortfolioResponseDto(memberRepository.getReferenceById(id).getPortfolio());
@@ -47,24 +48,31 @@ public class CoachService {
   /**
    * 분류별 코치 정보 조회
    */
-  public List<CoachesResponseDtos> getCoachList(String division1, String division2, String words) {
+  public List<CoachesResponseDtos> getCoachList(String division1, String division2, CoachesRequestDto coachesRequestDto) {
     List<CoachesResponseDtos> list;
     Long mainCategoryId;
 
-    if (words.equals("all")) {
+    String words = coachesRequestDto.getWords();
+    long memberId = coachesRequestDto.getLoginMemberId();
+
+    if (coachesRequestDto.getWords().equals("all")) {
       words = null;
     }
 
+    if (coachesRequestDto.getLoginMemberId() == -1) {
+      memberId = -1;
+    }
+
     if (division1.equals("all")) {
-      list = coachingRepository.findByCoachCategory(null, null, words);
+      list = coachingRepository.findByCoachCategory(null, null, words, memberId);
     } else if (division2.equals("all")) {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
-      list = coachingRepository.findByCoachCategory(mainCategoryId, null, words);
+      list = coachingRepository.findByCoachCategory(mainCategoryId, null, words, memberId);
     } else {
       mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
       Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, division2);
 
-      list = coachingRepository.findByCoachCategory(mainCategoryId, subCategoryId, words);
+      list = coachingRepository.findByCoachCategory(mainCategoryId, subCategoryId, words, memberId);
     }
 
     return list;
@@ -102,41 +110,64 @@ public class CoachService {
    */
   public List<CalendarResponseDto> getCalender(Long longId) {
 
-    List<Coaching> coachingList = coachingRepository.findByLiveCoachingCoachId(longId);
-    List<CalendarResponseDto> list = new ArrayList<>();
+    List<LiveCoaching> liveCoachingList = liveCoachingRepository.findByCoachId(longId);
 
-    for (Coaching c : coachingList) {
-      for (LiveCoaching lc : c.getLiveCoachings()) {
-
-        CalendarResponseDto calendarResponseDto = new CalendarResponseDto();
-        calendarResponseDto.setId(lc.getId());
-        calendarResponseDto.setClassName(c.getName());
-
-        String[] dateAndTime = getDateAndTime(lc.getCoachingDate());
-        calendarResponseDto.setDate(dateAndTime[0]);
-        calendarResponseDto.setTime(dateAndTime[1]);
-        list.add(calendarResponseDto);
-      }
-    }
-
-    return list;
+    return CoachingMapper.instance.liveCoachingToCalendarResponseDto(liveCoachingList);
   }
 
   /**
-   * 시간을 날짜와 시간으로 포맷팅하는 메서드
+   * 코치의 영상 목록을 리스트로 가져오는 메서드
    *
-   * @param localDateTime - 라이브 코칭 시간
-   * @return - 날짜와 시간을 담은 String 배열
+   * @param coachId - 코치 pk
+   * @return - 파일 목록 리스트
    */
-  public String[] getDateAndTime(LocalDateTime localDateTime) {
+  public List<VideoResponseDto> getVideos(Long coachId) {
 
-    String[] result = new String[2];
-    DateTimeFormatter format_date = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-    DateTimeFormatter format_time = DateTimeFormatter.ofPattern("HH:mm");
+    List<File> fileList = fileRepository.findByCoachIdWithCoaching(coachId);
 
-    result[0] = localDateTime.format(format_date);
-    result[1] = localDateTime.format(format_time);
-
-    return result;
+    return FileMapper.instance.fileToVideoResponseDto(fileList);
   }
+
+  /**
+   * 코치가 라이브 코칭을 생성하는 메서드
+   *
+   * @param createLiveRequestDto - 생성할 라이브 코칭 정보
+   */
+  public void createLiveCoaching(CreateLiveRequestDto createLiveRequestDto) {
+
+    Coaching coaching = coachingRepository.getReferenceById(createLiveRequestDto.getCoachingId());
+    LiveCoaching liveCoaching = new LiveCoaching();
+    liveCoaching.createLiveCoaching(coaching, createLiveRequestDto.getDate());
+    liveCoachingRepository.save(liveCoaching);
+  }
+
+  /**
+   * 메인페이지_인기 코치 조회
+   */
+  public List<PopularCoachResponseDto> getPopularCoach() {
+    List<PopularCoachResponseDto> popularList = new ArrayList<>();
+
+    List<Member> coachList = memberRepository.findByPopularCoach();
+
+    for (Member coach : coachList) {
+      PopularCoachResponseDto dto = new PopularCoachResponseDto();
+      dto.setCoachId(coach.getLongId());
+      dto.setCoachName(coach.getName());
+      dto.setCoachProfileImageUrl(coach.getProfileImage().getUrl());
+
+      int sum = 0;
+      for (Review review : coach.getReceivedReviews()) {
+        sum += review.getScore();
+      }
+      if (!coach.getReceivedReviews().isEmpty()) {
+        dto.setCoachingReviewAvg((float) sum / coach.getReceivedReviews().size());
+      } else {
+        dto.setCoachingReviewAvg(0);
+      }
+      popularList.add(dto);
+    }
+
+    return popularList;
+  }
+
 }

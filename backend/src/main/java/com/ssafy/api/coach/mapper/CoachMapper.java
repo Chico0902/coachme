@@ -19,5 +19,4 @@ public interface CoachMapper {
   @Mapping(source = "portfolio.htmlDocs", target = "portFolioHtmlDocs")
   CoachDetailResponseDto memberToCoachDetailResponseDto(Member coachId);
 
-
 }
