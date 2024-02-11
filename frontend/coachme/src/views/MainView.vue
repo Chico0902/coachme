@@ -13,14 +13,13 @@ import MainCategoryTitle from '../components/texts/MainCategoryTitle.vue'
 import MainCoachTitle from '../components/texts/MainCoachTitle.vue'
 import MainCoachingTitle from '../components/texts/MainCoachingTitle.vue'
 import profile from '../components/atoms/ProfileImage.vue'
-import { ref, onMounted,onUnmounted, computed, onBeforeMount } from 'vue'
+import { ref, onMounted, onUnmounted, computed, onBeforeMount } from 'vue'
 import { useMemberStore } from '@/stores/member'
 import { useAuthStore } from '../stores/auth'
 import { storeToRefs } from 'pinia'
 import { decodeToken } from '@/utils/functions/auth'
 import { getPopularCoachingList } from '@/utils/api/coaching-api'
-import { getPopularCoachList } from "@/utils/api/coach-api"
-
+import { getPopularCoachList } from '@/utils/api/coach-api'
 
 /**
  * VARIABLES
@@ -43,15 +42,6 @@ const username = computed(() => {
   else return ''
 })
 
-// 코치(+코칭) 카드 라벨, 카드 캡션, 카드 이미지
-const label = 'whiteCat'
-const caption = 'Cat is white'
-const image = 'https://velog.velcdn.com/images/lee02g29/post/d28f0459-139c-418c-bde4-b8c0b7ce33c8/image.png'
-
-// 코칭 카드 영상 비율, 주소
-const ratio = 16 / 9
-const video = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
-
 /**
  * METHODS
  */
@@ -66,8 +56,7 @@ const logoutWithConfirm = () => {
   window.location.reload()
 }
 
-const screenWidth = ref(window.innerWidth);
-
+const screenWidth = ref(window.innerWidth)
 
 const updateScreenWidth = () => {
   screenWidth.value = window.innerWidth
@@ -77,7 +66,6 @@ const updateScreenWidth = () => {
 const popularCoachingList = ref([])
 // 인기 코치 변수
 const popularCoachList = ref([])
-
 
 // 페이지 렌더링 전에 가져올 함수
 onBeforeMount(() => {
@@ -91,9 +79,9 @@ onBeforeMount(() => {
     // API호출이 실패했을때
     (fail) => {
       console.log(fail)
-      console.log("check")
+      console.log('check')
     }
-  ),
+  )
   getPopularCoachList(
     // API호출이 성공했을떄
     (success) => {
@@ -103,12 +91,10 @@ onBeforeMount(() => {
     // API호출이 실패했을때
     (fail) => {
       console.log(fail)
-      console.log("checkcoach")
+      console.log('checkcoach')
     }
   )
-
 })
-
 
 onMounted(() => {
   window.addEventListener('resize', updateScreenWidth)
@@ -117,8 +103,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', updateScreenWidth)
 })
-
-
 </script>
 <template>
   <div v-if="screenWidth < 768" class="nav-bar">
@@ -210,8 +194,8 @@ onUnmounted(() => {
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
           <div v-for="(coach, index) in popularCoachList" :key="index" class="coach-card">
-        <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></card>
-      </div>
+            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></card>
+          </div>
         </div>
       </div>
 
@@ -219,7 +203,11 @@ onUnmounted(() => {
         <div class="coaching-title"><MainCoachingTitle /></div>
         <div class="coaching-card-outside">
           <div v-for="(coaching, index) in popularCoachingList" :key="index" class="coaching-card">
-            <coaching :label="coaching.coachingName" :caption="coaching.coachingReviewAvg" :video="coaching.coachingVideoUrl"></coaching>
+            <coaching
+              :label="coaching.coachingName"
+              :caption="coaching.coachingReviewAvg"
+              :video="coaching.coachingVideoUrl"
+            ></coaching>
           </div>
         </div>
       </div>
@@ -229,7 +217,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-
 .all {
   display: flex;
   justify-content: center;
@@ -250,7 +237,6 @@ onUnmounted(() => {
   margin-bottom: 5vh;
   display: flex;
   justify-content: center;
-  
 }
 .welcome {
   display: flex;
@@ -336,7 +322,6 @@ onUnmounted(() => {
   border-radius: 1.5rem;
 }
 
-
 .coach-outside {
   height: 30vh;
   margin: 20vh auto;
@@ -411,5 +396,4 @@ onUnmounted(() => {
   color: #034c8c;
   text-align: center;
 }
-
 </style>
