@@ -69,13 +69,14 @@ public class DmService {
    * @param : id (member PK)
    * @return : DmRoomResponseDto List (long roomId , long coameId, long coachId, LocalDateTime createDate)
    */
-  public List<DmRoomResponseDto> getDmRoomList(long id) throws Exception {
+  public List<DmRoomResponseDto> getDmRoomList(long memberId) throws Exception {
     List<DmRoomResponseDto> dmRoomList = new ArrayList<>();
-    List<DMRoom> member1 = memberRepository.getReferenceById(id).getMember1DmRooms();
-    List<DMRoom> member2 = memberRepository.getReferenceById(id).getMember2DmRooms();
+
+    List<DMRoom> member1 = memberRepository.getReferenceById(memberId).getMember1DmRooms();
+    List<DMRoom> member2 = memberRepository.getReferenceById(memberId).getMember2DmRooms();
 
     dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomMember1ResponseDtoList(member1));
-    dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomMember1ResponseDtoList(member2));
+    dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomMember2ResponseDtoList(member2));
 
     for (DmRoomResponseDto dmroom : dmRoomList) {
       String lastDm = redisUtils.getLastDm(dmroom.getRoomId() + "_");

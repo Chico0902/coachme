@@ -2,8 +2,6 @@ package com.ssafy.api.dm.service;
 
 import com.ssafy.api.dm.dto.request.DmSocketRequestMessage;
 import com.ssafy.api.dm.dto.response.DmSocketResponseMessage;
-import com.ssafy.api.dm.repository.DMRepository;
-import com.ssafy.api.dm.repository.DmRoomRepository;
 import com.ssafy.api.dm.util.RedisUtils;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
@@ -22,8 +20,6 @@ import java.util.Collections;
 @Transactional
 @Slf4j
 public class DmSocketService {
-  private final DMRepository dmRepository;
-  private final DmRoomRepository dmRoomRepository;
   private final MemberRepository memberRepository;
   private final RedisUtils redisUtils;
 
