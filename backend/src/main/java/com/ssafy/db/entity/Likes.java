@@ -2,8 +2,16 @@ package com.ssafy.db.entity;
 
 import com.ssafy.db.entity.type.ReviewLikeType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Likes extends BaseEntity {
 
   @Id
@@ -15,7 +23,7 @@ public class Likes extends BaseEntity {
   @JoinColumn(name = "coame_member_id")
   private Member coame;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "coach_member_id")
   private Member coach;
 
@@ -25,4 +33,18 @@ public class Likes extends BaseEntity {
 
   @Enumerated(value = EnumType.STRING)
   private ReviewLikeType likeType;
+
+  public void likeCoach(Member coame, Member coach) {
+    this.coame = coame;
+    this.coach = coach;
+    this.likeType = ReviewLikeType.COACH;
+    coame.likeCoach(this);
+  }
+
+  public void likeCoaching(Member member, Coaching coaching) {
+    this.coame = member;
+    this.coaching = coaching;
+    this.likeType = ReviewLikeType.COACHING;
+    coame.likeCoaching(this);
+  }
 }

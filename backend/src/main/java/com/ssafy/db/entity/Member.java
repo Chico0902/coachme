@@ -76,7 +76,7 @@ public class Member extends BaseEntity {
   private List<CoameCoaching> coameTaughtCourses = new ArrayList<>();
 
   // 코미가 누른 좋아요
-  @OneToMany(mappedBy = "coame")
+  @OneToMany(mappedBy = "coame", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Likes> sendLikes = new ArrayList<>();
 
   // 코치가 코미에게 받은 좋아요
@@ -151,6 +151,14 @@ public class Member extends BaseEntity {
   // 연관관계 편의 메서드
   public void addCoameTaughtCourse(CoameCoaching coameCoaching) {
     this.coameTaughtCourses.add(coameCoaching);
+  }
+  // 코치 찜콩
+  public void likeCoach(Likes like) {
+    this.sendLikes.add(like);
+  }
+  //코칭 찜콩
+  public void likeCoaching(Likes like) {
+    this.sendLikes.add(like);
   }
 
 }
