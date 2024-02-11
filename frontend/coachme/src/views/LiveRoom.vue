@@ -37,7 +37,7 @@ const OVScreen = ref(undefined) // 화면 공유
 const sessionCamera = ref(undefined)
 const sessionScreen = ref(undefined)
 const mainStreamManager = ref(undefined)
-const screenPublisher = ref(undefined)
+// const screenPublisher = ref(undefined)
 const screenShare = ref(undefined)
 const publisher = ref(undefined)
 const subscribers = ref([])
@@ -46,7 +46,7 @@ const participants = ref([])
 // Join form
 const mySessionId = route.params.id
 const myUserName = ref(longId)
-const screensharing = ref(false)
+// const screensharing = ref(false)
 
 /**
  * METHODS
@@ -76,13 +76,13 @@ onBeforeMount(() => {
  * For OpenVidu Session
  */
 
-function updateScreensharing(value) {
-  screensharing.value = value
-}
+// function updateScreensharing(value) {
+//   screensharing.value = value
+// }
 
-function updatePublisher(value) {
-  screenPublisher.value = value
-}
+// function updatePublisher(value) {
+//   screenPublisher.value = value
+// }
 
 function joinSession() {
   // --- 1) Get an OpenVidu object ---
