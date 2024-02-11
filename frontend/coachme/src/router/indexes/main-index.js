@@ -22,6 +22,11 @@ export default [
     component: () => import('../../views/FindPasswordView.vue')
   },
   {
+    path: '/live/:id',
+    name: 'Desktop-17-1',
+    component: () => import('../../views/LiveRoom.vue')
+  },
+  {
     path: '/mypage',
     name: 'mypage',
     beforeEnter: privilegeRedirect

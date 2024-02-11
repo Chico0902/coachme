@@ -251,3 +251,26 @@ export function deleteProfileImage(longId, success, fail) {
 export function validateDuplicateMember(dto, success, fail) {
   publicAxios.post(`/members/duplicate/id`, dto).then(success).catch(fail)
 }
+
+/**
+ * API번호 : member-15
+ * METHOD : GET
+ * URI : /members/{longId}/calendar
+ * 권한 : 0
+ * 설명 : 코미가 마이페이지>코칭일정 메뉴에서 자신이 신청한 코칭 일정을 캘린더로 확인할 수 있다.
+ * @param {Number} longId 코미 id
+ * @param {Promise} success
+ * 코드 : 200
+ * body : {
+            ?
+          }
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청
+ * 코드 : 403
+ * body : {
+            ?
+          }
+ */
+export function getCoameLiveCoachingCalendar(longId, success, fail) {
+  authAxios.get(`/members/${longId}/calendar`).then(success).catch(fail)
+}

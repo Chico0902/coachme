@@ -13,12 +13,13 @@ import MainCategoryTitle from '../components/texts/MainCategoryTitle.vue'
 import MainCoachTitle from '../components/texts/MainCoachTitle.vue'
 import MainCoachingTitle from '../components/texts/MainCoachingTitle.vue'
 import profile from '../components/atoms/ProfileImage.vue'
-import { ref, onMounted,onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, onBeforeMount } from 'vue'
 import { useMemberStore } from '@/stores/member'
 import { useAuthStore } from '../stores/auth'
 import { storeToRefs } from 'pinia'
 import { decodeToken } from '@/utils/functions/auth'
-
+import { getPopularCoachingList } from '@/utils/api/coaching-api'
+import { getPopularCoachList } from '@/utils/api/coach-api'
 
 /**
  * VARIABLES
@@ -41,15 +42,6 @@ const username = computed(() => {
   else return ''
 })
 
-// 코치(+코칭) 카드 라벨, 카드 캡션, 카드 이미지
-const label = 'whiteCat'
-const caption = 'Cat is white'
-const image = 'https://velog.velcdn.com/images/lee02g29/post/d28f0459-139c-418c-bde4-b8c0b7ce33c8/image.png'
-
-// 코칭 카드 영상 비율, 주소
-const ratio = 16 / 9
-const video = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
-
 /**
  * METHODS
  */
@@ -64,12 +56,45 @@ const logoutWithConfirm = () => {
   window.location.reload()
 }
 
-const screenWidth = ref(window.innerWidth);
-
+const screenWidth = ref(window.innerWidth)
 
 const updateScreenWidth = () => {
   screenWidth.value = window.innerWidth
 }
+
+// 인기 코칭 변수
+const popularCoachingList = ref([])
+// 인기 코치 변수
+const popularCoachList = ref([])
+
+// 페이지 렌더링 전에 가져올 함수
+onBeforeMount(() => {
+  // 인기 코칭리스트 조회 API 호출
+  getPopularCoachingList(
+    // API호출이 성공했을떄
+    (success) => {
+      popularCoachingList.value = success.data.list
+      console.log(popularCoachingList.value)
+    },
+    // API호출이 실패했을때
+    (fail) => {
+      console.log(fail)
+      console.log('check')
+    }
+  )
+  getPopularCoachList(
+    // API호출이 성공했을떄
+    (success) => {
+      popularCoachList.value = success.data.list
+      console.log(popularCoachList.value)
+    },
+    // API호출이 실패했을때
+    (fail) => {
+      console.log(fail)
+      console.log('checkcoach')
+    }
+  )
+})
 
 onMounted(() => {
   window.addEventListener('resize', updateScreenWidth)
@@ -78,7 +103,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', updateScreenWidth)
 })
-
 </script>
 <template>
   <div v-if="screenWidth < 768" class="nav-bar">
@@ -89,16 +113,16 @@ onUnmounted(() => {
       <navbar>
         <template #search-coach>
           <RouterLink :to="{ name: 'Desktop-13' }">
-            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
+            <q-btn flat :label="`코치찾기`" icon="person_search" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #search-coaching>
           <RouterLink :to="{ name: 'Desktop-14' }">
-            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
+            <q-btn flat :label="`코칭찾기`" icon="zoom_in" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #live>
-          <RouterLink :to="{ name: 'Desktop-17-1' }">
+          <RouterLink :to="{ name: 'Desktop-17-2' }">
             <buttons flat :name="`live`" :label="`강의장`"></buttons>
           </RouterLink>
         </template>
@@ -118,12 +142,12 @@ onUnmounted(() => {
       <navbar>
         <template #search-coach>
           <RouterLink :to="{ name: 'Desktop-13' }">
-            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
+            <q-btn flat :label="`코치찾기`" icon="person_search" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #search-coaching>
           <RouterLink :to="{ name: 'Desktop-14' }">
-            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
+            <q-btn flat :label="`코칭찾기`" icon="zoom_in" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #live>
@@ -169,25 +193,21 @@ onUnmounted(() => {
       <div class="coach-outside">
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
-          <div class="coach-card">
-            <card :label="label" :caption="caption" :img="image"></card>
+          <div v-for="(coach, index) in popularCoachList" :key="index" class="coach-card">
+            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></card>
           </div>
-          <div class="coach-card"><card :label="label" :caption="caption" :img="image"></card></div>
-          <div class="coach-card"><card :label="label" :caption="caption" :img="image"></card></div>
         </div>
       </div>
 
       <div class="coaching-outside">
         <div class="coaching-title"><MainCoachingTitle /></div>
         <div class="coaching-card-outside">
-          <div class="coaching-card">
-            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
-          </div>
-          <div class="coaching-card">
-            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
-          </div>
-          <div class="coaching-card">
-            <coaching :label="label" :caption="caption" :ratio="ratio" :video="video"></coaching>
+          <div v-for="(coaching, index) in popularCoachingList" :key="index" class="coaching-card">
+            <coaching
+              :label="coaching.coachingName"
+              :caption="coaching.coachingReviewAvg"
+              :video="coaching.coachingVideoUrl"
+            ></coaching>
           </div>
         </div>
       </div>
@@ -197,7 +217,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-
 .all {
   display: flex;
   justify-content: center;
@@ -218,7 +237,6 @@ onUnmounted(() => {
   margin-bottom: 5vh;
   display: flex;
   justify-content: center;
-  
 }
 .welcome {
   display: flex;
@@ -273,8 +291,35 @@ onUnmounted(() => {
 }
 .coach-card-outside {
   display: flex;
-  justify-content: space-around;
-  width: 80%;
+  justify-content: flex-start;
+  width: 70%;
+  min-height: 30vh;
+  max-height: 30vh; /* 최대 높이를 설정하여 세로 스크롤이 생기지 않도록 합니다. */
+  overflow-x: scroll;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-y: hidden;
+}
+
+/* 스크롤바 스타일링 */
+.coach-card-outside::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+}
+
+.coach-card-outside::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.coach-card-outside::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.coach-card-outside::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
 }
 
 .coach-outside {
@@ -287,7 +332,7 @@ onUnmounted(() => {
 }
 .coach-card {
   width: 200px;
-  height: 200px;
+  height: 100%;
   margin: 30px;
 }
 .coach-title {
@@ -297,9 +342,14 @@ onUnmounted(() => {
 }
 .coaching-card-outside {
   display: flex;
-  justify-content: space-around;
-  width: 80%;
-
+  justify-content: flex-start;
+  width: 70%;
+  min-height: 35vh;
+  max-height: 35vh; /* 최대 높이를 설정하여 세로 스크롤이 생기지 않도록 합니다. */
+  overflow-x: scroll;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-y: hidden;
 }
 .coaching-outside {
   height: 30vh;
@@ -319,11 +369,31 @@ onUnmounted(() => {
   width: 70%;
   margin: 5vh auto;
 }
+/* 스크롤바 스타일링 */
+.coaching-card-outside::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+}
+
+.coaching-card-outside::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.coaching-card-outside::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.coaching-card-outside::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
+}
+
 .footer {
   margin-top: 30vh;
   background-color: #fcbf17;
   color: #034c8c;
   text-align: center;
 }
-
 </style>

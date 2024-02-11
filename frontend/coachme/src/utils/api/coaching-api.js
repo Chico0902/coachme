@@ -167,6 +167,31 @@ export function getPopularCoachingList(success, fail) {
             message : String
           }
   */
-export function setRepresentativeVideo(coachingId, videoId, success, fail) {
-  authAxios.get(`/coachings/${coachingId}/videos/${videoId}`).then(success).catch(fail)
+export function getMainVideo(coachingId, fileId, success, fail) {
+  authAxios.get(`/coachings/${coachingId}/videos/${fileId}`).then(success).catch(fail)
+}
+
+/**
+ * API번호 : coaching-7
+ * METHOD : GET
+ * URI : /coachings/{coaching_id}/live
+ * 권한 : 1
+ * 설명 : 코칭 상세페이지에서 해당 코칭의 라이브 코칭 목록을 조회한다.
+ * @param {number} coachingId 코칭id
+ * @param {Promise} success
+ * 설명 : 정상 조회완료
+ * 코드 : 200
+ * body : {
+		"id": Long,
+		"date": LocalDateTime
+}
+  * @param {Promise} fail
+  * 설명 : 잘못된 요청[400], 서버 오류[500]
+  * 코드 : 400, 500
+  * body : {
+            message : String
+          }
+  */
+export function getAllLivesInCoaching(coachingId, success, fail) {
+  authAxios.get(`/coachings/${coachingId}/live`).then(success).catch(fail)
 }
