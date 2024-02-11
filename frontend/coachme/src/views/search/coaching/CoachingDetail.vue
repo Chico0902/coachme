@@ -7,7 +7,7 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import { ref, onMounted, onBeforeMount, computed } from 'vue'
-import { useRoute } from "vue-router";
+import { useRoute } from 'vue-router'
 import { getCoachingDetailPage } from '@/utils/api/coaching-api'
 import { getVideoList } from '@/utils/api/coach-api'
 import { getCoachingReview } from '@/utils/api/review-api'
@@ -31,10 +31,9 @@ const breadCrumbs = ref([]) // 대분류 소분류
 // ]);
 
 const videos = ref([])
+const currentMenu = ref('introduce')
 
-const reviewData = (data) => {
-
-} // 리뷰 입력폼에서 입력받은 리뷰와 별점을 처리하는 함수
+const reviewData = (data) => {} // 리뷰 입력폼에서 입력받은 리뷰와 별점을 처리하는 함수
 
 const videoLink = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
 // 코칭 미리보기 영상 링크
@@ -89,7 +88,7 @@ onBeforeMount(() => {
   const coachingId = route.params.id
   const coachId = ref()
 
-  // 코칭 id로 코칭 상세페이지 
+  // 코칭 id로 코칭 상세페이지
   getCoachingDetailPage(
     coachingId,
     (success) => {
@@ -129,17 +128,34 @@ onBeforeMount(() => {
 })
 
 const groupedFilteredVideos = computed(() => {
-  const filtered = videos.value.filter(video => video.coachingId == videoCoachingId.value);
+  const filtered = videos.value.filter((video) => video.coachingId == videoCoachingId.value)
 
-  const grouped = [];
-  filtered.forEach(video => {
-    grouped.push(video);
-  });
+  const grouped = []
+  filtered.forEach((video) => {
+    grouped.push(video)
+  })
 
-  return grouped;
-});
+  return grouped
+})
 // 코치의 전체 영상 중, 현재 코칭에 해당하는 영상만 추출
 
+// 클릭한 버튼에 따라 메뉴구성 변경
+const changeMenu = (e) => {
+  switch (e.srcElement.innerText) {
+    case '코칭 소개':
+      currentMenu.value = 'introduce'
+      break
+    case '라이브 일정':
+      currentMenu.value = 'live'
+      break
+    case '영상 목록':
+      currentMenu.value = 'video'
+      break
+    case '리뷰':
+      currentMenu.value = 'review'
+      break
+  }
+}
 </script>
 
 <template>
@@ -153,71 +169,91 @@ const groupedFilteredVideos = computed(() => {
         <div class="mainpage">
           <div class="profile">
             <!-- 코칭 상세 정보 -->
-            <CoachingDetailCard :title="coachingDetail.coachingName" :coach="coachingDetail.coachName"
-              :rating-model="coachingDetail.reviewAvg" :review-count="coachingDetail.reviewCount"
-              :bread-crumbs="breadCrumbs" :previewVideoSrc="videoLink" style="margin-left: 0.6vw">
+            <CoachingDetailCard
+              :title="coachingDetail.coachingName"
+              :coach="coachingDetail.coachName"
+              :rating-model="coachingDetail.reviewAvg"
+              :review-count="coachingDetail.reviewCount"
+              :bread-crumbs="breadCrumbs"
+              :previewVideoSrc="videoLink"
+              style="margin-left: 0.6vw"
+            >
             </CoachingDetailCard>
             <q-separator></q-separator>
 
             <!-- 코칭 상세페이지 중단 메뉴 -->
             <div class="coaching-menu">
-              <DetailTopBar :menus="menus"></DetailTopBar>
+              <DetailTopBar :menus="menus" @click="changeMenu"></DetailTopBar>
             </div>
 
             <!-- 코칭 소개. 직접 작성한 부분이 이곳에 들어감 -->
-            <div class="coaching-introduction">
-              <h2>코칭 소개</h2>
-              <div v-html="coachingDetail.htmlDocs" class="coaching-desc"></div>
-            </div>
-
-            <q-separator></q-separator>
+            <template v-if="currentMenu === 'introduce'">
+              <div class="coaching-introduction">
+                <h2>코칭 소개</h2>
+                <div v-html="coachingDetail.htmlDocs" class="coaching-desc"></div>
+              </div>
+            </template>
 
             <!-- 라이브 코칭 목록 -->
-            <div class="coaching-live-schedule">
-              <h2>라이브 일정</h2>
-              <div class="coaching-live-calender">
-                <q-date name="Schedule" v-model="date" @click="scheduleTimeTable(date)" color="blue-10" today-btn
-                  :events="filteredDates"></q-date>
-                <CoachingScheduleList :date="date" :timeTable="filteredTimeTable"></CoachingScheduleList>
+            <template v-if="currentMenu === 'live'">
+              <div class="coaching-live-schedule">
+                <h2>라이브 일정</h2>
+                <div class="coaching-live-calender">
+                  <q-date
+                    name="Schedule"
+                    v-model="date"
+                    @click="scheduleTimeTable(date)"
+                    color="blue-10"
+                    today-btn
+                    :events="filteredDates"
+                  ></q-date>
+                  <CoachingScheduleList :date="date" :timeTable="filteredTimeTable"></CoachingScheduleList>
+                </div>
               </div>
-            </div>
-
-            <q-separator></q-separator>
+            </template>
 
             <!-- 영상 목록 -->
-            <div class="coaching-video-list">
-              <h2>영상 목록</h2>
-              <div class="coaching-card-outside element-with-scrollbar">
-                <div v-if="groupedFilteredVideos.length > 0">
-                  <div v-for="videoGroup in groupedFilteredVideos" :key="videoGroup.coachingName" class="coaching-card">
-                    <CoachingCard :label="videoGroup.videoName" :ratio="ratio"></CoachingCard>
+            <template v-if="currentMenu === 'video'">
+              <div class="coaching-video-list">
+                <h2>영상 목록</h2>
+                <div class="coaching-card-outside element-with-scrollbar">
+                  <div v-if="groupedFilteredVideos.length > 0">
+                    <div
+                      v-for="videoGroup in groupedFilteredVideos"
+                      :key="videoGroup.coachingName"
+                      class="coaching-card"
+                    >
+                      <CoachingCard :label="videoGroup.videoName" :ratio="ratio"></CoachingCard>
+                    </div>
                   </div>
-                </div>
-                <div v-else class="coaching-card" style="font-size: 16px;">
-                  조회 가능한 영상이 없습니다.
+                  <div v-else class="coaching-card" style="font-size: 16px">조회 가능한 영상이 없습니다.</div>
                 </div>
               </div>
-            </div>
-
-            <q-separator></q-separator>
+            </template>
 
             <!-- 리뷰 -->
-            <div class="coaching-review">
-              <h2>리뷰</h2>
-              <Reviews :reviews="reviews" :rating-model="coachingDetail.reviewAvg"
-                v-bind:review-count="coachingDetail.reviewCount" @review-data="reviewData"></Reviews>
-            </div>
+            <template v-if="currentMenu === 'review'">
+              <div class="coaching-review">
+                <h2>리뷰</h2>
+                <Reviews
+                  :reviews="reviews"
+                  :rating-model="coachingDetail.reviewAvg"
+                  v-bind:review-count="coachingDetail.reviewCount"
+                  @review-data="reviewData"
+                ></Reviews>
+              </div>
+            </template>
           </div>
         </div>
-        <!-- 우측 안내창 -->
-        <div class="chat-box">
-          <ChatBox :coach="coachingDetail.coachName"></ChatBox>
-        </div>
+      </div>
+      <!-- 우측 안내창 -->
+      <div class="chat-box">
+        <ChatBox :coach="coachingDetail.coachName"></ChatBox>
+      </div>
 
-        <!-- 채팅 플로팅 버튼 -->
-        <div class="chat-button">
-          <q-btn round size="20px" color="amber-7" icon="chat"></q-btn>
-        </div>
+      <!-- 채팅 플로팅 버튼 -->
+      <div class="chat-button">
+        <q-btn round size="20px" color="amber-7" icon="chat"></q-btn>
       </div>
     </div>
   </div>
@@ -281,9 +317,9 @@ const groupedFilteredVideos = computed(() => {
 }
 
 .chat-box {
-  max-height: fit-content;
-  margin-top: 30vh;
-  margin-right: 3vw;
+  position: fixed;
+  top: 30vh;
+  right: 15vw;
 }
 
 .chat-button {
@@ -317,6 +353,7 @@ h2 {
 .coaching-introduction {
   text-align: left;
   margin-bottom: 4vh;
+  padding-bottom: 1rem;
 }
 
 .coaching-desc {
@@ -327,18 +364,20 @@ h2 {
 
 .coaching-live-schedule {
   text-align: left;
-  margin-bottom: 4vh;
+  margin-bottom: 3vh;
 }
 
 .coaching-live-calender {
   display: flex;
   margin-left: 0.8vw;
   margin-bottom: 3vh;
+  padding-bottom: 1rem;
 }
 
 .coaching-video-list {
   text-align: left;
   margin-bottom: 3vh;
+  padding-bottom: 1rem;
 }
 
 .element-with-scrollbar {
@@ -347,6 +386,9 @@ h2 {
 
 .element-with-scrollbar:hover {
   overflow: auto;
+}
+.coaching-review {
+  padding-bottom: 1rem;
 }
 
 .footer {
