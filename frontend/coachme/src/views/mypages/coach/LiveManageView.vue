@@ -94,7 +94,10 @@ function parseLiveCoachingData(list) {
 function getLiveCoachingStudent(coachingId) {
   getLiveCoachingCoame(
     coachingId,
-    (success) => console.log(success),
+    (success) => {
+      students_.value = success.data.list
+      console.log(success)
+    },
     (fail) => console.log(fail)
   )
 }
@@ -114,6 +117,7 @@ watch(
   () => {
     const dateKey = getDateKey(date.value)
     liveCoachings_.value = allLiveCoachings_.value[dateKey]
+    students_.value = []
   }
 )
 function getDateKey(date) {
@@ -122,6 +126,7 @@ function getDateKey(date) {
 </script>
 <template>
   <div class="outside">
+    <p class="coaching-title">라이브 관리</p>
     <div class="coach-main">
       <div class="main-container">
         <div class="calendar">
@@ -164,18 +169,14 @@ function getDateKey(date) {
           <template v-else>
             <template v-for="student in students_" :key="student.id">
               <q-item clickable v-ripple>
-                <!-- 프로필 사진 영역 -->
                 <q-item-section avatar>
                   <q-item>
                     <profile :img="student.imageUrl"></profile>
                   </q-item>
                 </q-item-section>
-
                 <q-item-section>
-                  <!-- 이름 -->
                   <q-item-label>{{ student.name }}</q-item-label>
-                  <!-- 마지막 dm -->
-                  <q-item-label caption>{{ student.profile }}</q-item-label>
+                  <q-item-label caption>{{ student.profileText }}</q-item-label>
                 </q-item-section>
 
                 <!-- 새로운 dm이 있을 경우 표시 -->
@@ -189,6 +190,11 @@ function getDateKey(date) {
 </template>
 
 <style scoped>
+.coaching-title {
+  margin: 2rem 0 auto;
+  text-align: center;
+  font-size: 1.5rem;
+}
 .coaching-plan-detail {
   margin: 30px 0;
 }
