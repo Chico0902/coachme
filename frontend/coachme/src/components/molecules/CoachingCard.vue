@@ -105,7 +105,7 @@ const setVideo = () => {
 
 <style scoped>
 .my-card {
-  width: 100%;
+  width: 100%; 
   min-width: 15vw;
 }
 </style>

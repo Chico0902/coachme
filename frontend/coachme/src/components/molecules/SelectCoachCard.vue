@@ -70,7 +70,7 @@ watch(
     <!-- 별점 영역 -->
     <q-item-section style="min-width: fit-content">
       <q-rating size="18px" v-model="stars" :max="5" color="orange" readonly></q-rating>
-      <span style="font-size: 15px; color: black; font-weight: 600">{{ rating }} ({{ reviewCount }}) </span>
+      <span style="font-size: 15px; color: black; font-weight: 600">{{ rating !== null ? Math.round(rating * 10) / 10 : 0 }} ({{ reviewCount }}) </span>
     </q-item-section>
   </q-item>
 
