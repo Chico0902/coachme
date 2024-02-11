@@ -24,7 +24,7 @@ export default [
   {
     path: '/live/:id',
     name: 'Desktop-17-1',
-    component: () => import('../../views/liveRoom.vue')
+    component: () => import('../../views/LiveRoom.vue')
   },
   {
     path: '/mypage',
