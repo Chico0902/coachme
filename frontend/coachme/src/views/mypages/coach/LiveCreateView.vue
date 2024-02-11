@@ -1,8 +1,6 @@
 <script setup>
-import { useLiveCoachingStore } from '@/stores/live-coaching'
 import { useMemberStore } from '@/stores/member'
-import { getMyCoaching, postCreateLiveCoaching } from '@/utils/api/coach-api'
-import { storeToRefs } from 'pinia'
+import { getMyCoaching, postCreateLiveCoaching, getLiveCoachingCalendar } from '@/utils/api/coach-api'
 import { ref, computed, onBeforeMount, watch } from 'vue'
 
 /**
@@ -11,16 +9,19 @@ import { ref, computed, onBeforeMount, watch } from 'vue'
 
 // in pinia
 const memberStore = useMemberStore()
-const liveCoachingStore = useLiveCoachingStore()
-const { liveCoachings, allLiveCoachings, events } = storeToRefs(liveCoachingStore)
 const { longId } = memberStore
+
+// 로컬변수
+const liveCoachings = ref([])
+const allLiveCoachings = ref([])
+const events = ref([])
 
 // for render
 const coachings = ref([])
 const selectedCoaching = ref(null)
 
+const nowObject = new Date()
 const now = computed(() => {
-  const nowObject = new Date()
   const nowMonth = nowObject.getMonth() + 1 < 10 ? `0${nowObject.getMonth() + 1}` : nowObject.getMonth() + 1
   const nowDate = nowObject.getDate() < 10 ? `0${nowObject.getDate()}` : nowObject.getDate()
   const nowHour = nowObject.getHours() < 10 ? `0${nowObject.getHours()}` : nowObject.getHours()
@@ -58,10 +59,48 @@ const create = () => {
     (success) => {
       console.log(success)
       alert('등록 완료')
-      // router.push({ name: 'Desktop-5-5' })
+      window.location.reload()
     },
     (error) => console.log(error)
   )
+}
+
+// DB에서 받은시간으로 Date객체 생성
+function parseDateTime(dateTime) {
+  return new Date(
+    dateTime.substring(0, 4),
+    dateTime.substring(5, 7) - 1,
+    dateTime.substring(8, 10),
+    dateTime.substring(11, 13),
+    dateTime.substring(14, 16)
+  )
+}
+
+// DB에서 받은 데이터로 라이브코칭 data 생성
+function parseLiveCoachingData(list) {
+  allLiveCoachings.value = []
+  liveCoachings.value = []
+  events.value = []
+  list.forEach((element) => {
+    // 라이브코칭 배열 생성
+    const date = parseDateTime(element.date)
+    const dateKey = element.date.substring(0, 10).replace(/-/g, '/')
+    const _time = element.date.substring(11, 16)
+    if (allLiveCoachings.value[dateKey] == undefined)
+      allLiveCoachings.value[dateKey] = [{ id: element.id, className: element.className, time: _time }]
+    else allLiveCoachings.value[dateKey].push({ id: element.id, className: element.className, time: _time })
+
+    // 오늘 라이브코칭 있는지 확인
+    const today = new Date()
+    if (
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate()
+    )
+      liveCoachings.value.push({ id: element.id, className: element.className, time: _time })
+    // 이벤트 배열 생성
+    events.value.push(dateKey)
+  })
 }
 
 onBeforeMount(() => {
@@ -73,6 +112,14 @@ onBeforeMount(() => {
       console.log(coachings.value)
     },
     (error) => console.log(error)
+  )
+  getLiveCoachingCalendar(
+    longId,
+    (success) => {
+      console.log(success)
+      parseLiveCoachingData(success.data.list)
+    },
+    (fail) => console.log(fail)
   )
 })
 

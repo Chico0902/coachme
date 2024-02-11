@@ -3,7 +3,7 @@ import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useLiveCoachingStore } from '@/stores/live-coaching'
 import { storeToRefs } from 'pinia'
 import { useMemberStore } from '@/stores/member'
-import { getLiveCoachingCalendar } from '@/utils/api/coach-api'
+import { getCoameLiveCoachingCalendar } from '@/utils/api/member-api'
 
 /**
  * VARIABLES
@@ -16,8 +16,8 @@ const { longId } = memberStore
 const { liveCoachings, allLiveCoachings, events } = storeToRefs(liveCoachingStore)
 
 // 현재시간 계산
+const nowObject = new Date()
 const now = computed(() => {
-  const nowObject = new Date()
   const nowMonth = nowObject.getMonth() + 1 < 10 ? `0${nowObject.getMonth() + 1}` : nowObject.getMonth() + 1
   const nowDate = nowObject.getDate() < 10 ? `0${nowObject.getDate()}` : nowObject.getDate()
   return `${nowObject.getFullYear()}-${nowMonth}-${nowDate}`
@@ -68,8 +68,21 @@ function parseLiveCoachingData(list) {
     const dateKey = element.date.substring(0, 10).replace(/-/g, '/')
     const _time = element.date.substring(11, 16)
     if (allLiveCoachings_.value[dateKey] == undefined)
-      allLiveCoachings_.value[dateKey] = [{ id: element.id, className: element.className, time: _time }]
-    else allLiveCoachings_.value[dateKey].push({ id: element.id, className: element.className, time: _time })
+      allLiveCoachings_.value[dateKey] = [
+        {
+          id: element.id,
+          className: element.className,
+          time: _time,
+          isStart: date.getTime() < nowObject.getTime() ? true : false
+        }
+      ]
+    else
+      allLiveCoachings_.value[dateKey].push({
+        id: element.id,
+        className: element.className,
+        time: _time,
+        isStart: date.getTime() < nowObject.getTime() ? true : false
+      })
 
     // 오늘 라이브코칭 있는지 확인
     const today = new Date()
@@ -78,14 +91,19 @@ function parseLiveCoachingData(list) {
       date.getMonth() === today.getMonth() &&
       date.getDate() === today.getDate()
     )
-      liveCoachings_.value.push({ id: element.id, className: element.className, time: _time })
+      liveCoachings_.value.push({
+        id: element.id,
+        className: element.className,
+        time: _time,
+        isStart: date.getTime() < nowObject.getTime() ? true : false
+      })
     // 이벤트 배열 생성
     events_.value.push(dateKey)
   })
 }
 
 onBeforeMount(() => {
-  getLiveCoachingCalendar(
+  getCoameLiveCoachingCalendar(
     longId,
     (success) => {
       console.log(success)
@@ -122,8 +140,8 @@ watch(
           <template v-else>
             <template v-for="liveCoaching in liveCoachings_" :key="liveCoaching.id">
               <q-field
-                color="green"
-                bg-color="amber-5"
+                :color="liveCoaching.isStart ? `amber-5` : `green`"
+                :bg-color="liveCoaching.isStart ? `green` : `amber-5`"
                 outlined
                 :label="liveCoaching.time"
                 stack-label
@@ -134,6 +152,15 @@ watch(
                 </template>
                 <template v-slot:control>
                   <div class="self-center full-width no-outline" tabindex="0">{{ liveCoaching.className }}</div>
+                </template>
+                <template v-slot:append>
+                  <q-btn
+                    v-if="liveCoaching.isStart"
+                    icon="meeting_room"
+                    flat
+                    color="black"
+                    @click="$router.push(`/live/${liveCoaching.id}`)"
+                  ></q-btn>
                 </template>
               </q-field>
             </template>
