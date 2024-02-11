@@ -2,6 +2,7 @@ package com.ssafy.api.coaching.service;
 
 import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
+import com.ssafy.api.coaching.dto.request.CoachingRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.response.*;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
@@ -96,24 +97,33 @@ public class CoachingService {
   /**
    * 분류별 코칭 정보 조회
    */
-  public List<CoachingResponseDtos> getCoachingList(String division1, String division2, String words) {
-    List<CoachingResponseDtos> coachingList;
-    Long mainCategoryId;
+  public List<CoachingResponseDto> getCoachingList(String division1, String division2, CoachingRequestDto coachingRequestDto) {
+    List<CoachingResponseDto> coachingList = new ArrayList<>();
 
-    if (words.equals("all")) {
-      words = null;
-    }
-    log.info("words : {}", words);
-    if (division1.equals("all")) {
-      coachingList = coachingRepository.findByCoachingCategory(null, null, words);
-    } else if (division2.equals("all")) {
-      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
-      coachingList = coachingRepository.findByCoachingCategory(mainCategoryId, null, words);
-    } else {
-      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
-      Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, division2);
+    List<Coaching> coachings = coachingRepository.findByCoachingCategory(division1, division2, coachingRequestDto.getWords(), coachingRequestDto.getLoginMemberId());
 
-      coachingList = coachingRepository.findByCoachingCategory(mainCategoryId, subCategoryId, words);
+    for(Coaching coaching: coachings){
+      CoachingResponseDto dto = new CoachingResponseDto();
+      dto.setCoachId(coaching.getCoach().getLongId());
+      dto.setMemberName(coaching.getCoach().getName());
+      dto.setProfileImg(coaching.getCoach().getProfileImage().getUrl());
+      dto.setCoachingId(coaching.getId());
+      dto.setCoachingName(coaching.getName());
+
+      if(!coaching.getReceivedReviews().isEmpty()){
+        int sum = 0;
+        for (Review review : coaching.getReceivedReviews()){
+          sum += review.getScore();
+        }
+        if(sum != 0){
+          dto.setAvgScore((float) (sum/coaching.getReceivedReviews().size()));
+        }
+        dto.setReviewCount(coaching.getReceivedReviews().size());
+      }else{
+        dto.setReviewCount(0);
+        dto.setAvgScore(0.0F);
+      }
+      coachingList.add(dto);
     }
 
     return coachingList;

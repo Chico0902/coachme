@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CoachingRequestDto {
-  String division1;
-  String division2;
+  private String words;
+  private long loginMemberId;
 }
