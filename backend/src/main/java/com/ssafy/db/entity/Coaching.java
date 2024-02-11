@@ -39,7 +39,11 @@ public class Coaching extends BaseEntity {
   private List<LiveCoaching> liveCoachings = new ArrayList<>();
 
   @OneToMany(mappedBy = "coaching")
-  private List<VideoCoaching> videoCoachings = new ArrayList<>();
+  private List<File> videoCoachings = new ArrayList<>();
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "represent_id")
+  private File represent;
 
   @Column
   private Integer price;
@@ -86,5 +90,17 @@ public class Coaching extends BaseEntity {
     this.mainCategory = main;
     this.subCategory = sub;
     this.subCategory.addCategoryList(this);
+  }
+
+  public void addCoachingReview(Review review) {
+    this.receivedReviews.add(review);
+  }
+
+  public void registRepresent(File file) {
+    this.represent = file;
+  }
+
+  public void addLiveCoaching(LiveCoaching liveCoaching) {
+    this.liveCoachings.add(liveCoaching);
   }
 }

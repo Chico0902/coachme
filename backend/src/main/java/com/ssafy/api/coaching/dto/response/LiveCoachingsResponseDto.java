@@ -1,14 +1,13 @@
-package com.ssafy.api.coach.dto.response;
+package com.ssafy.api.coaching.dto.response;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class CalendarResponseDto {
+public class LiveCoachingsResponseDto {
 
   private Long id;
-  private String className;
   private LocalDateTime date;
 
 }

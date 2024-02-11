@@ -1,14 +1,23 @@
 package com.ssafy.api.member.service;
 
+import com.ssafy.api.coach.dto.response.CalendarResponseDto;
+import com.ssafy.api.coaching.mapper.CoachingMapper;
+import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.coaching.dto.response.CoameTakingCoachingDto;
 import com.ssafy.api.coaching.repository.CoachingRepository;
 import com.ssafy.api.member.dto.request.ElevationRequestDto;
 import com.ssafy.api.member.dto.request.MemberInfoChangeRequestDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.api.member.dto.request.ProfileTextRequestDto;
+import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
+import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
+import com.ssafy.api.member.dto.response.ProfileResponseDto;
 import com.ssafy.api.member.dto.response.*;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
+import com.ssafy.db.entity.File;
+import com.ssafy.db.entity.LiveCoaching;
+import com.ssafy.db.entity.Member;
 import com.ssafy.db.entity.*;
 import com.ssafy.util.file.service.FileService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +45,7 @@ public class MemberService {
   private final FileService fileService;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private final CoachingRepository coachingRepository;
+  private final LiveCoachingRepository liveCoachingRepository;
 
   /**
    * 회원정보 요청을 받아서 비밀번호를 암호화하고 Member 엔티티로 저장
@@ -163,22 +173,9 @@ public class MemberService {
    */
   public List<CalendarResponseDto> getCalendar(Long longId) {
 
-    Member member = memberRepository.findByIdWithDetail(longId);
-    List<CalendarResponseDto> list = new ArrayList<>();
+    List<LiveCoaching> liveCoachingList = liveCoachingRepository.findByCoameId(longId);
 
-    for (CoameCoaching coameCoaching : member.getCoameTaughtCourses()) {
-      LiveCoaching liveCoaching = coameCoaching.getLiveCoaching();
-
-      CalendarResponseDto calendarResponseDto = new CalendarResponseDto();
-      calendarResponseDto.setId(liveCoaching.getId());
-      calendarResponseDto.setClassName(liveCoaching.getCoaching().getName());
-      String[] dateAndTime = getDateAndTime(liveCoaching.getCoachingDate());
-      calendarResponseDto.setDate(dateAndTime[0]);
-      calendarResponseDto.setTime(dateAndTime[1]);
-      list.add(calendarResponseDto);
-    }
-
-    return list;
+    return CoachingMapper.instance.liveCoachingToCalendarResponseDto(liveCoachingList);
   }
 
   /**

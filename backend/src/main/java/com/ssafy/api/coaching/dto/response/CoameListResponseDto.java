@@ -8,5 +8,6 @@ public class CoameListResponseDto {
   private String stringId;
   private String name;
   private String url;
+  private String profileText;
 
 }

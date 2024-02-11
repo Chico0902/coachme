@@ -54,20 +54,23 @@ public class RedisUtils {
 
   public String getLastDm(String prefix) {
     String pattern = prefix + "*";
-    System.out.println(prefix);
     ScanOptions options = ScanOptions.scanOptions().match(pattern).build();
-    String lastDm = "";
+    String lastDm = null; // 가장 최근 value를 저장할 변수
+    String lastTime = null; // 가장 최근 시간을 저장할 변수
 
     try (var cursor = stringRedisTemplate.scan(options)) {
       while (cursor.hasNext()) {
-        String value = stringRedisTemplate.opsForValue().get(cursor.next());
-        if (value.compareTo(lastDm) > 0) lastDm = value;
+        String key = cursor.next();
+        String[] parts = key.split("_");
+        String timestamp = parts[parts.length - 1];
+        if (lastTime == null || timestamp.compareTo(lastTime) > 0) {
+          lastTime = timestamp; // 가장 최근 시간 업데이트
+          lastDm = stringRedisTemplate.opsForValue().get(key);
+        }
       }
     }
-
     return lastDm;
   }
-
 
   public static DmRedisDto parser(String data) {
     Pattern pattern = Pattern.compile("(\\d+)_(\\w+)_(\\d+)");

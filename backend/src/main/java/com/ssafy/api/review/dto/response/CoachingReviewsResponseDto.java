@@ -8,4 +8,5 @@ public class CoachingReviewsResponseDto {
   private long coachingId;
   private String comment;
   private int score;
+  private String nickName;
 }
