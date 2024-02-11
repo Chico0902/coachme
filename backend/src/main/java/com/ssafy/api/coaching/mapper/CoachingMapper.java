@@ -4,10 +4,9 @@ import com.ssafy.api.coach.dto.response.CalendarResponseDto;
 import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.response.CoachDetail;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
-import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.dto.response.GetOneCoachingResponseDto;
+import com.ssafy.api.coaching.dto.response.LiveCoachingsResponseDto;
 import com.ssafy.db.entity.Coaching;
-import com.ssafy.db.entity.CoameCoaching;
 import com.ssafy.db.entity.LiveCoaching;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -62,13 +61,9 @@ public interface CoachingMapper {
 
   List<CalendarResponseDto> liveCoachingToCalendarResponseDto(List<LiveCoaching> liveCoaching);
 
-//  @Mapping(source = "name", target = "coacingId")
-//  @Mapping(source = "summary", target = "coacingVideoUrl")
-//  @Mapping(source = "mainCategory.name", target = "coacingName")
-////  @Mapping(source = "", target = "coacingReviewAvg")
-//  CoachDetail coachingToCoachingPopularResponseDto(Coaching coaching);
-//
-//  List<CoachDetail> coachingToCoachingPopularResponseDtoList(List<Coaching> list);
+  @Mapping(source = "coachingDate", target = "date")
+  LiveCoachingsResponseDto liveCoachingToResponseDto(LiveCoaching liveCoaching);
 
+  List<LiveCoachingsResponseDto> liveCoachingToResponseDto(List<LiveCoaching> liveCoaching);
 
 }

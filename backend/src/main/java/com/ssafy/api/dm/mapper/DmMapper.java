@@ -49,9 +49,5 @@ public interface DmMapper {
   }
 
   List<DmListDto> DmToDmResponseDto(List<DM> dmList);
-//
-//  DmResponseDto redisDtoToDmDto(DmRedisDto dmRedisDto);
-
-//  List<DmResponseDto> redisDtoToDmResponseDtoList(List<DmRedisDto> dmList);
 
 }

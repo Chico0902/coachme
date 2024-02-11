@@ -3,6 +3,7 @@ package com.ssafy.api.coaching.controller;
 import com.ssafy.api.coaching.dto.request.SearchWordsRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
+import com.ssafy.api.coaching.dto.response.LiveCoachingsResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
 import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
@@ -82,7 +83,7 @@ public class CoachingController {
   }
 
   /**
-   * [coaching-4] 메인페이지에서 인기코칭을 확인할 수 있다.
+   * [coaching-5] 메인페이지에서 인기코칭을 확인할 수 있다.
    * privilege : 0
    *
    * @return - [200] list
@@ -92,7 +93,6 @@ public class CoachingController {
     ListDataDto responseDto = new ListDataDto(coachingService.getPopularCoaching());
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
-
 
   /**
    * [coaching-6] 코치가 특정 코칭의 대표 영상을 설정할 수 있다.
@@ -107,5 +107,19 @@ public class CoachingController {
                                                 @PathVariable("fileId") Long fileId) {
     coachingService.registRepresentVideo(coachingId, fileId);
     return new ResponseEntity<>(new MessageDto("regist video successfully"), HttpStatus.OK);
+  }
+
+  /**
+   * [coaching-7] 코칭 상세페이지에서 해당 코칭의 라이브 코칭 목록을 조회한다.
+   * privilege : 1
+   *
+   * @param coachingId - 코칭 pk
+   * @return - [200] 라이브 코칭 정보 리스트
+   */
+  @GetMapping("/{coachingId}/live")
+  public ResponseEntity<?> getLiveCoachingsByCoachingId(@PathVariable Long coachingId) {
+
+    List<LiveCoachingsResponseDto> list = coachingService.getLiveCoachingsByCoachingId(coachingId);
+    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
 }

@@ -27,7 +27,6 @@ public class DmSocketService {
   private final MemberRepository memberRepository;
   private final RedisUtils redisUtils;
 
-
   public DmSocketResponseMessage sendDm(DmSocketRequestMessage message, String roomId) {
     LocalDateTime now = LocalDateTime.now();
     String time = now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));

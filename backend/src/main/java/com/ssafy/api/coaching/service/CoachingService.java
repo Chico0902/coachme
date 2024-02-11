@@ -224,13 +224,18 @@ public class CoachingService {
 
   /**
    * 코칭 pk와 파일 pk를 받아 코칭의 대표 동영상으로 등록시켜주는 메서드
-   *
-   * @param coachingId - 코칭 pk
-   * @param fileId     - 파일 pk
    */
   public void registRepresentVideo(Long coachingId, Long fileId) {
     Coaching coaching = coachingRepository.getReferenceById(coachingId);
     File file = fileRepository.getReferenceById(fileId);
     coaching.registRepresent(file);
+  }
+
+  /**
+   * 코칭의 라이브코칭 리스트를 가져오는 메서드
+   */
+  public List<LiveCoachingsResponseDto> getLiveCoachingsByCoachingId(Long coachingId) {
+    List<LiveCoaching> liveCoachingList = liveCoachingRepository.findByCoachingId(coachingId);
+    return CoachingMapper.instance.liveCoachingToResponseDto(liveCoachingList);
   }
 }

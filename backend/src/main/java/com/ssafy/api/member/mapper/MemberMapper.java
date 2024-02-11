@@ -42,24 +42,4 @@ public interface MemberMapper {
 
   List<CoameListResponseDto> memberToCoameListResponseDto(List<Member> member);
 
-//  @Mapping(source = "stringId", target = "id")
-//  @Mapping(source = "password", target = "pw")
-//  @Mapping(source = "nickName", target = "nick")
-//  MemberInfoResponseDto memberToMemberInfoResponseDto(Member member);
-//
-//  @Mapping(source = "stringId", target = "id")
-//  @Mapping(source = "nickName", target = "nick")
-//  @Mapping(source = "privilege", target = "priv")
-//  @Mapping(source = "elevated", target = "elev")
-//  MemberListResponseDto memberToMemberListResponseDto(Member member);
-//
-//  List<MemberListResponseDto> memberToMemberListResponseDto(List<Member> memberList);
-//
-//  @Mapping(source = "portfolio.htmlDocs", target = "description")
-//  PortfolioResponseDto memberToPortfolioResponseDto(Member member);
-//
-//  List<PortfolioResponseDto> memberToPortfolioResponseDto(List<Member> member);
-//
-//  @Mapping(source = "stringId", target = "id")
-//  MemberDuplicateRequestDto memberToMemberDuplicateDto(Member member);
 }

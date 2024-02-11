@@ -1,10 +1,10 @@
 package com.ssafy.api.coaching.dto.response;
 
-import com.ssafy.db.entity.Category;
 import lombok.Data;
 
 @Data
 public class CoachingDetailResponseDto {
+
   private long coachId;
   private String coachName;
   private String coachProfileImageUrl;
