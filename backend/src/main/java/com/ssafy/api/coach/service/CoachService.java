@@ -6,6 +6,7 @@ import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
 import com.ssafy.api.coach.dto.response.*;
 import com.ssafy.api.coach.mapper.CoachMapper;
 import com.ssafy.api.coaching.dto.response.CoachDetail;
+import com.ssafy.api.coaching.dto.response.CoachingResponseDto;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
@@ -18,11 +19,11 @@ import com.ssafy.util.file.Mapper.FileMapper;
 import com.ssafy.util.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -48,34 +49,38 @@ public class CoachService {
   /**
    * 분류별 코치 정보 조회
    */
-  public List<CoachesResponseDtos> getCoachList(String division1, String division2, CoachesRequestDto coachesRequestDto) {
-    List<CoachesResponseDtos> list;
-    Long mainCategoryId;
+  public List<CoachesResponseDto> getCoachList(String division1, String division2, CoachesRequestDto coachesRequestDto) {
+    List<CoachesResponseDto> coachingList = new ArrayList<>();
+    Set<Long> idSet = new HashSet<>();
 
-    String words = coachesRequestDto.getWords();
-    long memberId = coachesRequestDto.getLoginMemberId();
+    List<Coaching> coachings = coachingRepository.findByCoachingCategory(division1, division2, coachesRequestDto.getWords(), coachesRequestDto.getLoginMemberId());
+    for(Coaching coaching: coachings){
+      if(idSet.contains(coaching.getCoach().getLongId())) continue;
 
-    if (coachesRequestDto.getWords().equals("all")) {
-      words = null;
+      CoachesResponseDto dto = new CoachesResponseDto();
+      dto.setCoachId(coaching.getCoach().getLongId());
+      dto.setMemberName(coaching.getCoach().getName());
+      dto.setProfileImg(coaching.getCoach().getProfileImage().getUrl());
+      dto.setLessonInfo(coaching.getSummary());
+
+      if(!coaching.getCoach().getReceivedReviews().isEmpty()){
+        int sum = 0;
+        for (Review review : coaching.getCoach().getReceivedReviews()){
+          sum += review.getScore();
+        }
+        if(sum != 0){
+          dto.setAvgScore((float) (sum/coaching.getCoach().getReceivedReviews().size()));
+        }
+        dto.setReviewCount(coaching.getCoach().getReceivedReviews().size());
+      }else{
+        dto.setReviewCount(0);
+        dto.setAvgScore(0.0F);
+      }
+      coachingList.add(dto);
+      idSet.add(coaching.getCoach().getLongId());
     }
 
-    if (coachesRequestDto.getLoginMemberId() == -1) {
-      memberId = -1;
-    }
-
-    if (division1.equals("all")) {
-      list = coachingRepository.findByCoachCategory(null, null, words, memberId);
-    } else if (division2.equals("all")) {
-      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
-      list = coachingRepository.findByCoachCategory(mainCategoryId, null, words, memberId);
-    } else {
-      mainCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.MAIN, division1);
-      Long subCategoryId = categoryRepository.findByCategoryTypeAndName(CategoryType.SUB, division2);
-
-      list = coachingRepository.findByCoachCategory(mainCategoryId, subCategoryId, words, memberId);
-    }
-
-    return list;
+    return coachingList;
   }
 
   /**
