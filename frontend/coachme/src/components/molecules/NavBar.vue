@@ -15,7 +15,6 @@ label : nav 버튼에 표시될 이름
     <!-- 코치찾기, 코칭찾기, 강의장 -->
     <slot name="search-coach"> </slot>
     <slot name="search-coaching"> </slot>
-    <slot name="live"> </slot>
     <q-space></q-space>
 
     <!-- 로그인, 로그아웃, 회원가입, 환영인사 -->
@@ -29,4 +28,5 @@ label : nav 버튼에 표시될 이름
 <style scoped>
 .text-black {
   min-width: 920px;
-}</style>
+}
+</style>

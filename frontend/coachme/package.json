@@ -18,6 +18,7 @@
     "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.6.5",
     "js-cookie": "^3.0.5",
+    "openvidu-browser": "^2.29.1",
     "pinia": "^2.1.7",
     "pinia-plugin-persist": "^1.0.0",
     "quasar": "^2.14.2",

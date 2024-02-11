@@ -32,8 +32,7 @@ const sideMenu = [
   { name: '홈으로', link: '/' },
   { name: '마이페이지', link: '/mypage' },
   { name: '코치찾기', link: '/search/coach/list' },
-  { name: '코칭찾기', link: '/search/coaching/list' },
-  { name: '강의장', link: '/live/coaching' }
+  { name: '코칭찾기', link: '/search/coaching/list' }
 ]
 
 if (isLogin.value === true) sideMenu.push({ name: '로그아웃', link: '/login' })

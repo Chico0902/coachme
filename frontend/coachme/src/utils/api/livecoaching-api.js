@@ -1,4 +1,6 @@
-import { publicAxios, authAxios } from '@/utils/http-commons'
+import { authAxios } from '@/utils/http-commons'
+
+const { VITE_BACKEND_URL } = import.meta.env
 
 /**
  * API번호 : live-1
@@ -20,8 +22,17 @@ import { publicAxios, authAxios } from '@/utils/http-commons'
             message : String
           }
  */
-export function postLiveCoachingEntrnce(roomId, success, fail) {
-  authAxios.post(`/live/sessions/${roomId}/connections`).then(success).catch(fail)
+export function postLiveCoachingEntrnce(roomId) {
+  return new Promise((resolve) =>
+    authAxios
+      .post(`live/sessions/${roomId}/connections`, {})
+      .then((success) => {
+        resolve(success.data)
+      })
+      .catch((fail) => {
+        console.log(fail)
+      })
+  )
 }
 
 /**
@@ -47,6 +58,15 @@ export function postLiveCoachingEntrnce(roomId, success, fail) {
             message : String
           }
  */
-export function postConnectLiveCoaching(dto, success, fail) {
-  authAxios.post(`/live/sessions`, dto).then(success).catch(fail)
+export function postConnectLiveCoaching(dto) {
+  return new Promise((resolve) =>
+    authAxios
+      .post(`live/sessions`, dto)
+      .then((success) => {
+        resolve(success.data)
+      })
+      .catch((fail) => {
+        console.log(fail)
+      })
+  )
 }

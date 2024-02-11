@@ -1,8 +1,6 @@
 <script setup>
 import profile from '@/components/atoms/ProfileImage.vue'
 import { computed, onBeforeMount, ref, watch } from 'vue'
-import { useLiveCoachingStore } from '@/stores/live-coaching'
-import { storeToRefs } from 'pinia'
 import { useMemberStore } from '@/stores/member'
 import { getLiveCoachingCalendar } from '@/utils/api/coach-api'
 import { getLiveCoachingCoame } from '@/utils/api/coaching-api'
@@ -13,19 +11,17 @@ import { getLiveCoachingCoame } from '@/utils/api/coaching-api'
 
 // in pinia
 const memberStore = useMemberStore()
-const liveCoachingStore = useLiveCoachingStore()
 const { longId } = memberStore
-const { students, liveCoachings, allLiveCoachings, events } = storeToRefs(liveCoachingStore)
 
 // 로컬변수
-const students_ = ref([])
-const liveCoachings_ = ref([])
-const allLiveCoachings_ = ref([])
-const events_ = ref([])
+const students = ref([])
+const liveCoachings = ref([])
+const allLiveCoachings = ref([])
+const events = ref([])
 
 // 현재시간 계산
+const nowObject = new Date()
 const now = computed(() => {
-  const nowObject = new Date()
   const nowMonth = nowObject.getMonth() + 1 < 10 ? `0${nowObject.getMonth() + 1}` : nowObject.getMonth() + 1
   const nowDate = nowObject.getDate() < 10 ? `0${nowObject.getDate()}` : nowObject.getDate()
   return `${nowObject.getFullYear()}-${nowMonth}-${nowDate}`
@@ -37,24 +33,7 @@ console.log(date.value)
  * METHODS
  */
 
-// 로컬변수 -> 피니아
-watch(
-  () => students_,
-  () => (students.value = students_.value)
-)
-watch(
-  () => liveCoachings_,
-  () => (liveCoachings.value = liveCoachings_.value)
-)
-watch(
-  () => allLiveCoachings_,
-  () => (allLiveCoachings.value = allLiveCoachings_.value)
-)
-watch(
-  () => events_,
-  () => (events.value = events_.value)
-)
-
+// DB에서 받은시간으로 Date객체 생성
 function parseDateTime(dateTime) {
   return new Date(
     dateTime.substring(0, 4),
@@ -65,19 +44,33 @@ function parseDateTime(dateTime) {
   )
 }
 
+// DB에서 받은 데이터로 라이브코칭 data 생성
 function parseLiveCoachingData(list) {
-  allLiveCoachings_.value = []
-  liveCoachings_.value = []
-  events_.value = []
+  allLiveCoachings.value = []
+  liveCoachings.value = []
+  events.value = []
   list.forEach((element) => {
     // 라이브코칭 배열 생성
     const date = parseDateTime(element.date)
     const dateKey = element.date.substring(0, 10).replace(/-/g, '/')
     const _time = element.date.substring(11, 16)
-    if (allLiveCoachings_.value[dateKey] == undefined)
-      allLiveCoachings_.value[dateKey] = [{ id: element.id, className: element.className, time: _time }]
-    else allLiveCoachings_.value[dateKey].push({ id: element.id, className: element.className, time: _time })
-
+    if (allLiveCoachings.value[dateKey] == undefined)
+      allLiveCoachings.value[dateKey] = [
+        {
+          id: element.id,
+          className: element.className,
+          time: _time,
+          isStart: date.getTime() < nowObject.getTime() ? true : false
+        }
+      ]
+    else
+      allLiveCoachings.value[dateKey].push({
+        id: element.id,
+        className: element.className,
+        time: _time,
+        isStart: date.getTime() < nowObject.getTime() ? true : false
+      })
+    console.log(allLiveCoachings.value)
     // 오늘 라이브코칭 있는지 확인
     const today = new Date()
     if (
@@ -85,9 +78,14 @@ function parseLiveCoachingData(list) {
       date.getMonth() === today.getMonth() &&
       date.getDate() === today.getDate()
     )
-      liveCoachings_.value.push({ id: element.id, className: element.className, time: _time })
+      liveCoachings.value.push({
+        id: element.id,
+        className: element.className,
+        time: _time,
+        isStart: date.getTime() < nowObject.getTime() ? true : false
+      })
     // 이벤트 배열 생성
-    events_.value.push(dateKey)
+    events.value.push(dateKey)
   })
 }
 
@@ -95,7 +93,7 @@ function getLiveCoachingStudent(coachingId) {
   getLiveCoachingCoame(
     coachingId,
     (success) => {
-      students_.value = success.data.list
+      students.value = success.data.list
       console.log(success)
     },
     (fail) => console.log(fail)
@@ -116,8 +114,8 @@ watch(
   () => date.value,
   () => {
     const dateKey = getDateKey(date.value)
-    liveCoachings_.value = allLiveCoachings_.value[dateKey]
-    students_.value = []
+    liveCoachings.value = allLiveCoachings.value[dateKey]
+    students.value = []
   }
 )
 function getDateKey(date) {
@@ -130,18 +128,18 @@ function getDateKey(date) {
     <div class="coach-main">
       <div class="main-container">
         <div class="calendar">
-          <q-date v-model="date" :events="events_" class="custom-q-date" mask="YYYY-MM-DD" />
+          <q-date v-model="date" :events="events" class="custom-q-date" mask="YYYY-MM-DD" />
         </div>
         <div class="memo">
-          <template v-if="liveCoachings_ == undefined || liveCoachings_.length === 0">
+          <template v-if="liveCoachings == undefined || liveCoachings.length === 0">
             <p style="font-size: 0.8rem; color: #5f5f5f">등록된 라이브 코칭이 없습니다.</p>
           </template>
           <template v-else>
-            <template v-for="liveCoaching in liveCoachings_" :key="liveCoaching.id">
+            <template v-for="liveCoaching in liveCoachings" :key="liveCoaching.id">
               <div @click="getLiveCoachingStudent(liveCoaching.id)">
                 <q-field
-                  color="green"
-                  bg-color="amber-5"
+                  :color="liveCoaching.isStart ? `amber-5` : `green`"
+                  :bg-color="liveCoaching.isStart ? `green` : `amber-5`"
                   outlined
                   :label="liveCoaching.time"
                   stack-label
@@ -153,6 +151,15 @@ function getDateKey(date) {
                   <template v-slot:control>
                     <div class="self-center full-width no-outline" tabindex="0">{{ liveCoaching.className }}</div>
                   </template>
+                  <template v-slot:append>
+                    <q-btn
+                      v-if="liveCoaching.isStart"
+                      icon="meeting_room"
+                      flat
+                      color="black"
+                      @click="$router.push(`/live/${liveCoaching.id}`)"
+                    ></q-btn>
+                  </template>
                 </q-field>
               </div>
             </template>
@@ -163,11 +170,11 @@ function getDateKey(date) {
         </div>
         <div class="coaching-detail">
           <p class="coaching-detail-title">수강생 목록</p>
-          <template v-if="students_ == undefined || students_.length === 0">
+          <template v-if="students == undefined || students.length === 0">
             <p style="font-size: 0.8rem; color: #5f5f5f">검색된 수강생이 없습니다.</p>
           </template>
           <template v-else>
-            <template v-for="student in students_" :key="student.id">
+            <template v-for="student in students" :key="student.id">
               <q-item clickable v-ripple>
                 <q-item-section avatar>
                   <q-item>
