@@ -10,7 +10,7 @@ liked : 찜콩버튼 클릭시 발생할 함수. function. 기본값 없음
 <script setup>
 import labels from '../atoms/CardLabel.vue'
 import like from '../atoms/CustomLike.vue'
-import { setRepresentativeVideo } from '@/utils/api/coaching-api'
+import { getMainVideo } from '@/utils/api/coaching-api'
 
 const props = defineProps({
   label: {
@@ -18,7 +18,7 @@ const props = defineProps({
     default: ''
   },
   caption: {
-    type: String,
+    type: [String, Number],
     default: ''
   },
   ratio: {
@@ -45,22 +45,22 @@ const props = defineProps({
   }
 })
 
-const setVideo = () => {
+const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption;
 
-  setRepresentativeVideo(
-    props.coachingId, props.videoId,
+const setVideo = () => {
+  getMainVideo(
+    props.coachingId,
+    props.videoId,
     (success) => {
       console.log(success.data)
-      alert("대표 영상으로 등록되었습니다.")
+      alert('대표 영상으로 등록되었습니다.')
     },
     (fail) => {
       console.log(fail.data)
-      alert("대표 영상 등록이 실패하였습니다.")
+      alert('대표 영상 등록이 실패하였습니다.')
     }
   )
-  
 }
-
 </script>
 
 <template>
@@ -77,27 +77,18 @@ const setVideo = () => {
     <q-item>
       <!-- 캡션과 라벨 -->
       <q-item-section>
-        <labels :label="`${props.label}`"></labels>
-        <labels caption :label="`${props.caption}`"></labels>
-      </q-item-section>
-      <!-- 공간 차지-->
-      <q-item-section>
-        <q-space></q-space>
+        <labels class="coaching-name" :label="`${props.label}`"></labels>
+        <labels caption :label="caption"></labels>
       </q-item-section>
       <!-- 찜콩 버튼-->
-      <q-item-section v-if="visible">
-        <like :clicked="liked"></like>
+      <q-item-section v-if="visible" class="likebtn">
+        <like class="likebtn" :clicked="liked"></like>
       </q-item-section>
       <!-- 대표 영상 설정 -->
       <q-item-section v-if="!visible">
-        <q-btn
-          padding="xs"
-          color="amber-7"
-          icon="check"
-          @click="setVideo"
-        >
-        <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
-      </q-btn>
+        <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
+          <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
+        </q-btn>
       </q-item-section>
     </q-item>
   </q-card>
@@ -107,5 +98,12 @@ const setVideo = () => {
 .my-card {
   width: 100%; 
   min-width: 15vw;
+}
+.coaching-name {
+  min-width: 150px;
+}
+.likebtn {
+  display: flex;
+  justify-content: right;
 }
 </style>
