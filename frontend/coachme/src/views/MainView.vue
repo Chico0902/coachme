@@ -113,12 +113,12 @@ onUnmounted(() => {
       <navbar>
         <template #search-coach>
           <RouterLink :to="{ name: 'Desktop-13' }">
-            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
+            <q-btn flat :label="`코치찾기`" icon="person_search" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #search-coaching>
           <RouterLink :to="{ name: 'Desktop-14' }">
-            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
+            <q-btn flat :label="`코칭찾기`" icon="zoom_in" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #live>
@@ -142,12 +142,12 @@ onUnmounted(() => {
       <navbar>
         <template #search-coach>
           <RouterLink :to="{ name: 'Desktop-13' }">
-            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
+            <q-btn flat :label="`코치찾기`" icon="person_search" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #search-coaching>
           <RouterLink :to="{ name: 'Desktop-14' }">
-            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
+            <q-btn flat :label="`코칭찾기`" icon="zoom_in" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #live>
