@@ -5,7 +5,7 @@ import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getVideoList } from '@/utils/api/coach-api'
 
 // const videos = ref([
-//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 1, videoUrl: "https://naver.com", videoName: "기본편" },
+//   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 1, videoUrl: "https://naver.com", videoName: "기본편이지만아무튼긴제목으로" },
 //   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 2, videoUrl: "https://naver.com", videoName: "연습편" },
 //   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 6, videoUrl: "https://naver.com", videoName: "실전편" },
 //   { coachingId: 1, coachingName: "이것만 알면 당신도 할 수 있다", videoId: 7, videoUrl: "https://naver.com", videoName: "종합" },
@@ -45,20 +45,20 @@ const groupedFilteredVideos = computed(() => {
 });
 // 각 코칭 별로 코칭 영상 리스트를 추출
 
-  onBeforeMount(() => {
-    const longId = decodeToken(getAccessToken()).longId
-    // 본인 아이디로 코칭 영상 리스트 조회
-    getVideoList(
-      longId,
-      (success) => {
-        console.log(success)
-        videos.value = success.data.list
-      },
-      (fail) => {
-        console.log(fail)
-      }
-    )
-  })
+  // onBeforeMount(() => {
+  //   const longId = decodeToken(getAccessToken()).longId
+  //   // 본인 아이디로 코칭 영상 리스트 조회
+  //   getVideoList(
+  //     longId,
+  //     (success) => {
+  //       console.log(success)
+  //       videos.value = success.data.list
+  //     },
+  //     (fail) => {
+  //       console.log(fail)
+  //     }
+  //   )
+  // })
 
 </script>
 <template>
