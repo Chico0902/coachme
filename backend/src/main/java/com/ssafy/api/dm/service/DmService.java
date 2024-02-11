@@ -175,14 +175,15 @@ public class DmService {
       prevCreateTime = createTime;
     }
 
-    DmResponseDto dto = new DmResponseDto();
-    dto.setMemberId(prevMemberId);
-    dto.setMemberName(memberInfo.get("memberName"));
-    dto.setMemberProfileUrl(memberInfo.get("memberProfileUrl"));
-    dto.setCreateDate(memberInfo.get("createDate"));
-    dto.setMessage(msgList);
-    dmResponseDtoList.add(dto);
-
+    if (prevMemberId != -1) {
+      DmResponseDto dto = new DmResponseDto();
+      dto.setMemberId(prevMemberId);
+      dto.setMemberName(memberInfo.get("memberName"));
+      dto.setMemberProfileUrl(memberInfo.get("memberProfileUrl"));
+      dto.setCreateDate(memberInfo.get("createDate"));
+      dto.setMessage(msgList);
+      dmResponseDtoList.add(dto);
+    }
     return dmResponseDtoList;
   }
 }
