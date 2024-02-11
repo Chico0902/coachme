@@ -20,7 +20,6 @@ public interface ReviewMapper {
 
   List<CoachReviewsResponseDto> reviewToCoachReviewsResponseDtoList(List<Review> reviewList);
 
-
   @Mapping(source = "coame.longId", target = "coameId")
   @Mapping(source = "coaching.id", target = "coachingId")
   @Mapping(source = "coame.nickName", target = "nickName")
