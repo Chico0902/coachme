@@ -45,7 +45,7 @@ const props = defineProps({
   }
 })
 
-const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption;
+const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption
 
 const setVideo = () => {
   getMainVideo(
@@ -96,7 +96,7 @@ const setVideo = () => {
 
 <style scoped>
 .my-card {
-  width: 100%; 
+  width: 100%;
   min-width: 15vw;
 }
 .coaching-name {
