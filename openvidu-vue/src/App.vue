@@ -257,17 +257,25 @@ export default {
     },
 
     async createSession(sessionId) {
-      const response = await axios.post(APPLICATION_SERVER_URL + 'live/sessions', { customSessionId: sessionId }, {
+      const response = await axios.post(APPLICATION_SERVER_URL + 'live/sessions', 
+      { customSessionId: sessionId }, 
+      {
         headers: { 'Content-Type': 'application/json', },
       });
       return response.data; // The sessionId
     },
 
     async createToken(sessionId) {
-      const response = await axios.post(APPLICATION_SERVER_URL + 'live/sessions/' + sessionId + '/connections', {}, {
+      const response = await axios.post(APPLICATION_SERVER_URL + 'live/sessions/' + sessionId + '/connections', 
+      {memberId :  this.myUserName},
+      {
         headers: { 'Content-Type': 'application/json', },
       });
-      return response.data; // The token
+      console.log(response.data.token);
+      console.log(response.data.memberId);
+      console.log(response.data.memberName);
+      console.log(response.data.memberProfileUrl);
+      return response.data.token; // The token
     },
   },
 };
