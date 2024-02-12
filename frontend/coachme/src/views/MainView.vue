@@ -202,7 +202,9 @@ onUnmounted(() => {
       <div class="coaching-outside">
         <div class="coaching-title"><MainCoachingTitle /></div>
         <div class="coaching-card-outside">
+          {{ popularCoachingList }}
           <div v-for="(coaching, index) in popularCoachingList" :key="index" class="coaching-card">
+            <p>test</p>
             <coaching
               :label="coaching.coachingName"
               :caption="coaching.coachingReviewAvg"
@@ -321,9 +323,6 @@ onUnmounted(() => {
   background-color: #c7c7c7;
   border-radius: 1.5rem;
 }
-
-
-
 
 .coach-outside {
   height: 30vh;
