@@ -322,6 +322,9 @@ onUnmounted(() => {
   border-radius: 1.5rem;
 }
 
+
+
+
 .coach-outside {
   height: 30vh;
   margin: 20vh auto;

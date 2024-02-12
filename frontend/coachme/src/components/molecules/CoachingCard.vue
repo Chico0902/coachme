@@ -18,7 +18,7 @@ const props = defineProps({
     default: ''
   },
   caption: {
-    type: String,
+    type: Number,
     default: ''
   },
   ratio: {
