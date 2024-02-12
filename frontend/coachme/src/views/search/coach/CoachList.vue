@@ -26,6 +26,9 @@ const { useDmWindow } = storeToRefs(chatStore)
 // for side button
 const buttonList = ref([])
 
+// for card <-> list
+const isMatching = ref(false)
+
 /**
  * METHODS
  */
@@ -73,7 +76,7 @@ const searchByWords = (keyword) => {
           </div>
           <div class="mainpage">
             <!-- 코치 매칭 카드  -->
-            <CoachCardList v-if="isMatching" :cards="coaches"></CoachCardList>
+            <CoachCardList v-if="isMatching"></CoachCardList>
             <SearchCoachList v-else style="margin-top: 2vh; margin-left: 0.6vw"></SearchCoachList>
           </div>
         </div>
@@ -107,7 +110,7 @@ const searchByWords = (keyword) => {
             size="20px"
             color="blue-9"
             icon="list"
-            @click="changeListAndMatching"
+            @click="isMatching = false"
           >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
               <strong>리스트로 보기</strong>
@@ -120,7 +123,7 @@ const searchByWords = (keyword) => {
             size="20px"
             color="blue-9"
             icon="style"
-            @click="changeListAndMatching"
+            @click="isMatching = true"
           >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
               <strong>매칭 하기</strong>
