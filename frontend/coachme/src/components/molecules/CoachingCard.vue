@@ -18,7 +18,7 @@ const props = defineProps({
     default: ''
   },
   caption: {
-    type: Number,
+    type: [String, Number],
     default: ''
   },
   ratio: {
@@ -44,6 +44,8 @@ const props = defineProps({
     default: true
   }
 })
+
+const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption;
 
 const setVideo = () => {
   getMainVideo(
@@ -76,7 +78,7 @@ const setVideo = () => {
       <!-- 캡션과 라벨 -->
       <q-item-section>
         <labels class="coaching-name" :label="`${props.label}`"></labels>
-        <labels caption :label="`${props.caption}`"></labels>
+        <labels caption :label="caption"></labels>
       </q-item-section>
       <!-- 찜콩 버튼-->
       <q-item-section v-if="visible" class="likebtn">
@@ -94,7 +96,7 @@ const setVideo = () => {
 
 <style scoped>
 .my-card {
-  width: 100%;
+  width: 100%; 
   min-width: 15vw;
 }
 .coaching-name {

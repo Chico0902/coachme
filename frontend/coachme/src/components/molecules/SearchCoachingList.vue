@@ -72,7 +72,7 @@ const getData = computed(() => {
                 <div class="ratingForm" style="width: fit-content">
                   <q-btn flat round color="amber-7" icon="star" disable></q-btn>
                   <span class="rating"
-                    >{{ coaching.avgScore !== null ? coaching.avgScore : 0 }} ({{ coaching.reviewCount }})</span
+                    >{{ coaching.avgScore !== null ? Math.round(coaching.avgScore * 10) / 10 : 0 }} ({{ coaching.reviewCount }})</span
                   >
                 </div>
                 <!-- 공간 분리 -->

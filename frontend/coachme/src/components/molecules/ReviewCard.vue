@@ -20,7 +20,8 @@ const props = defineProps({
   },
 })
 
-const ratingScore = computed(() => props.reviews.score);
+const ratingScore = computed(() => Math.round(props.reviews.score * 10) / 10);
+
 // v-model 적용을 위한 별점 저장
 
 const longId = decodeToken(getAccessToken()).longId
