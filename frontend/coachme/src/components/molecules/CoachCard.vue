@@ -18,7 +18,7 @@ const props = defineProps({
     default: ''
   }, // 카드 캡션
   caption: {
-    type: Number,
+    type: [String,Number],
     default: ''
   }, // 프로필 사진 주소
   img: {
@@ -30,6 +30,9 @@ const props = defineProps({
     default: () => {}
   }
 })
+
+const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption;
+
 </script>
 
 <template>
@@ -55,7 +58,7 @@ const props = defineProps({
       <q-item-section>
         <!-- 라벨과 캡션 -->
         <labels :label="`${props.label}`"></labels>
-        <labels caption :label="`${props.caption}`"></labels>
+        <labels caption :label="caption"></labels>
       </q-item-section>
     </q-item>
   </q-card>
