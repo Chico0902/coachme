@@ -20,7 +20,7 @@ import { useChatStore } from '@/stores/chat-status'
 // pinia
 const coachStore = useCoachStore()
 const chatStore = useChatStore()
-const { coaches, selectedMainCategory, selectedSubCategory, subCategories } = storeToRefs(coachStore)
+const { selectedMainCategory, selectedSubCategory, subCategories } = storeToRefs(coachStore)
 const { useDmWindow } = storeToRefs(chatStore)
 
 // for side button
