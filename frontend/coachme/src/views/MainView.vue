@@ -5,8 +5,8 @@ import buttons from '../components/atoms/CustomButton.vue'
 import carousel from '../components/atoms/CustomCarousel.vue'
 import search from '../components/molecules/MainSearch.vue'
 import category from '../components/molecules/CustomCategory.vue'
-import card from '../components/molecules/CoachCard.vue'
-import coaching from '../components/molecules/CoachingCard.vue'
+import coachCard from '../components/molecules/CoachCard.vue'
+import coachingCard from '../components/molecules/CoachingCard.vue'
 import footerBar from '../components/molecules/CustomFooter.vue'
 import MainSearchTitle from '../components/texts/MainSearchTitle.vue'
 import MainCategoryTitle from '../components/texts/MainCategoryTitle.vue'
@@ -113,12 +113,12 @@ onUnmounted(() => {
       <navbar>
         <template #search-coach>
           <RouterLink :to="{ name: 'Desktop-13' }">
-            <q-btn flat :label="`코치찾기`" icon="person_search" color="black"></q-btn>
+            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
           </RouterLink>
         </template>
         <template #search-coaching>
           <RouterLink :to="{ name: 'Desktop-14' }">
-            <q-btn flat :label="`코칭찾기`" icon="zoom_in" color="black"></q-btn>
+            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
           </RouterLink>
         </template>
         <template #live>
@@ -142,12 +142,12 @@ onUnmounted(() => {
       <navbar>
         <template #search-coach>
           <RouterLink :to="{ name: 'Desktop-13' }">
-            <q-btn flat :label="`코치찾기`" icon="person_search" color="black"></q-btn>
+            <buttons flat :name="`search-coach`" :label="`코치찾기`"></buttons>
           </RouterLink>
         </template>
         <template #search-coaching>
           <RouterLink :to="{ name: 'Desktop-14' }">
-            <q-btn flat :label="`코칭찾기`" icon="zoom_in" color="black"></q-btn>
+            <buttons flat :name="`search-coaching`" :label="`코칭찾기`"></buttons>
           </RouterLink>
         </template>
         <template #live>
@@ -194,7 +194,7 @@ onUnmounted(() => {
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
           <div v-for="(coach, index) in popularCoachList" :key="index" class="coach-card">
-            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></card>
+            <coachCard :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></coachCard>
           </div>
         </div>
       </div>
@@ -203,11 +203,11 @@ onUnmounted(() => {
         <div class="coaching-title"><MainCoachingTitle /></div>
         <div class="coaching-card-outside">
           <div v-for="(coaching, index) in popularCoachingList" :key="index" class="coaching-card">
-            <coaching
+            <coachingCard
               :label="coaching.coachingName"
               :caption="coaching.coachingReviewAvg"
               :video="coaching.coachingVideoUrl"
-            ></coaching>
+            ></coachingCard>
           </div>
         </div>
       </div>
@@ -321,9 +321,6 @@ onUnmounted(() => {
   background-color: #c7c7c7;
   border-radius: 1.5rem;
 }
-
-
-
 
 .coach-outside {
   height: 30vh;
