@@ -45,7 +45,7 @@ const props = defineProps({
   }
 })
 
-const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption;
+const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption
 
 const setVideo = () => {
   getMainVideo(
@@ -69,7 +69,7 @@ const setVideo = () => {
     <q-item>
       <!-- 영상 -->
       <q-item-section>
-        <q-video :ratio="`${props.ratio}`" :src="`${props.video}`"></q-video>
+        <!-- <q-video :ratio="`${props.ratio}`" :src="`${props.video}`"></q-video> -->
       </q-item-section>
     </q-item>
     <q-separator></q-separator>
@@ -96,7 +96,7 @@ const setVideo = () => {
 
 <style scoped>
 .my-card {
-  width: 100%; 
+  width: 100%;
   min-width: 15vw;
 }
 .coaching-name {
