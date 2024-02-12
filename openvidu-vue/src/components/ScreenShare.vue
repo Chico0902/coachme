@@ -9,6 +9,7 @@
     
 <script>
 export default {
+    name: "ScreenShare",
     props: {
         OVScreen: {
             type: Object
