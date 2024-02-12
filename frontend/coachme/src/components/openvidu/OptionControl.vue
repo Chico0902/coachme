@@ -18,15 +18,13 @@
       비디오
     </button>
 
-    <!-- <button @click="showParticipants" class="btn btn-info">
-      Show participants
-    </button>
+    <button @click="showParticipants" class="btn btn-info">Show participants</button>
     <div v-if="showParticipantsList">
       <h3>participants:</h3>
       <ul>
         <li v-for="(participant, index) in participants" :key="index">{{ participant }}</li>
       </ul>
-    </div> -->
+    </div>
   </div>
 </template>
 
