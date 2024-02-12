@@ -69,7 +69,7 @@ const setVideo = () => {
     <q-item>
       <!-- 영상 -->
       <q-item-section>
-        <!-- <q-video :ratio="`${props.ratio}`" :src="`${props.video}`"></q-video> -->
+        <q-video :ratio="`${props.ratio}`" :src="`${props.video}`"></q-video>
       </q-item-section>
     </q-item>
     <q-separator></q-separator>
