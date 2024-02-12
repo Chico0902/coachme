@@ -1,23 +1,22 @@
 <script setup>
 const props = defineProps({ buttonList: Object })
 const emit = defineEmits(['clickSubCategory'])
-
-const clickSubCategory = (name) => {
+const clickSubCategory = (index, name) => {
   props.buttonList.forEach((element) => {
     if (element.name === name) element.cssClass = 'selected-button'
     else element.cssClass = ''
   })
-  emit('clickSubCategory', name)
+  emit('clickSubCategory', index)
 }
 </script>
 <template>
   <div class="sidebar">
     <div
-      v-for="button in props.buttonList"
+      v-for="(button, index) in props.buttonList"
       :key="button.name"
       class="sidebar-button shadow-3"
       :class="button.cssClass"
-      @click="clickSubCategory(button.name)"
+      @click="clickSubCategory(index, button.name)"
     >
       <p>{{ button.name }}</p>
     </div>

@@ -34,14 +34,13 @@ const inputData = () => {
   input.value = ''
   emit('inputData', data)
 } // input에서 입력한 입력 데이터
-
 </script>
 
 <template>
   <div id="input">
     <inputs v-model="input" style="width: 100%" @update-data="updateData"></inputs>
     <buttons
-      style="height: 56px;"
+      style="height: 56px"
       icon="send"
       :background="props.background"
       :color="props.color"
@@ -53,9 +52,8 @@ const inputData = () => {
 
 <style scoped>
 #input {
-  display: flex;  
+  display: flex;
   width: 340px;
   padding-bottom: 0px;
 }
-
 </style>

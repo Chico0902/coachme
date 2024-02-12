@@ -161,7 +161,6 @@ export function getLiveCoachingCalendar(longId, success, fail) {
   authAxios.get(`/coaches/${longId}/calendar`).then(success).catch(fail)
 }
 
-
 /**
  * API번호 : coach-11
  * METHOD : GET
