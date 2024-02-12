@@ -31,20 +31,18 @@
           value="Leave session" />
         <OptionControl :publisher="publisher" :participants="participants" />
         <br />
-        <ScreenShare :OVScreen="OVScreen" :sessionScreen="sessionScreen" :screensharing="screensharing"
+        <Screenshare :OVScreen="OVScreen" :sessionScreen="sessionScreen" :screensharing="screensharing"
           @updateScreensharing="updateScreensharing" @updatePublisher="updatePublisher"></ScreenShare>
       </div>
+      <div style="background-color: gainsboro; padding: 30px;">
+        <RecordingView :session="mySessionId"></RecordingView>
+      </div>
       <div>
-        x5baApNszjexe-wK7od5
-
-
         <!-- 화면 공유시 공유화면 -->
         <div v-if="screenShare">
           <h2>공유 화면</h2>
           <user-video :stream-manager="screenShare" />
         </div>
-
-
         <!-- 내 화면 -->
         <h2>메인 카메라</h2>
         <user-video id="main-video" :stream-manager="mainStreamManager" />
@@ -56,8 +54,8 @@
             @click="updateMainVideoStreamManager(sub)">메인 카메라 바꾸기</button>
           <user-video :stream-manager="sub" />
         </div>
-
       </div>
+
 
     </div>
   </div>
@@ -68,7 +66,8 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
 import OptionControl from "./components/OptionControl.vue";
-import ScreenShare from "./components/ScreenShare.vue";
+import Screenshare from "./components/ScreenShare.vue";
+import RecordingView from "./components/RecordingView.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -79,8 +78,9 @@ export default {
 
   components: {
     UserVideo,
+    Screenshare,
     OptionControl,
-    ScreenShare,
+    RecordingView
   },
 
   data() {
