@@ -9,111 +9,49 @@ import InputForm from '@/components/molecules/InputForm.vue'
 import DmList from '@/components/molecules/DmList.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import { useCoachStore } from '@/stores/coach'
-import { postCoachesByCategory } from '@/utils/api/coach-api'
 import { onBeforeMount, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useChatStore } from '@/stores/chat-status'
-import { useAuthStore } from '@/stores/auth'
-import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 
 /**
  * VARIABLES
  */
 
-const selectButton = ref(0)
-const sideButtonList = [
-  [],
-  [{ name: 'ALL' }, { name: 'House' }, { name: 'Furniture' }, { name: 'Lifestyle' }, { name: 'Design' }],
-  [{ name: 'ALL' }, { name: 'Cooking' }, { name: 'Knitting' }, { name: 'Art' }, { name: 'Beauty' }],
-  [{ name: 'ALL' }, { name: 'Soccer' }, { name: 'Basketball' }, { name: 'Tennis' }, { name: 'Golf' }],
-  [{ name: 'ALL' }, { name: 'Frontend' }, { name: 'Backend' }, { name: 'Database' }, { name: 'DevOps' }],
-  [{ name: 'ALL' }, { name: 'Yoga' }, { name: 'Weight' }, { name: 'Running' }, { name: 'Crossfit' }]
-]
-const subCategories = ref([])
-const isMatching = ref(false)
-const selectedMainCategory = ref('all')
-const selectedSubCategory = ref('all')
-
 // pinia
 const coachStore = useCoachStore()
 const chatStore = useChatStore()
-const authStore = useAuthStore()
-const { isLogin } = storeToRefs(authStore)
-const { coaches } = storeToRefs(coachStore)
+const { coaches, selectedMainCategory, selectedSubCategory, subCategories } = storeToRefs(coachStore)
 const { useDmWindow } = storeToRefs(chatStore)
 
-// 로그인 여부
-const loginMemberId = isLogin.value ? decodeToken(getAccessToken()).longId : -1
+// for side button
+const buttonList = ref([])
 
 /**
  * METHODS
  */
 
+const { receiveCoachesByCategoryAndWord } = coachStore
 const { openChatList } = chatStore
-const changeListAndMatching = () => {
-  isMatching.value = !isMatching.value
-}
 
 // 전체 코치 조회
 onBeforeMount(() => {
-  postCoachesByCategory(
-    selectedMainCategory.value.toLowerCase(),
-    selectedSubCategory.value.toLowerCase(),
-    { words: 'all', loginMemberId },
-    (success) => {
-      console.log(success)
-      coaches.value = success.data.list
-      console.log(coaches.value)
-    },
-    (fail) => console.log(fail)
-  )
+  receiveCoachesByCategoryAndWord('all', 0, 'all')
 })
 
 // 대분류 코치 조회
-const clickCategory = (index, name) => {
-  selectButton.value = index
-  subCategories.value = sideButtonList[selectButton.value]
-  selectedMainCategory.value = name
-  postCoachesByCategory(
-    selectedMainCategory.value.toLowerCase(),
-    selectedSubCategory.value.toLowerCase(),
-    { words: 'all', loginMemberId },
-    (success) => {
-      coaches.value = success.data.list
-      console.log(success)
-    },
-    (fail) => console.log(fail)
-  )
+const clickCategory = (subCategoryIndex, mainCatagoryName) => {
+  receiveCoachesByCategoryAndWord(mainCatagoryName, subCategoryIndex, 'all')
+  buttonList.value = subCategories.value
 }
 
 // 소분류 코치 조회
-const clickSubCategory = (name) => {
-  selectedSubCategory.value = name
-  postCoachesByCategory(
-    selectedMainCategory.value.toLowerCase(),
-    selectedSubCategory.value.toLowerCase(),
-    { words: 'all', loginMemberId },
-    (success) => {
-      coaches.value = success.data.list
-      console.log(success)
-    },
-    (fail) => console.log(fail)
-  )
+const clickSubCategory = (subCategoryIndex) => {
+  receiveCoachesByCategoryAndWord(selectedMainCategory.value, subCategoryIndex, 'all')
 }
 
 // 검색 코치조회
-const searchByWords = (words) => {
-  if (words === '') words = 'all'
-  postCoachesByCategory(
-    selectedMainCategory.value.toLowerCase(),
-    selectedSubCategory.value.toLowerCase(),
-    { words: words.input, loginMemberId },
-    (success) => {
-      coaches.value = success.data.list
-      console.log(success)
-    },
-    (fail) => console.log(fail)
-  )
+const searchByWords = (keyword) => {
+  receiveCoachesByCategoryAndWord(selectedMainCategory.value, selectedSubCategory.value, keyword.input)
 }
 </script>
 <template>
