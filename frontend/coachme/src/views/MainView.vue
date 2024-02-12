@@ -5,8 +5,8 @@ import buttons from '../components/atoms/CustomButton.vue'
 import carousel from '../components/atoms/CustomCarousel.vue'
 import search from '../components/molecules/MainSearch.vue'
 import category from '../components/molecules/CustomCategory.vue'
-import coachCard from '../components/molecules/CoachCard.vue'
-import coachingCard from '../components/molecules/CoachingCard.vue'
+import CoachCard from '../components/molecules/CoachCard.vue'
+import CoachingCard from '../components/molecules/CoachingCard.vue'
 import footerBar from '../components/molecules/CustomFooter.vue'
 import MainSearchTitle from '../components/texts/MainSearchTitle.vue'
 import MainCategoryTitle from '../components/texts/MainCategoryTitle.vue'
@@ -194,7 +194,7 @@ onUnmounted(() => {
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
           <div v-for="(coach, index) in popularCoachList" :key="index" class="coach-card">
-            <coachCard :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></coachCard>
+            <CoachCard :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></CoachCard>
           </div>
         </div>
       </div>
@@ -203,11 +203,11 @@ onUnmounted(() => {
         <div class="coaching-title"><MainCoachingTitle /></div>
         <div class="coaching-card-outside">
           <div v-for="(coaching, index) in popularCoachingList" :key="index" class="coaching-card">
-            <coachingCard
+            <CoachingCard
               :label="coaching.coachingName"
               :caption="coaching.coachingReviewAvg"
               :video="coaching.coachingVideoUrl"
-            ></coachingCard>
+            ></CoachingCard>
           </div>
         </div>
       </div>
