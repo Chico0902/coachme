@@ -26,7 +26,10 @@ export const useChatStore = defineStore('chatStatus', () => {
     // 채팅목록 가져오기 api
     getMyDmRooms(
       myLongId.value,
-      (success) => (chatList.value = success.data.list),
+      (success) => {
+        console.log(success)
+        chatList.value = success.data.list
+      },
       (fail) => console.log(fail)
     )
   }
