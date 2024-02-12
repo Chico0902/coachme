@@ -103,10 +103,10 @@ export function deleteLikeCoaching(coameId, coachingId, success, fail) {
 /**
  * API번호 : like-5
  * METHOD : GET
- * URI : /like/{memberId}/coachings/{coachingId}
+ * URI : /like/check/{coameId}/coachings/{coachingId}
  * 권한 : 1
  * 설명 : 코미는 찜콩한 코칭에 대해서 확인할 수 있다.
- * @param {number} memberId
+ * @param {number} coameId
  * @param {number} coachingId
  * @param {Promise} success
  * 설명 : 정상 조회완료
@@ -121,17 +121,17 @@ export function deleteLikeCoaching(coameId, coachingId, success, fail) {
             message : String
           }
  */
-export function getCheckCoachingLike(memberId, coachingId, success, fail) {
-  authAxios.get(`/like/${memberId}/coachings/${coachingId}`).then(success).catch(fail)
+export function getCheckCoachingLike(coameId, coachingId, success, fail) {
+  authAxios.get(`/like/check/${coameId}/coachings/${coachingId}`).then(success).catch(fail)
 }
 
 /**
  * API번호 : like-6
  * METHOD : GET
- * URI : /like/{memberId}/coaches/{coachId}
+ * URI : /like/check/{coameId}/coaches/{coachId}
  * 권한 : 1
  * 설명 : 코미는 찜콩한 코치에 대해서 확인할 수 있다.
- * @param {number} memberId
+ * @param {number} coameId
  * @param {number} coachId
  * @param {Promise} success
  * 설명 : 정상 조회완료
@@ -146,6 +146,6 @@ export function getCheckCoachingLike(memberId, coachingId, success, fail) {
             message : String
           }
  */
-export function getCheckCoachLike(memberId, coachId, success, fail) {
-  authAxios.get(`/like/${memberId}/coachings/${coachId}`).then(success).catch(fail)
+export function getCheckCoachLike(coameId, coachId, success, fail) {
+  authAxios.get(`/like/check/${coameId}/coaches/${coachId}`).then(success).catch(fail)
 }
