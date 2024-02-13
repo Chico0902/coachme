@@ -53,7 +53,7 @@ public class CoachService {
     List<CoachesResponseDto> coachingList = new ArrayList<>();
     Set<Long> idSet = new HashSet<>();
 
-    List<Coaching> coachings = coachingRepository.findByCoachingCategory(division1, division2, coachesRequestDto.getWords(), coachesRequestDto.getLoginMemberId());
+    List<Coaching> coachings = coachingRepository.findByCoachCategory(division1, division2, coachesRequestDto.getWords(), coachesRequestDto.getLoginMemberId());
     for (Coaching coaching : coachings) {
       if (idSet.contains(coaching.getCoach().getLongId())) continue;
 
