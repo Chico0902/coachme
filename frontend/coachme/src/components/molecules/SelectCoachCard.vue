@@ -2,48 +2,30 @@
 import profile from '../atoms/ProfileImage.vue'
 import labels from '../atoms/CardLabel.vue'
 import Button from '@/components/atoms/CustomButton.vue'
-import { ref, onMounted, watch } from 'vue'
+import router from '@/router'
+import { ref } from 'vue'
 import { useChatStore } from '../../stores/chat-status'
 
-const store = useChatStore()
+/**
+ * VARIABLES
+ */
 
-const { requestDm } = store
-// 피니아에 저장된 채팅 활성화 함수
+// in pinia
+const chatStore = useChatStore()
+const { openChatByMemberId } = chatStore
 
+// in props
 const props = defineProps({
-  coachName: {
-    type: String,
-    default: ''
-  }, // 코치 이름
-  coaching: {
-    type: String,
-    default: ''
-  }, // 제공 코칭
-  rating: {
-    type: String,
-    default: ''
-  }, // 별점
-  reviewCount: {
-    type: String
-  }, // 리뷰수
-  img: {
-    type: String,
-    default: ''
-  } // 코치 프로필 사진
+  id: Number,
+  coachName: String,
+  coaching: String,
+  rating: String,
+  reviewCount: String,
+  img: String
 })
 
-const stars = ref(0)
-
-onMounted(() => {
-  stars.value = props.rating
-}) // 별점을 props의 값으로 바꾸기
-
-watch(
-  () => stars.value,
-  (newState) => {
-    stars.value = newState
-  }
-) // 별점 값이 바뀌면 갱신하기
+// for render
+const stars = ref(props.rating)
 </script>
 
 <template>
@@ -62,7 +44,7 @@ watch(
   </q-item>
 
   <!-- 제공 코칭과 별점 영역-->
-  <q-item class="justify-evenly">
+  <q-item class="justify-evenly" style="margin-top: 3rem">
     <!-- 공간 분리-->
     <q-item-section>
       <q-space></q-space>
@@ -85,13 +67,17 @@ watch(
   <!-- 코치 버튼 영역 -->
   <q-item class="coach-button">
     <q-item-section vertical>
-      <Button label="포트폴리오 보기" style="background-color: #fcbf17; color: white"></Button>
+      <Button
+        label="상세보기"
+        style="background-color: #fcbf17; color: black"
+        @click="router.push(`/search/coach/detail/${props.id}`)"
+      ></Button>
     </q-item-section>
     <q-item-section>
       <Button
         label="채팅하기"
-        style="background-color: #1a66da; color: white; height: 8vh"
-        @click="requestDm()"
+        style="background-color: #1a66da; color: white"
+        @click="openChatByMemberId(props.id, props.coachName, props.img)"
       ></Button>
     </q-item-section>
   </q-item>
