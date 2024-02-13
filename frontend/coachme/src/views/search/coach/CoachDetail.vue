@@ -5,11 +5,14 @@ import ChatBox from '@/components/molecules/CoachChatBox.vue'
 import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
+import Swal from 'sweetalert2'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getCoachDetailPage } from '@/utils/api/coach-api'
 import { getCoachReview, postcoachReview } from '@/utils/api/review-api'
+import { deleteMyReview } from '@/utils/api/review-api'
+
 
 const route = useRoute()
 
@@ -40,6 +43,12 @@ const reviewData = (data) => {
       dto,
       (success) => {
         console.log(success)
+        Swal.fire({
+          icon: "success",
+          title: "리뷰를 작성했습니다.",
+          showConfirmButton: true,
+          timer: 1500
+        });
         resolve()
       },
       (fail) => {
@@ -50,8 +59,8 @@ const reviewData = (data) => {
     // 리뷰 작성 후 정보들 다시 리로드
 
     // 코치 상세 정보
-      getCoachDetailPage(
-        coachId.value,
+    getCoachDetailPage(
+      coachId.value,
       (success) => {
         console.log(success)
         coachDetail.value = success.data
@@ -59,20 +68,70 @@ const reviewData = (data) => {
       (fail) => {
         console.log(fail)
       }
-    ), 
-    // 코치 리뷰
-    getCoachReview(
+    ),
+      // 코치 리뷰
+      getCoachReview(
+        coachId.value,
+        (success) => {
+          console.log(success)
+          reviews.value = success.data.list
+        },
+        (fail) => {
+          console.log(fail)
+        }
+      )
+  })
+
+}
+
+// 리뷰 삭제
+const deleteReview = (reviewId) => {
+
+  new Promise((resolve, reject) =>
+
+    // 리뷰 삭제
+    deleteMyReview(
+      reviewId,
+      (success) => {
+        console.log(success)
+        Swal.fire({
+          icon: "success",
+          title: "리뷰를 삭제했습니다.",
+          showConfirmButton: true,
+          timer: 1500
+        });  
+        resolve()
+      },
+      (fail) => {
+        reject(fail)
+      }
+    )
+  ).then(() => {
+    // 리뷰 작성 후 정보들 다시 리로드
+
+    // 코치 상세 정보
+    getCoachDetailPage(
       coachId.value,
       (success) => {
         console.log(success)
-        reviews.value = success.data.list
+        coachDetail.value = success.data
       },
       (fail) => {
         console.log(fail)
       }
-    )
+    ),
+      // 코치 리뷰
+      getCoachReview(
+        coachId.value,
+        (success) => {
+          console.log(success)
+          reviews.value = success.data.list
+        },
+        (fail) => {
+          console.log(fail)
+        }
+      )
   })
-
 }
 
 onBeforeMount(() => {
@@ -117,7 +176,7 @@ onBeforeMount(() => {
           <div class="profile">
             <!-- 코치 상세 정보 -->
             <CoachDetailCard :coach="coachDetail.coachName" :rating-model="coachDetail.reviewAvg"
-              :review-count="coachDetail.reviewCount"></CoachDetailCard>
+              :review-count="coachDetail.reviewCount" :img="coachDetail.coachProfileImageUrl"></CoachDetailCard>
             <q-separator></q-separator>
 
             <!-- 코치 포트폴리오 중단 메뉴 -->
@@ -150,7 +209,8 @@ onBeforeMount(() => {
             <div class="coach-review">
               <h2>리뷰</h2>
               <Reviews :reviews="reviews" :rating-model="coachDetail.reviewAvg"
-                v-bind:review-count="coachDetail.reviewCount" @review-data="reviewData"></Reviews>
+                v-bind:review-count="coachDetail.reviewCount" @review-data="reviewData" @delete-review="deleteReview">
+              </Reviews>
             </div>
           </div>
         </div>

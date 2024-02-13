@@ -44,7 +44,7 @@ const stars = ref(props.rating)
   </q-item>
 
   <!-- 제공 코칭과 별점 영역-->
-  <q-item class="justify-evenly" style="margin-top: 3rem">
+  <q-item class="justify-evenly" >
     <!-- 공간 분리-->
     <q-item-section>
       <q-space></q-space>
