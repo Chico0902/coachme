@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LikeRepository extends JpaRepository<Likes, Long> {
   Likes findByCoameAndCoach(Member coame, Member coach);
+
   Likes findByCoameAndCoaching(Member coame, Coaching coaching);
 }

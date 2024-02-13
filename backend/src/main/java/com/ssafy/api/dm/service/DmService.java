@@ -72,15 +72,14 @@ public class DmService {
   public List<DmRoomResponseDto> getDmRoomList(long memberId) throws Exception {
     List<DmRoomResponseDto> dmRoomList = new ArrayList<>();
     List<DMRoom> dmrooms = dmRoomRepository.findByMemberId(memberId);
-    log.debug("dmrooms---------------------{}", dmrooms.size());
 
-    for(DMRoom dmRoom : dmrooms){
+    for (DMRoom dmRoom : dmrooms) {
       DmRoomResponseDto dto = new DmRoomResponseDto();
       dto.setRoomId(dmRoom.getId());
-      if(dmRoom.getMember1().getLongId() == memberId){
+      if (dmRoom.getMember1().getLongId() == memberId) {
         dto.setMemberName(dmRoom.getMember2().getName());
         dto.setMemberProfileUrl(dmRoom.getMember2().getProfileImage().getUrl());
-      }else{
+      } else {
         dto.setMemberName(dmRoom.getMember1().getName());
         dto.setMemberProfileUrl(dmRoom.getMember1().getProfileImage().getUrl());
       }

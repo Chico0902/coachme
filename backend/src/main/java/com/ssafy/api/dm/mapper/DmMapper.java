@@ -1,10 +1,7 @@
 package com.ssafy.api.dm.mapper;
 
 import com.ssafy.api.dm.dto.response.DmListDto;
-import com.ssafy.api.dm.dto.response.DmRoomResponseDto;
 import com.ssafy.db.entity.DM;
-import com.ssafy.db.entity.DMRoom;
-import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

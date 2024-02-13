@@ -2,8 +2,14 @@ package com.ssafy.db.entity;
 
 import com.ssafy.db.entity.type.ReviewLikeType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Likes extends BaseEntity {
 
   @Id

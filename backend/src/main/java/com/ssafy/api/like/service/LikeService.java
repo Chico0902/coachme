@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Slf4j
 public class LikeService {
-  
+
   private final LikeRepository likeRepository;
   private final MemberRepository memberRepository;
   private final CoachingRepository coachingRepository;
@@ -26,9 +26,12 @@ public class LikeService {
   /**
    * 코치 찜콩
    */
-  public void sendLikeCoach(Long coameId, Long coachId) {
+  public void sendLikeCoach(Long coameId, Long coachId) throws Exception {
     Member coame = memberRepository.getReferenceById(coameId);
     Member coach = memberRepository.getReferenceById(coachId);
+    if (coame.isCoachInLikes(coach)) {
+      throw new Exception("like coach duplicated");
+    }
     Likes like = new Likes();
     like.likeCoach(coame, coach);
   }
@@ -36,31 +39,40 @@ public class LikeService {
   /**
    * 코칭 찜콩
    */
-  public void sendLikeCoaching(Long coameId, Long coachingId) {
+  public void sendLikeCoaching(Long coameId, Long coachingId) throws Exception {
     Member coame = memberRepository.getReferenceById(coameId);
     Coaching coaching = coachingRepository.getReferenceById(coachingId);
+    if (coame.isCoachingInLikes(coaching)) {
+      throw new Exception("like coaching duplicated");
+    }
     Likes like = new Likes();
     like.likeCoaching(coame, coaching);
   }
 
   /**
-   * 코치 찜콩
+   * 코치 찜콩 취소
    */
-  public void unlikeCoach(Long coameId, Long coachId) {
+  public void unlikeCoach(Long coameId, Long coachId) throws Exception {
     Member coame = memberRepository.getReferenceById(coameId);
     Member coach = memberRepository.getReferenceById(coachId);
+    if (!coame.isCoachInLikes(coach)) {
+      throw new Exception("like coach not found");
+    }
     Likes like = likeRepository.findByCoameAndCoach(coame, coach);
-    likeRepository.delete(like);
+    coame.getSendLikes().remove(like);
   }
 
   /**
-   * 코칭 찜콩
+   * 코칭 찜콩 취소
    */
-  public void unlikeCoaching(Long coameId, Long coachingId) {
+  public void unlikeCoaching(Long coameId, Long coachingId) throws Exception {
     Member coame = memberRepository.getReferenceById(coameId);
     Coaching coaching = coachingRepository.getReferenceById(coachingId);
+    if (coame.isCoachingInLikes(coaching)) {
+      throw new Exception("like coaching not found");
+    }
     Likes like = likeRepository.findByCoameAndCoaching(coame, coaching);
-    likeRepository.delete(like);
+    coame.getSendLikes().remove(like);
   }
 
   /**
@@ -71,7 +83,7 @@ public class LikeService {
     Coaching coaching = coachingRepository.getReferenceById(coachingId);
     Likes like = likeRepository.findByCoameAndCoaching(coame, coaching);
     CheckCoachingLikeDto dto = new CheckCoachingLikeDto();
-    if(like == null) {
+    if (like == null) {
       dto.setIslike(false);
     } else {
       dto.setIslike(true);
@@ -88,7 +100,7 @@ public class LikeService {
     Member coach = memberRepository.getReferenceById(coachId);
     Likes like = likeRepository.findByCoameAndCoach(coame, coach);
     CheckCoachLikeDto dto = new CheckCoachLikeDto();
-    if(like == null) {
+    if (like == null) {
       dto.setIslike(false);
     } else {
       dto.setIslike(true);
