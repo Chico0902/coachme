@@ -53,12 +53,10 @@ const createNewCoaching = () => {
     contentHTML.value === ''
   ) {
     Swal.fire({
-      title: "생성 실패",
-      text: "작성하지 않은 항목이 있습니다.",
-      icon: "info"
-    });
-    // 기존코드
-    // alert('작성하지 않은 항목이 있습니다.')
+      title: '생성 실패',
+      text: '작성하지 않은 항목이 있습니다.',
+      icon: 'info'
+    })
     return
   }
   const longId = decodeToken(getAccessToken()).longId
@@ -75,18 +73,18 @@ const createNewCoaching = () => {
     dto,
     () => {
       Swal.fire({
-        icon: "success",
-        title: "생성 완료!",
-      });
+        icon: 'success',
+        title: '생성 완료!'
+      })
       // 기존코드
       // alert('등록 완료')
       router.push({ name: 'Desktop-5-3' })
     },
     (error) => {
       Swal.fire({
-        icon: "fail",
-        title: "등록 실패!",
-      });
+        icon: 'fail',
+        title: '등록 실패!'
+      })
       // 기존 코드
       // alert('등록 실패')
       console.log(error)
@@ -96,10 +94,14 @@ const createNewCoaching = () => {
 </script>
 <template>
   <div class="create-coaching-outside">
+    <div class="main-title">
+      코칭 생성하기
+      <div class="editor-detail">코칭의 카테고리를 선택하고, 원하는 코칭을 생성하세요!</div>
+    </div>
     <div class="create-coaching-box">
       <div class="category-box">
         <div class="big-category">
-          <label for="category">대분류</label>
+          <label class="title" for="category">대분류</label>
           <q-select
             filled
             v-model="selectedCategory"
@@ -108,7 +110,7 @@ const createNewCoaching = () => {
           />
         </div>
         <div class="small-category">
-          <label for="subCategory">소분류</label>
+          <label class="title" for="subCategory">소분류</label>
           <q-select
             filled
             v-model="selectedSubCategory"
@@ -127,7 +129,10 @@ const createNewCoaching = () => {
       </div>
       <div class="title">코칭 상세설명</div>
 
-      <div class="quill-input">
+      <div class="quill-input" style="margin-bottom: 0.5rem">
+        <div class="editor-detail" style="margin-bottom: 1rem">
+          코미와 방문자들이 확인하는 양식입니다. 본인의 멋진 코칭을 마음껏 꾸며주세요!
+        </div>
         <QuillEditor theme="snow" v-model:content="contentHTML" contentType="html" style="min-height: 20vh" />
       </div>
 
@@ -142,6 +147,23 @@ const createNewCoaching = () => {
   </div>
 </template>
 <style scoped>
+.title {
+  font-size: 1.1rem;
+}
+.main-title {
+  display: inline-block;
+  font-size: 2rem;
+  margin-top: 1.5rem;
+  margin-left: 3rem;
+  margin-bottom: 1rem;
+}
+.editor-detail {
+  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+  color: #034c8c;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
 .create-coaching-box {
   width: 80%;
   margin: 5vh auto;
