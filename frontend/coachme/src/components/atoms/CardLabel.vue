@@ -13,9 +13,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <q-item-label>{{label}}</q-item-label>
+  <q-item-label >{{label}}</q-item-label>
 </template>
 
 <style scoped>
+div{
+  flex-direction: row;
+}
 
 </style>
