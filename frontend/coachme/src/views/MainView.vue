@@ -237,7 +237,7 @@ const searchByCategory = (index, label) => {
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
           <div v-for="(coach, index) in popularCoachList" :key="index" class="coach-card">
-            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl" :coachIndex="index"></card>
+            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl" :coachIndex="index" :maincoaching="coach.coachingInfo"></card>
           </div>
         </div>
       </div>
