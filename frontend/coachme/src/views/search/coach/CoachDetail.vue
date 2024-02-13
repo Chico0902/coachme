@@ -199,7 +199,6 @@ const changeMenu = (e) => {
 
 // 코칭 보여주기
 const showCoaching = (mainCategory, name, subCategory, summary, id) => {
-  console.log('show!!')
   coachingMainCategory.value = mainCategory
   coachingName.value = name
   coachingSubCategory.value = subCategory
@@ -260,11 +259,10 @@ const showCoaching = (mainCategory, name, subCategory, summary, id) => {
                           coaching.coachingName,
                           coaching.coachingSubCategory,
                           coaching.coachingSummary,
-                          coaching.id
+                          coaching.coachingId
                         )
                       "
                     >
-                      <!-- @click="router.push(`/search/coach/detail/${coaching.id}`)" -->
                       {{ coaching.coachingName }}
                     </div>
                   </q-chip>
@@ -276,7 +274,7 @@ const showCoaching = (mainCategory, name, subCategory, summary, id) => {
                     <q-item>
                       <q-item-section>
                         <q-item-label class="coaching-name">{{ coachingName }}</q-item-label>
-                        <q-item-label caption class="coaching-caption">{{ coachingSummary }}</q-item-label>
+                        <q-item-label caption class="coaching-detail">{{ coachingSummary }}</q-item-label>
                       </q-item-section>
                     </q-item>
                   </q-card-section>
@@ -447,6 +445,13 @@ h2 {
   margin-bottom: 0.3rem;
   font-size: 1.3rem;
   font-family: 'TheJamsil5Bold';
+}
+.coaching-detail {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  margin-right: 0.5rem;
+  font-family: 'TheJamsil5Bold';
+  color: #c7c183;
 }
 .coaching-caption {
   font-size: 1.1rem;
