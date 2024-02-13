@@ -4,6 +4,7 @@ import com.ssafy.api.coaching.dto.request.CoachingRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.dto.response.LiveCoachingsResponseDto;
+import com.ssafy.api.coaching.dto.response.VideosInCoachingResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
 import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
@@ -124,6 +125,15 @@ public class CoachingController {
   public ResponseEntity<?> getLiveCoachingsByCoachingId(@PathVariable Long coachingId) {
 
     List<LiveCoachingsResponseDto> list = coachingService.getLiveCoachingsByCoachingId(coachingId);
+
+    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
+  }
+
+  @GetMapping("/{coachingId}/videos")
+  public ResponseEntity<?> getVideosInCoaching(@PathVariable Long coachingId) {
+
+    List<VideosInCoachingResponseDto> list = coachingService.getVideos(coachingId);
+
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
 }
