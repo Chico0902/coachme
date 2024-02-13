@@ -29,11 +29,23 @@ const changePortfolio = () => {
     dto,
     (success) => {
       console.log(success)
-      alert('코칭 수정완료')
+      Swal.fire({
+        icon: "success",
+        title: "수정 완료",
+      });
+      // 기존코드
+      // alert('코칭 수정완료')
     },
     (fail) => {
       console.log(fail)
-      alert('등록 실패!')
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      // alert('등록 실패!')
     }
   )
 }
