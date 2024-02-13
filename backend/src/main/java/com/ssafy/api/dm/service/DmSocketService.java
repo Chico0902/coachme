@@ -7,6 +7,7 @@ import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -22,13 +24,17 @@ import java.util.Collections;
 public class DmSocketService {
   private final MemberRepository memberRepository;
   private final RedisUtils redisUtils;
+  private final StringRedisTemplate stringRedisTemplate;
 
   public DmSocketResponseMessage sendDm(DmSocketRequestMessage message, String roomId) {
     LocalDateTime now = LocalDateTime.now();
     String time = now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
     String key = roomId + "_" + message.getSender() + "_" + time;
     String value = message.getContent();
-    redisUtils.save(key, value);
+
+    stringRedisTemplate.opsForValue().set(key, value);
+    log.debug("key {}, value {}", key, value);
+
     DmSocketResponseMessage returnMessage = new DmSocketResponseMessage();
 
     long id = Long.parseLong(message.getSender());
