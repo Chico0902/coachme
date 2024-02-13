@@ -26,6 +26,13 @@ const ratingScore = computed(() => Math.round(props.reviews.score * 10) / 10);
 
 const longId = decodeToken(getAccessToken()).longId
 
+const emit = defineEmits(['deleteReview'])
+
+const deleteReview = (reviewId) => {
+  emit('deleteReview', reviewId)
+}
+
+
 </script>
 
 <template>
@@ -54,7 +61,7 @@ const longId = decodeToken(getAccessToken()).longId
         <q-item-section class="card-margin" v-if="longId === props.reviews.coameId">
           <div class="row no-wrap items-center justify-end" style="color : gray;">
             <EditButton style="width: fit-content;"></EditButton>
-            <DeleteButton style="width: fit-content;"></DeleteButton>
+            <DeleteButton style="width: fit-content;" @click="deleteReview(reviews.reviewId)"></DeleteButton>
           </div>
         </q-item-section>
 

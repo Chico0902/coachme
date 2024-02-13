@@ -6,12 +6,14 @@ import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
+import Swal from 'sweetalert2'
 import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCoachingDetailPage, getAllLivesInCoaching } from '@/utils/api/coaching-api'
 import { getVideoList } from '@/utils/api/coach-api'
 import { getCoachingReview, postcoachingReview } from '@/utils/api/review-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { deleteMyReview } from '@/utils/api/review-api'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 
 /**
@@ -78,14 +80,6 @@ const timeTable = computed(() => {
   return scheduleList.value[getDateKey(date.value)]
 })
 
-// 코치의 전체 영상 중, 현재 코칭에 해당하는 영상만 추출
-const groupedFilteredVideos = computed(() => {
-  const grouped = []
-  const filtered = videos.value.filter((video) => video.coachingId == videoCoachingId.value)
-  filtered.forEach((video) => grouped.push(video))
-  return grouped
-})
-
 /**
  * METHODS
  */
@@ -145,6 +139,12 @@ const reviewData = (data) => {
       dto,
       (success) => {
         console.log(success)
+          Swal.fire({
+          icon: "success",
+          title: "리뷰를 작성했습니다.",
+          showConfirmButton: true,
+          timer: 1500
+        });
         resolve()
       },
       (fail) => {
@@ -172,6 +172,56 @@ const reviewData = (data) => {
         (fail) => console.log(fail)
       )
   })
+}
+
+// 리뷰 삭제
+const deleteReview = (reviewId) => {
+
+new Promise((resolve, reject) =>
+
+  // 리뷰 삭제
+  deleteMyReview(
+    reviewId,
+    (success) => {
+      console.log(success)
+      Swal.fire({
+        icon: "success",
+        title: "리뷰를 삭제했습니다.",
+        showConfirmButton: true,
+        timer: 1500
+      });
+      resolve()
+    },
+    (fail) => {
+      reject(fail)
+    }
+  )
+).then(() => {
+  // 리뷰 작성 후 정보들 다시 리로드
+
+  // 코치 상세 정보
+  getCoachingDetailPage(
+    coachingLongId.value,
+    (success) => {
+      console.log(success)
+      coachingDetail.value = success.data
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  ),
+    // 코치 리뷰
+    getCoachingReview(
+      coachingLongId.value,
+      (success) => {
+        console.log(success)
+        reviews.value = success.data.list
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    )
+})
 }
 
 
@@ -243,6 +293,7 @@ onBeforeMount(() => {
             <CoachingDetailCard
               :title="coachingDetail.coachingName"
               :coach="coachingDetail.coachName"
+              :img="coachingDetail.coachProfileImageUrl"
               :rating-model="coachingDetail.reviewAvg"
               :review-count="coachingDetail.reviewCount"
               :bread-crumbs="breadCrumbs"
@@ -288,13 +339,13 @@ onBeforeMount(() => {
               <div class="coaching-video-list">
                 <h2>영상 목록</h2>
                 <div class="coaching-card-outside element-with-scrollbar">
-                  <div v-if="groupedFilteredVideos.length > 0">
+                  <div v-if="videos.length > 0">
                     <div
-                      v-for="videoGroup in groupedFilteredVideos"
+                      v-for="videoGroup in videos"
                       :key="videoGroup.coachingName"
                       class="coaching-card"
                     >
-                      <CoachingCard :label="videoGroup.videoName" :ratio="16 / 9"></CoachingCard>
+                      <CoachingCard :label="videoGroup.videoName" :video="videoGroup.url" :ratio="16 / 9"></CoachingCard>
                     </div>
                   </div>
                   <div v-else class="coaching-card" style="font-size: 16px">조회 가능한 영상이 없습니다.</div>
@@ -311,6 +362,7 @@ onBeforeMount(() => {
                   :rating-model="coachingDetail.reviewAvg"
                   v-bind:review-count="coachingDetail.reviewCount"
                   @review-data="reviewData"
+                  @delete-review="deleteReview"
                 ></Reviews>
               </div>
             </template>
