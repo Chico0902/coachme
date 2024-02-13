@@ -4,6 +4,7 @@ import com.ssafy.api.coaching.dto.request.CoachingRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.dto.response.LiveCoachingsResponseDto;
+import com.ssafy.api.coaching.dto.response.VideosInCoachingResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
 import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
@@ -49,6 +50,7 @@ public class CoachingController {
    */
   @GetMapping("/live/{id}/coames")
   public ResponseEntity<?> getCoameList(@PathVariable Long id) {
+
     List<CoameListResponseDto> responseList = coachingService.getCoameList(id);
 
     return new ResponseEntity<>(new ListDataDto(responseList), HttpStatus.OK);
@@ -68,7 +70,9 @@ public class CoachingController {
       @PathVariable("division1") String division1,
       @PathVariable("division2") String division2,
       @RequestBody CoachingRequestDto coachingRequestDto) {
+
     ListDataDto listDataDto = new ListDataDto(coachingService.getCoachingList(division1, division2, coachingRequestDto));
+
     return new ResponseEntity<>(listDataDto, HttpStatus.OK);
   }
 
@@ -81,6 +85,7 @@ public class CoachingController {
    */
   @GetMapping("/{coachingId}")
   public ResponseEntity<CoachingDetailResponseDto> getCoachingDetail(@PathVariable("coachingId") long coachingId) {
+
     CoachingDetailResponseDto responseDto = coachingService.getCoachingDetail(coachingId);
 
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -94,7 +99,9 @@ public class CoachingController {
    */
   @GetMapping("/popular")
   public ResponseEntity<ListDataDto> getPopularCoaching() {
+
     ListDataDto responseDto = new ListDataDto(coachingService.getPopularCoaching());
+
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 
@@ -109,7 +116,9 @@ public class CoachingController {
   @GetMapping("/{coachingId}/videos/{fileId}")
   public ResponseEntity<?> registRepresentVideo(@PathVariable("coachingId") Long coachingId,
                                                 @PathVariable("fileId") Long fileId) {
+
     coachingService.registRepresentVideo(coachingId, fileId);
+
     return new ResponseEntity<>(new MessageDto("regist video successfully"), HttpStatus.OK);
   }
 
@@ -124,6 +133,20 @@ public class CoachingController {
   public ResponseEntity<?> getLiveCoachingsByCoachingId(@PathVariable Long coachingId) {
 
     List<LiveCoachingsResponseDto> list = coachingService.getLiveCoachingsByCoachingId(coachingId);
+
+    return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
+  }
+
+  /**
+   * [coaching-8] 코칭 상세페이지에서 해당 코칭의 영상 목록을 조회한다.
+   * @param coachingId - 코칭 pk
+   * @return - [200] 영상 url 리스트
+   */
+  @GetMapping("/{coachingId}/videos")
+  public ResponseEntity<?> getVideosInCoaching(@PathVariable Long coachingId) {
+
+    List<VideosInCoachingResponseDto> list = coachingService.getVideos(coachingId);
+
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
 }

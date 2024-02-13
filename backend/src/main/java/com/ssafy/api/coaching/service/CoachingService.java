@@ -13,6 +13,7 @@ import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.*;
+import com.ssafy.util.file.Mapper.FileMapper;
 import com.ssafy.util.file.repository.FileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -254,5 +255,13 @@ public class CoachingService {
   public List<LiveCoachingsResponseDto> getLiveCoachingsByCoachingId(Long coachingId) {
     List<LiveCoaching> liveCoachingList = liveCoachingRepository.findByCoachingId(coachingId);
     return CoachingMapper.instance.liveCoachingToResponseDto(liveCoachingList);
+  }
+
+  /**
+   * 코칭의 영상 리스트를 가져오는 메서드
+   */
+  public List<VideosInCoachingResponseDto> getVideos(Long coachingId) {
+    List<File> videosList = fileRepository.findByCoachingId(coachingId);
+    return FileMapper.instance.fileToVideosInCoachingResponseDto(videosList);
   }
 }
