@@ -22,10 +22,10 @@ const props = defineProps({
   },
   reviewCount: {
     type: Number
-  }
+  }, 
 })
 
-const emit = defineEmits(['reviewData'])
+const emit = defineEmits(['reviewData'], ['deleteReview'])
 
 const coachRating = computed(() => Math.round(props.ratingModel * 10) / 10);
 
@@ -37,6 +37,10 @@ const updateData = (data) => {
   emit('reviewData', reviewData)
 }
 // 입력폼에서 입력받은 내용과 별점을 상위 컴포넌트로 보내는 함수
+
+const deleteReview = (reviewId) => {
+  emit('deleteReview', reviewId)
+}
 
 </script>
 
@@ -74,7 +78,7 @@ const updateData = (data) => {
         <!-- 리뷰가 보여지는 곳 -->
         <q-item-section v-if="reviews && reviews.length > 0" class="card-margin">         
           <div v-for="(review, index) in reviews" :key="review">
-            <Reviews :reviews="review"></Reviews>
+            <Reviews :reviews="review" @delete-review="deleteReview"></Reviews>
             <!-- 마지막 리뷰 이외에는 구분선-->
             <div v-if="index != reviews.length - 1"><q-separator spaced></q-separator></div>
           </div>
