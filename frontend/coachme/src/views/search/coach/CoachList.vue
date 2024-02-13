@@ -12,7 +12,7 @@ import { useCoachStore } from '@/stores/coach'
 import { onBeforeMount, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useChatStore } from '@/stores/chat-status'
-
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 /**
  * VARIABLES
  */
@@ -20,7 +20,8 @@ import { useChatStore } from '@/stores/chat-status'
 // pinia
 const coachStore = useCoachStore()
 const chatStore = useChatStore()
-const { coaches, selectedMainCategory, selectedSubCategory, subCategories } = storeToRefs(coachStore)
+const { selectedMainCategory, selectedSubCategory, subCategories } = storeToRefs(coachStore)
+const { sideButtonList } = coachStore
 const { useDmWindow } = storeToRefs(chatStore)
 
 // for side button
@@ -29,6 +30,10 @@ const buttonList = ref([])
 // for card <-> list
 const isMatching = ref(false)
 
+// for route param
+const router = useRouter()
+const route = useRoute()
+
 /**
  * METHODS
  */
@@ -36,25 +41,44 @@ const isMatching = ref(false)
 const { receiveCoachesByCategoryAndWord } = coachStore
 const { openChatList } = chatStore
 
-// 전체 코치 조회
+// 최초 로딩
 onBeforeMount(() => {
-  receiveCoachesByCategoryAndWord('all', 0, 'all')
+  const category1 = route.params.category1
+  const category2 = route.params.category2
+  const keyword = route.params.keyword
+  receiveCoachesByCategoryAndWord(category1, category2, keyword)
+})
+
+// router param으로 검색
+onBeforeRouteUpdate((to) => {
+  const category1 = to.params.category1
+  const category2 = to.params.category2
+  const keyword = to.params.keyword
+  receiveCoachesByCategoryAndWord(category1, category2, keyword)
 })
 
 // 대분류 코치 조회
 const clickCategory = (subCategoryIndex, mainCatagoryName) => {
-  receiveCoachesByCategoryAndWord(mainCatagoryName, subCategoryIndex, 'all')
+  const upperCategory1 = mainCatagoryName.toLowerCase()
+  router.push(`/search/coach/list/${upperCategory1}/all/all`)
+
+  // 세부 카테고리 변경
+  subCategories.value = sideButtonList[subCategoryIndex]
   buttonList.value = subCategories.value
 }
 
 // 소분류 코치 조회
 const clickSubCategory = (subCategoryIndex) => {
-  receiveCoachesByCategoryAndWord(selectedMainCategory.value, subCategoryIndex, 'all')
+  const upperCategory1 = selectedMainCategory.value.toLowerCase()
+  const upperCategory2 = buttonList.value[subCategoryIndex].name.toLowerCase()
+  router.push(`/search/coach/list/${upperCategory1}/${upperCategory2}/all`)
 }
 
 // 검색 코치조회
 const searchByWords = (keyword) => {
-  receiveCoachesByCategoryAndWord(selectedMainCategory.value, selectedSubCategory.value, keyword.input)
+  const upperCategory1 = selectedMainCategory.value.toLowerCase()
+  const upperCategory2 = selectedSubCategory.value.toLowerCase()
+  router.push(`/search/coach/list/${upperCategory1}/${upperCategory2}/${keyword.input}`)
 }
 </script>
 <template>
@@ -68,11 +92,13 @@ const searchByWords = (keyword) => {
       <CustomCategory style="margin-top: 3vh" @click-category="clickCategory"></CustomCategory>
       <div class="mypage-outside">
         <!-- 사이드메뉴 -->
-        <SearchCategorySidebar :button-list="subCategories" @click-sub-category="clickSubCategory" />
+        <SearchCategorySidebar :button-list="buttonList" @click-sub-category="clickSubCategory" />
         <div class="rightPage">
           <!-- 검색창 -->
           <div>
-            <InputForm class="search" @inputData="searchByWords"></InputForm>
+            <form @submit.prevent="inputData">
+              <InputForm class="search" @inputData="searchByWords"></InputForm>
+            </form>
           </div>
           <div class="mainpage">
             <!-- 코치 매칭 카드  -->
