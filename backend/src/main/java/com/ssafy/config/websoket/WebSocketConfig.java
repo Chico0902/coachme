@@ -29,9 +29,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     registry.addEndpoint("/ws-dm").setAllowedOrigins("*");
   }
 
-//  @Override
-//  public void configureClientInboundChannel(ChannelRegistration registration) {
-//    registration.interceptors(chatPreHandler);
-//  }
+  @Override
+  public void configureClientInboundChannel(ChannelRegistration registration) {
+    registration.interceptors(chatPreHandler);
+  }
 
 }
