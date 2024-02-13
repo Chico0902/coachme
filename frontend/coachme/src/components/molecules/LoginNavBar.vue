@@ -6,6 +6,7 @@
 <script setup>
 import profile from '../atoms/ProfileImage.vue'
 import sidebar from '../atoms/Sidebar.vue'
+import buttons from '@/components/atoms/CustomButton.vue'
 import { ref } from 'vue'
 import { useMemberStore } from '@/stores/member'
 import { storeToRefs } from 'pinia'
@@ -15,6 +16,7 @@ const memberStore = useMemberStore()
 const authStore = useAuthStore()
 const { profileImageUrl } = storeToRefs(memberStore)
 const { isLogin } = storeToRefs(authStore)
+console.log(isLogin.value)
 
 const sidebarOpen = ref(false)
 // 사이드바 오픈 여부
@@ -62,11 +64,18 @@ else sideMenu.push({ name: '로그인', link: '/login' })
       <q-space></q-space>
 
       <!-- 프로필 사진 -->
-      <q-btn flat>
-        <router-link to="/mypage">
-          <profile :img="profileImageUrl"></profile>
-        </router-link>
-      </q-btn>
+      <template v-if="isLogin">
+        <q-btn flat>
+          <router-link to="/mypage">
+            <profile :img="profileImageUrl"></profile>
+          </router-link>
+        </q-btn>
+      </template>
+      <template v-else>
+        <RouterLink to="/login">
+          <buttons flat :name="`login`" :label="`로그인`"></buttons>
+        </RouterLink>
+      </template>
     </q-toolbar>
 
     <!-- 사이드바 -->

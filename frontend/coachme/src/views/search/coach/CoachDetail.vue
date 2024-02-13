@@ -223,6 +223,7 @@ const showCoaching = (mainCategory, name, subCategory, summary, id) => {
               :coach="coachDetail.coachName"
               :rating-model="coachDetail.reviewAvg"
               :review-count="coachDetail.reviewCount"
+              :img="coachDetail.coachProfileImageUrl"
             ></CoachDetailCard>
             <q-separator></q-separator>
 
