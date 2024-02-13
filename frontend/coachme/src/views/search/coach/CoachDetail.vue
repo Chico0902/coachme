@@ -268,51 +268,22 @@ const showCoaching = (mainCategory, name, subCategory, summary, id) => {
                   </q-chip>
                 </div>
               </div>
-              <q-dialog v-model="show">
-                <q-card>
-                  <q-card-section class="bg-primary text-white">
-                    <q-item>
-                      <q-item-section>
-                        <q-item-label class="coaching-name">{{ coachingName }}</q-item-label>
-                        <q-item-label caption class="coaching-detail">{{ coachingSummary }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-card-section>
-                  <q-separator></q-separator>
-                  <q-card-section class="bg-amber-5" style="text-align: center">
-                    <span class="coaching-caption">
-                      {{ coachingMainCategory.replace(/^[a-z]/, (char) => char.toUpperCase()) }}</span
-                    >
-                    <span class="coaching-caption-small">
-                      {{ coachingSubCategory.replace(/^[a-z]/, (char) => char.toUpperCase()) }}</span
-                    >
-                  </q-card-section>
-                  <q-separator></q-separator>
-                  <q-card-actions class="modal-option" align="right">
-                    <q-btn
-                      flat
-                      label="상세보기"
-                      color="primary"
-                      @click="router.push(`/search/coaching/detail/${coachingId}`)"
-                    />
-                    <q-btn flat label="취소" color="primary" v-close-popup />
-                  </q-card-actions>
-                </q-card>
-              </q-dialog>
             </template>
 
             <!-- 리뷰 -->
-            <div class="coach-review">
-              <h2>리뷰</h2>
-              <Reviews
-                :reviews="reviews"
-                :rating-model="coachDetail.reviewAvg"
-                v-bind:review-count="coachDetail.reviewCount"
-                @review-data="reviewData"
-                @delete-review="deleteReview"
-              >
-              </Reviews>
-            </div>
+            <template v-if="currentMenu === 'review'">
+              <div class="coach-review">
+                <h2>리뷰</h2>
+                <Reviews
+                  :reviews="reviews"
+                  :rating-model="coachDetail.reviewAvg"
+                  v-bind:review-count="coachDetail.reviewCount"
+                  @review-data="reviewData"
+                  @delete-review="deleteReview"
+                >
+                </Reviews>
+              </div>
+            </template>
           </div>
         </div>
         <!-- 우측 안내창 -->
@@ -331,6 +302,33 @@ const showCoaching = (mainCategory, name, subCategory, summary, id) => {
   <div class="footer">
     <footerBar />
   </div>
+
+  <q-dialog v-model="show">
+    <q-card>
+      <q-card-section class="bg-primary text-white">
+        <q-item>
+          <q-item-section>
+            <q-item-label class="coaching-name">{{ coachingName }}</q-item-label>
+            <q-item-label caption class="coaching-detail">{{ coachingSummary }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-card-section>
+      <q-separator></q-separator>
+      <q-card-section class="bg-amber-5" style="text-align: center">
+        <span class="coaching-caption">
+          {{ coachingMainCategory.replace(/^[a-z]/, (char) => char.toUpperCase()) }}</span
+        >
+        <span class="coaching-caption-small">
+          {{ coachingSubCategory.replace(/^[a-z]/, (char) => char.toUpperCase()) }}</span
+        >
+      </q-card-section>
+      <q-separator></q-separator>
+      <q-card-actions class="modal-option" align="right">
+        <q-btn flat label="상세보기" color="primary" @click="router.push(`/search/coaching/detail/${coachingId}`)" />
+        <q-btn flat label="취소" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style scoped>
