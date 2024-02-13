@@ -157,12 +157,12 @@ const searchByWords = (keyword) => {
 .mypage-outside {
   display: flex;
   justify-content: space-between;
+  max-height: 70vh;
 }
 
 .rightPage {
   background-color: white;
   width: 80%;
-  height: 80vh;
   margin-left: 4%;
   margin-top: 3vh;
   border-radius: 1.5rem;
@@ -184,7 +184,6 @@ const searchByWords = (keyword) => {
 .mainpage {
   background-color: white;
   width: 100%;
-  height: 70vh;
   margin-top: -1vh;
   overflow: scroll;
   display: flex;
@@ -212,7 +211,7 @@ const searchByWords = (keyword) => {
 
 .chat-button {
   position: fixed;
-  bottom: 60px;
+  bottom: 12vh;
   right: 14vw;
   color: #fff;
   text-align: center;

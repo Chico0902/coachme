@@ -230,12 +230,12 @@ const deleteReview = (reviewId) => {
 onBeforeMount(() => {
   if (authStore.isLogin === false) {
     Swal.fire({
-          icon: 'fail',
-          title: '로그인이 필요합니다.',
-          text: ' 로그인 페이지로 이동합니다.',
-          showConfirmButton: true,
-          timer: 1500
-        })
+      icon: 'fail',
+      title: '로그인이 필요합니다.',
+      text: ' 로그인 페이지로 이동합니다.',
+      showConfirmButton: true,
+      timer: 1500
+    })
     router.push('/login')
   }
 
@@ -432,10 +432,7 @@ onBeforeMount(() => {
 .mainpage {
   background-color: white;
   width: 80%;
-  height: 70vh;
   margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
   border-radius: 1.5rem;
   overflow: scroll;
   display: flex;
