@@ -2,8 +2,11 @@
 import Labels from '../atoms/CardLabel.vue'
 import Like from '../atoms/CustomLike.vue'
 import CustomButton from '../atoms/CustomButton.vue'
-import { computed } from 'vue'
+import { onBeforeMount, computed, ref } from 'vue'
 import { useChatStore } from '../../stores/chat-status.js'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { getLikeCoach,  deleteLikeCoach,  getCheckCoachLike } from '@/utils/api/like-api'
+
 
 const store = useChatStore()
 const { requestDm } = store
@@ -13,11 +16,60 @@ const props = defineProps({
   coach: {
     // 코치 이름
     type: String
+  }, coachId: {
+    type: Number
   }
 })
 
 const chatLabel = computed(() => props.coach + '님께 문의해보세요.');
 // 코치이름에 따라 반응형으로 변경
+
+const myLongId = ref()
+const likeState = ref(false)
+
+
+onBeforeMount(() => {
+  myLongId.value = decodeToken(getAccessToken()).longId
+
+  new Promise((resolve, reject) =>
+
+    getCheckCoachLike(
+      myLongId.value, props.coachId,
+      (success) => {
+        console.log(success)
+        likeState.value = success.data.islike
+        console.log(likeState.value)
+        resolve()
+      },
+      (fail) => reject(fail)
+    )
+  )}
+)
+
+const changeState = () => {
+  if(likeState.value === true) {
+    deleteLikeCoach(
+      myLongId.value, props.coachId,
+      (success) => {
+        console.log(success)
+      },
+      (fail) => console.log(fail)
+    )
+    likeState.value = !likeState.value
+
+  } else {
+    getLikeCoach(
+      myLongId.value, props.coachId,
+      (success) => {
+        console.log(success)
+      },
+      (fail) => console.log(fail)
+    )
+    likeState.value = !likeState.value
+  }
+
+}
+
 </script>
 
 <template>
@@ -30,7 +82,7 @@ const chatLabel = computed(() => props.coach + '님께 문의해보세요.');
         <!-- 침콩 버튼과 채팅하기 버튼 -->
         <q-item-section>
           <div class="buttons card-margin">
-            <Like></Like>
+            <Like :like="likeState" @click="changeState"></Like>
             <CustomButton
               style="width: 100px; height: 20px; background-color: #fcbf17; color: black"
               @click="requestDm()"

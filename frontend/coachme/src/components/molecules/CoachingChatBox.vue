@@ -2,8 +2,10 @@
 import Labels from '../atoms/CardLabel.vue'
 import CustomButton from '../atoms/CustomButton.vue'
 import CustomLike from '../atoms/CustomLike.vue'
-import { computed } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { useChatStore } from '../../stores/chat-status.js'
+import { getLikeCoaching,  deleteLikeCoaching,  getCheckCoachingLike } from '@/utils/api/like-api'
 
 const store = useChatStore()
 const { requestDm } = store
@@ -13,11 +15,60 @@ const props = defineProps({
   coach: {
     // 코치 이름
     type: String
+  }, 
+  coachingId: {
+    type: Number,
   }
 })
 
 const chatLabel = computed(() => props.coach + '님께 문의해보세요.')
 // 코치이름에 따라 반응형으로 변경
+
+const myLongId = ref()
+const likeState = ref(false)
+
+onBeforeMount(() => {
+  myLongId.value = decodeToken(getAccessToken()).longId
+
+  new Promise((resolve, reject) =>
+
+    getCheckCoachingLike(
+      myLongId.value, props.coachingId,
+      (success) => {
+        console.log(success)
+        likeState.value = success.data.islike
+        console.log(likeState.value)
+        resolve()
+      },
+      (fail) => reject(fail)
+    )
+  )}
+)
+
+const changeState = () => {
+  if(likeState.value === true) {
+    deleteLikeCoaching(
+      myLongId.value, props.coachingId,
+      (success) => {
+        console.log(success)
+      },
+      (fail) => console.log(fail)
+    )
+    likeState.value = !likeState.value
+
+  } else {
+    getLikeCoaching(
+      myLongId.value, props.coachingId,
+      (success) => {
+        console.log(success)
+      },
+      (fail) => console.log(fail)
+    )
+    likeState.value = !likeState.value
+  }
+
+}
+
 </script>
 
 <template>
@@ -32,7 +83,7 @@ const chatLabel = computed(() => props.coach + '님께 문의해보세요.')
 
         <!-- 찜콩 버튼 -->
         <q-item-section style="margin: 0vh auto -2vh">
-          <CustomLike></CustomLike>
+          <CustomLike :like="likeState" @click="changeState"></CustomLike>
         </q-item-section>
 
         <!-- 코칭 신청하기 버튼과 채팅하기 버튼 -->
