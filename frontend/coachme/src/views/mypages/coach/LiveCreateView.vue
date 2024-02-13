@@ -143,8 +143,11 @@ function getDateKey(dateTime) {
 </script>
 
 <template>
+  <div class="main-title">
+    라이브 생성
+    <div class="editor-detail">원하시는 코칭과 날짜를 선택하고, 생성 버튼을 클릭하세요.</div>
+  </div>
   <div class="coaching-outside">
-    <div class="coaching-title title">코칭 이름</div>
     <div class="coaching-select">
       <q-select
         class="select"
@@ -210,6 +213,17 @@ function getDateKey(dateTime) {
 </template>
 
 <style scoped>
+.main-title {
+  display: inline-block;
+  font-size: 2rem;
+  margin-top: 1.5rem;
+  margin-left: 3rem;
+}
+.editor-detail {
+  margin-left: 0.5rem;
+  color: #034c8c;
+  font-size: 0.9rem;
+}
 .button-container {
   display: flex;
   justify-content: center;
@@ -234,14 +248,6 @@ function getDateKey(dateTime) {
   width: 80%;
   justify-content: center;
   margin: 2rem auto;
-}
-.coaching-title {
-  width: 50%;
-  max-width: 50%;
-}
-
-.coaching-title .title {
-  margin-bottom: 10px;
 }
 
 select {
