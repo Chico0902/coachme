@@ -229,7 +229,13 @@ const deleteReview = (reviewId) => {
 
 onBeforeMount(() => {
   if (authStore.isLogin === false) {
-    alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.')
+    Swal.fire({
+          icon: 'fail',
+          title: '로그인이 필요합니다.',
+          text: ' 로그인 페이지로 이동합니다.',
+          showConfirmButton: true,
+          timer: 1500
+        })
     router.push('/login')
   }
 
