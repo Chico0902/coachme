@@ -33,6 +33,10 @@ const props = defineProps({
   coachIndex: {
     type: Number,
     default: -1
+  },
+  maincoaching:{
+    type: String,
+    default:''
   }
 })
 
@@ -80,7 +84,7 @@ const caption = typeof props.caption === 'number' ? Math.round(props.caption * 1
     <q-separator></q-separator>
     <q-item>
     <q-item-section>
-        <q-space>hi</q-space>
+      <span class="popcoaching">대표 코칭</span><labels :label="maincoaching"></labels>
       </q-item-section>
     </q-item>
   </q-card>
@@ -114,5 +118,9 @@ const caption = typeof props.caption === 'number' ? Math.round(props.caption * 1
 }
 .star-num{
   align-items: center;
+}
+.popcoaching{
+  font-size: x-small;
+  color: rgb(150, 150, 150);
 }
 </style>
