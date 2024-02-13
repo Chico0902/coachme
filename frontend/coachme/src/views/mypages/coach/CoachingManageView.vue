@@ -39,47 +39,49 @@ onBeforeMount(() => {
 })
 </script>
 <template>
-  <div class="outside">
-    <div class="portfolio-layout">
-      <div class="coaching-list-outside">
-        <div class="coaching-list-top">
-          <h5>내 코칭목록</h5>
-          <div class="menu SMN_effect-42">
-            <RouterLink :to="{ name: 'Desktop-5-4' }"><span data-hover="코칭만들기">코칭만들기</span></RouterLink>
-          </div>
-        </div>
-        <div class="coaching-list-main">
-          <template v-if="coachings != undefined && coachings.length > 0">
-            <q-list class="list" v-ripple v-for="(coaching, index) in coachings" :key="index">
-              <q-item>
-                <q-item-section>
-                  <a href="#" @click.prevent="router.push(`/search/coaching/detail/${coaching.id}`)">
-                    <q-item-label class="coaching-name">{{ coaching.name }}</q-item-label>
-                    <q-item-label caption class="coaching-caption">{{ coaching.summary }}</q-item-label>
-                  </a>
-                </q-item-section>
-
-                <q-item-section side top>
-                  <q-item-label caption class="coaching-caption">{{ coaching.main }}</q-item-label>
-                  <q-item-label class="category">{{ coaching.sub }}</q-item-label>
-                </q-item-section>
-
-                <q-item-section side>
-                  <button class="custom-btn btn-7" @click.prevent="showPortfolio(coaching.htmlDocs)">코칭 상세</button>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </template>
-          <template v-else>
-            <p>현재 등록된 코칭이 없습니다.</p>
-            <p style="text-align: center">
-              <span style="font-size: 1.3rem; margin-right: 1rem">코칭 만들기</span>
-              버튼을 통해 지금 나만의 코칭을 등록하세요!
-            </p>
-          </template>
-        </div>
+  <div class="coaching-list-top">
+    <div class="main-title">
+      나의 코칭관리
+      <div class="editor-detail">
+        <template v-if="coachings != undefined && coachings.length > 0">
+          이름을 누르면 상세페이지로 이동하며, 상세 버튼으로 세부정보를 확인할 수 있습니다.
+        </template>
+        <template v-else>
+          <span style="font-size: 1.3rem; margin-right: 0.5rem">코칭 만들기</span> 버튼을 통해 지금 나만의 코칭을
+          등록하세요!
+        </template>
       </div>
     </div>
+    <div class="menu SMN_effect-42">
+      <RouterLink :to="{ name: 'Desktop-5-4' }"><span data-hover="코칭만들기">코칭만들기</span></RouterLink>
+    </div>
+  </div>
+  <div class="coaching-list-main">
+    <template v-if="coachings != undefined && coachings.length > 0">
+      <q-list class="list" v-ripple v-for="(coaching, index) in coachings" :key="index">
+        <q-item>
+          <q-item-section>
+            <a href="#" @click.prevent="router.push(`/search/coaching/detail/${coaching.id}`)">
+              <q-item-label class="coaching-name">{{ coaching.name }}</q-item-label>
+              <q-item-label caption class="coaching-caption">{{ coaching.summary }}</q-item-label>
+            </a>
+          </q-item-section>
+
+          <q-item-section side top>
+            <q-item-label caption class="coaching-caption">{{
+              coaching.main.replace(/^[a-z]/, (char) => char.toUpperCase())
+            }}</q-item-label>
+            <q-item-label class="category">{{
+              coaching.sub.replace(/^[a-z]/, (char) => char.toUpperCase())
+            }}</q-item-label>
+          </q-item-section>
+
+          <q-item-section side>
+            <button class="custom-btn btn-7" @click.prevent="showPortfolio(coaching.htmlDocs)">코칭 상세</button>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </template>
   </div>
   <q-dialog v-model="show">
     <q-card>
@@ -104,15 +106,20 @@ a {
   text-decoration: none;
   color: #034c8c;
 }
-.title {
-  border-bottom: 2px solid black;
-  display: inline-block;
-  margin: 2rem 3rem;
+.editor-detail {
+  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+  color: #034c8c;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
 }
 
-.portfolio-layout {
-  width: 80%;
-  margin: auto;
+.main-title {
+  display: inline-block;
+  font-size: 2rem;
+  margin-top: 1.5rem;
+  margin-left: 3rem;
+  margin-bottom: 1rem;
 }
 .intro-box {
   display: flex;
@@ -129,6 +136,7 @@ a {
   align-items: center;
 }
 .coaching-list-top {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -136,6 +144,7 @@ a {
 .coaching-list-main {
   width: 100%;
   margin: 2vh 0;
+  padding-left: 2rem;
 }
 .coaching-name {
   margin: 0;
@@ -166,6 +175,7 @@ a {
   display: flex;
   align-items: center;
   margin: 1rem 2rem;
+  min-width: 10rem;
 }
 .menu a {
   color: rgba(0, 0, 0, 0.8);
