@@ -30,21 +30,21 @@ const changePortfolio = () => {
     (success) => {
       console.log(success)
       Swal.fire({
-        icon: "success",
-        title: "수정 완료",
-      });
+        icon: 'success',
+        title: '수정 완료'
+      })
       // 기존코드
       // alert('코칭 수정완료')
     },
     (fail) => {
       console.log(fail)
       Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your work has been saved",
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your work has been saved',
         showConfirmButton: false,
         timer: 1500
-      });
+      })
       // alert('등록 실패!')
     }
   )
@@ -63,7 +63,10 @@ onBeforeMount(() => {
 </script>
 <template>
   <div class="main-font-container">
-    <div class="main-title">나의 포트폴리오</div>
+    <div class="main-title">포트폴리오 관리</div>
+    <div class="editor-detail">
+      아래 포트폴리오는 코미나 방문자들이 확인 가능한 양식입니다. 멋진 포트폴리오로 전문성을 마음껏 어필해보세요!
+    </div>
   </div>
   <div class="editor-container">
     <div class="editor">
