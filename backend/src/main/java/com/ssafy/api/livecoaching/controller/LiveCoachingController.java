@@ -40,8 +40,8 @@ public class LiveCoachingController {
       throws OpenViduJavaClientException, OpenViduHttpException {
     SessionProperties properties = SessionProperties.fromJson(params).build();
     log.debug("properties {}", properties);
-
-    Session session = openvidu.createSession(properties);
+    log.debug("openVidu: {}", openvidu);
+    Session session = openvidu.createSession();
     log.debug("session {}", session);
 
     return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
