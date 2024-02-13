@@ -14,6 +14,7 @@ import CustomBreadCrumbs from '../atoms/CustomBreadCrumbs.vue'
 import CustomButton from '../atoms/CustomButton.vue'
 import VideoModal from './VideoModal.vue'
 import { ref, computed } from 'vue'
+import router from '@/router'
 
 const props = defineProps({
   title: {
@@ -51,6 +52,11 @@ const ratingScore = computed(() => Math.round(props.ratingModel * 10) / 10)
 
 const videoPreviews = ref(false)
 // 미리보기 영상 모달 띄우기 여부
+
+const goSearchPage = (menu, index) => {
+  if (index === 0) router.push(`/search/coaching/list/${menu}/all/all`)
+  else router.push(`/search/coaching/list/all/${menu}/all`)
+}
 </script>
 
 <template>
@@ -59,7 +65,7 @@ const videoPreviews = ref(false)
       <q-item-section vertical>
         <!-- 코칭 대분류와 소분류-->
         <q-item-section style="margin-left: 0.5vw">
-          <CustomBreadCrumbs :coaching-category="props.breadCrumbs"></CustomBreadCrumbs>
+          <CustomBreadCrumbs :coaching-category="props.breadCrumbs" @goSearch="goSearchPage"></CustomBreadCrumbs>
         </q-item-section>
 
         <!-- 코칭 제목 -->

@@ -6,17 +6,23 @@ import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
+import footerBar from '@/components/molecules/CustomShortFooter.vue'
+import router from '@/router'
 import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCoachingDetailPage, getAllLivesInCoaching } from '@/utils/api/coaching-api'
 import { getVideoList } from '@/utils/api/coach-api'
 import { getCoachingReview, postcoachingReview } from '@/utils/api/review-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
-import footerBar from '@/components/molecules/CustomShortFooter.vue'
+import { useAuthStore } from '@/stores/auth'
 
 /**
  * VARIABLES
  */
+
+// in pinia
+const authStore = useAuthStore()
+
 const route = useRoute()
 const menus = ref(['코칭 소개', '라이브 일정', '영상 목록', '리뷰']) // 메뉴
 const videoCoachingId = ref(1) // 영상 조회용 코칭 id
@@ -130,17 +136,16 @@ const reviewData = (data) => {
   myLongId.value = decodeToken(getAccessToken()).longId
 
   const dto = {
-    "coameId": myLongId.value,
-    "coachingId": coachingLongId.value,
-    "comment": data.review,
-    "score": data.rating
+    coameId: myLongId.value,
+    coachingId: coachingLongId.value,
+    comment: data.review,
+    score: data.rating
   }
   // 리뷰 dto
 
   // 리뷰 작성 후 리로드
   new Promise((resolve, reject) =>
-
-  // 리뷰 작성
+    // 리뷰 작성
     postcoachingReview(
       dto,
       (success) => {
@@ -165,17 +170,21 @@ const reviewData = (data) => {
     // 코칭 리뷰
     getCoachingReview(
       coachingLongId.value,
-        (success) => {
-          console.log(success)
-          reviews.value = success.data.list
-        },
-        (fail) => console.log(fail)
-      )
+      (success) => {
+        console.log(success)
+        reviews.value = success.data.list
+      },
+      (fail) => console.log(fail)
+    )
   })
 }
 
-
 onBeforeMount(() => {
+  if (authStore.isLogin === false) {
+    alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.')
+    router.push('/login')
+  }
+
   const coachingId = route.params.id
   let coachId
   coachingLongId.value = coachingId
@@ -431,6 +440,7 @@ h2 {
   margin-left: 1.2vw;
   margin-top: 2vh;
   font-size: 16px;
+  padding-bottom: 1rem;
 }
 
 .coaching-live-schedule {
