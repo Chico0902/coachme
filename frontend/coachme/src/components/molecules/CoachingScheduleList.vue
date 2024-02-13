@@ -11,13 +11,14 @@ const apply = (id) => {
   getApplyLiveCoaching(
     id,
     longId,
-    (success) => {
-      console.log(success)
-      alert('신청 완료')
+    (response) => {
+      if (response.status === 200) alert('신청 완료')
+      else if (response.response.status === 500 && response.response.data.message === 'sign up duplicated')
+        alert('이미 신청한 라이브 강의입니다.')
+      else console.log(response)
     },
     (fail) => {
       console.log(fail)
-      alert('')
     }
   )
 }

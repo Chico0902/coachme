@@ -54,7 +54,13 @@ const refreshInterceptor = authAxios.interceptors.response.use(
           alert('리프레쉬 토큰이 없습니다.')
           router.push('/login')
           return Promise.reject(fail)
+        } else if (fail.response.data.message === 'Refresh Token is Forged') {
+          alert('리프레쉬 토큰이 변경되었습니다.')
+          router.push('/login')
+          return Promise.reject(fail)
         }
+      } else {
+        return fail
       }
     } catch (e) {
       return Promise.reject(fail)
