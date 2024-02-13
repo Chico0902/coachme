@@ -63,7 +63,7 @@ const login = (id, pw) => {
       Swal.fire({
         // position: "top-end",
         icon: 'success',
-        title: '로그인성공',
+        title: '로그인 성공',
         showConfirmButton: false,
         timer: 1500
       })
