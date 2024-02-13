@@ -1,68 +1,85 @@
-<script setup>
-import InputForm from './InputForm.vue'
-
-const props = defineProps({
-  directMessage: {
-    type: Object
-    // 주의 directMessage chat 부분은 []로 쌓인 배열이어야 함
-  },
-  myId: {
-    // 내 id
-    type: String
-  }
-})
-
-const background = 'white'
-</script>
+<script setup></script>
 
 <template>
-  <div class="q-pa-md row justify-center window-box">
-    <div class="q-pa-md row justify-center chat-box">
-      <div style="width: 100%">
-        <div class="title">Live Chat</div>
-        <div v-for="list in props.directMessage" :key="list">
-          <!-- 자신이 보낸 부분-->
-          <div v-if="props.myId == list.id">
-            <q-chat-message :name="list.id" :text="list.chat" sent bg-color="amber-7"></q-chat-message>
-          </div>
-
-          <!-- 나 외에 다른 사람이 보낸 부분-->
-          <div v-else>
-            <q-chat-message :name="list.id" :text="list.chat" size="6" text-color="white" bg-color="primary">
-            </q-chat-message>
-          </div>
-        </div>
+  <q-page id="window" style="padding-top: 60px; padding-bottom: 60px" class="window-box" padding>
+    <div v-for="chat in chats" :key="chat">
+      <div v-if="chat.memberId === myLongId">
+        <q-chat-message
+          :avatar="chat.memberProfileUrl"
+          :text="chat.message"
+          sent
+          bg-color="amber-5"
+          :stamp="`${parseTime(chat.createDate)}`"
+        ></q-chat-message>
+      </div>
+      <div v-else>
+        <q-chat-message
+          :avatar="chat.memberProfileUrl"
+          :name="chat.memberName"
+          :text="chat.message"
+          text-color="white"
+          bg-color="primary"
+          :stamp="`${parseTime(chat.createDate)}`"
+        ></q-chat-message>
       </div>
     </div>
-    <div class="input">
-      <InputForm :background="background" bg-color="white"></InputForm>
-    </div>
-  </div>
+    <div id="end" style="height: 55px"></div>
+    <q-page-sticky expand position="bottom">
+      <q-toolbar class="bg-white">
+        <form @submit.prevent="sendMessage">
+          <q-input bottom-slots v-model="newMessage" counter dense style="min-width: 276px">
+            <template v-slot:after>
+              <q-btn @click="sendMessage" round dense flat icon="send" :disabled="!connected" />
+            </template>
+          </q-input>
+        </form>
+      </q-toolbar>
+    </q-page-sticky>
+    <q-page-sticky expand position="top">
+      <q-toolbar class="bg-amber-5 text-white">
+        <span class="coach-name-container">라이브 채팅목록</span>
+        <q-space />
+        <q-btn dense flat icon="close" @click="$emit('chatOff')" />
+      </q-toolbar>
+    </q-page-sticky>
+  </q-page>
 </template>
 
 <style scoped>
 .window-box {
-  height: 70vh;
-  width: 95%;
-  margin: auto;
+  text-align: left;
+  color: black;
+  font-size: 0.9rem;
 }
-
-.title {
-  text-align: center;
-  margin-bottom: 1vh;
+.coach-name-container {
+  color: black;
+  font-size: 0.9rem;
+  margin-left: 0.7rem;
+  font-weight: bold;
+  line-height: normal;
 }
-
-.chat-box {
-  width: 100%;
-  height: calc(100% - 60px);
+.dm-window-container {
+  position: fixed;
+  bottom: 150px;
+  right: 10vw;
+  color: #fff;
   background-color: white;
-  overflow-y: auto;
+  text-align: center;
+  z-index: 7000;
+  max-height: 600px;
+  max-width: 300px;
+  overflow: scroll;
 }
 
 .material-symbols-outlined {
   font-size: 25px;
 }
 .input {
-  max-width: 400px;
+  min-width: 200px;
+  min-height: 30px;
+  max-height: 60px;
+  overflow: scroll;
+  display: flex;
+  align-self: baseline;
 }
 </style>
