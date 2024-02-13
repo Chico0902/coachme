@@ -9,7 +9,9 @@ reviewCount : 리뷰수. 숫자. 코치가 받은 리뷰 수
 import InputForm from './InputForm.vue';
 import Reviews from './ReviewCard.vue';
 import Labels from '../atoms/CardLabel.vue';
+import router from '@/router'
 import { ref, computed } from 'vue'
+
 
 const props = defineProps({
   reviews: {
