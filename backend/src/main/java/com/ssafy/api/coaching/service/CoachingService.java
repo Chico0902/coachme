@@ -257,6 +257,9 @@ public class CoachingService {
     return CoachingMapper.instance.liveCoachingToResponseDto(liveCoachingList);
   }
 
+  /**
+   * 코칭의 영상 리스트를 가져오는 메서드
+   */
   public List<VideosInCoachingResponseDto> getVideos(Long coachingId) {
     List<File> videosList = fileRepository.findByCoachingId(coachingId);
     return FileMapper.instance.fileToVideosInCoachingResponseDto(videosList);
