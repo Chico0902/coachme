@@ -10,4 +10,5 @@ public class PopularCoachResponseDto {
   String coachProfileImageUrl;
   String coachName;
   float coachingReviewAvg;
+  String coachingInfo;
 }
