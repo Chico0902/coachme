@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class CoachingReviewsResponseDto {
+  private long reviewId;
   private long coameId;
   private long coachingId;
   private String comment;

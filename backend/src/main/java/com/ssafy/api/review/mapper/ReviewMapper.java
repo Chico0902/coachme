@@ -13,6 +13,7 @@ import java.util.List;
 public interface ReviewMapper {
   ReviewMapper instance = Mappers.getMapper(ReviewMapper.class);
 
+  @Mapping(source = "id", target = "reviewId")
   @Mapping(source = "coame.longId", target = "coameId")
   @Mapping(source = "coach.longId", target = "coachId")
   @Mapping(source = "coame.nickName", target = "nickName")
@@ -20,6 +21,7 @@ public interface ReviewMapper {
 
   List<CoachReviewsResponseDto> reviewToCoachReviewsResponseDtoList(List<Review> reviewList);
 
+  @Mapping(source = "id", target = "reviewId")
   @Mapping(source = "coame.longId", target = "coameId")
   @Mapping(source = "coaching.id", target = "coachingId")
   @Mapping(source = "coame.nickName", target = "nickName")
