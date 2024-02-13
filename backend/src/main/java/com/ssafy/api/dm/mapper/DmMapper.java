@@ -18,25 +18,6 @@ import java.util.List;
 public interface DmMapper {
   DmMapper instance = Mappers.getMapper(DmMapper.class);
 
-  @Mapping(source = "id", target = "roomId")
-  @Mapping(source = "member2.name", target = "memberName")
-  @Mapping(source = "member2.profileImage.url", target = "memberProfileUrl")
-  @Named("member1")
-  DmRoomResponseDto dmRoomToDmRoomMember1ResponseDto(DMRoom dmRoom);
-
-  @Mapping(source = "id", target = "roomId")
-  @Mapping(source = "member1.name", target = "memberName")
-  @Mapping(source = "member1.profileImage.url", target = "memberProfileUrl")
-  @Named("member2")
-  DmRoomResponseDto dmRoomToDmRoomMember2ResponseDto(DMRoom dmRoom);
-
-  @IterableMapping(qualifiedByName = {"member1"})
-  List<DmRoomResponseDto> dmRoomToDmRoomMember1ResponseDtoList(List<DMRoom> dmRoom);
-
-  @IterableMapping(qualifiedByName = {"member2"})
-  List<DmRoomResponseDto> dmRoomToDmRoomMember2ResponseDtoList(List<DMRoom> dmRoom);
-
-
   @Mapping(source = "member.longId", target = "memberId")
   @Mapping(source = "member.name", target = "memberName")
   @Mapping(source = "member.profileImage.url", target = "memberProfileUrl")

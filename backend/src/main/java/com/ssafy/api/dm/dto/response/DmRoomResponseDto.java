@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class DmRoomResponseDto {
-  private int roomId;
+  private long roomId;
   private String memberProfileUrl;
   private String memberName;
   private String lastDm;
