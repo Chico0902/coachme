@@ -297,7 +297,7 @@ onBeforeMount(() => {
               :rating-model="coachingDetail.reviewAvg"
               :review-count="coachingDetail.reviewCount"
               :bread-crumbs="breadCrumbs"
-              :previewVideoSrc="videoLink"
+              :previewVideoSrc="coachingDetail.representUrl"
               style="margin-left: 0.6vw"
             >
             </CoachingDetailCard>
