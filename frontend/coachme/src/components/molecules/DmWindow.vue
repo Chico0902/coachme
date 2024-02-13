@@ -51,7 +51,7 @@ function connectWebSocket() {
   if (client.value === null) {
     return new Promise((resolve, reject) => {
       client.value = new Client({
-        brokerURL: 'ws://i10A403.p.ssafy.io:7777/api/ws-dm',
+        brokerURL: 'wss://i10A403.p.ssafy.io:7777/api/ws-dm',
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
