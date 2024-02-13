@@ -2,9 +2,11 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getDmsByMemberId, getDmsByRoomId, getMyDmRooms } from '@/utils/api/dm-api'
+import { useAuthStore } from './auth'
 import router from '@/router'
 
 export const useChatStore = defineStore('chatStatus', () => {
+  const authStore = useAuthStore
   const useDmWindow = ref(false)
   const roomId = ref('')
   const myLongId = ref('')
@@ -22,6 +24,10 @@ export const useChatStore = defineStore('chatStatus', () => {
   // 채팅목록 가져오기
   async function openChatList() {
     // 로그인 여부 체크
+    if (!authStore.isLogin) {
+      alert('로그인이 필요합니다.')
+      return
+    }
     myLongId.value = decodeToken(getAccessToken()).longId
     // 채팅목록 가져오기 api
     getMyDmRooms(
@@ -52,12 +58,11 @@ export const useChatStore = defineStore('chatStatus', () => {
   // 문의하기
   function openChatByMemberId(getCoachId, getCoachName, getProfileImg) {
     // 로그인 여부 체크
-    try {
-      myLongId.value = decodeToken(getAccessToken()).longId
-    } catch (e) {
-      alert(e)
-      router.push('/login')
+    if (!authStore.isLogin) {
+      alert('로그인이 필요합니다.')
+      return
     }
+    myLongId.value = decodeToken(getAccessToken()).longId
     coachId.value = getCoachId
     coachName.value = getCoachName
     coachImageUrl.value = getProfileImg
