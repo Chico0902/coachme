@@ -37,7 +37,7 @@ const props = defineProps({
   },
   liked: {
     type: Function,
-    default: () => {}
+    default: () => { }
   },
   visible: {
     type: Boolean,
@@ -84,11 +84,28 @@ const setVideo = () => {
       <q-item-section v-if="visible" class="likebtn">
         <like class="likebtn" :clicked="liked"></like>
       </q-item-section>
-      <!-- 대표 영상 설정 -->
+    </q-item>
+    <q-separator v-if="!visible"></q-separator>
+    <!-- 대표 영상 설정 -->
+    <q-item>
       <q-item-section v-if="!visible">
-        <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
-          <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
-        </q-btn>
+        <div class="buttons">
+          <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
+            <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
+          </q-btn>
+          <q-btn padding="xs" color="blue-10" icon="edit">
+            <q-tooltip class="bg-blue">편집하기</q-tooltip>
+          </q-btn>
+          <q-btn padding="xs" color="amber-7">
+            <span class="material-symbols-outlined">
+              smart_toy
+            </span>
+            <q-tooltip class="bg-blue">AI에게 요청하기</q-tooltip>
+          </q-btn>
+          <q-btn padding="xs" icon="download" color="blue-10">
+            <q-tooltip class="bg-blue">다운로드</q-tooltip>
+          </q-btn>
+        </div>
       </q-item-section>
     </q-item>
   </q-card>
@@ -96,14 +113,26 @@ const setVideo = () => {
 
 <style scoped>
 .my-card {
-  width: 100%; 
+  width: 100%;
   min-width: 15vw;
 }
+
 .coaching-name {
   min-width: 150px;
 }
+
 .likebtn {
   display: flex;
   justify-content: right;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.material-symbols-outlined {
+  font-size: 20px;
 }
 </style>
