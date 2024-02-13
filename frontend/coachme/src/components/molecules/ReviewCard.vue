@@ -52,7 +52,7 @@ const longId = decodeToken(getAccessToken()).longId
 
         <!-- 수정, 삭제버튼 -->
         <q-item-section class="card-margin" v-if="longId === props.reviews.coameId">
-          <div class="row no-wrap items-center justify-end" style="margin-top: -4vh; color : gray;">
+          <div class="row no-wrap items-center justify-end" style="color : gray;">
             <EditButton style="width: fit-content;"></EditButton>
             <DeleteButton style="width: fit-content;"></DeleteButton>
           </div>

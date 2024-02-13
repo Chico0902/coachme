@@ -5,7 +5,7 @@ clicked : 클릭 이벤트가 담긴 함수, function으로 보낼 것. 디폴�
 
 <script setup>
 import { useLikeStore } from '../../stores/like-counter'
-import { ref } from 'vue'
+import { computed } from 'vue'
 
 const store = useLikeStore()
 const { incrementCount, getCount } = store
@@ -22,10 +22,12 @@ const props = defineProps({
 
 incrementCount() // 찜콩 버튼 개수 증가
 
-const checked = ref(props.like);
+const checked = computed(() => props.like);
 const number = getCount()
 const LikeId = 'checkbox' + number
 // 아이디는 checkbox + 찜콩 버튼 개수
+
+console.log(checked.value)
 </script>
 
 <template>
