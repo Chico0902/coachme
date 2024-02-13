@@ -17,7 +17,8 @@ public interface DmRoomRepository extends JpaRepository<DMRoom, Long> {
   DMRoom findByMembers(Member member1, Member member2);
 
   @Query("SELECT d FROM DMRoom d " +
-      "WHERE :memberId IN (d.member1, d.member2)")
+      "WHERE :memberId IN (d.member1.longId, d.member2.longId)")
   List<DMRoom> findByMemberId(long memberId);
+
 
 }

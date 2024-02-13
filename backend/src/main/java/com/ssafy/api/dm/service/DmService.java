@@ -71,22 +71,29 @@ public class DmService {
    */
   public List<DmRoomResponseDto> getDmRoomList(long memberId) throws Exception {
     List<DmRoomResponseDto> dmRoomList = new ArrayList<>();
+    List<DMRoom> dmrooms = dmRoomRepository.findByMemberId(memberId);
+    log.debug("dmrooms---------------------{}", dmrooms.size());
 
-    List<DMRoom> member1 = memberRepository.getReferenceById(memberId).getMember1DmRooms();
-    List<DMRoom> member2 = memberRepository.getReferenceById(memberId).getMember2DmRooms();
-
-    dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomMember1ResponseDtoList(member1));
-    dmRoomList.addAll(DmMapper.instance.dmRoomToDmRoomMember2ResponseDtoList(member2));
-
-    for (DmRoomResponseDto dmroom : dmRoomList) {
-      String lastDm = redisUtils.getLastDm(dmroom.getRoomId() + "_");
-      if (lastDm == null) {
-        DM mysqlDm = dmRepository.findByLastDm(dmroom.getRoomId());
-        dmroom.setLastDm(mysqlDm != null ? mysqlDm.getMessage() : "");
-      } else {
-        dmroom.setLastDm(lastDm);
+    for(DMRoom dmRoom : dmrooms){
+      DmRoomResponseDto dto = new DmRoomResponseDto();
+      dto.setRoomId(dmRoom.getId());
+      if(dmRoom.getMember1().getLongId() == memberId){
+        dto.setMemberName(dmRoom.getMember2().getName());
+        dto.setMemberProfileUrl(dmRoom.getMember2().getProfileImage().getUrl());
+      }else{
+        dto.setMemberName(dmRoom.getMember1().getName());
+        dto.setMemberProfileUrl(dmRoom.getMember1().getProfileImage().getUrl());
       }
+      String lastDm = redisUtils.getLastDm(dmRoom.getId() + "_");
+      if (lastDm == null) {
+        DM mysqlDm = dmRepository.findByLastDm(dmRoom.getId());
+        dto.setLastDm(mysqlDm != null ? mysqlDm.getMessage() : "");
+      } else {
+        dto.setLastDm(lastDm);
+      }
+      dmRoomList.add(dto);
     }
+
     return dmRoomList;
   }
 
