@@ -6,12 +6,14 @@ import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
+import Swal from 'sweetalert2'
 import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCoachingDetailPage, getAllLivesInCoaching } from '@/utils/api/coaching-api'
 import { getVideoList } from '@/utils/api/coach-api'
 import { getCoachingReview, postcoachingReview } from '@/utils/api/review-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { deleteMyReview } from '@/utils/api/review-api'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 
 /**
@@ -137,6 +139,12 @@ const reviewData = (data) => {
       dto,
       (success) => {
         console.log(success)
+          Swal.fire({
+          icon: "success",
+          title: "리뷰를 작성했습니다.",
+          showConfirmButton: true,
+          timer: 1500
+        });
         resolve()
       },
       (fail) => {
@@ -164,6 +172,56 @@ const reviewData = (data) => {
         (fail) => console.log(fail)
       )
   })
+}
+
+// 리뷰 삭제
+const deleteReview = (reviewId) => {
+
+new Promise((resolve, reject) =>
+
+  // 리뷰 삭제
+  deleteMyReview(
+    reviewId,
+    (success) => {
+      console.log(success)
+      Swal.fire({
+        icon: "success",
+        title: "리뷰를 삭제했습니다.",
+        showConfirmButton: true,
+        timer: 1500
+      });
+      resolve()
+    },
+    (fail) => {
+      reject(fail)
+    }
+  )
+).then(() => {
+  // 리뷰 작성 후 정보들 다시 리로드
+
+  // 코치 상세 정보
+  getCoachingDetailPage(
+    coachingLongId.value,
+    (success) => {
+      console.log(success)
+      coachingDetail.value = success.data
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  ),
+    // 코치 리뷰
+    getCoachingReview(
+      coachingLongId.value,
+      (success) => {
+        console.log(success)
+        reviews.value = success.data.list
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    )
+})
 }
 
 
@@ -304,6 +362,7 @@ onBeforeMount(() => {
                   :rating-model="coachingDetail.reviewAvg"
                   v-bind:review-count="coachingDetail.reviewCount"
                   @review-data="reviewData"
+                  @delete-review="deleteReview"
                 ></Reviews>
               </div>
             </template>
