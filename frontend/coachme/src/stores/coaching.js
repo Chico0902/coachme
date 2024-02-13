@@ -27,7 +27,11 @@ export const useCoachingStore = defineStore('coaching', () => {
     [{ name: 'ALL' }, { name: 'Yoga' }, { name: 'Weight' }, { name: 'Running' }, { name: 'Crossfit' }]
   ]
 
-  function receiveCoachingsByCategoryAndWord(mainCatagoryName, subCategoryIndex, keyword) {
+  function receiveCoachingsByCategoryAndWord(mainCatagoryName, subCategoryName, keyword) {
+    // subCategory 변경
+    const subCategoryIndex = getSubCategoryIndex(mainCatagoryName)
+    subCategories.value = sideButtonList[subCategoryIndex]
+
     // 반응형 변수 변경
     selectedMainCategory.value = mainCatagoryName
     subCategories.value = sideButtonList[subCategoryIndex]
@@ -35,8 +39,8 @@ export const useCoachingStore = defineStore('coaching', () => {
 
     // 데이터 받아오기
     postCoachingsByCategory(
-      selectedMainCategory.value.toLowerCase(),
-      selectedSubCategory.value.toLowerCase(),
+      mainCatagoryName,
+      subCategoryName,
       { words: keyword, loginMemberId },
       (success) => {
         coachings.value = success.data.list
@@ -45,7 +49,28 @@ export const useCoachingStore = defineStore('coaching', () => {
       (fail) => console.log(fail)
     )
   }
+
+  // mainCategoryName -> subCategoryIndex
+  function getSubCategoryIndex(mainCatagoryName) {
+    switch (mainCatagoryName) {
+      case 'ALL':
+        return 0
+      case 'LIFE':
+        return 1
+      case 'CREATION':
+        return 2
+      case 'SPORTS':
+        return 3
+      case 'DEVELOP ':
+        return 4
+      case 'HEALTH':
+        return 5
+    }
+    return 0
+  }
+
   return {
+    sideButtonList,
     coachings,
     selectedMainCategory,
     selectedSubCategory,

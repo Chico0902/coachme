@@ -52,7 +52,13 @@ const createNewCoaching = () => {
     coachingSummary.value === '' ||
     contentHTML.value === ''
   ) {
-    alert('작성하지 않은 항목이 있습니다.')
+    Swal.fire({
+      title: "생성 실패",
+      text: "작성하지 않은 항목이 있습니다.",
+      icon: "info"
+    });
+    // 기존코드
+    // alert('작성하지 않은 항목이 있습니다.')
     return
   }
   const longId = decodeToken(getAccessToken()).longId
@@ -68,11 +74,21 @@ const createNewCoaching = () => {
     longId,
     dto,
     () => {
-      alert('등록 완료')
+      Swal.fire({
+        icon: "success",
+        title: "생성 완료!",
+      });
+      // 기존코드
+      // alert('등록 완료')
       router.push({ name: 'Desktop-5-3' })
     },
     (error) => {
-      alert('등록 실패')
+      Swal.fire({
+        icon: "fail",
+        title: "등록 실패!",
+      });
+      // 기존 코드
+      // alert('등록 실패')
       console.log(error)
     }
   )

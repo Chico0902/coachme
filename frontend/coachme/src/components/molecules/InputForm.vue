@@ -40,6 +40,7 @@ const inputData = () => {
   <div id="input">
     <inputs v-model="input" style="width: 100%" @update-data="updateData"></inputs>
     <buttons
+      type="submit"
       style="height: 56px"
       icon="send"
       :background="props.background"

@@ -12,6 +12,7 @@ import CustomInput from '../components/atoms/CustomInput.vue'
 import CustomButton from '../components/atoms/CustomButton.vue'
 import footerBar from '../components/molecules/CustomFooter.vue'
 import { decodeToken } from '@/utils/functions/auth'
+import Swal from 'sweetalert2'
 
 /**
  * VARIABLES
@@ -59,12 +60,26 @@ const login = (id, pw) => {
       isLogin.value = true
       profileImageUrl.value = success.data.profileImageUrl
       profileText.value = success.data.profileText
-      alert('로그인 성공')
+      Swal.fire({
+        // position: "top-end",
+        icon: "success",
+        title: "로그인성공",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      // 기존코드
+      // alert('로그인 성공')
       router.push('/')
     },
     (error) => {
       console.log(error)
-      alert('로그인 실패')
+      Swal.fire({
+        icon: "error",
+        title: "저런...",
+        text: "로그인 실패",
+      });
+      //기존코드
+      // alert('로그인 실패')
     }
   )
 }

@@ -5,8 +5,8 @@ import buttons from '../components/atoms/CustomButton.vue'
 import carousel from '../components/atoms/CustomCarousel.vue'
 import search from '../components/molecules/MainSearch.vue'
 import category from '../components/molecules/CustomCategory.vue'
-import card from '../components/molecules/CoachCard.vue'
-import CoachingCard from '../components/molecules/CoachingCard.vue'
+import card from '../components/molecules/MainpageCoachCard.vue'
+import CoachingCard from '../components/molecules/MainpageCoachingCard.vue'
 import footerBar from '../components/molecules/CustomFooter.vue'
 import MainSearchTitle from '../components/texts/MainSearchTitle.vue'
 import MainCategoryTitle from '../components/texts/MainCategoryTitle.vue'
@@ -20,6 +20,8 @@ import { storeToRefs } from 'pinia'
 import { decodeToken } from '@/utils/functions/auth'
 import { getPopularCoachingList } from '@/utils/api/coaching-api'
 import { getPopularCoachList } from '@/utils/api/coach-api'
+import Swal from 'sweetalert2'
+import router from '@/router'
 
 /**
  * VARIABLES
@@ -29,7 +31,7 @@ import { getPopularCoachList } from '@/utils/api/coach-api'
 const bColor = '#FCBF17'
 const dColor = 'blue-10'
 const label0 = '검색'
-const list = ['코치명', '코칭제목']
+const list = ['코치로 찾기', '코칭으로 찾기']
 
 // 회원정보 조회
 const authStore = useAuthStore()
@@ -48,13 +50,42 @@ const username = computed(() => {
 
 // 로그아웃
 const logoutWithConfirm = () => {
-  if (!confirm('로그아웃 하시겠습니까?')) return
-  accessToken.value = ''
-  profileText.value = '프로필을 등록하세요.'
-  profileImageUrl.value = '/src/assets/icons/coame.png'
-  alert('로그아웃 되었습니다.')
-  window.location.reload()
+  Swal.fire({
+    title: '로그아웃',
+    text: '로그아웃 하시겠습니까?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '네',
+    cancelButtonText: '아니오'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      accessToken.value = ''
+      profileText.value = '프로필을 등록하세요.'
+      profileImageUrl.value = '/src/assets/icons/coame.png'
+      Swal.fire({
+        title: '로그아웃 완료',
+        text: '로그아웃 되었습니다.',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+        didClose: () => {
+          window.location.reload()
+        }
+      })
+    } else {
+      Swal.fire('취소', '로그아웃이 취소되었습니다.', 'info')
+    }
+  })
 }
+
+// 기존코드
+//   if (!confirm('로그아웃 하시겠습니까?')) return
+//   accessToken.value = ''
+//   profileText.value = '프로필을 등록하세요.'
+//   profileImageUrl.value = '/src/assets/icons/coame.png'
+//   alert('로그아웃 되었습니다.')
+//   window.location.reload()
+// }
 
 const screenWidth = ref(window.innerWidth)
 
@@ -103,6 +134,28 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', updateScreenWidth)
 })
+
+const searchByChoice = (data) => {
+  switch (data.menu) {
+    case '': {
+      alert('검색 조건을 선택해주세요.')
+      return
+    }
+    case '코치로 찾기': {
+      router.push(`/search/coach/list/all/all/${data.input}`)
+      return
+    }
+    case '코칭으로 찾기': {
+      router.push(`/search/coaching/list/all/all/${data.input}`)
+      return
+    }
+  }
+}
+
+const searchByCategory = (index, label) => {
+  const category1 = label.toLowerCase()
+  router.push(`/search/coaching/list/${category1}/all/all`)
+}
 </script>
 <template>
   <div v-if="screenWidth < 768" class="nav-bar">
@@ -112,18 +165,13 @@ onUnmounted(() => {
     <template v-if="accessToken === ''">
       <navbar>
         <template #search-coach>
-          <RouterLink :to="{ name: 'Desktop-13' }">
+          <RouterLink to="/search/coach/list/all/all/all">
             <q-btn flat :label="`코치찾기`" icon="person_search" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #search-coaching>
-          <RouterLink :to="{ name: 'Desktop-14' }">
+          <RouterLink to="/search/coaching/list/all/all/all">
             <q-btn flat :label="`코칭찾기`" icon="zoom_in" color="black"></q-btn>
-          </RouterLink>
-        </template>
-        <template #live>
-          <RouterLink :to="{ name: 'Desktop-17-2' }">
-            <buttons flat :name="`live`" :label="`강의장`"></buttons>
           </RouterLink>
         </template>
         <template #login>
@@ -141,18 +189,13 @@ onUnmounted(() => {
     <template v-else>
       <navbar>
         <template #search-coach>
-          <RouterLink :to="{ name: 'Desktop-13' }">
+          <RouterLink to="/search/coach/list/all/all/all">
             <q-btn flat :label="`코치찾기`" icon="person_search" color="black"></q-btn>
           </RouterLink>
         </template>
         <template #search-coaching>
-          <RouterLink :to="{ name: 'Desktop-14' }">
+          <RouterLink to="/search/coaching/list/all/all/all">
             <q-btn flat :label="`코칭찾기`" icon="zoom_in" color="black"></q-btn>
-          </RouterLink>
-        </template>
-        <template #live>
-          <RouterLink :to="{ name: 'Desktop-17-1' }">
-            <buttons flat :name="`live`" :label="`강의장`"></buttons>
           </RouterLink>
         </template>
         <template #welcome>
@@ -181,20 +224,20 @@ onUnmounted(() => {
       <div class="search-outside">
         <div class="search-title"><MainSearchTitle /></div>
         <div class="search">
-          <search :label="label0" :dColor="dColor" :bColor="bColor" :list="list"></search>
+          <search :label="label0" :dColor="dColor" :bColor="bColor" :list="list" @searchData="searchByChoice"></search>
         </div>
       </div>
       <div class="category-outside">
         <div class="category-title"><MainCategoryTitle /></div>
         <div class="category-imoji">
-          <category></category>
+          <category @click-category="searchByCategory"></category>
         </div>
       </div>
       <div class="coach-outside">
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
           <div v-for="(coach, index) in popularCoachList" :key="index" class="coach-card">
-            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></card>
+            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl" :coachIndex="index"></card>
           </div>
         </div>
       </div>
@@ -207,6 +250,7 @@ onUnmounted(() => {
               :label="coaching.coachingName"
               :caption="coaching.coachingReviewAvg"
               :video="coaching.coachingVideoUrl"
+              :coachIndex="index"
             ></CoachingCard>
           </div>
         </div>
@@ -293,8 +337,8 @@ onUnmounted(() => {
   display: flex;
   justify-content: flex-start;
   width: 70%;
-  min-height: 30vh;
-  max-height: 30vh; /* 최대 높이를 설정하여 세로 스크롤이 생기지 않도록 합니다. */
+  min-height: 250px;
+  max-height: 36vh; /* 최대 높이를 설정하여 세로 스크롤이 생기지 않도록 합니다. */
   overflow-x: scroll;
   padding: 0;
   box-sizing: border-box;
@@ -323,6 +367,7 @@ onUnmounted(() => {
 }
 
 .coach-outside {
+  min-height: 250px;
   height: 30vh;
   margin: 20vh auto;
   display: flex;
@@ -344,7 +389,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: flex-start;
   width: 70%;
-  min-height: 35vh;
+  min-height: 250px;
   max-height: 35vh; /* 최대 높이를 설정하여 세로 스크롤이 생기지 않도록 합니다. */
   overflow-x: scroll;
   padding: 0;
@@ -353,6 +398,7 @@ onUnmounted(() => {
 }
 .coaching-outside {
   height: 30vh;
+  min-height: 300px;
   margin: 30vh auto;
   display: flex;
   justify-content: center;
