@@ -5,8 +5,8 @@ import buttons from '../components/atoms/CustomButton.vue'
 import carousel from '../components/atoms/CustomCarousel.vue'
 import search from '../components/molecules/MainSearch.vue'
 import category from '../components/molecules/CustomCategory.vue'
-import card from '../components/molecules/CoachCard.vue'
-import CoachingCard from '../components/molecules/CoachingCard.vue'
+import card from '../components/molecules/MainpageCoachCard.vue'
+import CoachingCard from '../components/molecules/MainpageCoachingCard.vue'
 import footerBar from '../components/molecules/CustomFooter.vue'
 import MainSearchTitle from '../components/texts/MainSearchTitle.vue'
 import MainCategoryTitle from '../components/texts/MainCategoryTitle.vue'
@@ -224,7 +224,7 @@ onUnmounted(() => {
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
           <div v-for="(coach, index) in popularCoachList" :key="index" class="coach-card">
-            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl"></card>
+            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl" :coachIndex="index"></card>
           </div>
         </div>
       </div>
@@ -237,6 +237,7 @@ onUnmounted(() => {
               :label="coaching.coachingName"
               :caption="coaching.coachingReviewAvg"
               :video="coaching.coachingVideoUrl"
+              :coachIndex="index"
             ></CoachingCard>
           </div>
         </div>
@@ -323,8 +324,8 @@ onUnmounted(() => {
   display: flex;
   justify-content: flex-start;
   width: 70%;
-  min-height: 30vh;
-  max-height: 30vh; /* 최대 높이를 설정하여 세로 스크롤이 생기지 않도록 합니다. */
+  min-height: 250px;
+  max-height: 36vh; /* 최대 높이를 설정하여 세로 스크롤이 생기지 않도록 합니다. */
   overflow-x: scroll;
   padding: 0;
   box-sizing: border-box;
@@ -353,6 +354,7 @@ onUnmounted(() => {
 }
 
 .coach-outside {
+  min-height: 250px;
   height: 30vh;
   margin: 20vh auto;
   display: flex;
@@ -374,7 +376,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: flex-start;
   width: 70%;
-  min-height: 35vh;
+  min-height: 250px;
   max-height: 35vh; /* 최대 높이를 설정하여 세로 스크롤이 생기지 않도록 합니다. */
   overflow-x: scroll;
   padding: 0;
@@ -383,6 +385,7 @@ onUnmounted(() => {
 }
 .coaching-outside {
   height: 30vh;
+  min-height: 300px;
   margin: 30vh auto;
   display: flex;
   justify-content: center;
