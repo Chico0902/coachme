@@ -32,15 +32,6 @@ export default [
         }
       },
       {
-        path: 'video',
-        name: 'Desktop-9',
-        props: true,
-        components: {
-          sidebar: () => import('@/components/molecules/MypageSidebar.vue'),
-          main: () => import('@/views/mypages/coame/MyVideoView.vue')
-        }
-      },
-      {
         path: 'resign',
         name: 'Desktop-10',
         props: true,
