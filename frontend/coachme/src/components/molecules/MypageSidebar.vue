@@ -39,7 +39,6 @@ watch(
         sideButtons.value = [
           { name: '정보수정', link: 'Desktop-6', css: 'selected-button' },
           { name: '코칭일정', link: 'Desktop-7' },
-          { name: '영상보기', link: 'Desktop-9' },
           { name: '회원탈퇴', link: 'Desktop-10' }
         ]
         router.push({ name: 'Desktop-6' })
@@ -57,7 +56,6 @@ onBeforeMount(() => {
         { name: '코치등록', link: 'Desktop-5-1' },
         { name: '정보수정', link: 'Desktop-6' },
         { name: '코칭일정', link: 'Desktop-7' },
-        { name: '영상보기', link: 'Desktop-9' },
         { name: '회원탈퇴', link: 'Desktop-10' }
       ]
 
@@ -72,11 +70,8 @@ onBeforeMount(() => {
         case 'coaching':
           sideButtons.value[2].css = 'selected-button'
           break
-        case 'video':
-          sideButtons.value[3].css = 'selected-button'
-          break
         case 'resign':
-          sideButtons.value[4].css = 'selected-button'
+          sideButtons.value[3].css = 'selected-button'
           break
       }
       break
@@ -101,9 +96,6 @@ onBeforeMount(() => {
             break
           case 'live':
             sideButtons.value[2].css = 'selected-button'
-            break
-          case 'video':
-            sideButtons.value[3].css = 'selected-button'
             break
         }
       break

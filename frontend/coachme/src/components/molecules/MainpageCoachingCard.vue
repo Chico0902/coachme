@@ -9,8 +9,7 @@ liked : 찜콩버튼 클릭시 발생할 함수. function. 기본값 없음
 
 <script setup>
 import labels from '../atoms/CardLabel.vue'
-import like from '../atoms/CustomLike.vue'
-import { getMainVideo } from '@/utils/api/coaching-api'
+import { ref, computed, defineProps } from 'vue'
 
 const props = defineProps({
   label: {
@@ -39,28 +38,18 @@ const props = defineProps({
     type: Function,
     default: () => {}
   },
-  visible: {
-    type: Boolean,
-    default: true
+  coachIndex: {
+    type: Number,
+    default: -1
   }
 })
 
-const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption;
+const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption
 
-const setVideo = () => {
-  getMainVideo(
-    props.coachingId,
-    props.videoId,
-    (success) => {
-      console.log(success.data)
-      alert('대표 영상으로 등록되었습니다.')
-    },
-    (fail) => {
-      console.log(fail.data)
-      alert('대표 영상 등록이 실패하였습니다.')
-    }
-  )
-}
+const isFirstCard = computed(() => props.coachIndex === 0 || props.coachIndex === -1)
+const isSecondCard = computed(() => props.coachIndex === 1)
+const isThirdCard = computed(() => props.coachIndex === 2)
+
 </script>
 
 <template>
@@ -78,13 +67,17 @@ const setVideo = () => {
       <!-- 캡션과 라벨 -->
       <q-item-section>
         <labels class="coaching-name" :label="`${props.label}`"></labels>
-        <labels caption :label="caption"></labels>
+        <q-item-section class="star" >
+          <img class="star-img" src="../../../public/assets/img/star.png" alt="star">
+          <labels class="star-num" caption :label="caption"></labels>
       </q-item-section>
-      <!-- 대표 영상 설정 -->
-      <q-item-section v-if="!visible">
-        <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
-          <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
-        </q-btn>
+      </q-item-section>
+      <q-item-section>
+          <div class="medal-box">
+            <img class="medal" v-if="isFirstCard" src="/assets/img/medal_1.png" alt="">
+            <img class="medal" v-if="isSecondCard" src="/assets/img/medal_2.png" alt="">
+            <img class="medal" v-if="isThirdCard" src="/assets/img/medal_3.png" alt="">
+          </div>
       </q-item-section>
     </q-item>
   </q-card>
@@ -92,14 +85,35 @@ const setVideo = () => {
 
 <style scoped>
 .my-card {
-  width: 100%; 
+  width: 100%;
   min-width: 15vw;
 }
 .coaching-name {
   min-width: 150px;
 }
-.likebtn {
+.medal-box{
   display: flex;
   justify-content: right;
+  margin-left: 40px;
+}
+.medal {
+  width: 50px;
+  height: 50px;
+}
+.star-img {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin: 0.5rem;
+  margin-left: 0;
+}
+.star{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+.star-num{
+  align-items: center;
 }
 </style>
