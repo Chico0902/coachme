@@ -124,7 +124,12 @@ function getDateKey(date) {
 </script>
 <template>
   <div class="outside">
-    <p class="coaching-title">라이브 관리</p>
+    <div class="main-title">
+      라이브 관리
+      <div class="editor-detail">
+        달력에서 날짜를 선택하면 생성된 라이브 코칭과 현재까지 신청한 수강생 목록을 확인할 수 있습니다.
+      </div>
+    </div>
     <div class="coach-main">
       <div class="main-container">
         <div class="calendar">
@@ -197,10 +202,16 @@ function getDateKey(date) {
 </template>
 
 <style scoped>
-.coaching-title {
-  margin: 2rem 0 auto;
-  text-align: center;
-  font-size: 1.5rem;
+.main-title {
+  display: inline-block;
+  font-size: 2rem;
+  margin-top: 1.5rem;
+  margin-left: 3rem;
+}
+.editor-detail {
+  margin-left: 0.5rem;
+  color: #034c8c;
+  font-size: 0.9rem;
 }
 .coaching-plan-detail {
   margin: 30px 0;
