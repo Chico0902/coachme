@@ -19,8 +19,7 @@ export const authAxios = axios.create({
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
   },
-  withCredentials: true,
-  timeout: 1000
+  withCredentials: true
 })
 
 // 인증이 필요한 axios에 token 추가하는 인터셉터

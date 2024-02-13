@@ -5,11 +5,10 @@ coachingCategory : 대분류, 소분류 카테고리 배열
 
 <script setup>
 const props = defineProps({
-  coachingCategory : {
+  coachingCategory: {
     type: Object
   }
 })
-
 </script>
 
 <template>
@@ -18,8 +17,18 @@ const props = defineProps({
       <q-icon size="1.5em" name="chevron_right" color="primary"></q-icon>
     </template>
 
-    <q-breadcrumbs-el v-for="menu in props.coachingCategory" :key="menu" :label="menu"></q-breadcrumbs-el>
+    <q-breadcrumbs-el
+      v-for="(menu, index) in props.coachingCategory"
+      :key="menu"
+      :label="menu"
+      @click="$emit('goSearch', menu, index)"
+      class="cursor"
+    ></q-breadcrumbs-el>
   </q-breadcrumbs>
 </template>
 
-<style scoped></style>
+<style scoped>
+.cursor:hover {
+  cursor: pointer;
+}
+</style>
