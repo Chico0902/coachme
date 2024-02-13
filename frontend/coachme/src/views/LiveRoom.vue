@@ -2,6 +2,7 @@
 import LiveMenuList from '@/components/molecules/LiveMenuList.vue'
 import UserVideo from '@/components/openvidu/UserVideo.vue'
 import LiveChat from '@/components/molecules/LiveChat.vue'
+import profile from '@/components/atoms/ProfileImage.vue'
 import LivePeopleList from '@/components/molecules/LivePeopleList.vue'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
@@ -256,9 +257,18 @@ async function getToken(mySessionId) {
         </div>
 
         <!-- 채팅 -->
-        <div v-if="isChatOpen" class="chat">
-          <LiveChat :directMessage="dm" :myId="id"></LiveChat>
-        </div>
+        <q-layout
+          v-if="isChatOpen"
+          view="lHh Lpr lFf"
+          container
+          style="height: 70vh; width: 30rem"
+          class="shadow-2 rounded-borders dm-window-container"
+        >
+          <q-page-container>
+            <LiveChat :directMessage="dm" :myId="id" @chatOff="isChatOpen = false"></LiveChat>
+          </q-page-container>
+        </q-layout>
+
         <!-- 참가자 리스트 -->
         <div v-else-if="isPeopleOpen" class="people">
           <template v-for="participant in participants" :key="participant.id">
@@ -331,8 +341,6 @@ async function getToken(mySessionId) {
   width: 100%;
   height: 70vh;
   margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
   overflow: scroll;
   display: flex;
   text-align: center;
@@ -347,8 +355,6 @@ async function getToken(mySessionId) {
   align-items: flex-start;
   overflow-y: scroll;
   position: relative;
-  margin-top: 5vh;
-  margin-left: 5vw;
 }
 
 .element-with-scrollbar {
@@ -361,20 +367,19 @@ async function getToken(mySessionId) {
 
 .chat {
   min-width: 24.2vw;
-  height: 70vh;
+  max-height: 70vh;
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto;
   position: relative;
   margin-top: 5vh;
   margin-left: 4vw;
-  background-color: #fbe5a9;
   border-radius: 15px;
 }
 
 .people {
   min-width: 15vw;
-  height: 70vh;
+  max-height: 70vh;
   position: relative;
   margin-top: 5vh;
   margin-left: 4vw;

@@ -140,13 +140,6 @@ const exit = () => {
       </q-tooltip>
     </q-btn>
 
-    <q-btn flat>
-      <span class="material-symbols-outlined"> meeting_room </span>
-      <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-        <strong>진실의 방</strong>
-      </q-tooltip>
-    </q-btn>
-
     <q-btn flat @click="publishScreenShare">
       <span class="material-symbols-outlined"> draw </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
