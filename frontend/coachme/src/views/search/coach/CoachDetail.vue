@@ -7,29 +7,81 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getCoachDetailPage } from '@/utils/api/coach-api'
-import { getCoachReview } from '@/utils/api/review-api'
+import { getCoachReview, postcoachReview } from '@/utils/api/review-api'
 
 const route = useRoute()
 
+const coachId = ref()
+const myLongId = ref()
 const coachDetail = ref([]) // 코치 상세
 const reviews = ref([]) // 리뷰
 
 const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
 // 중단 메뉴 리스트
 
-// const reviewData = (data) => {
-//   reviews.value.push({name : "옆동네 고양이", reviewDate: "2024/01/31 11:06 AM", ratingModel : data.rating,
-//   review : data.review})
-//   review.value = review.value + 1
-// } // 리뷰 입력폼에서 입력받은 리뷰와 별점을 처리하는 함수
+
+// 리뷰 작성
+const reviewData = (data) => {
+  myLongId.value = decodeToken(getAccessToken()).longId
+
+  const dto = {
+    "coameId": myLongId.value,
+    "coachId": coachId.value,
+    "comment": data.review,
+    "score": data.rating
+  } // 리뷰 dto
+
+  new Promise((resolve, reject) =>
+
+    // 리뷰 작성
+    postcoachReview(
+      dto,
+      (success) => {
+        console.log(success)
+        resolve()
+      },
+      (fail) => {
+        reject(fail)
+      }
+    )
+  ).then(() => {
+    // 리뷰 작성 후 정보들 다시 리로드
+
+    // 코치 상세 정보
+      getCoachDetailPage(
+        coachId.value,
+      (success) => {
+        console.log(success)
+        coachDetail.value = success.data
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    ), 
+    // 코치 리뷰
+    getCoachReview(
+      coachId.value,
+      (success) => {
+        console.log(success)
+        reviews.value = success.data.list
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    )
+  })
+
+}
 
 onBeforeMount(() => {
-  const coachId = route.params.id
+  const coachLongId = route.params.id
+  coachId.value = coachLongId
 
   // 코치 id로 코치 포트폴리오
   getCoachDetailPage(
-    coachId,
+    coachLongId,
     (success) => {
       console.log(success)
       coachDetail.value = success.data
@@ -41,7 +93,7 @@ onBeforeMount(() => {
 
   // 코칭 id로 코칭 리뷰
   getCoachReview(
-    coachId,
+    coachLongId,
     (success) => {
       console.log(success)
       reviews.value = success.data.list
@@ -64,11 +116,8 @@ onBeforeMount(() => {
         <div class="mainpage">
           <div class="profile">
             <!-- 코치 상세 정보 -->
-            <CoachDetailCard
-              :coach="coachDetail.coachName"
-              :rating-model="coachDetail.reviewAvg"
-              :review-count="coachDetail.reviewCount"
-            ></CoachDetailCard>
+            <CoachDetailCard :coach="coachDetail.coachName" :rating-model="coachDetail.reviewAvg"
+              :review-count="coachDetail.reviewCount"></CoachDetailCard>
             <q-separator></q-separator>
 
             <!-- 코치 포트폴리오 중단 메뉴 -->
@@ -88,13 +137,8 @@ onBeforeMount(() => {
             <div class="coaching-category">
               <h2>제공 코칭</h2>
               <div style="margin-left: 0.8vw">
-                <q-chip
-                  icon="book"
-                  size="1.2rem"
-                  class="row no-wrap items-center"
-                  v-for="coaching in coachDetail.list"
-                  :key="coaching"
-                >
+                <q-chip icon="book" size="1.2rem" class="row no-wrap items-center" v-for="coaching in coachDetail.list"
+                  :key="coaching">
                   {{ coaching.coachingName }}
                 </q-chip>
               </div>
@@ -105,18 +149,14 @@ onBeforeMount(() => {
             <!-- 리뷰 -->
             <div class="coach-review">
               <h2>리뷰</h2>
-              <Reviews
-                :reviews="reviews"
-                :rating-model="coachDetail.reviewAvg"
-                v-bind:review-count="coachDetail.reviewCount"
-                @review-data="reviewData"
-              ></Reviews>
+              <Reviews :reviews="reviews" :rating-model="coachDetail.reviewAvg"
+                v-bind:review-count="coachDetail.reviewCount" @review-data="reviewData"></Reviews>
             </div>
           </div>
         </div>
         <!-- 우측 안내창 -->
         <div class="chat-box">
-          <ChatBox :coach="coachDetail.coachName"></ChatBox>
+          <ChatBox :coach="coachDetail.coachName" :coachId="coachId"></ChatBox>
         </div>
 
         <!-- 채팅 플로팅 버튼 -->
@@ -176,6 +216,7 @@ onBeforeMount(() => {
   flex-direction: row;
   -ms-overflow-style: none;
 }
+
 .mainpage::-webkit-scrollbar {
   display: none;
 }
@@ -222,8 +263,7 @@ h2 {
   margin-bottom: 3vh;
 }
 
-.coach-review {
-}
+.coach-review {}
 
 .footer {
   height: 10vh;

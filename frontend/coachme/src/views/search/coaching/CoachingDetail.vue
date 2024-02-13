@@ -10,7 +10,8 @@ import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCoachingDetailPage, getAllLivesInCoaching } from '@/utils/api/coaching-api'
 import { getVideoList } from '@/utils/api/coach-api'
-import { getCoachingReview } from '@/utils/api/review-api'
+import { getCoachingReview, postcoachingReview } from '@/utils/api/review-api'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 
 /**
@@ -25,6 +26,8 @@ const breadCrumbs = ref([]) // 대분류 소분류
 const videos = ref([])
 const currentMenu = ref('introduce')
 const videoLink = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0' // 코칭 미리보기 영상 링크
+const myLongId = ref()
+const coachingLongId = ref()
 
 // 현재시간 계산
 const now = computed(() => {
@@ -122,9 +125,60 @@ function parseSchedule(list) {
   })
 }
 
+// 리뷰 작성
+const reviewData = (data) => {
+  myLongId.value = decodeToken(getAccessToken()).longId
+
+  const dto = {
+    "coameId": myLongId.value,
+    "coachingId": coachingLongId.value,
+    "comment": data.review,
+    "score": data.rating
+  }
+  // 리뷰 dto
+
+  // 리뷰 작성 후 리로드
+  new Promise((resolve, reject) =>
+
+  // 리뷰 작성
+    postcoachingReview(
+      dto,
+      (success) => {
+        console.log(success)
+        resolve()
+      },
+      (fail) => {
+        reject(fail)
+      }
+    )
+  ).then(() => {
+    // 코칭 상세 정보
+    getCoachingDetailPage(
+      coachingLongId.value,
+      (success) => {
+        console.log(success)
+        coachingDetail.value = success.data
+      },
+      (fail) => console.log(fail)
+    )
+
+    // 코칭 리뷰
+    getCoachingReview(
+      coachingLongId.value,
+        (success) => {
+          console.log(success)
+          reviews.value = success.data.list
+        },
+        (fail) => console.log(fail)
+      )
+  })
+}
+
+
 onBeforeMount(() => {
   const coachingId = route.params.id
   let coachId
+  coachingLongId.value = coachingId
 
   // 코칭 id로 코칭 상세페이지
   new Promise((resolve, reject) =>
@@ -265,7 +319,7 @@ onBeforeMount(() => {
       </div>
       <!-- 우측 안내창 -->
       <div class="chat-box">
-        <ChatBox :coach="coachingDetail.coachName"></ChatBox>
+        <ChatBox :coach="coachingDetail.coachName" :coachingId="coachingLongId"></ChatBox>
       </div>
 
       <!-- 채팅 플로팅 버튼 -->

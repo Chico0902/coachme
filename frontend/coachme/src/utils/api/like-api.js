@@ -71,7 +71,7 @@ export function getLikeCoaching(coameId, coachingId, success, fail) {
             message : String
           }
  */
-export function deleteLikeCoaching(coameId, coachId, success, fail) {
+export function deleteLikeCoach(coameId, coachId, success, fail) {
   authAxios.delete(`/like/${coameId}/coaches/${coachId}`).then(success).catch(fail)
 }
 
