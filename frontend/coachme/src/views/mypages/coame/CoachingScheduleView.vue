@@ -127,7 +127,10 @@ watch(
 </script>
 <template>
   <div class="outside">
-    <p class="coaching-detail-title">나의 라이브 일정</p>
+    <div class="main-title">
+      나의 코칭일정
+      <div class="editor-detail">코치님이 라이브를 시작하면, 방에 입장할 수 있습니다.</div>
+    </div>
     <div class="coach-main">
       <div class="main-container">
         <div class="calendar">
@@ -172,6 +175,18 @@ watch(
 </template>
 
 <style scoped>
+.main-title {
+  display: inline-block;
+  font-size: 2rem;
+  margin-top: 1.5rem;
+  margin-left: 3rem;
+}
+.editor-detail {
+  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+  color: #034c8c;
+  font-size: 0.9rem;
+}
 .coaching-plan-detail {
   margin: 30px 0;
 }
@@ -186,15 +201,6 @@ watch(
 .coame-name {
   display: inline-block;
   margin: 20px 0;
-}
-.coaching-detail {
-  min-width: 15%;
-  max-width: 30%;
-}
-.coaching-detail-title {
-  margin: 2rem 0 auto;
-  text-align: center;
-  font-size: 1.5rem;
 }
 .coaching-img {
   margin: 20px 0;
