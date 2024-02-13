@@ -30,7 +30,6 @@ p {
 }
 .sidebar {
   width: 12%;
-  height: 70vh;
   margin: auto;
   margin-top: 3vh;
 }

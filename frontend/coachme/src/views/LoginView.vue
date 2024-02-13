@@ -213,7 +213,8 @@ h2 {
   justify-content: center;
 }
 .login-input {
-  width: 50%;
+  min-width: 7rem;
+  max-width: 10rem;
   margin: auto;
   margin-top: 1rem;
   margin-bottom: 1.5rem;

@@ -198,7 +198,6 @@ const searchByWords = (keyword) => {
 .rightPage {
   background-color: white;
   width: 80%;
-  height: 75vh;
   margin-left: 4%;
   margin-top: 3vh;
   border-radius: 1.5rem;
@@ -221,7 +220,7 @@ const searchByWords = (keyword) => {
 .mainpage {
   background-color: white;
   width: 100%;
-  height: 70vh;
+  max-height: 70vh;
   margin-top: -1vh;
   overflow: scroll;
   display: flex;
@@ -255,7 +254,7 @@ const searchByWords = (keyword) => {
 }
 .chat-button {
   position: fixed;
-  bottom: 60px;
+  bottom: 12vh;
   right: 10vw;
   color: #fff;
   text-align: center;
@@ -263,7 +262,7 @@ const searchByWords = (keyword) => {
 
 .matching-button {
   position: fixed;
-  bottom: 60px;
+  bottom: 12vh;
   right: 16vw;
   color: #fff;
   text-align: center;
