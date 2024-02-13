@@ -11,6 +11,7 @@ import { useChatStore } from '@/stores/chat-status'
 import { useCoachingStore } from '@/stores/coaching'
 import { ref, onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 
 /**
  * VARIABLES
@@ -20,10 +21,15 @@ import { storeToRefs } from 'pinia'
 const coachingStore = useCoachingStore()
 const chatStore = useChatStore()
 const { coachings, selectedMainCategory, selectedSubCategory, subCategories } = storeToRefs(coachingStore)
+const { sideButtonList } = coachingStore
 const { useDmWindow } = storeToRefs(chatStore)
 
 // for side button
 const buttonList = ref([])
+
+// for route param
+const router = useRouter()
+const route = useRoute()
 
 /**
  * METHODS
@@ -34,23 +40,43 @@ const { openChatList } = chatStore
 
 // 전체 코칭 조회
 onBeforeMount(() => {
-  receiveCoachingsByCategoryAndWord('all', 0, 'all')
+  const category1 = route.params.category1
+  const category2 = route.params.category2
+  const keyword = route.params.keyword
+  receiveCoachingsByCategoryAndWord(category1, category2, keyword)
+})
+
+// router param으로 검색
+onBeforeRouteUpdate((to) => {
+  const category1 = to.params.category1
+  const category2 = to.params.category2
+  const keyword = to.params.keyword
+  receiveCoachingsByCategoryAndWord(category1, category2, keyword)
 })
 
 // 대분류 코치 조회
 const clickCategory = (subCategoryIndex, mainCatagoryName) => {
-  receiveCoachingsByCategoryAndWord(mainCatagoryName, subCategoryIndex, 'all')
+  console.log(subCategoryIndex)
+  const upperCategory1 = mainCatagoryName.toLowerCase()
+  router.push(`/search/coaching/list/${upperCategory1}/all/all`)
+
+  // 세부 카테고리 변경
+  subCategories.value = sideButtonList[subCategoryIndex]
   buttonList.value = subCategories.value
 }
 
 // 소분류 코치 조회
 const clickSubCategory = (subCategoryIndex) => {
-  receiveCoachingsByCategoryAndWord(selectedMainCategory.value, subCategoryIndex, 'all')
+  const upperCategory1 = selectedMainCategory.value.toLowerCase()
+  const upperCategory2 = buttonList.value[subCategoryIndex].name.toLowerCase()
+  router.push(`/search/coaching/list/${upperCategory1}/${upperCategory2}/all`)
 }
 
 // 검색 코치조회
 const searchByWords = (keyword) => {
-  receiveCoachingsByCategoryAndWord(selectedMainCategory.value, selectedSubCategory.value, keyword.input)
+  const upperCategory1 = selectedMainCategory.value.toLowerCase()
+  const upperCategory2 = selectedSubCategory.value.toLowerCase()
+  router.push(`/search/coaching/list/${upperCategory1}/${upperCategory2}/${keyword.input}`)
 }
 </script>
 <template>
@@ -67,7 +93,9 @@ const searchByWords = (keyword) => {
         <SearchCategorySidebar :buttonList="buttonList" @click-sub-category="clickSubCategory" />
         <div class="rightPage">
           <div>
-            <InputForm class="search" @inputData="searchByWords"></InputForm>
+            <form @submit.prevent="inputData">
+              <InputForm class="search" @inputData="searchByWords"></InputForm>
+            </form>
           </div>
           <div class="mainpage">
             <!-- 코칭 목록과 채팅 버튼-->
