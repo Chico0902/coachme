@@ -28,12 +28,13 @@ const closeSidebar = () => {
 }
 // 사이드바에서 X키를 눌렀다면 오픈 여부 변경
 
-const sideMenu = [
-  { name: '홈으로', link: '/' },
-  { name: '마이페이지', link: '/mypage' },
+const sideMenu = [{ name: '홈으로', link: '/' }]
+if (isLogin.value === true) sideMenu.push({ name: '마이페이지', link: '/mypage' })
+
+sideMenu.push(
   { name: '코치찾기', link: '/search/coach/list/all/all/all' },
   { name: '코칭찾기', link: '/search/coaching/list/all/all/all' }
-]
+)
 
 if (isLogin.value === true) sideMenu.push({ name: '로그아웃', link: '/login' })
 else sideMenu.push({ name: '로그인', link: '/login' })
