@@ -1,6 +1,7 @@
 package com.ssafy.util.file.Mapper;
 
 import com.ssafy.api.coach.dto.response.VideoResponseDto;
+import com.ssafy.api.coaching.dto.response.VideosInCoachingResponseDto;
 import com.ssafy.db.entity.File;
 import com.ssafy.util.file.dto.response.FileResponseDto;
 import org.mapstruct.Mapper;
@@ -27,5 +28,9 @@ public interface FileMapper {
   VideoResponseDto fileToVideoResponseDto(File file);
 
   List<VideoResponseDto> fileToVideoResponseDto(List<File> file);
+
+  VideosInCoachingResponseDto fileToVideosInCoachingResponseDto(File file);
+
+  List<VideosInCoachingResponseDto> fileToVideosInCoachingResponseDto(List<File> file);
 
 }
