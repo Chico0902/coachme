@@ -190,8 +190,6 @@ function getDateKey(date) {
                   <q-item-label>{{ student.name }}</q-item-label>
                   <q-item-label caption>{{ student.profileText }}</q-item-label>
                 </q-item-section>
-
-                <!-- 새로운 dm이 있을 경우 표시 -->
               </q-item>
             </template>
           </template>
