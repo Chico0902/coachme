@@ -50,7 +50,6 @@ function parseCoaching(list) {
   return ret
 }
 
-
 const create = () => {
   const dto = { coachingId: selectedCoaching.value.id, date: dateTime.value }
   console.log(dto)
@@ -58,20 +57,19 @@ const create = () => {
     longId,
     dto,
     (success) => {
-      console.log(success);
+      console.log(success)
       Swal.fire({
-        title: "생성 완료",
-        text: "라이브가 생성되었습니다!",
-        icon: "success",
+        title: '생성 완료',
+        text: '라이브가 생성되었습니다!',
+        icon: 'success'
       }).then(() => {
         // alert('등록 완료');
-        window.location.reload();
-      });
+        window.location.reload()
+      })
     },
     (error) => console.log(error)
-  );
-};
-
+  )
+}
 
 // DB에서 받은시간으로 Date객체 생성
 function parseDateTime(dateTime) {
@@ -271,7 +269,7 @@ select {
   align-items: flex-start;
 }
 .menu {
-  min-width: 30%;
+  min-width: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;
