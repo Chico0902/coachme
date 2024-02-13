@@ -20,6 +20,7 @@ import { storeToRefs } from 'pinia'
 import { decodeToken } from '@/utils/functions/auth'
 import { getPopularCoachingList } from '@/utils/api/coaching-api'
 import { getPopularCoachList } from '@/utils/api/coach-api'
+import Swal from 'sweetalert2'
 
 /**
  * VARIABLES
@@ -48,13 +49,42 @@ const username = computed(() => {
 
 // 로그아웃
 const logoutWithConfirm = () => {
-  if (!confirm('로그아웃 하시겠습니까?')) return
-  accessToken.value = ''
-  profileText.value = '프로필을 등록하세요.'
-  profileImageUrl.value = '/src/assets/icons/coame.png'
-  alert('로그아웃 되었습니다.')
-  window.location.reload()
-}
+  Swal.fire({
+    title: '로그아웃',
+    text: '로그아웃 하시겠습니까?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '네',
+    cancelButtonText: '아니오'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      accessToken.value = '';
+      profileText.value = '프로필을 등록하세요.';
+      profileImageUrl.value = '/src/assets/icons/coame.png';
+      Swal.fire({
+        title: '로그아웃 완료',
+        text: '로그아웃 되었습니다.',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+        didClose: () => {
+          window.location.reload();
+        }
+      });
+    } else {
+      Swal.fire('취소', '로그아웃이 취소되었습니다.', 'info');
+    }
+  });
+};
+
+// 기존코드
+//   if (!confirm('로그아웃 하시겠습니까?')) return
+//   accessToken.value = ''
+//   profileText.value = '프로필을 등록하세요.'
+//   profileImageUrl.value = '/src/assets/icons/coame.png'
+//   alert('로그아웃 되었습니다.')
+//   window.location.reload()
+// }
 
 const screenWidth = ref(window.innerWidth)
 
