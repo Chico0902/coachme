@@ -78,14 +78,6 @@ const timeTable = computed(() => {
   return scheduleList.value[getDateKey(date.value)]
 })
 
-// 코치의 전체 영상 중, 현재 코칭에 해당하는 영상만 추출
-const groupedFilteredVideos = computed(() => {
-  const grouped = []
-  const filtered = videos.value.filter((video) => video.coachingId == videoCoachingId.value)
-  filtered.forEach((video) => grouped.push(video))
-  return grouped
-})
-
 /**
  * METHODS
  */
@@ -243,6 +235,7 @@ onBeforeMount(() => {
             <CoachingDetailCard
               :title="coachingDetail.coachingName"
               :coach="coachingDetail.coachName"
+              :img="coachingDetail.coachProfileImageUrl"
               :rating-model="coachingDetail.reviewAvg"
               :review-count="coachingDetail.reviewCount"
               :bread-crumbs="breadCrumbs"
@@ -288,13 +281,13 @@ onBeforeMount(() => {
               <div class="coaching-video-list">
                 <h2>영상 목록</h2>
                 <div class="coaching-card-outside element-with-scrollbar">
-                  <div v-if="groupedFilteredVideos.length > 0">
+                  <div v-if="videos.length > 0">
                     <div
-                      v-for="videoGroup in groupedFilteredVideos"
+                      v-for="videoGroup in videos"
                       :key="videoGroup.coachingName"
                       class="coaching-card"
                     >
-                      <CoachingCard :label="videoGroup.videoName" :ratio="16 / 9"></CoachingCard>
+                      <CoachingCard :label="videoGroup.videoName" :video="videoGroup.url" :ratio="16 / 9"></CoachingCard>
                     </div>
                   </div>
                   <div v-else class="coaching-card" style="font-size: 16px">조회 가능한 영상이 없습니다.</div>
