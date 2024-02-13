@@ -6,6 +6,7 @@ import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import router from '@/router'
+import Swal from 'sweetalert2'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
@@ -19,6 +20,7 @@ import { useAuthStore } from '@/stores/auth'
 
 // in pinia
 const authStore = useAuthStore()
+import { deleteMyReview } from '@/utils/api/review-api'
 
 const route = useRoute()
 const coachId = ref()
@@ -57,6 +59,60 @@ const reviewData = (data) => {
       dto,
       (success) => {
         console.log(success)
+        Swal.fire({
+          icon: 'success',
+          title: '리뷰를 작성했습니다.',
+          showConfirmButton: true,
+          timer: 1500
+        })
+        resolve()
+      },
+      (fail) => {
+        reject(fail)
+      }
+    )
+  ).then(() => {
+    // 리뷰 작성 후 정보들 다시 리로드
+
+    // 코치 상세 정보
+    getCoachDetailPage(
+      coachId.value,
+      (success) => {
+        console.log(success)
+        coachDetail.value = success.data
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    ),
+      // 코치 리뷰
+      getCoachReview(
+        coachId.value,
+        (success) => {
+          console.log(success)
+          reviews.value = success.data.list
+        },
+        (fail) => {
+          console.log(fail)
+        }
+      )
+  })
+}
+
+// 리뷰 삭제
+const deleteReview = (reviewId) => {
+  new Promise((resolve, reject) =>
+    // 리뷰 삭제
+    deleteMyReview(
+      reviewId,
+      (success) => {
+        console.log(success)
+        Swal.fire({
+          icon: 'success',
+          title: '리뷰를 삭제했습니다.',
+          showConfirmButton: true,
+          timer: 1500
+        })
         resolve()
       },
       (fail) => {
@@ -248,17 +304,17 @@ const showCoaching = (mainCategory, name, subCategory, summary, id) => {
             </template>
 
             <!-- 리뷰 -->
-            <template v-if="currentMenu === 'review'">
-              <div class="coach-review">
-                <h2>리뷰</h2>
-                <Reviews
-                  :reviews="reviews"
-                  :rating-model="coachDetail.reviewAvg"
-                  v-bind:review-count="coachDetail.reviewCount"
-                  @review-data="reviewData"
-                ></Reviews>
-              </div>
-            </template>
+            <div class="coach-review">
+              <h2>리뷰</h2>
+              <Reviews
+                :reviews="reviews"
+                :rating-model="coachDetail.reviewAvg"
+                v-bind:review-count="coachDetail.reviewCount"
+                @review-data="reviewData"
+                @delete-review="deleteReview"
+              >
+              </Reviews>
+            </div>
           </div>
         </div>
         <!-- 우측 안내창 -->
