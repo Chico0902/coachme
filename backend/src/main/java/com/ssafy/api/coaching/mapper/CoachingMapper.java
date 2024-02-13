@@ -47,6 +47,7 @@ public interface CoachingMapper {
   // [coaching-2] 코칭 수정 요청 시 해당 DTO를 코칭으로 변경한다.
   List<CoachesCoachingsResponseDto> coachingToCoachesCoachingsResponseDto(List<Coaching> coachingList);
 
+  @Mapping(source = "id", target = "coachingId")
   @Mapping(source = "name", target = "coachingName")
   @Mapping(source = "summary", target = "coachingSummary")
   @Mapping(source = "mainCategory.name", target = "coachingMainCategory")
