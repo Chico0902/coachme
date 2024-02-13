@@ -83,8 +83,8 @@ const setVideo = () => {
       <!-- 대표 영상 설정 -->
     </q-item>
     <q-separator v-if="!visible"></q-separator>
-    <q-item>
-      <q-item-section v-if="!visible">
+    <q-item v-if="!visible">
+      <q-item-section >
         <div class="buttons">
           <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
             <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>

@@ -117,7 +117,7 @@ onBeforeMount(() => {
           <div class="profile">
             <!-- 코치 상세 정보 -->
             <CoachDetailCard :coach="coachDetail.coachName" :rating-model="coachDetail.reviewAvg"
-              :review-count="coachDetail.reviewCount"></CoachDetailCard>
+              :review-count="coachDetail.reviewCount" :img="coachDetail.coachProfileImageUrl"></CoachDetailCard>
             <q-separator></q-separator>
 
             <!-- 코치 포트폴리오 중단 메뉴 -->
