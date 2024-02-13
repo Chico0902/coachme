@@ -16,5 +16,6 @@ public class CoachingDetailResponseDto {
   private long likeCount;
   private String mainCategory;
   private String subCategory;
+  private String representUrl;
 
 }
