@@ -14,6 +14,5 @@ export const useLikeStore = defineStore('counter', () => {
     return count.value
   } // id 생성용 getter
 
-
   return { count, incrementCount, getCount }
 })
