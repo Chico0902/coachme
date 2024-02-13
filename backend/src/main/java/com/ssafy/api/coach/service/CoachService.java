@@ -6,7 +6,6 @@ import com.ssafy.api.coach.dto.request.PortfolioRequestDto;
 import com.ssafy.api.coach.dto.response.*;
 import com.ssafy.api.coach.mapper.CoachMapper;
 import com.ssafy.api.coaching.dto.response.CoachDetail;
-import com.ssafy.api.coaching.dto.response.CoachingResponseDto;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
@@ -14,16 +13,17 @@ import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.*;
-import com.ssafy.db.entity.type.CategoryType;
 import com.ssafy.util.file.Mapper.FileMapper;
 import com.ssafy.util.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -54,8 +54,8 @@ public class CoachService {
     Set<Long> idSet = new HashSet<>();
 
     List<Coaching> coachings = coachingRepository.findByCoachingCategory(division1, division2, coachesRequestDto.getWords(), coachesRequestDto.getLoginMemberId());
-    for(Coaching coaching: coachings){
-      if(idSet.contains(coaching.getCoach().getLongId())) continue;
+    for (Coaching coaching : coachings) {
+      if (idSet.contains(coaching.getCoach().getLongId())) continue;
 
       CoachesResponseDto dto = new CoachesResponseDto();
       dto.setCoachId(coaching.getCoach().getLongId());
@@ -63,16 +63,16 @@ public class CoachService {
       dto.setProfileImg(coaching.getCoach().getProfileImage().getUrl());
       dto.setLessonInfo(coaching.getSummary());
 
-      if(!coaching.getCoach().getReceivedReviews().isEmpty()){
+      if (!coaching.getCoach().getReceivedReviews().isEmpty()) {
         int sum = 0;
-        for (Review review : coaching.getCoach().getReceivedReviews()){
+        for (Review review : coaching.getCoach().getReceivedReviews()) {
           sum += review.getScore();
         }
-        if(sum != 0){
-          dto.setAvgScore((float) (sum/coaching.getCoach().getReceivedReviews().size()));
+        if (sum != 0) {
+          dto.setAvgScore((float) (sum / coaching.getCoach().getReceivedReviews().size()));
         }
         dto.setReviewCount(coaching.getCoach().getReceivedReviews().size());
-      }else{
+      } else {
         dto.setReviewCount(0);
         dto.setAvgScore(0.0F);
       }

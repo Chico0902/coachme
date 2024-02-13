@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Slf4j
 public class Member extends BaseEntity {
 
   @Id
@@ -62,7 +64,6 @@ public class Member extends BaseEntity {
   @Column(nullable = false)
   private Privilege privilege = Privilege.COAME;  // 생성 시 코미
 
-
   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "portfolio_id")
   private Portfolio portfolio;
@@ -78,10 +79,6 @@ public class Member extends BaseEntity {
   // 코미가 누른 좋아요
   @OneToMany(mappedBy = "coame", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Likes> sendLikes = new ArrayList<>();
-
-  // 코치가 코미에게 받은 좋아요
-  @OneToMany(mappedBy = "coach")
-  private List<Likes> receivedLikes = new ArrayList<>();
 
   // 코미가 남긴 리뷰
   @OneToMany(mappedBy = "coame")
@@ -161,9 +158,28 @@ public class Member extends BaseEntity {
   public void likeCoach(Likes like) {
     this.sendLikes.add(like);
   }
+
   //코칭 찜콩
   public void likeCoaching(Likes like) {
     this.sendLikes.add(like);
+  }
+
+  public boolean isCoachInLikes(Member coach) {
+    for (Likes like : this.sendLikes) {
+      if (like.getCoach() == coach) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean isCoachingInLikes(Coaching coaching) {
+    for (Likes like : this.sendLikes) {
+      if (like.getCoaching() == coaching) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

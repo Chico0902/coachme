@@ -1,7 +1,6 @@
 package com.ssafy.api.coaching.controller;
 
 import com.ssafy.api.coaching.dto.request.CoachingRequestDto;
-import com.ssafy.api.coaching.dto.request.SearchWordsRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.dto.response.LiveCoachingsResponseDto;
@@ -33,7 +32,11 @@ public class CoachingController {
   @GetMapping("/live/{liveCoachingId}/{coameId}")
   public ResponseEntity<?> signUpClass(@PathVariable Long liveCoachingId, @PathVariable Long coameId) {
 
-    coachingService.signUpClass(liveCoachingId, coameId);
+    try {
+      coachingService.signUpClass(liveCoachingId, coameId);
+    } catch (Exception e) {
+      return new ResponseEntity<>(new MessageDto(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     return new ResponseEntity<>(new MessageDto("sign up successfully !"), HttpStatus.OK);
   }
@@ -55,8 +58,8 @@ public class CoachingController {
    * [coaching-3] 해당 분류 코칭의 정보를 받아온다.
    * privilege : 0
    *
-   * @param division1             : 카테고리 테이블 내의 MAIN 분류 / all
-   * @param division2             : 카테고리 테이블 내의 SUB 분류 / all
+   * @param division1          : 카테고리 테이블 내의 MAIN 분류 / all
+   * @param division2          : 카테고리 테이블 내의 SUB 분류 / all
    * @param coachingRequestDto : 검색어 / all, 로그인 유저 longId / -1
    * @return - [200] list
    */

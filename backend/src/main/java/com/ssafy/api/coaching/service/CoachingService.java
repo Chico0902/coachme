@@ -13,7 +13,6 @@ import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.*;
-import com.ssafy.db.entity.type.CategoryType;
 import com.ssafy.util.file.repository.FileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -55,11 +54,19 @@ public class CoachingService {
    * @param liveCoachingId - 라이브 코칭 id
    * @param coameId        - 코미 id
    */
-  public void signUpClass(Long liveCoachingId, Long coameId) {
+  public void signUpClass(Long liveCoachingId, Long coameId) throws Exception {
     LiveCoaching liveCoaching = liveCoachingRepository.getReferenceById(liveCoachingId);
     Member member = memberRepository.getReferenceById(coameId);
-    CoameCoaching coameCoaching = new CoameCoaching();
-    coameCoaching.createCoaching(liveCoaching, member);
+    if (member.getCoameTaughtCourses() != null) {
+      for (CoameCoaching coameCoaching : member.getCoameTaughtCourses()) {
+        if (coameCoaching.getLiveCoaching() == liveCoaching) {
+          throw new Exception("sign up duplicated");
+        }
+      }
+      CoameCoaching newCoameCoaching = new CoameCoaching();
+      newCoameCoaching.createCoaching(liveCoaching, member);
+    }
+
   }
 
   /**
@@ -102,7 +109,7 @@ public class CoachingService {
 
     List<Coaching> coachings = coachingRepository.findByCoachingCategory(division1, division2, coachingRequestDto.getWords(), coachingRequestDto.getLoginMemberId());
 
-    for(Coaching coaching: coachings){
+    for (Coaching coaching : coachings) {
       CoachingResponseDto dto = new CoachingResponseDto();
       dto.setCoachId(coaching.getCoach().getLongId());
       dto.setMemberName(coaching.getCoach().getName());
@@ -110,16 +117,16 @@ public class CoachingService {
       dto.setCoachingId(coaching.getId());
       dto.setCoachingName(coaching.getName());
 
-      if(!coaching.getReceivedReviews().isEmpty()){
+      if (!coaching.getReceivedReviews().isEmpty()) {
         int sum = 0;
-        for (Review review : coaching.getReceivedReviews()){
+        for (Review review : coaching.getReceivedReviews()) {
           sum += review.getScore();
         }
-        if(sum != 0){
-          dto.setAvgScore((float) (sum/coaching.getReceivedReviews().size()));
+        if (sum != 0) {
+          dto.setAvgScore((float) (sum / coaching.getReceivedReviews().size()));
         }
         dto.setReviewCount(coaching.getReceivedReviews().size());
-      }else{
+      } else {
         dto.setReviewCount(0);
         dto.setAvgScore(0.0F);
       }

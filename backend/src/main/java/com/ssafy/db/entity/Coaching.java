@@ -25,11 +25,11 @@ public class Coaching extends BaseEntity {
   private Member coach;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "main_category_id")
+  @JoinColumn(name = "main_category_id", nullable = false)
   private Category mainCategory;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "sub_category_id")
+  @JoinColumn(name = "sub_category_id", nullable = false)
   private Category subCategory;
 
   @Column(nullable = false, length = 50)

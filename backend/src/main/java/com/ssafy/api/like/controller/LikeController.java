@@ -2,9 +2,7 @@ package com.ssafy.api.like.controller;
 
 import com.ssafy.api.like.dto.response.CheckCoachLikeDto;
 import com.ssafy.api.like.dto.response.CheckCoachingLikeDto;
-import com.ssafy.api.like.repository.LikeRepository;
 import com.ssafy.api.like.service.LikeService;
-import com.ssafy.api.member.dto.response.MemberInfoResponseDto;
 import com.ssafy.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +31,6 @@ public class LikeController {
 
     likeService.sendLikeCoach(coameId, coachId);
 
-    // 코치 찜콩 완료(200)
     return new ResponseEntity<>(new MessageDto("regist like successful"), HttpStatus.OK);
   }
 
@@ -50,7 +47,6 @@ public class LikeController {
 
     likeService.sendLikeCoaching(coameId, coachingId);
 
-    // 코칭 찜콩 완료(200)
     return new ResponseEntity<>(new MessageDto("regist like successful"), HttpStatus.OK);
   }
 
