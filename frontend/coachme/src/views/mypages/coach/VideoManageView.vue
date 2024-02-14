@@ -3,6 +3,7 @@ import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getVideoList } from '@/utils/api/coach-api'
+import VideoUploader from '@/components/molecules/videoManage/VideoUploader.vue'
 
 /**
  * VARIABLES
@@ -40,6 +41,9 @@ const groupedFilteredVideos = computed(() => {
   return grouped
 })
 
+// 등록 모달
+const show = ref(false)
+
 /**
  * METHODS
  */
@@ -65,21 +69,25 @@ onBeforeMount(() => {
       나의 영상관리
       <div class="editor-detail">나만의 영상을 편집하고, 게시해보세요!</div>
     </div>
-    <div class="menu SMN_effect-42">
-      <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="등록하기">등록하기</span></RouterLink>
-    </div>
-    <div class="menu SMN_effect-42">
-      <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="등록하기">등록하기</span></RouterLink>
-    </div>
-    <div class="coaching-dropdown">
-      <q-select
-        v-model="selectedCoachingId"
-        :options="coachingOptions"
-        label="코칭 이름"
-        emit-value
-        map-options
-        @change="filterVideos"
-      />
+    <div class="menu-bar">
+      <div class="coaching-dropdown">
+        <q-select
+          v-model="selectedCoachingId"
+          :options="coachingOptions"
+          label="코칭 이름"
+          emit-value
+          map-options
+          @change="filterVideos"
+        />
+      </div>
+      <div class="menu">
+        <div class="SMN_effect-42">
+          <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="편집하기">편집하기</span></RouterLink>
+        </div>
+        <div class="SMN_effect-42">
+          <a href="#" @click.prevent="show = true"><span data-hover="등록하기">등록하기</span></a>
+        </div>
+      </div>
     </div>
 
     <div class="coaching-outside">
@@ -110,9 +118,30 @@ onBeforeMount(() => {
       해당하는 영상이 없습니다.
     </div>
   </div>
+  <q-dialog v-model="show">
+    <q-card>
+      <q-card-section class="bg-primary text-white">
+        <q-item>
+          <q-item-section>
+            <VideoUploader @uploadVideo="uploadNewVideo" />
+            <q-item-label class="coaching-name">{{ coachingName }}</q-item-label>
+            <q-item-label caption class="coaching-detail">{{ coachingSummary }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-card-section>
+      <q-card-actions class="modal-option" align="right">
+        <q-btn flat label="등록하기" color="primary" @click="router.push(`/search/coaching/detail/${coachingId}`)" />
+        <q-btn flat label="취소" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style scoped>
+.menu-bar {
+  display: flex;
+  justify-content: space-between;
+}
 .main-title {
   display: inline-block;
   font-size: 2rem;
@@ -133,8 +162,8 @@ onBeforeMount(() => {
 }
 
 .coaching-dropdown {
+  margin-left: 5rem;
   width: 25%;
-  margin-left: 42.3vw;
 }
 
 .coaching-outside {
@@ -167,6 +196,22 @@ onBeforeMount(() => {
 
 .element-with-scrollbar:hover {
   overflow: auto;
+}
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5rem;
+}
+.menu a {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.2rem;
+  font-weight: 400;
+  padding: 15px 25px;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 .SMN_effect-42 a {
   position: relative;

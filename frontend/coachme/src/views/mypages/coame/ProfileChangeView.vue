@@ -86,9 +86,9 @@ const changeProfileImage = (newImage) => {
       newFile,
       (success) => {
         Swal.fire({
-          title: "이미지 업로드 완료!",
-          icon: "success"
-        });
+          title: '이미지 업로드 완료!',
+          icon: 'success'
+        })
         // alert('이미지 업로드 완료')
         profileImageUrl.value = success.data.profileImageUrl
         changeImageModal.value = false
@@ -97,8 +97,6 @@ const changeProfileImage = (newImage) => {
     )
   }
 }
-
-
 
 const deleteProfileImg = () => {
   Swal.fire({
@@ -113,28 +111,14 @@ const deleteProfileImg = () => {
       deleteProfileImage(
         longId,
         () => {
-          Swal.fire('프로필 이미지 삭제 완료', '', 'success');
-          profileImageUrl.value = '/assets/icons/coame.png';
+          Swal.fire('프로필 이미지 삭제 완료', '', 'success')
+          profileImageUrl.value = '/assets/icons/coame.png'
         },
         (fail) => console.log(fail)
-      );
+      )
     }
-  });
-};
-
-// 프로필 이미지 삭제 기존코드
-// const deleteProfileImg = () => {
-//   if (confirm('이미지를 삭제하시겠습니까?')) {
-//     deleteProfileImage(
-//       longId,
-//       () => {
-//         alert('프로필 이미지 삭제완료')
-//         profileImageUrl.value = '/assets/icons/coame.png'
-//       },
-//       (fail) => console.log(fail)
-//     )
-//   }
-// }
+  })
+}
 
 function changeProfileText(newProfileText) {
   Swal.fire({
@@ -146,40 +130,19 @@ function changeProfileText(newProfileText) {
     cancelButtonText: '아니오'
   }).then((result) => {
     if (result.isConfirmed) {
-      const dto = new ProfileTextRequestDto(newProfileText);
+      const dto = new ProfileTextRequestDto(newProfileText)
       postProfileText(
         longId,
         dto,
         () => {
-          Swal.fire('프로필 변경 완료', '', 'success');
-          profileText.value = newProfileText;
+          Swal.fire('프로필 변경 완료', '', 'success')
+          profileText.value = newProfileText
         },
         (fail) => console.log(fail)
-      );
+      )
     }
-  });
+  })
 }
-
-
-// 프로필 글 수정 기존코드
-// function changeProfileText(newProfileText) {
-//   console.log(newProfileText)
-//   if (confirm('프로필을 변경하시겠습니까?')) {
-//     const dto = new ProfileTextRequestDto(newProfileText)
-//     postProfileText(
-//       longId,
-//       dto,
-//       () => {
-//         alert('프로필 변경 완료')
-//         profileText.value = newProfileText
-//       },
-//       (fail) => console.log(fail)
-//     )
-//   }
-// }
-
-
-
 
 // 회원정보 수정
 const changeMemberInfo = (pw, newNick, newEmail) => {
@@ -200,24 +163,26 @@ const changeMemberInfo = (pw, newNick, newEmail) => {
     dto,
     () => {
       Swal.fire({
-          title: "회원정보 수정 완료!",
-          icon: "success"
-        });
+        title: '회원정보 수정 완료!',
+        icon: 'success'
+      })
       // alert('회원정보 수정 완료')
       window.location.reload()
     },
     // API 호출 실패 시 오류메시지 콘솔에 출력
     (fail) => {
       console.log(fail)
-      if (fail.response.status === 401) Swal.fire({
-          title: "잘못된 비밀번호입니다!",
-          icon: "info"
-        });
-        // alert('잘못된 비밀번호입니다.')
-      else Swal.fire({
-          title: "잘못된 요청입니다!",
-          icon: "info"
-        });
+      if (fail.response.status === 401)
+        Swal.fire({
+          title: '잘못된 비밀번호입니다!',
+          icon: 'info'
+        })
+      // alert('잘못된 비밀번호입니다.')
+      else
+        Swal.fire({
+          title: '잘못된 요청입니다!',
+          icon: 'info'
+        })
       // alert('잘못된 요청입니다.')
     }
   )
