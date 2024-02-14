@@ -5,7 +5,7 @@ import CustomLike from '../atoms/CustomLike.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { useChatStore } from '../../stores/chat-status.js'
-import { getLikeCoaching,  deleteLikeCoaching,  getCheckCoachingLike } from '@/utils/api/like-api'
+import { getLikeCoaching, deleteLikeCoaching, getCheckCoachingLike } from '@/utils/api/like-api'
 
 const store = useChatStore()
 const { requestDm } = store
@@ -15,7 +15,7 @@ const props = defineProps({
   coach: {
     // 코치 이름
     type: String
-  }, 
+  },
   coachingId: {
     type: Number,
   }
@@ -42,11 +42,12 @@ onBeforeMount(() => {
       },
       (fail) => reject(fail)
     )
-  )}
+  )
+}
 )
 
 const changeState = () => {
-  if(likeState.value === true) {
+  if (likeState.value === true) {
     deleteLikeCoaching(
       myLongId.value, props.coachingId,
       (success) => {
@@ -81,22 +82,22 @@ const changeState = () => {
           <Labels :label="chatLabel" class="card-margin" style="margin: auto"></Labels>
         </q-item-section>
 
-        <!-- 찜콩 버튼 -->
-        <q-item-section style="margin: 0vh auto -2vh">
-          <CustomLike :like="likeState" @click="changeState"></CustomLike>
-        </q-item-section>
-
         <!-- 코칭 신청하기 버튼과 채팅하기 버튼 -->
         <q-item-section>
           <div class="buttons card-margin">
-            <CustomButton style="width: 6rem; height: 20px; background-color: #fcbf17; color: black"
-              >신청하기
-            </CustomButton>
-            <CustomButton
-              style="width: 6rem; height: 20px; margin-left: 0.5vw; background-color: #004c98; color: white"
-              @click="requestDm()"
-              >채팅하기</CustomButton
-            >
+            <CustomButton style="width: 6rem; height: 20px; margin-left: 0.5vw; background-color: #004c98; color: white"
+              @click="requestDm()">채팅하기</CustomButton>
+          </div>
+        </q-item-section>
+
+        <q-separator style="margin-top: 2vh;"></q-separator>
+
+        <Labels label="이 코칭이 마음에 드셨나요?" class="card-margin"></Labels>
+        <Labels label="좋아요 버튼을 클릭해주세요!" class="card-margin"></Labels>
+
+        <q-item-section>
+          <div class="buttons card-margin">
+            <CustomLike :like="likeState" @click="changeState"></CustomLike>
           </div>
         </q-item-section>
       </q-item-section>
@@ -108,11 +109,13 @@ const changeState = () => {
 .my-card {
   width: 100%;
   max-width: max-content;
+  text-align: center;
 }
 
 .buttons {
   display: flex;
   align-items: center;
+  margin: auto;
 }
 
 .card-margin {
