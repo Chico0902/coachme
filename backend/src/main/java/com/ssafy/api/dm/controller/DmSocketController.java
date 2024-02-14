@@ -47,5 +47,4 @@ public class DmSocketController {
     DmSocketResponseMessage returnMessage = dmSocketService.liveSendDm(message);
     return returnMessage;
   }
-
 }

@@ -59,6 +59,7 @@ public interface CoachingMapper {
 
   @Mapping(source = "coaching.name", target = "className")
   @Mapping(source = "coachingDate", target = "date")
+  @Mapping(source = "coaching.coach.longId", target = "coachId")
   CalendarResponseDto liveCoachingToCalendarResponseDto(LiveCoaching liveCoaching);
 
   List<CalendarResponseDto> liveCoachingToCalendarResponseDto(List<LiveCoaching> liveCoaching);
