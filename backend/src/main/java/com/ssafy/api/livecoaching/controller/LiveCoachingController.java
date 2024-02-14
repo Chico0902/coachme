@@ -3,6 +3,7 @@ package com.ssafy.api.livecoaching.controller;
 import com.ssafy.api.livecoaching.dto.request.StartRecordingRequestDto;
 import com.ssafy.api.livecoaching.dto.response.LiveCoachingMemberResponseDto;
 import com.ssafy.api.livecoaching.service.LiveCoachingService;
+import com.ssafy.dto.MessageDto;
 import io.openvidu.java.client.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,11 +56,7 @@ public class LiveCoachingController {
   public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
       throws OpenViduJavaClientException, OpenViduHttpException {
     SessionProperties properties = SessionProperties.fromJson(params).build();
-    log.debug("properties {}", properties);
-    log.debug("openVidu: {}", openvidu);
     Session session = openvidu.createSession(properties);
-    log.debug("session {}", session);
-
     return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
   }
 
@@ -94,7 +91,7 @@ public class LiveCoachingController {
   public ResponseEntity<?> startRecording(@PathVariable("sessionId") String sessionId) {
     RecordingProperties properties =
         new RecordingProperties.Builder()
-            .outputMode(Recording.OutputMode.COMPOSED)
+            .outputMode(Recording.OutputMode.INDIVIDUAL)
             .hasAudio(true)
             .hasVideo(true)
             .build();
@@ -115,8 +112,11 @@ public class LiveCoachingController {
   @GetMapping("/recording/stop/{recordingId}")
   public ResponseEntity<?> stopRecording(@PathVariable("recordingId") String recordingId) {
     try {
+      log.debug("recordingId {}", recordingId);
       Recording recording = openvidu.stopRecording(recordingId);
       sessionRecordings.remove(recording.getSessionId());
+
+//      return new ResponseEntity<>(new MessageDto("Recording successful.") , HttpStatus.OK);
       return new ResponseEntity<>(recording, HttpStatus.OK);
     } catch (OpenViduJavaClientException | OpenViduHttpException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
