@@ -7,12 +7,16 @@ import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import router from '@/router'
 import Swal from 'sweetalert2'
+import DmWindow from '@/components/molecules/DmWindow.vue'
+import DmList from '@/components/molecules/DmList.vue'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getCoachDetailPage } from '@/utils/api/coach-api'
 import { getCoachReview, postcoachReview, deleteMyReview, patchMyReview } from '@/utils/api/review-api'
 import { useAuthStore } from '@/stores/auth'
+import { useChatStore } from '@/stores/chat-status'
+import { storeToRefs } from 'pinia'
 
 /**
  * VARIABLES
@@ -20,6 +24,9 @@ import { useAuthStore } from '@/stores/auth'
 
 // in pinia
 const authStore = useAuthStore()
+const chatStore = useChatStore()
+const { useDmWindow } = storeToRefs(chatStore)
+const { openChatList } = chatStore
 
 const route = useRoute()
 const coachId = ref()
@@ -59,11 +66,11 @@ const reviewData = (data) => {
       (success) => {
         console.log(success)
         Swal.fire({
-          icon: "success",
-          title: "리뷰를 작성했습니다.",
+          icon: 'success',
+          title: '리뷰를 작성했습니다.',
           showConfirmButton: true,
           timer: 1500
-        });
+        })
         resolve()
       },
       (fail) => {
@@ -148,25 +155,24 @@ const deleteReview = (reviewId) => {
 
 // 리뷰 수정
 const updateReview = (data) => {
-
   const reviewDto = {
-    "comment" : data.review.value,
-    "score" : data.ratingScore.value
+    comment: data.review.value,
+    score: data.ratingScore.value
   }
 
   new Promise((resolve, reject) =>
-
     // 리뷰 수정
     patchMyReview(
-      data.reviewId, reviewDto,
+      data.reviewId,
+      reviewDto,
       (success) => {
         console.log(success)
         Swal.fire({
-          icon: "success",
-          title: "리뷰를 수정했습니다.",
+          icon: 'success',
+          title: '리뷰를 수정했습니다.',
           showConfirmButton: true,
           timer: 1500
-        });
+        })
         resolve()
       },
       (fail) => {
@@ -350,13 +356,31 @@ const showCoaching = (mainCategory, name, subCategory, summary, id) => {
         </div>
         <!-- 우측 안내창 -->
         <div class="chat-box">
-          <ChatBox :coach="coachDetail.coachName" :coachId="coachId"></ChatBox>
+          <ChatBox
+            :coach="coachDetail.coachName"
+            :coachId="coachId"
+            :profileImg="coachDetail.coachProfileImageUrl"
+          ></ChatBox>
         </div>
 
         <!-- 채팅 플로팅 버튼 -->
         <div class="chat-button">
-          <q-btn round size="20px" color="amber-7" icon="chat"></q-btn>
+          <q-btn round size="20px" color="amber-7" icon="chat" @click="openChatList()"></q-btn>
+          <q-menu style="max-height: 400px; max-width: 400px">
+            <DmList />
+          </q-menu>
         </div>
+        <q-layout
+          v-if="useDmWindow === true"
+          view="lHh Lpr lFf"
+          container
+          style="height: 400px"
+          class="shadow-2 rounded-borders dm-window-container"
+        >
+          <q-page-container>
+            <DmWindow />
+          </q-page-container>
+        </q-layout>
       </div>
     </div>
   </div>
@@ -524,5 +548,17 @@ h2 {
 }
 .modal-option {
   font-family: 'TheJamsil5Bold';
+}
+.dm-window-container {
+  position: fixed;
+  bottom: 150px;
+  right: 10vw;
+  color: #fff;
+  background-color: white;
+  text-align: center;
+  z-index: 7000;
+  max-height: 600px;
+  max-width: 300px;
+  overflow: scroll;
 }
 </style>

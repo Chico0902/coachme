@@ -72,7 +72,9 @@ const getData = computed(() => {
                 <div class="ratingForm" style="width: fit-content">
                   <q-btn flat round color="amber-7" icon="star" disable></q-btn>
                   <span class="rating"
-                    >{{ coaching.avgScore !== null ? Math.round(coaching.avgScore * 10) / 10 : 0 }} ({{ coaching.reviewCount }})</span
+                    >{{ coaching.avgScore !== null ? Math.round(coaching.avgScore * 10) / 10 : 0 }} ({{
+                      coaching.reviewCount
+                    }})</span
                   >
                 </div>
                 <!-- 공간 분리 -->
@@ -83,7 +85,7 @@ const getData = computed(() => {
                   <buttons
                     label="문의하기"
                     style="background-color: #fcbf17"
-                    @click="openChatByMemberId(coaching.coachId, coaching.memberName, coaching.profileImg)"
+                    @click="openChatByMemberId(coachId, coaching.memberName, coaching.profileImg)"
                   ></buttons>
                   <buttons
                     label="상세보기"
