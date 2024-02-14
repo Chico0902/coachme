@@ -3,35 +3,37 @@ import LiveMenuList from '@/components/molecules/LiveMenuList.vue'
 import UserVideo from '@/components/openvidu/UserVideo.vue'
 import LiveChat from '@/components/molecules/LiveChat.vue'
 import profile from '@/components/atoms/ProfileImage.vue'
-import LivePeopleList from '@/components/molecules/LivePeopleList.vue'
-import { ref, onBeforeMount } from 'vue'
+import router from '@/router'
+import { ref, onBeforeMount, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { OpenVidu } from 'openvidu-browser'
 import { postLiveCoachingEntrnce, postConnectLiveCoaching } from '@/utils/api/livecoaching-api'
 import { useMemberStore } from '@/stores/member'
-import router from '@/router'
+import { decodeToken } from '@/utils/functions/auth'
+import { useAuthStore } from '@/stores/auth'
 
 /**
  * VARIABLES
  */
 
 // for pinia
+const authStore = useAuthStore()
+const myName = decodeToken(authStore.accessToken).name
 const memberStore = useMemberStore()
-const { longId } = memberStore
+const { longId, profileText, profileImageUrl } = memberStore
 
 // for vue
 const route = useRoute()
 
 // local variable
 const coachingTitle = ref('이것만 알면 당신도 할 수 있다.') // 코칭 제목
-const participants = ref([
-  { name: '고코치', imageUrl: '/assets/img/logo.png', profileText: '안녕하세요 고코치입니다.' },
-  { name: '고코미', imageUrl: '/assets/icons/coame.png', profileText: '안녕하세요 고코미입니다.' },
-  { name: '고양이', imageUrl: '/assets/icons/coame.png', profileText: '안녕하세요 고양이입니다.' },
-  { name: '옆동네 고양이', imageUrl: '/assets/icons/coame.png', profileText: '야옹야옹야옹' },
-  { name: '코숏', imageUrl: '/assets/icons/coame.png', profileText: 'Korean ShotHair' }
-]) // 참가자 목록
-const id = 'coame' // 사용자 이름
+const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, profileText: profileText }
+const participants = computed(() => {
+  const ret = []
+  subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
+  console.log(ret)
+  return ret
+}) // 참가자 목록
 const dm = ref([]) // 채팅 목록
 
 // for render
@@ -114,9 +116,9 @@ function joinSession() {
   sessionCamera.value.on('streamCreated', (event) => {
     if (event.stream.typeOfVideo == 'CAMERA') {
       const subscriber = sessionCamera.value.subscribe(event.stream, 'container-cameras')
-      // const metadata = JSON.parse(event.target.options.metadata);
-      // const clientData = metadata.clientData;
-      // participants.value.push(clientData)
+      const metadata = JSON.parse(event.target.options.metadata)
+      const clientData = metadata.clientData
+      console.log(clientData)
       subscribers.value.push(subscriber)
     }
   })
@@ -154,10 +156,11 @@ function joinSession() {
 
   // Get a token from the OpenVidu deployment
   getToken(mySessionId).then((token) => {
+    const clientData = myData
     // First param is the token. Second param can be retrieved by every user on event
     // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
     sessionCamera.value
-      .connect(token, { clientData: myUserName.value })
+      .connect(token, { clientData })
       .then(() => {
         // --- 5) Get your own camera stream with the desired properties ---
 
@@ -177,7 +180,6 @@ function joinSession() {
         // Set the main video in the page to display our webcam and store our Publisher
         mainStreamManager.value = publisher.value
         subscribers.value.push(publisher.value)
-        participants.value.push(myUserName.value)
 
         // --- 6) Publish your stream ---
 
@@ -223,10 +225,17 @@ function updateMainVideoStreamManager(stream) {
 }
 
 async function getToken(mySessionId) {
+  console.log(getToken)
   const sessionId = await postConnectLiveCoaching({ customSessionId: mySessionId })
-  console.log(myUserName.value)
   const response = await postLiveCoachingEntrnce(sessionId, myUserName.value)
-  console.log(response)
+  const newParticipant = {
+    id: response.memberId,
+    memberName: response.memberName,
+    imageUrl: response.memberProfileUrl,
+    profileText: response.memberProfileText
+  }
+  const inParticipantsFind = participants.value.find((participant) => participant.id === newParticipant.id)
+  if (inParticipantsFind === undefined) participants.value.push(newParticipant)
   return response.token
 }
 </script>
@@ -241,12 +250,15 @@ async function getToken(mySessionId) {
     <div class="main-layout">
       <div class="chat-outside">
         <!-- 코치 화면 -->
-        <div class="coach">
+        <!-- <div class="coach">
           <UserVideo id="main-video" :stream-manager="mainStreamManager" />
-        </div>
+        </div> -->
 
+        <div v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
+          <UserVideo :stream-manager="sub" />
+        </div>
         <!-- 코미 화면 -->
-        <div class="coame element-with-scrollbar">
+        <!-- <div class="coame element-with-scrollbar">
           <div id="video-container" class="col-6" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
             <button
               style="position: absolute; top: 10px; right: 10px"
@@ -257,7 +269,7 @@ async function getToken(mySessionId) {
             </button>
             <user-video :stream-manager="sub" />
           </div>
-        </div>
+        </div> -->
 
         <!-- 채팅 -->
         <q-layout
@@ -282,7 +294,7 @@ async function getToken(mySessionId) {
                 </q-item>
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ participant.name }}</q-item-label>
+                <q-item-label>{{ participant.memberName }}</q-item-label>
                 <q-item-label caption>{{ participant.profileText }}</q-item-label>
               </q-item-section>
             </q-item>
