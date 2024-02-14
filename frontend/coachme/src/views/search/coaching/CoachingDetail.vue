@@ -407,7 +407,7 @@ onBeforeMount(() => {
                   <div v-if="videos.length > 0">
                     <div v-for="videoGroup in videos" :key="videoGroup.coachingName" class="coaching-card">
                       <CoachingCard
-                        :label="videoGroup.videoName"
+                        :label="videoGroup.name"
                         :video="videoGroup.url"
                         :ratio="16 / 9"
                       ></CoachingCard>
