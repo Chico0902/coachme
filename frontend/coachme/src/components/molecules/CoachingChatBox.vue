@@ -5,22 +5,28 @@ import CustomLike from '../atoms/CustomLike.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { useChatStore } from '../../stores/chat-status.js'
-import { getLikeCoaching,  deleteLikeCoaching,  getCheckCoachingLike } from '@/utils/api/like-api'
+import { getLikeCoaching, deleteLikeCoaching, getCheckCoachingLike } from '@/utils/api/like-api'
 
-const store = useChatStore()
-const { requestDm } = store
+const chatStore = useChatStore()
+const { openChatByMemberId } = chatStore
+
 // 채팅 관련 store
 
 const props = defineProps({
   coach: {
     // 코치 이름
     type: String
-  }, 
+  },
   coachingId: {
-    type: Number,
+    type: Number
+  },
+  coachId: {
+    type: Number
+  },
+  profileImg: {
+    type: String
   }
 })
-
 const chatLabel = computed(() => props.coach + '님께 문의해보세요.')
 // 코치이름에 따라 반응형으로 변경
 
@@ -31,9 +37,9 @@ onBeforeMount(() => {
   myLongId.value = decodeToken(getAccessToken()).longId
 
   new Promise((resolve, reject) =>
-
     getCheckCoachingLike(
-      myLongId.value, props.coachingId,
+      myLongId.value,
+      props.coachingId,
       (success) => {
         console.log(success)
         likeState.value = success.data.islike
@@ -42,23 +48,24 @@ onBeforeMount(() => {
       },
       (fail) => reject(fail)
     )
-  )}
-)
+  )
+})
 
 const changeState = () => {
-  if(likeState.value === true) {
+  if (likeState.value === true) {
     deleteLikeCoaching(
-      myLongId.value, props.coachingId,
+      myLongId.value,
+      props.coachingId,
       (success) => {
         console.log(success)
       },
       (fail) => console.log(fail)
     )
     likeState.value = !likeState.value
-
   } else {
     getLikeCoaching(
-      myLongId.value, props.coachingId,
+      myLongId.value,
+      props.coachingId,
       (success) => {
         console.log(success)
       },
@@ -66,9 +73,7 @@ const changeState = () => {
     )
     likeState.value = !likeState.value
   }
-
 }
-
 </script>
 
 <template>
@@ -94,7 +99,7 @@ const changeState = () => {
             </CustomButton>
             <CustomButton
               style="width: 6rem; height: 20px; margin-left: 0.5vw; background-color: #004c98; color: white"
-              @click="requestDm()"
+              @click="openChatByMemberId(props.coachId, props.coach, props.profileImg)"
               >채팅하기</CustomButton
             >
           </div>

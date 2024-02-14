@@ -9,12 +9,16 @@ import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 import router from '@/router'
 import Swal from 'sweetalert2'
+import DmWindow from '@/components/molecules/DmWindow.vue'
+import DmList from '@/components/molecules/DmList.vue'
+import { useChatStore } from '@/stores/chat-status'
 import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCoachingDetailPage, getAllLivesInCoaching, getAllCoachingVideos } from '@/utils/api/coaching-api'
 import { getCoachingReview, postcoachingReview, deleteMyReview, patchMyReview } from '@/utils/api/review-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
 /**
  * VARIABLES
@@ -22,6 +26,9 @@ import { useAuthStore } from '@/stores/auth'
 
 // in pinia
 const authStore = useAuthStore()
+const chatStore = useChatStore()
+const { useDmWindow } = storeToRefs(chatStore)
+const { openChatList } = chatStore
 
 const route = useRoute()
 const menus = ref(['코칭 소개', '라이브 일정', '영상 목록', '리뷰']) // 메뉴
@@ -33,6 +40,7 @@ const videos = ref([])
 const currentMenu = ref('introduce')
 const myLongId = ref()
 const coachingLongId = ref()
+const coachId = ref('')
 
 // 현재시간 계산
 const now = computed(() => {
@@ -43,35 +51,7 @@ const now = computed(() => {
 })
 const date = ref(now.value)
 
-const scheduleList = ref({
-  '2024/02/01': [
-    { id: 1, time: '14:00' },
-    { id: 2, time: '15:00' },
-    { id: 3, time: '16:00' },
-    { id: 4, time: '17:00' },
-    { id: 5, time: '18:00' }
-  ],
-  '2024/02/05': [
-    { id: 6, time: '12:00' },
-    { id: 7, time: '16:00' },
-    { id: 8, time: '17:00' }
-  ],
-  '2024/02/06': [
-    { id: 9, time: '13:00' },
-    { id: 10, time: '15:00' },
-    { id: 11, time: '15:30' }
-  ],
-  '2024/02/09': [
-    { id: 12, time: '14:00' },
-    { id: 13, time: '15:00' },
-    { id: 14, time: '16:00' }
-  ],
-  '2024/02/23': [
-    { id: 15, time: '12:00' },
-    { id: 16, time: '16:00' },
-    { id: 17, time: '17:00' }
-  ]
-})
+const scheduleList = ref({})
 
 // 코칭 일자를 저장하는 배열
 const events = computed(() => {
@@ -178,20 +158,18 @@ const reviewData = (data) => {
 
 // 리뷰 삭제
 const deleteReview = (reviewId) => {
-
   new Promise((resolve, reject) =>
-
     // 리뷰 삭제
     deleteMyReview(
       reviewId,
       (success) => {
         console.log(success)
         Swal.fire({
-          icon: "success",
-          title: "리뷰를 삭제했습니다.",
+          icon: 'success',
+          title: '리뷰를 삭제했습니다.',
           showConfirmButton: true,
           timer: 1500
-        });
+        })
         resolve()
       },
       (fail) => {
@@ -199,7 +177,7 @@ const deleteReview = (reviewId) => {
       }
     )
   ).then(() => {
-  // 리뷰 작성 후 정보들 다시 리로드
+    // 리뷰 작성 후 정보들 다시 리로드
 
     // 코치 상세 정보
     getCoachingDetailPage(
@@ -212,17 +190,17 @@ const deleteReview = (reviewId) => {
         console.log(fail)
       }
     ),
-    // 코치 리뷰
-    getCoachingReview(
-      coachingLongId.value,
-      (success) => {
-        console.log(success)
-        reviews.value = success.data.list
-      },
-      (fail) => {
-        console.log(fail)
-      }
-    )
+      // 코치 리뷰
+      getCoachingReview(
+        coachingLongId.value,
+        (success) => {
+          console.log(success)
+          reviews.value = success.data.list
+        },
+        (fail) => {
+          console.log(fail)
+        }
+      )
   })
 }
 
@@ -292,7 +270,6 @@ onBeforeMount(() => {
   }
 
   const coachingId = route.params.id
-  let coachId
   coachingLongId.value = coachingId
 
   // 코칭 id로 코칭 상세페이지
@@ -303,7 +280,7 @@ onBeforeMount(() => {
         console.log(success)
         coachingDetail.value = success.data
         breadCrumbs.value = [coachingDetail.value.mainCategory, coachingDetail.value.subCategory]
-        coachId = coachingDetail.value.coachId
+        coachId.value = coachingDetail.value.coachId
         videoCoachingId.value = coachingId
         resolve()
       },
@@ -406,11 +383,7 @@ onBeforeMount(() => {
                 <div class="coaching-card-outside element-with-scrollbar">
                   <div v-if="videos.length > 0">
                     <div v-for="videoGroup in videos" :key="videoGroup.coachingName" class="coaching-card">
-                      <CoachingCard
-                        :label="videoGroup.name"
-                        :video="videoGroup.url"
-                        :ratio="16 / 9"
-                      ></CoachingCard>
+                      <CoachingCard :label="videoGroup.name" :video="videoGroup.url" :ratio="16 / 9"></CoachingCard>
                     </div>
                   </div>
                   <div v-else class="coaching-card" style="font-size: 16px">조회 가능한 영상이 없습니다.</div>
@@ -437,13 +410,32 @@ onBeforeMount(() => {
       </div>
       <!-- 우측 안내창 -->
       <div class="chat-box">
-        <ChatBox :coach="coachingDetail.coachName" :coachingId="coachingLongId"></ChatBox>
+        <ChatBox
+          :coach="coachingDetail.coachName"
+          :coachingId="coachingLongId"
+          :coachId="coachId"
+          :profileImg="coachingDetail.coachProfileImageUrl"
+        ></ChatBox>
       </div>
 
       <!-- 채팅 플로팅 버튼 -->
       <div class="chat-button">
-        <q-btn round size="20px" color="amber-7" icon="chat"></q-btn>
+        <q-btn round size="20px" color="amber-7" icon="chat" @click="openChatList()"></q-btn>
+        <q-menu style="max-height: 400px; max-width: 400px">
+          <DmList />
+        </q-menu>
       </div>
+      <q-layout
+        v-if="useDmWindow === true"
+        view="lHh Lpr lFf"
+        container
+        style="height: 400px"
+        class="shadow-2 rounded-borders dm-window-container"
+      >
+        <q-page-container>
+          <DmWindow />
+        </q-page-container>
+      </q-layout>
     </div>
   </div>
 
@@ -583,5 +575,17 @@ h2 {
   background-color: #fcbf17;
   color: #034c8c;
   text-align: center;
+}
+.dm-window-container {
+  position: fixed;
+  bottom: 150px;
+  right: 10vw;
+  color: #fff;
+  background-color: white;
+  text-align: center;
+  z-index: 7000;
+  max-height: 600px;
+  max-width: 300px;
+  overflow: scroll;
 }
 </style>

@@ -40,7 +40,6 @@ const participants = computed(() => {
   subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
   return ret
 }) // 참가자 목록
-const mainParticipant = computed(() => subscribers.value[0])
 const dm = ref([]) // 채팅 목록
 
 // for render
