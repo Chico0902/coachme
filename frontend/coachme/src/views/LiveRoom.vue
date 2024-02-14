@@ -8,7 +8,13 @@ import Swal from 'sweetalert2'
 import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { OpenVidu } from 'openvidu-browser'
-import { postLiveCoachingEntrnce, postConnectLiveCoaching } from '@/utils/api/livecoaching-api'
+import {
+  postLiveCoachingEntrnce,
+  postConnectLiveCoaching,
+  getRecordStart,
+  getRecordStop,
+  getRecordFinish
+} from '@/utils/api/livecoaching-api'
 import { useMemberStore } from '@/stores/member'
 import { decodeToken } from '@/utils/functions/auth'
 import { useAuthStore } from '@/stores/auth'
@@ -32,9 +38,9 @@ const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, prof
 const participants = computed(() => {
   const ret = []
   subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
-  console.log(ret)
   return ret
 }) // 참가자 목록
+const mainParticipant = computed(() => subscribers.value[0])
 const dm = ref([]) // 채팅 목록
 
 // for render
@@ -56,7 +62,10 @@ const subscribers = ref([])
 // Join form
 const mySessionId = route.params.id
 const myUserName = ref(longId)
-// const screensharing = ref(false)
+const screensharing = ref(false)
+
+// for recording
+const recordingId = ref('')
 
 /**
  * METHODS
@@ -74,17 +83,66 @@ const changeParticipantsStatus = (status) => {
   isPeopleOpen.value = status.people
 }
 
+// 레코드 시작
+const startRecording = () => {
+  getRecordStart(
+    mySessionId,
+    (success) => {
+      recordingId.value = success.data.recordingId
+      alert('녹화를 시작합니다.')
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
+}
+
+// 레코드 종료
+const stopRecording = () => {
+  getRecordStop(
+    mySessionId,
+    (success) => {
+      console.log(success)
+      alert('녹화를 중지합니다.')
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
+}
+
 // 화상 나가기
 const exit = async () => {
   const result = await Swal.fire({
-    title: '정말로 채팅을 종료하시겠습니까?',
+    title: '정말로 화상을 종료하시겠습니까?',
     icon: 'question',
     showCancelButton: true,
     confirmButtonText: '예',
     cancelButtonText: '아니오'
   })
 
-  if (result.isConfirmed) {
+  // 사용자가 중지
+  if (!result.isConfirmed) return
+
+  // 화상 저장여부
+  let isSave = false
+  if (recordingId.value != '') {
+    isSave = await Swal.fire({
+      title: '녹화영상을 저장하시겠습니까?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: '예',
+      cancelButtonText: '아니오'
+    })
+  }
+
+  if (isSave) {
+    getRecordFinish(
+      mySessionId,
+      (success) => console.log(success),
+      (fail) => console.log(fail)
+    )
+  } else {
     leaveSession()
     router.push('/')
   }
@@ -94,7 +152,6 @@ onBeforeMount(() => {
   // 최초 입장 시 오픈비두 라이브 채팅방에 접속
   console.log(route.params.id)
   joinSession()
-
   // 해당 방 참가자 목록 받아오기
 })
 
@@ -258,27 +315,25 @@ async function getToken(mySessionId) {
   <div class="all">
     <div class="main-layout">
       <div class="chat-outside">
-        <!-- 코치 화면 -->
-        <!-- <div class="coach">
-          <UserVideo id="main-video" :stream-manager="mainStreamManager" />
-        </div> -->
+        <!-- 공유 화면 -->
+        <div v-if="screensharing" class="share">
+          <UserVideo :stream-manager="screenShare" />
+        </div>
 
-        <div v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
-          <UserVideo :stream-manager="sub" />
+        <!-- 코치 화면 -->
+        <div class="coach">
+          <UserVideo :stream-manager="mainStreamManager" />
         </div>
         <!-- 코미 화면 -->
-        <!-- <div class="coame element-with-scrollbar">
-          <div id="video-container" class="col-6" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
-            <button
-              style="position: absolute; top: 10px; right: 10px"
-              class="btn"
-              @click="updateMainVideoStreamManager(sub)"
-            >
-              메인 카메라 바꾸기
-            </button>
-            <user-video :stream-manager="sub" />
+        <div class="coame-container">
+          <div class="coame element-with-scrollbar">
+            <div v-for="(sub, index) in subscribers" :key="sub.stream.connection.connectionId">
+              <template v-if="index != 0">
+                <UserVideo :stream-manager="sub" />
+              </template>
+            </div>
           </div>
-        </div> -->
+        </div>
 
         <!-- 채팅 -->
         <q-layout
@@ -318,6 +373,8 @@ async function getToken(mySessionId) {
     <LiveMenuList
       @change-chat-status="changeChatStatus"
       @change-participants-status="changeParticipantsStatus"
+      @start-record="startRecording"
+      @stop-record="stopRecording"
       @exit="exit"
       :isCoach="isCoach"
       :publisher="publisher"
@@ -371,14 +428,15 @@ async function getToken(mySessionId) {
   flex-direction: row;
   -ms-overflow-style: none;
 }
-
-.coame {
-  min-width: fit-content;
+.coame-container {
   height: 70vh;
   justify-content: center;
   align-items: flex-start;
   overflow-y: scroll;
   position: relative;
+}
+.coame {
+  max-width: 50vw;
 }
 
 .element-with-scrollbar {
