@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class LiveCoaching extends BaseEntity {
   private LocalDateTime coachingDate;
 
   @Column
+  @ColumnDefault(value = "0")
   private Boolean status;
 
   public void addCoameCoahing(CoameCoaching coameCoaching) {
