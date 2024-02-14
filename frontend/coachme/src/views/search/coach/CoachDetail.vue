@@ -11,7 +11,7 @@ import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getCoachDetailPage } from '@/utils/api/coach-api'
-import { getCoachReview, postcoachReview } from '@/utils/api/review-api'
+import { getCoachReview, postcoachReview, deleteMyReview, patchMyReview } from '@/utils/api/review-api'
 import { useAuthStore } from '@/stores/auth'
 
 /**
@@ -20,7 +20,6 @@ import { useAuthStore } from '@/stores/auth'
 
 // in pinia
 const authStore = useAuthStore()
-import { deleteMyReview } from '@/utils/api/review-api'
 
 const route = useRoute()
 const coachId = ref()
@@ -60,11 +59,11 @@ const reviewData = (data) => {
       (success) => {
         console.log(success)
         Swal.fire({
-          icon: 'success',
-          title: '리뷰를 작성했습니다.',
+          icon: "success",
+          title: "리뷰를 작성했습니다.",
           showConfirmButton: true,
           timer: 1500
-        })
+        });
         resolve()
       },
       (fail) => {
@@ -113,6 +112,61 @@ const deleteReview = (reviewId) => {
           showConfirmButton: true,
           timer: 1500
         })
+        resolve()
+      },
+      (fail) => {
+        reject(fail)
+      }
+    )
+  ).then(() => {
+    // 리뷰 작성 후 정보들 다시 리로드
+
+    // 코치 상세 정보
+    getCoachDetailPage(
+      coachId.value,
+      (success) => {
+        console.log(success)
+        coachDetail.value = success.data
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    ),
+      // 코치 리뷰
+      getCoachReview(
+        coachId.value,
+        (success) => {
+          console.log(success)
+          reviews.value = success.data.list
+        },
+        (fail) => {
+          console.log(fail)
+        }
+      )
+  })
+}
+
+// 리뷰 수정
+const updateReview = (data) => {
+
+  const reviewDto = {
+    "comment" : data.review.value,
+    "score" : data.ratingScore.value
+  }
+
+  new Promise((resolve, reject) =>
+
+    // 리뷰 수정
+    patchMyReview(
+      data.reviewId, reviewDto,
+      (success) => {
+        console.log(success)
+        Swal.fire({
+          icon: "success",
+          title: "리뷰를 수정했습니다.",
+          showConfirmButton: true,
+          timer: 1500
+        });
         resolve()
       },
       (fail) => {

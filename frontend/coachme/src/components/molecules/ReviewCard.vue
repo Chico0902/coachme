@@ -9,29 +9,36 @@ review : 리뷰 내용
 
 <script setup>
 import Labels from '../atoms/CardLabel.vue';
-import EditButton from '../materialIcon/EditButton.vue';
 import DeleteButton from '../materialIcon/DeleteButton.vue';
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 
 const props = defineProps({
-  reviews : {  
-    type : Object,
+  reviews: {
+    type: Object,
   },
 })
 
 const ratingScore = computed(() => Math.round(props.reviews.score * 10) / 10);
+const comments = ref(props.reviews.comment);
+const tempRating = ref(props.reviews.score)
+
 
 // v-model 적용을 위한 별점 저장
 
 const longId = decodeToken(getAccessToken()).longId
 
-const emit = defineEmits(['deleteReview'])
+const emit = defineEmits(['deleteReview'], ['updateReview'])
 
 const deleteReview = (reviewId) => {
   emit('deleteReview', reviewId)
 }
 
+
+const updateReview = (reviewId) => {
+  const data = { "reviewId" : reviewId, "review" : comments, "ratingScore" : tempRating }
+  emit('updateReview', data)
+}
 
 </script>
 
@@ -60,7 +67,21 @@ const deleteReview = (reviewId) => {
         <!-- 수정, 삭제버튼 -->
         <q-item-section class="card-margin" v-if="longId === props.reviews.coameId">
           <div class="row no-wrap items-center justify-end" style="color : gray;">
-            <EditButton style="width: fit-content;"></EditButton>
+            <q-btn flat>
+              <span class="material-symbols-outlined">
+                edit
+              </span>
+              <q-popup-edit v-model="comments" v-slot="scope">
+                <q-input autofocus dense v-model="scope.value" :model-value="scope.value">
+                  <template v-slot:after>
+                    <q-btn flat dense color="negative" icon="cancel" @click.stop.prevent="scope.cancel"></q-btn>
+
+                    <q-btn flat dense color="positive" icon="check_circle" @click.stop.prevent="scope.set(); updateReview(reviews.reviewId)"
+                      :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value"></q-btn>
+                  </template>
+                </q-input>
+              </q-popup-edit>
+            </q-btn>
             <DeleteButton style="width: fit-content;" @click="deleteReview(reviews.reviewId)"></DeleteButton>
           </div>
         </q-item-section>
@@ -79,4 +100,7 @@ const deleteReview = (reviewId) => {
   margin-left: 0;
 }
 
+.material-symbols-outlined {
+  font-size: 25px;
+}
 </style>

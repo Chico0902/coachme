@@ -125,6 +125,10 @@ onBeforeMount(() => {
   text-align: center;
 }
 
+.edit-video {
+  text-align: center;
+}
+
 .coaching-dropdown {
   width: 25%;
   margin-left: 42.3vw;
