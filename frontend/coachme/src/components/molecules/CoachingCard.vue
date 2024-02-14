@@ -57,9 +57,10 @@ const editToAI = () => {
   console.log(props.video)
   const urlKeys = props.video.split('/')
   const urlKey = urlKeys[urlKeys.length - 1]
-  console.log(urlKey)
+  const noExtend = urlKey.split('.')[0]
+  console.log(noExtend)
   postEditToAI(
-    { key: urlKey },
+    { key: noExtend },
     (success) => console.log(success),
     (fail) => console.log(fail)
   )
