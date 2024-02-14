@@ -178,18 +178,20 @@ const reviewData = (data) => {
 
 // 리뷰 삭제
 const deleteReview = (reviewId) => {
+
   new Promise((resolve, reject) =>
+
     // 리뷰 삭제
     deleteMyReview(
       reviewId,
       (success) => {
         console.log(success)
         Swal.fire({
-          icon: 'success',
-          title: '리뷰를 삭제했습니다.',
+          icon: "success",
+          title: "리뷰를 삭제했습니다.",
           showConfirmButton: true,
           timer: 1500
-        })
+        });
         resolve()
       },
       (fail) => {
@@ -197,7 +199,7 @@ const deleteReview = (reviewId) => {
       }
     )
   ).then(() => {
-    // 리뷰 작성 후 정보들 다시 리로드
+  // 리뷰 작성 후 정보들 다시 리로드
 
     // 코치 상세 정보
     getCoachingDetailPage(
@@ -210,17 +212,17 @@ const deleteReview = (reviewId) => {
         console.log(fail)
       }
     ),
-      // 코치 리뷰
-      getCoachingReview(
-        coachingLongId.value,
-        (success) => {
-          console.log(success)
-          reviews.value = success.data.list
-        },
-        (fail) => {
-          console.log(fail)
-        }
-      )
+    // 코치 리뷰
+    getCoachingReview(
+      coachingLongId.value,
+      (success) => {
+        console.log(success)
+        reviews.value = success.data.list
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    )
   })
 }
 
