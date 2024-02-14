@@ -9,7 +9,6 @@ liked : 찜콩버튼 클릭시 발생할 함수. function. 기본값 없음
 
 <script setup>
 import labels from '../atoms/CardLabel.vue'
-import like from '../atoms/CustomLike.vue'
 import { getMainVideo } from '@/utils/api/coaching-api'
 
 const props = defineProps({
@@ -37,7 +36,7 @@ const props = defineProps({
   },
   liked: {
     type: Function,
-    default: () => { }
+    default: () => {}
   },
   visible: {
     type: Boolean,
@@ -45,7 +44,7 @@ const props = defineProps({
   }
 })
 
-const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption;
+const caption = typeof props.caption === 'number' ? Math.round(props.caption * 10) / 10 : props.caption
 
 const setVideo = () => {
   getMainVideo(
@@ -84,7 +83,7 @@ const setVideo = () => {
     </q-item>
     <q-separator v-if="!visible"></q-separator>
     <q-item v-if="!visible">
-      <q-item-section >
+      <q-item-section>
         <div class="buttons">
           <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
             <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
@@ -93,9 +92,7 @@ const setVideo = () => {
             <q-tooltip class="bg-blue">편집하기</q-tooltip>
           </q-btn>
           <q-btn padding="xs" color="amber-7">
-            <span class="material-symbols-outlined">
-              smart_toy
-            </span>
+            <span class="material-symbols-outlined"> smart_toy </span>
             <q-tooltip class="bg-blue">AI에게 요청하기</q-tooltip>
           </q-btn>
           <q-btn padding="xs" icon="download" color="blue-10">
@@ -109,8 +106,8 @@ const setVideo = () => {
 
 <style scoped>
 .my-card {
-  width: 100%; 
   min-width: 15vw;
+  max-width: 30vw;
 }
 
 .coaching-name {
