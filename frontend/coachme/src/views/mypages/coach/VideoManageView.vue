@@ -1,5 +1,6 @@
 <script setup>
 import Coaching from '@/components/molecules/CoachingCard.vue'
+import CustomButton from '@/components/atoms/CustomButton.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getVideoList } from '@/utils/api/coach-api'
@@ -63,9 +64,14 @@ onBeforeMount(() => {
 </script>
 <template>
   <div>
-    <div class="main-title">
-      나의 영상관리
-      <div class="editor-detail">나만의 영상을 편집하고, 게시해보세요!</div>
+    <div class="video-list-top">
+      <div class="main-title">
+        나의 영상관리
+        <div class="editor-detail">나만의 영상을 편집하고, 게시해보세요!</div>
+      </div>
+      <div class="menu">
+        <q-btn label="영상 등록" color="amber-7" text-color="black"></q-btn>
+      </div>
     </div>
     <div class="coaching-dropdown">
       <q-select
@@ -82,30 +88,29 @@ onBeforeMount(() => {
       <div class="coaching-group-title">{{ coachingName }}</div>
       <div class="coaching-outside element-with-scrollbar">
         <div v-for="video in videosGroup" :key="video.videoId" class="coaching-card">
-          <coaching
-            :label="video.videoName"
-            :caption="caption"
-            :ratio="ratio"
-            :video="video.url"
-            :visible="false"
-            :coachingId="video.coachingId"
-            :videoId="video.videoId"
-          >
+          <coaching :label="video.videoName" :caption="caption" :ratio="ratio" :video="video.url" :visible="false"
+            :coachingId="video.coachingId" :videoId="video.videoId">
           </coaching>
         </div>
       </div>
     </div>
 
-    <div
-      v-if="!groupedFilteredVideos || Object.keys(groupedFilteredVideos).length === 0"
-      class="no-video-message card-section"
-    >
+    <div v-if="!groupedFilteredVideos || Object.keys(groupedFilteredVideos).length === 0"
+      class="no-video-message card-section">
       해당하는 영상이 없습니다.
     </div>
   </div>
 </template>
 
 <style scoped>
+
+.video-list-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .main-title {
   display: inline-block;
   font-size: 2rem;
@@ -113,6 +118,7 @@ onBeforeMount(() => {
   margin-left: 3rem;
   margin-bottom: 1rem;
 }
+
 .editor-detail {
   margin-bottom: 1rem;
   margin-left: 0.5rem;
@@ -121,8 +127,8 @@ onBeforeMount(() => {
   margin-bottom: 0.5rem;
 }
 
-.edit-video {
-  text-align: center;
+.menu {
+  margin-right: 7vw;
 }
 
 .edit-video {

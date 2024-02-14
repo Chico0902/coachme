@@ -383,7 +383,11 @@ onBeforeMount(() => {
                 <div class="coaching-card-outside element-with-scrollbar">
                   <div v-if="videos.length > 0">
                     <div v-for="videoGroup in videos" :key="videoGroup.coachingName" class="coaching-card">
-                      <CoachingCard :label="videoGroup.name" :video="videoGroup.url" :ratio="16 / 9"></CoachingCard>
+                      <CoachingCard
+                        :label="videoGroup.name"
+                        :video="videoGroup.url"
+                        :ratio="16 / 9"
+                      ></CoachingCard>
                     </div>
                   </div>
                   <div v-else class="coaching-card" style="font-size: 16px">조회 가능한 영상이 없습니다.</div>
