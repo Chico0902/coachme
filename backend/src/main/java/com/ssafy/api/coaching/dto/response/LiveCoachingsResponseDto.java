@@ -9,5 +9,6 @@ public class LiveCoachingsResponseDto {
 
   private Long id;
   private LocalDateTime date;
+  private Boolean status;
 
 }

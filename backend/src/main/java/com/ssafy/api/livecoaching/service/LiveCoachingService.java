@@ -4,6 +4,7 @@ import com.ssafy.api.coaching.repository.LiveCoachingRepository;
 import com.ssafy.api.livecoaching.dto.response.LiveCoachingMemberResponseDto;
 import com.ssafy.api.member.mapper.MemberMapper;
 import com.ssafy.api.member.repository.MemberRepository;
+import com.ssafy.db.entity.LiveCoaching;
 import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,5 +28,10 @@ public class LiveCoachingService {
   public void deleteLiveRoom(long liveCoachingId) {
     liveCoachingRepository.deleteById(liveCoachingId);
   }
+
+  public void openLiveRoom(long liveCoachingId) {
+    liveCoachingRepository.getReferenceById(liveCoachingId).changeLiveCoachingStatus();
+  }
+
 }
 

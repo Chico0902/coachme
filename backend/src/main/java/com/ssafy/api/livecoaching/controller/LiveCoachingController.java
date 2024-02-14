@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -126,26 +127,26 @@ public class LiveCoachingController {
 
   // 녹화 목록을 가져옵니다.
   @GetMapping("/recording/finish/{sessionId}")
-  public ResponseEntity<?> listRecordings(@PathVariable("sessionId") String sessionId) {
+  public ResponseEntity<?> listRecordings(@PathVariable("sessionId") long sessionId) {
     try {
       List<Recording> recordings = openvidu.listRecordings();
       List<String> urlList = new ArrayList<>();
-      for(Recording recording: recordings){
-        if(recording.getSessionId().equals(sessionId)){
+      for (Recording recording : recordings) {
+        if (recording.getSessionId().equals(Long.toString(sessionId))) {
           urlList.add(recording.getUrl());
         }
       }
-
+      liveCoachingService.deleteLiveRoom(sessionId);
       return new ResponseEntity<>(new ListDataDto(urlList), HttpStatus.OK);
     } catch (OpenViduJavaClientException | OpenViduHttpException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
   }
 
-  @DeleteMapping("/room/{liveCoachingId}")
-  public ResponseEntity<?> deleteLiveRoom(@PathVariable("liveCoachingId") long liveCoachingId) {
-    liveCoachingService.deleteLiveRoom(liveCoachingId);
-    return new ResponseEntity<>(null, HttpStatus.OK);
+  @GetMapping("/room/open/{liveCoachingId}")
+  public ResponseEntity<?> openLiveRoom(@PathVariable("liveCoachingId") long liveCoachingId){
+    liveCoachingService.openLiveRoom(liveCoachingId);
+    return new ResponseEntity<>(new MessageDto("Live Coaching State Change Successful"), HttpStatus.OK);
   }
 
 }
