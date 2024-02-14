@@ -27,8 +27,13 @@ const emit = defineEmits(
   ['changeParticipantsStatus'],
   ['updateScreensharing'],
   ['updatePublisher'],
+  ['startRecord'],
+  ['stopRecord'],
   ['exit']
 )
+
+// for recording
+const isRecording = ref(false)
 
 /**
  * METHODS
@@ -94,6 +99,13 @@ function publishScreenShare() {
   })
 }
 
+// 녹화기능
+const toggleRecord = () => {
+  isRecording.value = !isRecording.value
+  if (isRecording.value) emit('startRecord')
+  else emit('stopRecord')
+}
+
 // 화상회의 나가기
 const exit = () => {
   emit('exit')
@@ -134,10 +146,18 @@ const exit = () => {
     </q-btn>
 
     <q-btn v-if="props.isCoach" flat>
-      <span class="material-symbols-outlined"> radio_button_checked </span>
-      <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-        <strong>녹화하기</strong>
-      </q-tooltip>
+      <template v-if="isRecording">
+        <span class="material-symbols-outlined" style="color: red" @click="toggleRecord"> radio_button_checked </span>
+        <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+          <strong>녹화하기</strong>
+        </q-tooltip>
+      </template>
+      <template v-else>
+        <span class="material-symbols-outlined" @click="toggleRecord"> radio_button_checked </span>
+        <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+          <strong>녹화하기</strong>
+        </q-tooltip>
+      </template>
     </q-btn>
 
     <q-btn flat @click="publishScreenShare">
