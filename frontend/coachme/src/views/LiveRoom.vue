@@ -100,7 +100,7 @@ const startRecording = () => {
 // 레코드 종료
 const stopRecording = () => {
   getRecordStop(
-    mySessionId,
+    recordingId.value,
     (success) => {
       console.log(success)
       alert('녹화를 중지합니다.')
@@ -144,7 +144,12 @@ const exit = async () => {
         new Promise((resolve) => {
           success.data.list.forEach((url) => window.open(url))
           resolve()
-        }).catch((fail) => console.log(fail))
+        })
+          .then(() => {
+            leaveSession()
+            router.push('/')
+          })
+          .catch((fail) => console.log(fail))
       },
       (fail) => console.log(fail)
     )
