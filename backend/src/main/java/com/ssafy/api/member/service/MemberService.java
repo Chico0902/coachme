@@ -136,9 +136,9 @@ public class MemberService {
     }
 
     // 프로필 사진 등록
-    fileService.uploadFileList(longId, Arrays.asList(newFile));
+    String url = fileService.uploadFileList(longId, Arrays.asList(newFile));
 
-    return new ProfileImageResponseDto(memberInDB.getProfileImage().getUrl());
+    return new ProfileImageResponseDto(url);
   }
 
   /**
