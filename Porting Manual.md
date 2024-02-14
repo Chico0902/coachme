@@ -1,11 +1,12 @@
-# 💡 Skill Stack
+# 💡 Skill Stack  
+
 ## - Language
 ![Static Badge](https://img.shields.io/badge/Java_17-gray?logo=oracle&logoColor=%23F80000)
 ![Static Badge](https://img.shields.io/badge/JavaScript-gray?logo=javascript&logoColor=%23F7DF1E)
 ![Static Badge](https://img.shields.io/badge/CSS3-gray?logo=css3&logoColor=%231572B6)
 ![Static Badge](https://img.shields.io/badge/HTML5-gray?logo=html5&logoColor=%23E34F26)
 ![Static Badge](https://img.shields.io/badge/Python_3.11-gray?logo=python&logoColor=%233776AB)
-</br>
+<br/>
 
 ## - Cooperation
 ![Static Badge](https://img.shields.io/badge/Git-gray?logo=git&logoColor=%23F05032)
@@ -17,20 +18,20 @@
 ![Static Badge](https://img.shields.io/badge/Discord-grey?logo=discord&logoColor=%235865F2)
 ![Static Badge](https://img.shields.io/badge/Figma-gray?logo=figma&logoColor=%23F24E1E)
 ![Static Badge](https://img.shields.io/badge/Notion-gray?logo=notion&logoColor=white)
-</br>
+<br/>
 
 ## - Tools
 ![Static Badge](https://img.shields.io/badge/IntelliJ-gray?logo=intellijidea&logoColor=white)
 ![Static Badge](https://img.shields.io/badge/VSCode-gray?logo=visualstudiocode&logoColor=%23007ACC)
 ![Static Badge](https://img.shields.io/badge/Workbench-gray?logo=mysql&logoColor=%234479A1)
 ![Static Badge](https://img.shields.io/badge/Gradle-gray?logo=gradle&logoColor=%2302303A)
-</br>
+<br/>
 
 ## - Framework
 ![Static Badge](https://img.shields.io/badge/Spring_Boot-v3.1-blue?logo=springboot)
 ![Static Badge](https://img.shields.io/badge/Vue.Js-v3.4.15-blue?logo=vue.js&logoColor=%234FC08D)
 ![Static Badge](https://img.shields.io/badge/FastAPI-v0.109.0-blue?logo=fastapi&logoColor=%23009688)
-</br>
+<br/>
 
 ## - InfraStructure
 ![Static Badge](https://img.shields.io/badge/EC2-Ubuntu%2020.04-blue?logo=amazonec2&logoColor=%23FF9900)
@@ -40,9 +41,10 @@
 ![Static Badge](https://img.shields.io/badge/Docker-v25.0.3-blue?logo=docker&logoColor=%232496ED)
 ![Static Badge](https://img.shields.io/badge/OpenVidu-v2.29.0-blue?logo=webrtc&logoColor=yellow)
 ![Static Badge](https://img.shields.io/badge/jenkins-v2.441-blue?logo=jenkins&logoColor=%23D24939)
-</br>
-</br>
-</br>
+<br/>
+<br/>
+<br/>
+
 # 📖 Porting Manual
 
 ## 1. NginX &nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/NginX-v1.18.0-blue?logo=nginx&logoColor=%23009639)
@@ -130,7 +132,7 @@
     $ sudo systemctl reload nginx
     ```
 
-<br>
+<br/>
 
 ## 2. Redis &nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/Redis-v5.0.7-blue?logo=redis&logoColor=%23DC382D)
 - install
@@ -140,7 +142,7 @@
     $ sudo systemctl start redis-server
     ```
 
-<br>
+<br/>
 
 ## 3. MySQL &nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/MySQL-v8.0.36-blue?logo=mysql&logoColor=%234479A1)
 - install
@@ -159,7 +161,7 @@
     ```
 
     
-<br>
+<br/>
 
 ## 4. Docker &nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/Docker-v25.0.3-blue?logo=docker&logoColor=%232496ED)
 - install
@@ -182,7 +184,7 @@
     $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     ```
     
-<br>
+<br/>
 
 ## 5. OpenVidu &nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/OpenVidu-v2.29.0-blue?logo=webrtc&logoColor=yellow)
 - install
@@ -257,7 +259,7 @@
     # ./openvidu start
     ```
     
-<br>
+<br/>
 
 ## 6. Jenkins &nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/jenkins-v2.441-blue?logo=jenkins&logoColor=%23D24939)
 - install
