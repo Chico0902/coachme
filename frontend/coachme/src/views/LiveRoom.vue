@@ -204,8 +204,12 @@ function joinSession() {
       const metadata = JSON.parse(event.target.options.metadata)
       const clientData = metadata.clientData
       console.log(clientData)
-      if (clientData.id == coachId) coachMainVideo.value = subscriber
-      else subscribers.value.push(subscriber)
+      subscribers.value.push(subscriber)
+      subscribers.value.forEach((subscriber) => {
+        console.log(subscriber)
+        const newId = JSON.parse(subscriber.stream.connection.data).id
+        if (newId == coachId) coachMainVideo.value = subscriber
+      })
     }
   })
 
