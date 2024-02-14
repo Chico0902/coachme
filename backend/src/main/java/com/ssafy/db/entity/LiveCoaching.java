@@ -31,6 +31,9 @@ public class LiveCoaching extends BaseEntity {
   @Column(name = "coaching_date", nullable = false)
   private LocalDateTime coachingDate;
 
+  @Column
+  private Boolean status;
+
   public void addCoameCoahing(CoameCoaching coameCoaching) {
     this.coameCoachings.add(coameCoaching);
   }
@@ -39,5 +42,8 @@ public class LiveCoaching extends BaseEntity {
     this.coaching = coaching;
     this.coachingDate = date;
     coaching.addLiveCoaching(this);
+  }
+  public void changeLiveCoachingStatus(){
+    this.status = true;
   }
 }
