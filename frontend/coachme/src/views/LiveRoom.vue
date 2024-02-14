@@ -209,7 +209,7 @@ function joinSession() {
         console.log(subscriber)
         const newId = JSON.parse(subscriber.stream.connection.data)
         console.log(newId.clientData.id)
-        if (newId.clientData.id == coachId) coachMainVideo.value = subscriber
+        if (newId.clientData.id == coachId) coachMainVideo.value = subscriber.stream
       })
     }
   })
