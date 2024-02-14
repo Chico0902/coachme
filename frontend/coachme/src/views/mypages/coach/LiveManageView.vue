@@ -4,6 +4,8 @@ import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useMemberStore } from '@/stores/member'
 import { getLiveCoachingCalendar } from '@/utils/api/coach-api'
 import { getLiveCoachingCoame } from '@/utils/api/coaching-api'
+import { getStartLiveCoaching } from '@/utils/api/livecoaching-api'
+import router from '@/router'
 
 /**
  * VARIABLES
@@ -70,7 +72,6 @@ function parseLiveCoachingData(list) {
         time: _time,
         isStart: date.getTime() < nowObject.getTime() ? true : false
       })
-    console.log(allLiveCoachings.value)
     // 오늘 라이브코칭 있는지 확인
     const today = new Date()
     if (
@@ -121,6 +122,18 @@ watch(
 function getDateKey(date) {
   return date.substring(0, 10).replace(/-/g, '/')
 }
+const startLiveCoaching = (liveCoachingId) => {
+  if (confirm('라이브 코칭을 시작하시겠습니까?'))
+    getStartLiveCoaching(
+      liveCoachingId,
+      (success) => {
+        console.log(success)
+        alert('화상회의 페이지로 이동합니다.')
+        router.push(`/live/${liveCoachingId}`)
+      },
+      (fail) => console.log(fail)
+    )
+}
 </script>
 <template>
   <div class="outside">
@@ -162,7 +175,7 @@ function getDateKey(date) {
                       icon="meeting_room"
                       flat
                       color="black"
-                      @click="$router.push(`/live/${liveCoaching.id}`)"
+                      @click="startLiveCoaching(liveCoaching.id)"
                     ></q-btn>
                   </template>
                 </q-field>
