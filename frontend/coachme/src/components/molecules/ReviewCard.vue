@@ -9,7 +9,6 @@ review : 리뷰 내용
 
 <script setup>
 import Labels from '../atoms/CardLabel.vue';
-import EditButton from '../materialIcon/EditButton.vue';
 import DeleteButton from '../materialIcon/DeleteButton.vue';
 import { ref, computed } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'

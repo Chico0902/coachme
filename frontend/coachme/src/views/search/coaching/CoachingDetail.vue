@@ -6,17 +6,24 @@ import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import CoachingScheduleList from '@/components/molecules/CoachingScheduleList.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
+import footerBar from '@/components/molecules/CustomShortFooter.vue'
+import router from '@/router'
 import Swal from 'sweetalert2'
 import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCoachingDetailPage, getAllLivesInCoaching, getAllCoachingVideos } from '@/utils/api/coaching-api'
 import { getCoachingReview, postcoachingReview, deleteMyReview, patchMyReview } from '@/utils/api/review-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
-import footerBar from '@/components/molecules/CustomShortFooter.vue'
+import { useAuthStore } from '@/stores/auth'
+import { deleteMyReview } from '@/utils/api/review-api'
 
 /**
  * VARIABLES
  */
+
+// in pinia
+const authStore = useAuthStore()
+
 const route = useRoute()
 const menus = ref(['코칭 소개', '라이브 일정', '영상 목록', '리뷰']) // 메뉴
 const videoCoachingId = ref(1) // 영상 조회용 코칭 id
@@ -121,27 +128,26 @@ const reviewData = (data) => {
   myLongId.value = decodeToken(getAccessToken()).longId
 
   const dto = {
-    "coameId": myLongId.value,
-    "coachingId": coachingLongId.value,
-    "comment": data.review,
-    "score": data.rating
+    coameId: myLongId.value,
+    coachingId: coachingLongId.value,
+    comment: data.review,
+    score: data.rating
   }
   // 리뷰 dto
 
   // 리뷰 작성 후 리로드
   new Promise((resolve, reject) =>
-
-  // 리뷰 작성
+    // 리뷰 작성
     postcoachingReview(
       dto,
       (success) => {
         console.log(success)
-          Swal.fire({
-          icon: "success",
-          title: "리뷰를 작성했습니다.",
+        Swal.fire({
+          icon: 'success',
+          title: '리뷰를 작성했습니다.',
           showConfirmButton: true,
           timer: 1500
-        });
+        })
         resolve()
       },
       (fail) => {
@@ -162,12 +168,12 @@ const reviewData = (data) => {
     // 코칭 리뷰
     getCoachingReview(
       coachingLongId.value,
-        (success) => {
-          console.log(success)
-          reviews.value = success.data.list
-        },
-        (fail) => console.log(fail)
-      )
+      (success) => {
+        console.log(success)
+        reviews.value = success.data.list
+      },
+      (fail) => console.log(fail)
+    )
   })
 }
 
@@ -277,6 +283,17 @@ const updateReview = (data) => {
 
 
 onBeforeMount(() => {
+  if (authStore.isLogin === false) {
+    Swal.fire({
+      icon: 'fail',
+      title: '로그인이 필요합니다.',
+      text: ' 로그인 페이지로 이동합니다.',
+      showConfirmButton: true,
+      timer: 1500
+    })
+    router.push('/login')
+  }
+
   const coachingId = route.params.id
   let coachId
   coachingLongId.value = coachingId
@@ -391,13 +408,12 @@ onBeforeMount(() => {
                 <h2>영상 목록</h2>
                 <div class="coaching-card-outside element-with-scrollbar">
                   <div v-if="videos.length > 0">
-                    <div
-                      v-for="videoGroup in videos"
-                      :key="videoGroup.coachingName"
-                      class="coaching-card"
-                    >
-                      <CoachingCard :label="videoGroup.videoName" :video="videoGroup.url" :ratio="16 / 9"
-                      style="min-width: 18vw;"></CoachingCard>
+                    <div v-for="videoGroup in videos" :key="videoGroup.coachingName" class="coaching-card">
+                      <CoachingCard
+                        :label="videoGroup.videoName"
+                        :video="videoGroup.url"
+                        :ratio="16 / 9"
+                      ></CoachingCard>
                     </div>
                   </div>
                   <div v-else class="coaching-card" style="font-size: 16px">조회 가능한 영상이 없습니다.</div>
@@ -472,10 +488,7 @@ onBeforeMount(() => {
 .mainpage {
   background-color: white;
   width: 80%;
-  height: 70vh;
   margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
   border-radius: 1.5rem;
   overflow: scroll;
   display: flex;
@@ -536,6 +549,7 @@ h2 {
   margin-left: 1.2vw;
   margin-top: 2vh;
   font-size: 16px;
+  padding-bottom: 1rem;
 }
 
 .coaching-live-schedule {

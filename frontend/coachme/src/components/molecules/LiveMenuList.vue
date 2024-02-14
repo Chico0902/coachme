@@ -1,45 +1,103 @@
-<!-- 코칭 하단 메뉴 컴포넌트
-필요한 정보 : 없음
--->
 <script setup>
 import { ref } from 'vue'
 
+/**
+ * VARIABLES
+ */
+
+// from parent(LiveRoom.vue)
 const props = defineProps({
-  isCoach: {
-    type: Boolean
-  }
+  isCoach: Boolean,
+  publisher: Object,
+  participants: Array,
+  OVScreen: Object,
+  sessionScreen: Object,
+  screensharing: Object
 })
 
+// for change status
 const videoStatus = ref(true)
 const micStatus = ref(true)
-
-const videoSwitch = () => {
-  videoStatus.value = !videoStatus.value
-}
-
-const micSwitch = () => {
-  micStatus.value = !micStatus.value
-}
-
-const emit = defineEmits(['changeChatStatus'], ['changePeopleStatus'])
-
 const isChatOpen = ref(false)
 const isPeopleOpen = ref(false)
 
+// for show chat or participants
+const emit = defineEmits(
+  ['changeChatStatus'],
+  ['changeParticipantsStatus'],
+  ['updateScreensharing'],
+  ['updatePublisher'],
+  ['exit']
+)
+
+/**
+ * METHODS
+ */
+
+// 비디오 스위치 버튼
+const videoSwitch = () => {
+  videoStatus.value = !videoStatus.value
+  console.log(props.publisher)
+  if (videoStatus.value) props.publisher.publishVideo(true)
+  else props.publisher.publishVideo(false)
+}
+
+// 마이크 스위치 버튼
+const micSwitch = () => {
+  micStatus.value = !micStatus.value
+  if (micStatus.value) props.publisher.publishAudio(true)
+  else props.publisher.publishAudio(false)
+}
+
+// 채팅 스위치 버튼
 const chatSwitch = () => {
   isChatOpen.value = !isChatOpen.value
-  isPeopleOpen.value = false
-
   const data = { chat: isChatOpen.value, people: isPeopleOpen.value }
   emit('changeChatStatus', data)
-} // 채팅 버튼 클릭
+}
 
+// 참가자 스위치 버튼
 const peopleSwitch = () => {
   isPeopleOpen.value = !isPeopleOpen.value
-  isChatOpen.value = false
   const data = { chat: isChatOpen.value, people: isPeopleOpen.value }
-  emit('changePeopleStatus', data)
-} // 참가자 목록 클릭
+  emit('changeParticipantsStatus', data)
+}
+
+// 화면공유 메서드
+function publishScreenShare() {
+  // --- 9.1) To create a publisherScreen set the property 'videoSource' to 'screen'
+  const publisherScreen = props.OVScreen.initPublisher(undefined, { videoSource: 'screen' })
+
+  // --- 9.2) Publish the screen share stream only after the user grants permission to the browser
+  publisherScreen.once('accessAllowed', () => {
+    emit('updateScreensharing', true)
+
+    // If the user closes the shared window or stops sharing it, unpublish the stream
+    publisherScreen.stream
+      .getMediaStream()
+      .getVideoTracks()[0]
+      .addEventListener('ended', () => {
+        props.sessionScreen.unpublish(publisherScreen)
+        emit('updateScreensharing', false)
+      })
+    props.sessionScreen.publish(publisherScreen)
+
+    emit('updatePublisher', publisherScreen)
+  })
+
+  publisherScreen.on('videoElementCreated', function (event) {
+    console.log(event)
+  })
+
+  publisherScreen.once('accessDenied', () => {
+    console.error('Screen Share: Access Denied')
+  })
+}
+
+// 화상회의 나가기
+const exit = () => {
+  emit('exit')
+}
 </script>
 
 <template>
@@ -54,6 +112,7 @@ const peopleSwitch = () => {
         <strong>카메라 켜기</strong>
       </q-tooltip>
     </q-btn>
+
     <q-btn flat @click="micSwitch">
       <span v-if="micStatus" class="material-symbols-outlined"> mic </span>
       <span v-else class="material-symbols-outlined"> mic_off </span>
@@ -64,39 +123,39 @@ const peopleSwitch = () => {
         <strong>마이크 켜기</strong>
       </q-tooltip>
     </q-btn>
+
     <q-space></q-space>
+
     <q-btn flat @click="peopleSwitch">
       <span class="material-symbols-outlined"> group </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
         <strong>참가자 목록</strong>
       </q-tooltip>
     </q-btn>
+
     <q-btn v-if="props.isCoach" flat>
       <span class="material-symbols-outlined"> radio_button_checked </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
         <strong>녹화하기</strong>
       </q-tooltip>
     </q-btn>
-    <q-btn flat>
-      <span class="material-symbols-outlined"> meeting_room </span>
-      <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-        <strong>진실의 방</strong>
-      </q-tooltip>
-    </q-btn>
-    <q-btn flat>
+
+    <q-btn flat @click="publishScreenShare">
       <span class="material-symbols-outlined"> draw </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-        <strong>화이트 보드</strong>
+        <strong>화면공유</strong>
       </q-tooltip>
     </q-btn>
+
     <q-btn flat @click="chatSwitch">
       <span class="material-symbols-outlined"> chat </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
         <strong>채팅</strong>
       </q-tooltip>
     </q-btn>
+
     <q-space></q-space>
-    <q-btn flat>
+    <q-btn flat @click="exit">
       <span class="material-symbols-outlined"> logout </span>
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
         <strong>나가기</strong>

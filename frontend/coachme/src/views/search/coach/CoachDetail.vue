@@ -5,38 +5,54 @@ import ChatBox from '@/components/molecules/CoachChatBox.vue'
 import DetailTopBar from '@/components/molecules/DetailTopBar.vue'
 import Reviews from '@/components/molecules/ReviewDetailCard.vue'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
+import router from '@/router'
 import Swal from 'sweetalert2'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getCoachDetailPage } from '@/utils/api/coach-api'
 import { getCoachReview, postcoachReview, deleteMyReview, patchMyReview } from '@/utils/api/review-api'
+import { useAuthStore } from '@/stores/auth'
 
+/**
+ * VARIABLES
+ */
+
+// in pinia
+const authStore = useAuthStore()
 
 const route = useRoute()
-
 const coachId = ref()
 const myLongId = ref()
 const coachDetail = ref([]) // 코치 상세
 const reviews = ref([]) // 리뷰
-
 const menus = ref(['코치 소개', '제공 코칭', '리뷰'])
-// 중단 메뉴 리스트
+const currentMenu = ref('introduce')
 
+// 코칭 상세보기
+const show = ref(false)
+const coachingMainCategory = ref('')
+const coachingName = ref('')
+const coachingSubCategory = ref('')
+const coachingSummary = ref('')
+const coachingId = ref('')
+
+/**
+ * METHODS
+ */
 
 // 리뷰 작성
 const reviewData = (data) => {
   myLongId.value = decodeToken(getAccessToken()).longId
 
   const dto = {
-    "coameId": myLongId.value,
-    "coachId": coachId.value,
-    "comment": data.review,
-    "score": data.rating
+    coameId: myLongId.value,
+    coachId: coachId.value,
+    comment: data.review,
+    score: data.rating
   } // 리뷰 dto
 
   new Promise((resolve, reject) =>
-
     // 리뷰 작성
     postcoachReview(
       dto,
@@ -80,25 +96,22 @@ const reviewData = (data) => {
         }
       )
   })
-
 }
 
 // 리뷰 삭제
 const deleteReview = (reviewId) => {
-
   new Promise((resolve, reject) =>
-
     // 리뷰 삭제
     deleteMyReview(
       reviewId,
       (success) => {
         console.log(success)
         Swal.fire({
-          icon: "success",
-          title: "리뷰를 삭제했습니다.",
+          icon: 'success',
+          title: '리뷰를 삭제했습니다.',
           showConfirmButton: true,
           timer: 1500
-        });
+        })
         resolve()
       },
       (fail) => {
@@ -189,6 +202,17 @@ const updateReview = (data) => {
 }
 
 onBeforeMount(() => {
+  if (authStore.isLogin === false) {
+    Swal.fire({
+      icon: 'fail',
+      title: '로그인이 필요합니다.',
+      text: ' 로그인 페이지로 이동합니다.',
+      showConfirmButton: true,
+      timer: 1500
+    })
+    router.push('/login')
+  }
+
   const coachLongId = route.params.id
   coachId.value = coachLongId
 
@@ -216,6 +240,32 @@ onBeforeMount(() => {
     }
   )
 })
+
+// 클릭한 버튼에 따라 메뉴구성 변경
+const changeMenu = (e) => {
+  console.log(e.srcElement.innerText)
+  switch (e.srcElement.innerText) {
+    case '코치 소개':
+      currentMenu.value = 'introduce'
+      break
+    case '제공 코칭':
+      currentMenu.value = 'coachings'
+      break
+    case '리뷰':
+      currentMenu.value = 'review'
+      break
+  }
+}
+
+// 코칭 보여주기
+const showCoaching = (mainCategory, name, subCategory, summary, id) => {
+  coachingMainCategory.value = mainCategory
+  coachingName.value = name
+  coachingSubCategory.value = subCategory
+  coachingSummary.value = summary
+  coachingId.value = id
+  show.value = true
+}
 </script>
 
 <template>
@@ -229,44 +279,72 @@ onBeforeMount(() => {
         <div class="mainpage">
           <div class="profile">
             <!-- 코치 상세 정보 -->
-            <CoachDetailCard :coach="coachDetail.coachName" :rating-model="coachDetail.reviewAvg"
-              :review-count="coachDetail.reviewCount" :img="coachDetail.coachProfileImageUrl"></CoachDetailCard>
+            <CoachDetailCard
+              :coach="coachDetail.coachName"
+              :rating-model="coachDetail.reviewAvg"
+              :review-count="coachDetail.reviewCount"
+              :img="coachDetail.coachProfileImageUrl"
+            ></CoachDetailCard>
             <q-separator></q-separator>
 
             <!-- 코치 포트폴리오 중단 메뉴 -->
             <div class="portfolio-menu">
-              <DetailTopBar :menus="menus"></DetailTopBar>
+              <DetailTopBar :menus="menus" @click="changeMenu"></DetailTopBar>
             </div>
 
             <!-- 코치 소개. 직접 작성한 부분이 이곳에 들어감 -->
-            <div class="coach-introduction">
-              <h2>코치 소개</h2>
-              <div v-html="coachDetail.portFolioHtmlDocs" class="coach-desc"></div>
-            </div>
-
-            <q-separator></q-separator>
+            <template v-if="currentMenu === 'introduce'">
+              <div class="coach-introduction">
+                <h2>코치 소개</h2>
+                <div v-html="coachDetail.portFolioHtmlDocs" class="coach-desc"></div>
+              </div>
+            </template>
 
             <!-- 제공 코칭 목록 -->
-            <div class="coaching-category">
-              <h2>제공 코칭</h2>
-              <div style="margin-left: 0.8vw">
-                <q-chip icon="book" size="1.2rem" class="row no-wrap items-center" v-for="coaching in coachDetail.list"
-                  :key="coaching">
-                  {{ coaching.coachingName }}
-                </q-chip>
+            <template v-if="currentMenu === 'coachings'">
+              <div class="coaching-category">
+                <h2>제공 코칭</h2>
+                <div style="margin-left: 0.8vw">
+                  <q-chip
+                    icon="book"
+                    size="1.2rem"
+                    class="row no-wrap items-center"
+                    v-for="coaching in coachDetail.list"
+                    :key="coaching"
+                  >
+                    <div
+                      class="coaching-category-detail"
+                      @click.prevent="
+                        showCoaching(
+                          coaching.coachingMainCategory,
+                          coaching.coachingName,
+                          coaching.coachingSubCategory,
+                          coaching.coachingSummary,
+                          coaching.coachingId
+                        )
+                      "
+                    >
+                      {{ coaching.coachingName }}
+                    </div>
+                  </q-chip>
+                </div>
               </div>
-            </div>
-
-            <q-separator></q-separator>
+            </template>
 
             <!-- 리뷰 -->
-            <div class="coach-review">
-              <h2>리뷰</h2>
-              <Reviews :reviews="reviews" :rating-model="coachDetail.reviewAvg"
-                v-bind:review-count="coachDetail.reviewCount" @review-data="reviewData" @delete-review="deleteReview"
-                @update-review="updateReview">
-              </Reviews>
-            </div>
+            <template v-if="currentMenu === 'review'">
+              <div class="coach-review">
+                <h2>리뷰</h2>
+                <Reviews
+                  :reviews="reviews"
+                  :rating-model="coachDetail.reviewAvg"
+                  v-bind:review-count="coachDetail.reviewCount"
+                  @review-data="reviewData"
+                  @delete-review="deleteReview"
+                >
+                </Reviews>
+              </div>
+            </template>
           </div>
         </div>
         <!-- 우측 안내창 -->
@@ -285,9 +363,39 @@ onBeforeMount(() => {
   <div class="footer">
     <footerBar />
   </div>
+
+  <q-dialog v-model="show">
+    <q-card>
+      <q-card-section class="bg-primary text-white">
+        <q-item>
+          <q-item-section>
+            <q-item-label class="coaching-name">{{ coachingName }}</q-item-label>
+            <q-item-label caption class="coaching-detail">{{ coachingSummary }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-card-section>
+      <q-separator></q-separator>
+      <q-card-section class="bg-amber-5" style="text-align: center">
+        <span class="coaching-caption">
+          {{ coachingMainCategory.replace(/^[a-z]/, (char) => char.toUpperCase()) }}</span
+        >
+        <span class="coaching-caption-small">
+          {{ coachingSubCategory.replace(/^[a-z]/, (char) => char.toUpperCase()) }}</span
+        >
+      </q-card-section>
+      <q-separator></q-separator>
+      <q-card-actions class="modal-option" align="right">
+        <q-btn flat label="상세보기" color="primary" @click="router.push(`/search/coaching/detail/${coachingId}`)" />
+        <q-btn flat label="취소" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style scoped>
+.coaching-category-detail:hover {
+  cursor: pointer;
+}
 .all {
   display: flex;
   justify-content: center;
@@ -320,10 +428,7 @@ onBeforeMount(() => {
 .mainpage {
   background-color: white;
   width: 80%;
-  height: 70vh;
   margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
   border-radius: 1.5rem;
   overflow: scroll;
   display: flex;
@@ -341,9 +446,9 @@ onBeforeMount(() => {
 }
 
 .chat-box {
-  max-height: fit-content;
-  margin-top: 30vh;
-  margin-right: 3vw;
+  position: fixed;
+  top: 30vh;
+  right: 15vw;
 }
 
 .chat-button {
@@ -365,12 +470,14 @@ h2 {
 .coach-introduction {
   text-align: left;
   margin-bottom: 4vh;
+  padding-bottom: 1rem;
 }
 
 .coach-desc {
   margin-left: 1.1vw;
   margin-top: 2vh;
   font-size: 16px;
+  padding-bottom: 1rem;
 }
 
 .coaching-category {
@@ -378,12 +485,43 @@ h2 {
   margin-bottom: 3vh;
 }
 
-.coach-review {}
+.coach-review {
+  padding-bottom: 1rem;
+}
 
 .footer {
   height: 10vh;
   background-color: #fcbf17;
   color: #034c8c;
   text-align: center;
+}
+
+.coaching-name {
+  margin: 0;
+  margin-bottom: 0.3rem;
+  font-size: 1.3rem;
+  font-family: 'TheJamsil5Bold';
+}
+.coaching-detail {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  margin-right: 0.5rem;
+  font-family: 'TheJamsil5Bold';
+  color: #c7c183;
+}
+.coaching-caption {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  margin-right: 1rem;
+  font-family: 'TheJamsil5Bold';
+}
+.coaching-caption-small {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgb(126, 126, 126);
+  font-family: 'TheJamsil5Bold';
+}
+.modal-option {
+  font-family: 'TheJamsil5Bold';
 }
 </style>

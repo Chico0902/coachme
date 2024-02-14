@@ -49,7 +49,6 @@ const caption = typeof props.caption === 'number' ? Math.round(props.caption * 1
 const isFirstCard = computed(() => props.coachIndex === 0 || props.coachIndex === -1)
 const isSecondCard = computed(() => props.coachIndex === 1)
 const isThirdCard = computed(() => props.coachIndex === 2)
-
 </script>
 
 <template>
@@ -67,17 +66,17 @@ const isThirdCard = computed(() => props.coachIndex === 2)
       <!-- 캡션과 라벨 -->
       <q-item-section>
         <labels class="coaching-name" :label="`${props.label}`"></labels>
-        <q-item-section class="star" >
-          <img class="star-img" src="../../../public/assets/img/star.png" alt="star">
+        <q-item-section class="star">
+          <img class="star-img" src="/assets/img/star.png" alt="star" />
           <labels class="star-num" caption :label="caption"></labels>
-      </q-item-section>
+        </q-item-section>
       </q-item-section>
       <q-item-section>
-          <div class="medal-box">
-            <img class="medal" v-if="isFirstCard" src="/assets/img/medal_1.png" alt="">
-            <img class="medal" v-if="isSecondCard" src="/assets/img/medal_2.png" alt="">
-            <img class="medal" v-if="isThirdCard" src="/assets/img/medal_3.png" alt="">
-          </div>
+        <div class="medal-box">
+          <img class="medal" v-if="isFirstCard" src="/assets/img/medal_1.png" alt="" />
+          <img class="medal" v-if="isSecondCard" src="/assets/img/medal_2.png" alt="" />
+          <img class="medal" v-if="isThirdCard" src="/assets/img/medal_3.png" alt="" />
+        </div>
       </q-item-section>
     </q-item>
   </q-card>
@@ -91,7 +90,7 @@ const isThirdCard = computed(() => props.coachIndex === 2)
 .coaching-name {
   min-width: 150px;
 }
-.medal-box{
+.medal-box {
   display: flex;
   justify-content: right;
   margin-left: 40px;
@@ -107,13 +106,13 @@ const isThirdCard = computed(() => props.coachIndex === 2)
   margin: 0.5rem;
   margin-left: 0;
 }
-.star{
+.star {
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
 }
-.star-num{
+.star-num {
   align-items: center;
 }
 </style>

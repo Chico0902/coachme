@@ -193,12 +193,12 @@ const searchByWords = (keyword) => {
 .mypage-outside {
   display: flex;
   justify-content: space-between;
+  max-height: 65vh;
 }
 
 .rightPage {
   background-color: white;
   width: 80%;
-  height: 75vh;
   margin-left: 4%;
   margin-top: 3vh;
   border-radius: 1.5rem;
@@ -208,6 +208,9 @@ const searchByWords = (keyword) => {
   flex-direction: column;
   -ms-overflow-style: none;
 }
+.rightPage::-webkit-scrollbar {
+  display: none;
+}
 
 .search {
   margin-left: 1vw;
@@ -215,15 +218,15 @@ const searchByWords = (keyword) => {
 
 #input {
   width: 50vw;
-  min-width: 450px;
 }
 
 .mainpage {
   background-color: white;
-  width: 100%;
-  height: 70vh;
+  width: 90%;
+  /* max-height: 70vh; */
   margin-top: -1vh;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
   display: flex;
   text-align: center;
   flex-direction: row;
@@ -231,7 +234,23 @@ const searchByWords = (keyword) => {
 }
 
 .mainpage::-webkit-scrollbar {
-  display: none;
+  width: 10px;
+  height: 0.5rem;
+}
+
+.mainpage::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.mainpage::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.mainpage::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
 }
 
 .footer {
@@ -255,7 +274,7 @@ const searchByWords = (keyword) => {
 }
 .chat-button {
   position: fixed;
-  bottom: 60px;
+  bottom: 12vh;
   right: 10vw;
   color: #fff;
   text-align: center;
@@ -263,7 +282,7 @@ const searchByWords = (keyword) => {
 
 .matching-button {
   position: fixed;
-  bottom: 60px;
+  bottom: 12vh;
   right: 16vw;
   color: #fff;
   text-align: center;

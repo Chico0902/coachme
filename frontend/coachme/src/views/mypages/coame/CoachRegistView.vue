@@ -3,10 +3,9 @@ import CustomButton from '@/components/atoms/CustomButton.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
 import { postRequestElevation } from '@/utils/api/member-api'
 import { ElevationRequestDto } from '@/utils/api/dto/member-dto'
-import { useAuthStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
-import { ref, computed } from 'vue'
-import { decodeToken } from '@/utils/functions/auth'
+import { ref, onBeforeMount } from 'vue'
+import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { getMyPortfolio } from '@/utils/api/coach-api'
 
 /**
  * VARIABLES
@@ -15,12 +14,9 @@ import { decodeToken } from '@/utils/functions/auth'
 const color = '#fcbf17'
 const label = '등록하기'
 const textcolor = 'black'
-const authStore = useAuthStore()
-const { accessToken } = storeToRefs(authStore)
 const contentHTML = ref('')
-const longId = computed(() => {
-  return decodeToken(accessToken.value).longId
-})
+const isAlreadyRegistered = ref(false)
+const longId = decodeToken(getAccessToken()).longId
 
 const regist = () => {
   const dto = new ElevationRequestDto(longId.value, contentHTML.value)
@@ -37,6 +33,18 @@ const regist = () => {
     }
   )
 }
+
+onBeforeMount(() => {
+  getMyPortfolio(
+    longId,
+    (success) => {
+      console.log(success)
+      isAlreadyRegistered.value = true
+      contentHTML.value = success.data.htmlDocs
+    },
+    (fail) => console.log(fail)
+  )
+})
 </script>
 <template>
   <div class="main-font-container">
@@ -45,20 +53,34 @@ const regist = () => {
   </div>
   <div class="editor-container">
     <div class="editor">
-      <div class="editor-detail">
-        아래 양식에 본인의 포트폴리오를 작성해서 제출하세요. 관리자의 승인 후 코칭 활동이 시작됩니다.
-      </div>
+      <template v-if="isAlreadyRegistered"> <div class="editor-detail">관리자의 승인을 대기중입니다.</div> </template>
+      <template v-else>
+        <div class="editor-detail">
+          아래 양식에 본인의 포트폴리오를 작성해서 제출하세요. 관리자의 승인 후 코칭 활동이 시작됩니다.
+        </div>
+      </template>
       <QuillEditor theme="snow" v-model:content="contentHTML" contentType="html" />
     </div>
   </div>
   <div class="btn-container">
-    <CustomButton
-      style="font-size: 1.1rem; padding: 0.5rem 1rem"
-      :label="label"
-      :background="color"
-      :color="textcolor"
-      @click="regist"
-    ></CustomButton>
+    <template v-if="isAlreadyRegistered">
+      <CustomButton
+        style="font-size: 1.1rem; padding: 0.5rem 1rem"
+        label="수정하기"
+        :background="color"
+        :color="textcolor"
+        @click="regist"
+      ></CustomButton>
+    </template>
+    <template v-else>
+      <CustomButton
+        style="font-size: 1.1rem; padding: 0.5rem 1rem"
+        :label="label"
+        :background="color"
+        :color="textcolor"
+        @click="regist"
+      ></CustomButton>
+    </template>
   </div>
 </template>
 
