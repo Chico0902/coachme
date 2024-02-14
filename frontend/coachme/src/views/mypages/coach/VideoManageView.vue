@@ -149,6 +149,7 @@ onBeforeMount(() => {
   margin-left: 3rem;
   margin-bottom: 1rem;
 }
+
 .editor-detail {
   margin-bottom: 1rem;
   margin-left: 0.5rem;
@@ -157,8 +158,8 @@ onBeforeMount(() => {
   margin-bottom: 0.5rem;
 }
 
-.edit-video {
-  text-align: center;
+.menu {
+  margin-right: 7vw;
 }
 
 .edit-video {
