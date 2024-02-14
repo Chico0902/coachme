@@ -1,4 +1,4 @@
-import { publicAxios, authAxios } from '@/utils/http-commons'
+import { publicAxios, authAxios, authFileAxios } from '@/utils/http-commons'
 
 /**
  * API번호 : coach-1
@@ -272,4 +272,28 @@ export function getVideoList(coachId, success, fail) {
  */
 export function getPopularCoachList(success, fail) {
   publicAxios.get(`/coaches/popular`).then(success).catch(fail)
+}
+
+/**
+ * API번호 : coach-15
+ * METHOD : POST
+ * URI : /coaches/{coachId}/videos
+ * 권한 : 0
+ * 설명 : 영상을 업로드할 수 있다.
+* @param {Number} coachId
+ * @param {Promise} success
+ * 설명 : 정상 업로드 완료
+ * 코드 : 200
+ * body : {
+						message : String
+				  }
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청[400], 서버 오류[500]
+ * 코드 : 400, 500
+ * body : {
+            message : String
+          }
+ */
+export function postNewVideo(coachId, dto, success, fail) {
+  authFileAxios.post(`/coaches/${coachId}/videos`, dto).then(success).catch(fail)
 }

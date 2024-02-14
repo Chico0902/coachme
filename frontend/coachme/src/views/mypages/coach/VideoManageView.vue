@@ -2,8 +2,7 @@
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
-import { getVideoList } from '@/utils/api/coach-api'
-import VideoUploader from '@/components/molecules/videoManage/VideoUploader.vue'
+import { getVideoList, postNewVideo } from '@/utils/api/coach-api'
 
 /**
  * VARIABLES
@@ -11,6 +10,8 @@ import VideoUploader from '@/components/molecules/videoManage/VideoUploader.vue'
 
 // 비디오 목록(api)
 const videos = ref([])
+const newVideoFile = ref(null)
+const newVideoFileName = ref('')
 
 // 검색 옵션
 const coachingOptions = computed(() => {
@@ -44,15 +45,18 @@ const groupedFilteredVideos = computed(() => {
 // 등록 모달
 const show = ref(false)
 
+// 본인 id
+const longId = ref(-1)
+
 /**
  * METHODS
  */
 
 onBeforeMount(() => {
-  const longId = decodeToken(getAccessToken()).longId
+  longId.value = decodeToken(getAccessToken()).longId
   // 본인 아이디로 코칭 영상 리스트 조회
   getVideoList(
-    longId,
+    longId.value,
     (success) => {
       console.log(success)
       videos.value = success.data.list
@@ -62,6 +66,15 @@ onBeforeMount(() => {
     }
   )
 })
+
+const uploadNewVideo = () => {
+  postNewVideo(
+    longId.value,
+    { videoFile: newVideoFile.value, name: newVideoFileName.value },
+    (success) => console.log(success),
+    (fail) => console.log(fail)
+  )
+}
 </script>
 <template>
   <div class="main">
@@ -120,17 +133,28 @@ onBeforeMount(() => {
   </div>
   <q-dialog v-model="show">
     <q-card>
-      <q-card-section class="bg-primary text-white">
+      <q-card-section class="bg-amber-5 text-white">
         <q-item>
           <q-item-section>
-            <VideoUploader @uploadVideo="uploadNewVideo" />
+            <q-file filled bottom-slots v-model="newVideoFile" label="코칭 영상을 업로드하세요." counter max-files="1">
+              <template v-slot:append>
+                <q-icon
+                  v-if="newVideoFile !== ''"
+                  name="close"
+                  @click.stop.prevent="newVideoFile = null"
+                  class="cursor-pointer"
+                />
+                <q-icon v-else name="create_new_folder" @click.stop.prevent />
+              </template>
+            </q-file>
+            <q-input standout="bg-primary text-white" v-model="newVideoFileName" label="영상 이름" />
             <q-item-label class="coaching-name">{{ coachingName }}</q-item-label>
             <q-item-label caption class="coaching-detail">{{ coachingSummary }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-card-section>
       <q-card-actions class="modal-option" align="right">
-        <q-btn flat label="등록하기" color="primary" @click="router.push(`/search/coaching/detail/${coachingId}`)" />
+        <q-btn flat label="등록하기" color="primary" @click="uploadNewVideo" />
         <q-btn flat label="취소" color="primary" v-close-popup />
       </q-card-actions>
     </q-card>
