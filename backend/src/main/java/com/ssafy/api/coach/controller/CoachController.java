@@ -12,14 +12,19 @@ import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
 import com.ssafy.api.coaching.dto.response.GetOneCoachingResponseDto;
 import com.ssafy.api.coaching.service.CoachingService;
+import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
+import com.ssafy.util.file.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -30,6 +35,7 @@ public class CoachController {
 
   private final CoachService coachService;
   private final CoachingService coachingService;
+  private final FileService fileService;
 
   /**
    * [coach-1] 해당 분류 코치의 정보를 받아온다.
@@ -204,6 +210,19 @@ public class CoachController {
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
   }
 
+  /**
+   * [coach-14] 코치는 영상을 업로드 할 수 있다.
+   * privilege : 2
+   *
+   * @return - [200] 영상 업로드 성공 메세지
+   */
+  @PostMapping("/{coachId}/videos")
+  public ResponseEntity<?> uploadVideo(
+      @PathVariable(value = "coachId") Long coachId, @Validated @RequestParam MultipartFile videoFile
+  ) {
+    String url = fileService.uploadFileList(coachId, Arrays.asList(videoFile));
+    return new ResponseEntity<>(new MessageDto("upload video successfully"), HttpStatus.OK);
+  }
 
   /**
    * [coach-14] 모든 사용자가 메인페이지에서 인기코치를 확인할 수 있다.
@@ -216,6 +235,8 @@ public class CoachController {
     ListDataDto responseDto = new ListDataDto(coachService.getPopularCoach());
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
+
+
 
 
 }
