@@ -12,7 +12,7 @@ import java.util.TimeZone;
 @EnableJpaAuditing
 @EnableScheduling
 public class CoachMeApplication {
-  
+
   @PostConstruct
   public void started() {
     // timezone 셋팅
