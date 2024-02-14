@@ -91,7 +91,7 @@ public class LiveCoachingController {
   public ResponseEntity<?> startRecording(@PathVariable("sessionId") String sessionId) {
     RecordingProperties properties =
         new RecordingProperties.Builder()
-            .outputMode(Recording.OutputMode.COMPOSED)
+            .outputMode(Recording.OutputMode.INDIVIDUAL)
             .hasAudio(true)
             .hasVideo(true)
             .build();
