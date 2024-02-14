@@ -351,20 +351,21 @@ async function getToken(mySessionId) {
         </div>
 
         <!-- 채팅 -->
-        <q-layout
-          v-if="isChatOpen"
-          view="lHh Lpr lFf"
-          container
-          style="height: 70vh; width: 30rem"
-          class="shadow-2 rounded-borders dm-window-container"
-        >
-          <q-page-container>
-            <LiveChat :mySessionId="mySessionId" @chatOff="isChatOpen = false"></LiveChat>
-          </q-page-container>
-        </q-layout>
+        <div v-show="isChatOpen">
+          <q-layout
+            view="lHh Lpr lFf"
+            container
+            style="height: 70vh; width: 30rem"
+            class="shadow-2 rounded-borders dm-window-container"
+          >
+            <q-page-container>
+              <LiveChat :mySessionId="mySessionId" @chatOff="isChatOpen = false"></LiveChat>
+            </q-page-container>
+          </q-layout>
+        </div>
 
         <!-- 참가자 리스트 -->
-        <div v-else-if="isPeopleOpen" class="people">
+        <div v-if="isPeopleOpen" class="people">
           <template v-for="participant in participants" :key="participant.id">
             <q-item clickable v-ripple>
               <q-item-section avatar>
