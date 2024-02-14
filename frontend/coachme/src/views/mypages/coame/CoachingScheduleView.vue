@@ -73,7 +73,8 @@ function parseLiveCoachingData(list) {
           id: element.id,
           className: element.className,
           time: _time,
-          isStart: date.getTime() < nowObject.getTime() ? true : false
+          isStart: date.getTime() < nowObject.getTime() ? true : false,
+          isOpened: element.status
         }
       ]
     else
@@ -81,7 +82,8 @@ function parseLiveCoachingData(list) {
         id: element.id,
         className: element.className,
         time: _time,
-        isStart: date.getTime() < nowObject.getTime() ? true : false
+        isStart: date.getTime() < nowObject.getTime() ? true : false,
+        isOpened: element.status
       })
 
     // 오늘 라이브코칭 있는지 확인
@@ -95,7 +97,8 @@ function parseLiveCoachingData(list) {
         id: element.id,
         className: element.className,
         time: _time,
-        isStart: date.getTime() < nowObject.getTime() ? true : false
+        isStart: date.getTime() < nowObject.getTime() ? true : false,
+        isOpened: element.status
       })
     // 이벤트 배열 생성
     events_.value.push(dateKey)
@@ -114,6 +117,7 @@ onBeforeMount(() => {
 })
 
 function getDateKey(date) {
+  if (date === null) return
   return date.substring(0, 10).replace(/-/g, '/')
 }
 
@@ -129,7 +133,7 @@ watch(
   <div class="outside">
     <div class="main-title">
       나의 코칭일정
-      <div class="editor-detail">코치님이 라이브를 시작하면, 방에 입장할 수 있습니다.</div>
+      <div class="editor-detail">코치님이 라이브를 시작하면, 입장 버튼이 활성화됩니다.</div>
     </div>
     <div class="coach-main">
       <div class="main-container">
@@ -158,7 +162,7 @@ watch(
                 </template>
                 <template v-slot:append>
                   <q-btn
-                    v-if="liveCoaching.isStart"
+                    v-if="liveCoaching.isStart && liveCoaching.isOpened"
                     icon="meeting_room"
                     flat
                     color="black"
