@@ -4,7 +4,8 @@ import UserVideo from '@/components/openvidu/UserVideo.vue'
 import LiveChat from '@/components/molecules/LiveChat.vue'
 import profile from '@/components/atoms/ProfileImage.vue'
 import router from '@/router'
-import { ref, onBeforeMount, watch, computed } from 'vue'
+import Swal from 'sweetalert2'
+import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { OpenVidu } from 'openvidu-browser'
 import { postLiveCoachingEntrnce, postConnectLiveCoaching } from '@/utils/api/livecoaching-api'
@@ -74,8 +75,16 @@ const changeParticipantsStatus = (status) => {
 }
 
 // 화상 나가기
-const exit = () => {
-  if (confirm('정말로 채팅을 종료하시겠습니까?')) {
+const exit = async () => {
+  const result = await Swal.fire({
+    title: '정말로 채팅을 종료하시겠습니까?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '예',
+    cancelButtonText: '아니오'
+  })
+
+  if (result.isConfirmed) {
     leaveSession()
     router.push('/')
   }
