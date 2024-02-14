@@ -6,6 +6,7 @@ import { getLiveCoachingCalendar } from '@/utils/api/coach-api'
 import { getLiveCoachingCoame } from '@/utils/api/coaching-api'
 import { getStartLiveCoaching } from '@/utils/api/livecoaching-api'
 import router from '@/router'
+import Swal from 'sweetalert2';
 
 /**
  * VARIABLES
@@ -123,17 +124,31 @@ function getDateKey(date) {
   return date.substring(0, 10).replace(/-/g, '/')
 }
 const startLiveCoaching = (liveCoachingId) => {
-  if (confirm('라이브 코칭을 시작하시겠습니까?'))
-    getStartLiveCoaching(
-      liveCoachingId,
-      (success) => {
-        console.log(success)
-        alert('화상회의 페이지로 이동합니다.')
-        router.push(`/live/${liveCoachingId}`)
-      },
-      (fail) => console.log(fail)
-    )
-}
+  Swal.fire({
+    title: '라이브 코칭 시작',
+    text: '라이브 코칭을 시작하시겠습니까?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '예',
+    cancelButtonText: '아니오'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      getStartLiveCoaching(
+        liveCoachingId,
+        (success) => {
+          console.log(success);
+          Swal.fire('성공', '화상회의 페이지로 이동합니다.', 'success').then(() => {
+            router.push(`/live/${liveCoachingId}`);
+          });
+        },
+        (fail) => {
+          console.log(fail);
+          Swal.fire('에러', '라이브 코칭 시작에 실패했습니다.', 'error');
+        }
+      );
+    }
+  });
+};
 </script>
 <template>
   <div class="outside">
