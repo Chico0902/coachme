@@ -3,6 +3,7 @@ package com.ssafy.api.livecoaching.controller;
 import com.ssafy.api.livecoaching.dto.request.StartRecordingRequestDto;
 import com.ssafy.api.livecoaching.dto.response.LiveCoachingMemberResponseDto;
 import com.ssafy.api.livecoaching.service.LiveCoachingService;
+import com.ssafy.dto.ListDataDto;
 import com.ssafy.dto.MessageDto;
 import io.openvidu.java.client.*;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,20 +118,25 @@ public class LiveCoachingController {
       Recording recording = openvidu.stopRecording(recordingId);
       sessionRecordings.remove(recording.getSessionId());
 
-//      return new ResponseEntity<>(new MessageDto("Recording successful.") , HttpStatus.OK);
-      return new ResponseEntity<>(recording, HttpStatus.OK);
+      return new ResponseEntity<>("Recording stopped successfully.", HttpStatus.OK);
     } catch (OpenViduJavaClientException | OpenViduHttpException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
   }
 
   // 녹화 목록을 가져옵니다.
-  @GetMapping("/recording/list/{sessionId}")
+  @GetMapping("/recording/finish/{sessionId}")
   public ResponseEntity<?> listRecordings(@PathVariable("sessionId") String sessionId) {
     try {
       List<Recording> recordings = openvidu.listRecordings();
-      log.debug("Recordings {}", recordings);
-      return new ResponseEntity<>(recordings, HttpStatus.OK);
+      List<String> urlList = new ArrayList<>();
+      for(Recording recording: recordings){
+        if(recording.getSessionId().equals(sessionId)){
+          urlList.add(recording.getUrl());
+        }
+      }
+
+      return new ResponseEntity<>(new ListDataDto(urlList), HttpStatus.OK);
     } catch (OpenViduJavaClientException | OpenViduHttpException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
