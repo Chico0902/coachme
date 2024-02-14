@@ -15,7 +15,6 @@ import { getCoachingDetailPage, getAllLivesInCoaching, getAllCoachingVideos } fr
 import { getCoachingReview, postcoachingReview, deleteMyReview, patchMyReview } from '@/utils/api/review-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { useAuthStore } from '@/stores/auth'
-import { deleteMyReview } from '@/utils/api/review-api'
 
 /**
  * VARIABLES
