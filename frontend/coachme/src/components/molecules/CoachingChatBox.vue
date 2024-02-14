@@ -83,25 +83,28 @@ const changeState = () => {
         <!-- 설명 섹션-->
         <q-item-section>
           <Labels label="이 코칭에 관심이 있으신가요?" class="card-margin" style="margin: auto"></Labels>
-          <Labels :label="chatLabel" class="card-margin" style="margin: auto"></Labels>
-        </q-item-section>
-
-        <!-- 찜콩 버튼 -->
-        <q-item-section style="margin: 0vh auto -2vh">
-          <CustomLike :like="likeState" @click="changeState"></CustomLike>
+          <Labels :label="chatLabel" class="card-margin" style="margin: auto; color: #004c98"></Labels>
         </q-item-section>
 
         <!-- 코칭 신청하기 버튼과 채팅하기 버튼 -->
         <q-item-section>
           <div class="buttons card-margin">
-            <CustomButton style="width: 6rem; height: 20px; background-color: #fcbf17; color: black"
-              >신청하기
-            </CustomButton>
             <CustomButton
               style="width: 6rem; height: 20px; margin-left: 0.5vw; background-color: #004c98; color: white"
               @click="openChatByMemberId(props.coachId, props.coach, props.profileImg)"
               >채팅하기</CustomButton
             >
+          </div>
+        </q-item-section>
+
+        <q-separator style="margin-top: 2vh"></q-separator>
+
+        <Labels label="이 코칭이 마음에 드셨나요?" class="card-margin"></Labels>
+        <Labels label="좋아요 버튼을 클릭해주세요!" class="card-margin" style="color: #004c98"></Labels>
+
+        <q-item-section>
+          <div class="buttons card-margin">
+            <CustomLike :like="likeState" @click="changeState"></CustomLike>
           </div>
         </q-item-section>
       </q-item-section>
@@ -113,11 +116,13 @@ const changeState = () => {
 .my-card {
   width: 100%;
   max-width: max-content;
+  text-align: center;
 }
 
 .buttons {
   display: flex;
   align-items: center;
+  margin: auto;
 }
 
 .card-margin {
