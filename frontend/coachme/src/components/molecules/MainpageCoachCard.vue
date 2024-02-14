@@ -9,7 +9,7 @@ liked : 찜콩버튼 클릭시 발생할 함수. function. 기본값 없음
 <script setup>
 import profile from '../atoms/ProfileImage.vue'
 import labels from '../atoms/CardLabel.vue'
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   label: {

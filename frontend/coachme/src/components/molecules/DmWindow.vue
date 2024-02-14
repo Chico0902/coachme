@@ -15,6 +15,7 @@ const connected = ref(false)
 const roomJoined = ref(false)
 const newMessage = ref('')
 const error = ref('')
+const token = getAccessToken()
 
 // in pinia
 const chatStore = useChatStore()
@@ -115,6 +116,9 @@ function sendMessage() {
 
   client.value.publish({
     destination: `/app/sendDm/${roomId.value}`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
     body: JSON.stringify({
       content: newMessage.value,
       sender: myLongId.value // 발신자명을 설정할 수 있습니다.
