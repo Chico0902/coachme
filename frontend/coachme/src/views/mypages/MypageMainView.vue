@@ -73,7 +73,27 @@ const privilege = decodeToken(accessToken.value).privilege
   margin-top: 5vh;
   margin-bottom: 5vh;
   border-radius: 1.5rem;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.mainpage::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+}
+
+.mainpage::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.mainpage::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.mainpage::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
 }
 .footer {
   height: 10vh;

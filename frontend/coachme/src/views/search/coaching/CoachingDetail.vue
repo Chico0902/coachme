@@ -227,22 +227,21 @@ const deleteReview = (reviewId) => {
 }
 
 const updateReview = (data) => {
-
   const reviewDto = {
-    "comment" : data.review.value,
-    "score" : data.ratingScore.value
+    comment: data.review.value,
+    score: data.ratingScore.value
   }
 
   new Promise((resolve, reject) =>
-
     // 리뷰 수정
     patchMyReview(
-      data.reviewId, reviewDto,
+      data.reviewId,
+      reviewDto,
       (success) => {
         console.log(success)
         Swal.fire({
-          icon: "success",
-          title: "리뷰를 수정했습니다.",
+          icon: 'success',
+          title: '리뷰를 수정했습니다.',
           showConfirmButton: true,
           timer: 1500
         });
@@ -252,7 +251,7 @@ const updateReview = (data) => {
         reject(fail)
       }
     )
-    ).then(() => {
+  ).then(() => {
     // 리뷰 수정 후 정보들 다시 리로드
 
     // 코치 상세 정보
@@ -277,9 +276,8 @@ const updateReview = (data) => {
         console.log(fail)
       }
     )
-    })
+  })
 }
-
 
 onBeforeMount(() => {
   if (authStore.isLogin === false) {

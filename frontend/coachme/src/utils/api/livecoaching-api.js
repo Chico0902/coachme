@@ -1,7 +1,5 @@
 import { authAxios } from '@/utils/http-commons'
 
-const { VITE_BACKEND_URL } = import.meta.env
-
 /**
  * API번호 : live-1
  * METHOD : POST
@@ -22,11 +20,12 @@ const { VITE_BACKEND_URL } = import.meta.env
             message : String
           }
  */
-export function postLiveCoachingEntrnce(roomId) {
+export function postLiveCoachingEntrnce(roomId, longId) {
   return new Promise((resolve) =>
     authAxios
-      .post(`live/sessions/${roomId}/connections`, {})
+      .post(`live/sessions/${roomId}/connections`, { memberId: longId })
       .then((success) => {
+        console.log(success)
         resolve(success.data)
       })
       .catch((fail) => {
