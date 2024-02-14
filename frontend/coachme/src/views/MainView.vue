@@ -131,7 +131,10 @@ onUnmounted(() => {
 const searchByChoice = (data) => {
   switch (data.menu) {
     case '': {
-      alert('검색 조건을 선택해주세요.')
+      Swal.fire({
+        icon: 'error',
+        title: '검색 조건을 선택해주세요.',
+      })
       return
     }
     case '코치로 찾기': {
