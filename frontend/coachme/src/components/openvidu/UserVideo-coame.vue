@@ -1,6 +1,6 @@
 <template>
   <div v-if="streamManager">
-    <ov-video :stream-manager="streamManager" />
+    <ov-video :stream-manager="streamManager" style="width: 20vw;" />
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import OvVideo from '@/components/openvidu/OvVideo.vue'
 
 export default {
-  name: 'UserVideo',
+  name: 'UserVideo-coame',
 
   components: {
     OvVideo
