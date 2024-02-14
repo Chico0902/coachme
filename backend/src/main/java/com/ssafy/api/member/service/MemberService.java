@@ -136,7 +136,8 @@ public class MemberService {
     }
 
     // 프로필 사진 등록
-    String url = fileService.uploadFileList(longId, Arrays.asList(newFile));
+    String url = fileService.uploadFileList(Arrays.asList(newFile));
+    memberInDB.addProfileImage("프로필사진", url);
 
     return new ProfileImageResponseDto(url);
   }
