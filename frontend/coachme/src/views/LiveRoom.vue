@@ -34,7 +34,7 @@ const { longId, profileText, profileImageUrl } = memberStore
 const route = useRoute()
 
 // local variable
-const coachingTitle = ref('이것만 알면 당신도 할 수 있다.') // 코칭 제목
+const coachingTitle = `${route.params.id}번 라이브 방` // 코칭 제목
 const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, profileText: profileText }
 const coachId = route.params.coachId
 const participants = computed(() => {
