@@ -69,7 +69,7 @@ const color = '#FFFFFF'
       @click-menu="clickMenu"
     >
     </dropdown>
-    <inputs v-model="input" style="width: 45vw" @update-data="updateData"></inputs>
+    <inputs v-model="input" style="width: 45vw" @update-data="updateData" @keyup.enter="searchData"></inputs>
     <buttons
       style="height: 56px"
       :label="`${props.label}`"
