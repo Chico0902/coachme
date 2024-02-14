@@ -139,6 +139,7 @@ public class CoachingController {
 
   /**
    * [coaching-8] 코칭 상세페이지에서 해당 코칭의 영상 목록을 조회한다.
+   *
    * @param coachingId - 코칭 pk
    * @return - [200] 영상 url 리스트
    */

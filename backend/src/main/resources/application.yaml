@@ -61,3 +61,6 @@ cloud:
 openvidu:
   url: http://localhost:5443/
   secret: CoachMe
+#openvidu:
+#  url: http://localhost:4443/
+#  secret: MY_SECRET

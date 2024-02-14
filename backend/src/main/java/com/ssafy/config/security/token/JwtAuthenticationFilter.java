@@ -44,9 +44,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/api/auth/login",
         "/api/members",
         "/api/members/duplicate/id",
-        "/api/ws-dm",
-        "/api/live/sessions",
-        "/api/live/sessions/SessionA/connections",
         "/api/coachings/popular",
         "/api/coaches/popular"
     ).contains(request.getRequestURI())) ||

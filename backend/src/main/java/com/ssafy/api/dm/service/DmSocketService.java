@@ -2,7 +2,6 @@ package com.ssafy.api.dm.service;
 
 import com.ssafy.api.dm.dto.request.DmSocketRequestMessage;
 import com.ssafy.api.dm.dto.response.DmSocketResponseMessage;
-import com.ssafy.api.dm.util.RedisUtils;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.db.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class DmSocketService {
   private final MemberRepository memberRepository;
-  private final RedisUtils redisUtils;
   private final StringRedisTemplate stringRedisTemplate;
 
   public DmSocketResponseMessage sendDm(DmSocketRequestMessage message, String roomId) {
@@ -33,8 +30,6 @@ public class DmSocketService {
     String value = message.getContent();
 
     stringRedisTemplate.opsForValue().set(key, value);
-    log.debug("key {}, value {}", key, value);
-
     DmSocketResponseMessage returnMessage = new DmSocketResponseMessage();
 
     long id = Long.parseLong(message.getSender());

@@ -2,6 +2,7 @@ package com.ssafy.api.member.mapper;
 
 import com.ssafy.api.admin.dto.response.AdminMembersResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
+import com.ssafy.api.livecoaching.dto.response.LiveCoachingMemberResponseDto;
 import com.ssafy.api.member.dto.request.MemberRegistRequestDto;
 import com.ssafy.db.entity.Member;
 import org.mapstruct.Mapper;
@@ -41,5 +42,10 @@ public interface MemberMapper {
   CoameListResponseDto memberToCoameListResponseDto(Member member);
 
   List<CoameListResponseDto> memberToCoameListResponseDto(List<Member> member);
+
+  @Mapping(source = "longId", target = "memberId")
+  @Mapping(source = "profileImage.url", target = "memberProfileUrl")
+  @Mapping(source = "name", target = "memberName")
+  LiveCoachingMemberResponseDto memberToLiveCoachingMemberDto(Member member);
 
 }
