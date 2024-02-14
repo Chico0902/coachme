@@ -27,7 +27,6 @@ const number = getCount()
 const LikeId = 'checkbox' + number
 // 아이디는 checkbox + 찜콩 버튼 개수
 
-console.log(checked.value)
 </script>
 
 <template>
