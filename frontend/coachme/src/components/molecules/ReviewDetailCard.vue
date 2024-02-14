@@ -25,7 +25,7 @@ const props = defineProps({
   }, 
 })
 
-const emit = defineEmits(['reviewData'], ['deleteReview'])
+const emit = defineEmits(['reviewData'], ['deleteReview'], ['updateReview'])
 
 const coachRating = computed(() => Math.round(props.ratingModel * 10) / 10);
 
@@ -40,6 +40,10 @@ const updateData = (data) => {
 
 const deleteReview = (reviewId) => {
   emit('deleteReview', reviewId)
+}
+
+const updateReview = (data) => {
+  emit('updateReview', data)
 }
 
 </script>
@@ -78,7 +82,7 @@ const deleteReview = (reviewId) => {
         <!-- 리뷰가 보여지는 곳 -->
         <q-item-section v-if="reviews && reviews.length > 0" class="card-margin">         
           <div v-for="(review, index) in reviews" :key="review">
-            <Reviews :reviews="review" @delete-review="deleteReview"></Reviews>
+            <Reviews :reviews="review" @delete-review="deleteReview" @update-review="updateReview"></Reviews>
             <!-- 마지막 리뷰 이외에는 구분선-->
             <div v-if="index != reviews.length - 1"><q-separator spaced></q-separator></div>
           </div>
