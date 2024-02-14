@@ -193,6 +193,7 @@ const searchByWords = (keyword) => {
 .mypage-outside {
   display: flex;
   justify-content: space-between;
+  max-height: 65vh;
 }
 
 .rightPage {
@@ -206,6 +207,9 @@ const searchByWords = (keyword) => {
   text-align: center;
   flex-direction: column;
   -ms-overflow-style: none;
+}
+.rightPage::-webkit-scrollbar {
+  display: none;
 }
 
 .search {

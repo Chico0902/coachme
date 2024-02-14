@@ -99,7 +99,7 @@ const searchByWords = (keyword) => {
           </div>
           <div class="mainpage">
             <!-- 코칭 목록과 채팅 버튼-->
-            <SearchCoachingList :coaching="coachings" style="margin-left: 0.6vw; margin-top: 1vh"></SearchCoachingList>
+            <SearchCoachingList :coaching="coachings" style="; margin-top: 1vh"></SearchCoachingList>
           </div>
         </div>
         <div class="chat-button">
@@ -157,7 +157,7 @@ const searchByWords = (keyword) => {
 .mypage-outside {
   display: flex;
   justify-content: space-between;
-  max-height: 70vh;
+  max-height: 65vh;
 }
 
 .rightPage {
@@ -171,6 +171,9 @@ const searchByWords = (keyword) => {
   text-align: center;
   flex-direction: column;
   -ms-overflow-style: none;
+}
+.rightPage::-webkit-scrollbar {
+  display: none;
 }
 
 .search {
