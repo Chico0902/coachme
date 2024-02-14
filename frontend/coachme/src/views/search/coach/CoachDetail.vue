@@ -341,6 +341,7 @@ const showCoaching = (mainCategory, name, subCategory, summary, id) => {
                   v-bind:review-count="coachDetail.reviewCount"
                   @review-data="reviewData"
                   @delete-review="deleteReview"
+                  @update-review="updateReview"
                 >
                 </Reviews>
               </div>
