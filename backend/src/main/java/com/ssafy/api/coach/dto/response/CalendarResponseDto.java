@@ -10,5 +10,6 @@ public class CalendarResponseDto {
   private Long id;
   private String className;
   private LocalDateTime date;
+  private Boolean status;
 
 }
