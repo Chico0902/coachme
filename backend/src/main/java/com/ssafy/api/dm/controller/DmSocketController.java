@@ -16,24 +16,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @RequiredArgsConstructor
 public class DmSocketController {
-  private final RedisUtils redisUtils;
   private final DmSocketService dmSocketService;
 
   // 디엠방 입장(socket 통신 요청)
-
   @MessageMapping("/room/{roomId}")
   @SendTo("/topic/room/{roomId}")
   public DmSocketRequestMessage enterDmRoom(DmSocketRequestMessage message, @RequestParam("roomId") String roomId) {
     return message;
   }
 
-
   // DM 전송
   @MessageMapping("/sendDm/{roomId}")
   @SendTo("/topic/room/{roomId}")
   public DmSocketResponseMessage sendDm(DmSocketRequestMessage message, @DestinationVariable("roomId") String roomId) {
     DmSocketResponseMessage returnMessage = dmSocketService.sendDm(message, roomId);
-
     return returnMessage;
   }
+
+  // 디엠방 입장(socket 통신 요청)
+  @MessageMapping("/live/room/{roomId}")
+  @SendTo("/live/topic/room/{roomId}")
+  public DmSocketRequestMessage liveEnterDmRoom(DmSocketRequestMessage message) {
+    return message;
+  }
+
+  // DM 전송
+  @MessageMapping("/live/sendDm/{roomId}")
+  @SendTo("/live/topic/room/{roomId}")
+  public DmSocketRequestMessage liveSendDm(DmSocketRequestMessage message) {
+    return message;
+  }
+
 }
