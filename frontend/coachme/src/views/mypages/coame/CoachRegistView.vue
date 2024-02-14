@@ -6,6 +6,7 @@ import { ElevationRequestDto } from '@/utils/api/dto/member-dto'
 import { ref, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getMyPortfolio } from '@/utils/api/coach-api'
+import Swal from 'sweetalert2';
 
 /**
  * VARIABLES
@@ -19,20 +20,32 @@ const isAlreadyRegistered = ref(false)
 const longId = decodeToken(getAccessToken()).longId
 
 const regist = () => {
-  const dto = new ElevationRequestDto(longId.value, contentHTML.value)
+  const dto = new ElevationRequestDto(longId.value, contentHTML.value);
+  
   postRequestElevation(
     dto,
     (success) => {
-      console.log(success)
-      alert('등록 완료!')
-      window.location.reload()
+      console.log(success);
+      Swal.fire({
+        icon: 'success',
+        title: '등록 완료!',
+        showConfirmButton: false,
+        timer: 1500, 
+        allowOutsideClick: false, 
+      }).then(() => {
+        window.location.reload();
+      });
     },
     (fail) => {
-      console.log(fail)
-      alert('등록 실패!')
+      console.log(fail);
+      Swal.fire({
+        icon: 'error',
+        title: '등록 실패!',
+        showConfirmButton: true,
+      });
     }
-  )
-}
+  );
+};
 
 onBeforeMount(() => {
   getMyPortfolio(
