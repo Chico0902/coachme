@@ -153,7 +153,7 @@ function joinSession() {
   // --- 4) Connect to the session with a valid user token ---
 
   // Get a token from the OpenVidu deployment
-  getToken(mySessionId.value).then((token) => {
+  getToken(mySessionId).then((token) => {
     // First param is the token. Second param can be retrieved by every user on event
     // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
     sessionCamera.value
@@ -187,7 +187,7 @@ function joinSession() {
         console.log('There was an error connecting to the sessionCamera:', error.code, error.message)
       })
   })
-  getToken(mySessionId.value).then((tokenScreen) => {
+  getToken(mySessionId).then((tokenScreen) => {
     // Create a token for screen share
     sessionScreen.value
       .connect(tokenScreen, { clientData: myUserName.value })
@@ -223,8 +223,11 @@ function updateMainVideoStreamManager(stream) {
 }
 
 async function getToken(mySessionId) {
-  const sessionId = await postConnectLiveCoaching({ mySessionId })
-  return await postLiveCoachingEntrnce(sessionId)
+  const sessionId = await postConnectLiveCoaching({ customSessionId: mySessionId })
+  console.log(myUserName.value)
+  const response = await postLiveCoachingEntrnce(sessionId, myUserName.value)
+  console.log(response)
+  return response.token
 }
 </script>
 <template>
