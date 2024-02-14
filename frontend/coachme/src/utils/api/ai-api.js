@@ -24,5 +24,11 @@ const { VITE_AI_URL } = import.meta.env
           }
  */
 export function postEditToAI(dto, success, fail) {
-  axios.post(`${VITE_AI_URL}/ai/edit`, dto).then(success).catch(fail)
+  axios
+    .post(`${VITE_AI_URL}/ai/edit`, dto, {
+      'Access-Control-Allow-Origin': VITE_AI_URL,
+      'Access-Control-Allow-Credentials': 'true'
+    })
+    .then(success)
+    .catch(fail)
 }
