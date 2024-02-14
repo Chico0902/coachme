@@ -43,7 +43,6 @@ const coachMainVideo = computed(() => {
     return subscriberId === coachId
   })
 })
-setInterval(() => console.log(subscribers.value), 3000)
 const participants = computed(() => {
   const ret = []
   subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
