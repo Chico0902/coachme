@@ -44,6 +44,7 @@ public class DmSocketController {
   @MessageMapping("/live/sendDm/{roomId}")
   @SendTo("/live/topic/room/{roomId}")
   public DmSocketRequestMessage liveSendDm(DmSocketRequestMessage message) {
+    log.debug("message {}", message);
     return message;
   }
 
