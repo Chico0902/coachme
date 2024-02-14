@@ -50,7 +50,6 @@ function parseCoaching(list) {
   return ret
 }
 
-
 const create = () => {
   const dto = { coachingId: selectedCoaching.value.id, date: dateTime.value }
   console.log(dto)
@@ -58,20 +57,19 @@ const create = () => {
     longId,
     dto,
     (success) => {
-      console.log(success);
+      console.log(success)
       Swal.fire({
-        title: "생성 완료",
-        text: "라이브가 생성되었습니다!",
-        icon: "success",
+        title: '생성 완료',
+        text: '라이브가 생성되었습니다!',
+        icon: 'success'
       }).then(() => {
         // alert('등록 완료');
-        window.location.reload();
-      });
+        window.location.reload()
+      })
     },
     (error) => console.log(error)
-  );
-};
-
+  )
+}
 
 // DB에서 받은시간으로 Date객체 생성
 function parseDateTime(dateTime) {
@@ -145,8 +143,11 @@ function getDateKey(dateTime) {
 </script>
 
 <template>
+  <div class="main-title">
+    라이브 생성
+    <div class="editor-detail">원하시는 코칭과 날짜를 선택하고, 생성 버튼을 클릭하세요.</div>
+  </div>
   <div class="coaching-outside">
-    <div class="coaching-title title">코칭 이름</div>
     <div class="coaching-select">
       <q-select
         class="select"
@@ -212,6 +213,17 @@ function getDateKey(dateTime) {
 </template>
 
 <style scoped>
+.main-title {
+  display: inline-block;
+  font-size: 2rem;
+  margin-top: 1.5rem;
+  margin-left: 3rem;
+}
+.editor-detail {
+  margin-left: 0.5rem;
+  color: #034c8c;
+  font-size: 0.9rem;
+}
 .button-container {
   display: flex;
   justify-content: center;
@@ -236,14 +248,6 @@ function getDateKey(dateTime) {
   width: 80%;
   justify-content: center;
   margin: 2rem auto;
-}
-.coaching-title {
-  width: 50%;
-  max-width: 50%;
-}
-
-.coaching-title .title {
-  margin-bottom: 10px;
 }
 
 select {
@@ -271,7 +275,7 @@ select {
   align-items: flex-start;
 }
 .menu {
-  min-width: 30%;
+  min-width: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;

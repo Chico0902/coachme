@@ -15,6 +15,7 @@ const connected = ref(false)
 const roomJoined = ref(false)
 const newMessage = ref('')
 const error = ref('')
+const token = getAccessToken()
 
 // in pinia
 const chatStore = useChatStore()
@@ -51,7 +52,7 @@ function connectWebSocket() {
   if (client.value === null) {
     return new Promise((resolve, reject) => {
       client.value = new Client({
-        brokerURL: 'ws://localhost:7777/api/ws-dm',
+        brokerURL: 'wss://i10A403.p.ssafy.io/api/ws-dm',
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
@@ -115,6 +116,9 @@ function sendMessage() {
 
   client.value.publish({
     destination: `/app/sendDm/${roomId.value}`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
     body: JSON.stringify({
       content: newMessage.value,
       sender: myLongId.value // 발신자명을 설정할 수 있습니다.

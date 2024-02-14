@@ -62,11 +62,11 @@ const login = (id, pw) => {
       profileText.value = success.data.profileText
       Swal.fire({
         // position: "top-end",
-        icon: "success",
-        title: "로그인성공",
+        icon: 'success',
+        title: '로그인 성공',
         showConfirmButton: false,
         timer: 1500
-      });
+      })
       // 기존코드
       // alert('로그인 성공')
       router.push('/')
@@ -74,10 +74,10 @@ const login = (id, pw) => {
     (error) => {
       console.log(error)
       Swal.fire({
-        icon: "error",
-        title: "저런...",
-        text: "로그인 실패",
-      });
+        icon: 'error',
+        title: '저런...',
+        text: '로그인 실패'
+      })
       //기존코드
       // alert('로그인 실패')
     }
@@ -213,7 +213,8 @@ h2 {
   justify-content: center;
 }
 .login-input {
-  width: 50%;
+  min-width: 7rem;
+  max-width: 10rem;
   margin: auto;
   margin-top: 1rem;
   margin-bottom: 1.5rem;

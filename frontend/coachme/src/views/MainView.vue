@@ -36,8 +36,8 @@ const list = ['코치로 찾기', '코칭으로 찾기']
 // 회원정보 조회
 const authStore = useAuthStore()
 const memberStore = useMemberStore()
-const { accessToken } = storeToRefs(authStore)
-const { profileText, profileImageUrl } = storeToRefs(memberStore)
+const { accessToken, isLogin } = storeToRefs(authStore)
+const { profileText, profileImageUrl, longId } = storeToRefs(memberStore)
 const username = computed(() => {
   console.log(decodeToken(accessToken.value))
   if (accessToken.value != '') return decodeToken(accessToken.value).name
@@ -59,6 +59,8 @@ const logoutWithConfirm = () => {
     cancelButtonText: '아니오'
   }).then((result) => {
     if (result.isConfirmed) {
+      isLogin.value = false
+      longId.value = ''
       accessToken.value = ''
       profileText.value = '프로필을 등록하세요.'
       profileImageUrl.value = '/src/assets/icons/coame.png'
@@ -77,15 +79,6 @@ const logoutWithConfirm = () => {
     }
   })
 }
-
-// 기존코드
-//   if (!confirm('로그아웃 하시겠습니까?')) return
-//   accessToken.value = ''
-//   profileText.value = '프로필을 등록하세요.'
-//   profileImageUrl.value = '/src/assets/icons/coame.png'
-//   alert('로그아웃 되었습니다.')
-//   window.location.reload()
-// }
 
 const screenWidth = ref(window.innerWidth)
 
@@ -237,7 +230,15 @@ const searchByCategory = (index, label) => {
         <div class="coach-title"><MainCoachTitle /></div>
         <div class="coach-card-outside">
           <div v-for="(coach, index) in popularCoachList" :key="index" class="coach-card">
-            <card :label="coach.coachName" :caption="coach.coachingReviewAvg" :img="coach.coachProfileImageUrl" :coachIndex="index"></card>
+            <card
+              :label="coach.coachName"
+              :caption="coach.coachingReviewAvg"
+              :img="coach.coachProfileImageUrl"
+              :coachIndex="index"
+              :maincoaching="coach.coachingInfo"
+              class="mouse-hover"
+              @click="router.push(`/search/coach/detail/${coach.coachId}`)"
+            ></card>
           </div>
         </div>
       </div>
@@ -251,6 +252,8 @@ const searchByCategory = (index, label) => {
               :caption="coaching.coachingReviewAvg"
               :video="coaching.coachingVideoUrl"
               :coachIndex="index"
+              class="mouse-hover"
+              @click="router.push(`/search/coaching/detail/${coaching.coachingId}`)"
             ></CoachingCard>
           </div>
         </div>
@@ -261,6 +264,9 @@ const searchByCategory = (index, label) => {
 </template>
 
 <style scoped>
+.mouse-hover:hover {
+  cursor: pointer;
+}
 .all {
   display: flex;
   justify-content: center;

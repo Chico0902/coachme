@@ -6,7 +6,7 @@ import piniaPersist from 'pinia-plugin-persist'
 import router from './router'
 import 'quasar/dist/quasar.css'
 import '@quasar/extras/material-icons/material-icons.css'
-
+import './style.css'
 // 앱 생성
 const app = createApp(App)
 
