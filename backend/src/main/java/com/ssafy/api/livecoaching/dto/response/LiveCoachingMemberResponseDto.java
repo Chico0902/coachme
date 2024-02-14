@@ -8,5 +8,5 @@ public class LiveCoachingMemberResponseDto {
   private long memberId;
   private String memberProfileUrl;
   private String memberName;
-  private String memeberProfileText;
+  private String memberProfileText;
 }
