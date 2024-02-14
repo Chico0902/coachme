@@ -5,7 +5,7 @@ import LiveChat from '@/components/molecules/LiveChat.vue'
 import profile from '@/components/atoms/ProfileImage.vue'
 import router from '@/router'
 import Swal from 'sweetalert2'
-import { ref, onBeforeMount, computed } from 'vue'
+import { ref, onBeforeMount, computed, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { OpenVidu } from 'openvidu-browser'
 import {
@@ -139,7 +139,13 @@ const exit = async () => {
   if (isSave) {
     getRecordFinish(
       mySessionId,
-      (success) => console.log(success),
+      (success) => {
+        console.log(success)
+        new Promise((resolve) => {
+          success.data.list.forEach((url) => window.open(url))
+          resolve()
+        }).catch((fail) => console.log(fail))
+      },
       (fail) => console.log(fail)
     )
   } else {
@@ -153,6 +159,10 @@ onBeforeMount(() => {
   console.log(route.params.id)
   joinSession()
   // 해당 방 참가자 목록 받아오기
+})
+
+onBeforeUnmount(() => {
+  leaveSession()
 })
 
 /**
