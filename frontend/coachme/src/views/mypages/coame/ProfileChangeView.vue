@@ -185,12 +185,12 @@ function changeProfileText(newProfileText) {
 const changeMemberInfo = (pw, newNick, newEmail) => {
   // 정상요청 검증
   if (!(validatePassword(pw) && validateNickName(newNick))) {
-    // Swal.fire({
-    //   position: "top",
-    //   title: "유효하지 않은 입력값이 있습니다.",
-    //   icon: "info"
-    // });
-    alert('유효하지 않은 입력값이 있습니다.')
+    Swal.fire({
+      position: "top",
+      title: "유효하지 않은 입력값이 있습니다.",
+      icon: "info"
+    });
+    // alert('유효하지 않은 입력값이 있습니다.')
     return
   }
   // dto 생성 및 호출
