@@ -218,15 +218,15 @@ const searchByWords = (keyword) => {
 
 #input {
   width: 50vw;
-  min-width: 450px;
 }
 
 .mainpage {
   background-color: white;
-  width: 100%;
-  max-height: 70vh;
+  width: 90%;
+  /* max-height: 70vh; */
   margin-top: -1vh;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
   display: flex;
   text-align: center;
   flex-direction: row;
@@ -234,7 +234,23 @@ const searchByWords = (keyword) => {
 }
 
 .mainpage::-webkit-scrollbar {
-  display: none;
+  width: 10px;
+  height: 0.5rem;
+}
+
+.mainpage::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.mainpage::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.mainpage::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
 }
 
 .footer {
