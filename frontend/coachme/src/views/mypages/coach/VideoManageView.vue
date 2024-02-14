@@ -1,5 +1,5 @@
 <script setup>
-import Coaching from '@/components/molecules/CoachingCard.vue'
+import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getVideoList } from '@/utils/api/coach-api'
@@ -23,12 +23,7 @@ const coachingOptions = computed(() => {
 })
 const selectedCoachingId = ref(null)
 
-// 드롭다운 메뉴에 필요한 제목과 id 리스트 - 중복 제거
-
-// 드롭다운 메뉴
-
-// 선택한 코칭의 id
-
+// 각 코칭 별로 코칭 영상 리스트를 추출
 const groupedFilteredVideos = computed(() => {
   const filtered =
     selectedCoachingId.value !== null
@@ -44,7 +39,10 @@ const groupedFilteredVideos = computed(() => {
   })
   return grouped
 })
-// 각 코칭 별로 코칭 영상 리스트를 추출
+
+/**
+ * METHODS
+ */
 
 onBeforeMount(() => {
   const longId = decodeToken(getAccessToken()).longId
@@ -62,10 +60,16 @@ onBeforeMount(() => {
 })
 </script>
 <template>
-  <div>
+  <div class="main">
     <div class="main-title">
       나의 영상관리
       <div class="editor-detail">나만의 영상을 편집하고, 게시해보세요!</div>
+    </div>
+    <div class="menu SMN_effect-42">
+      <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="등록하기">등록하기</span></RouterLink>
+    </div>
+    <div class="menu SMN_effect-42">
+      <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="등록하기">등록하기</span></RouterLink>
     </div>
     <div class="coaching-dropdown">
       <q-select
@@ -78,24 +82,27 @@ onBeforeMount(() => {
       />
     </div>
 
-    <div v-for="(videosGroup, coachingName) in groupedFilteredVideos" :key="coachingName" class="card-section">
-      <div class="coaching-group-title">{{ coachingName }}</div>
-      <div class="coaching-outside element-with-scrollbar">
-        <div v-for="video in videosGroup" :key="video.videoId" class="coaching-card">
-          <coaching
-            :label="video.videoName"
-            :caption="caption"
-            :ratio="ratio"
-            :video="video.url"
-            :visible="false"
-            :coachingId="video.coachingId"
-            :videoId="video.videoId"
-          >
-          </coaching>
+    <div class="coaching-outside">
+      <div v-for="(videosGroup, coachingName) in groupedFilteredVideos" :key="coachingName" class="card-section">
+        <div class="coaching-group-title">
+          {{ coachingName }}
+        </div>
+        <div class="element-with-scrollbar">
+          <div v-for="video in videosGroup" :key="video.videoId" class="coaching-card">
+            <CoachingCard
+              :label="video.videoName"
+              :caption="caption"
+              :ratio="ratio"
+              :video="video.url"
+              :visible="false"
+              :coachingId="video.coachingId"
+              :videoId="video.videoId"
+            >
+            </CoachingCard>
+          </div>
         </div>
       </div>
     </div>
-
     <div
       v-if="!groupedFilteredVideos || Object.keys(groupedFilteredVideos).length === 0"
       class="no-video-message card-section"
@@ -131,14 +138,12 @@ onBeforeMount(() => {
 }
 
 .coaching-outside {
-  width: 100%;
+  max-width: 100%;
   height: 38vh;
-  margin-top: 0.2vh;
-  margin-bottom: 2vh;
+  margin-top: 2rem;
   display: flex;
   justify-content: flex-start;
-  overflow-x: auto;
-  overflow-y: hidden;
+  flex-wrap: wrap;
 }
 
 .coaching-card {
@@ -146,12 +151,14 @@ onBeforeMount(() => {
 }
 
 .card-section {
-  width: 90%;
+  max-width: 30%;
   margin-left: 3vw;
 }
 
 .coaching-group-title {
   font-size: 20px;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 .element-with-scrollbar {
@@ -160,5 +167,64 @@ onBeforeMount(() => {
 
 .element-with-scrollbar:hover {
   overflow: auto;
+}
+.SMN_effect-42 a {
+  position: relative;
+}
+
+.SMN_effect-42 a:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5rem;
+  background-color: #034c8c;
+  transform-origin: 100% 50%;
+  transform: scale(0, 1);
+  top: 0;
+  left: 0;
+  transition: transform 0.3s cubic-bezier(0.33, 0.91, 0.42, 1);
+}
+
+.SMN_effect-42 a:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: 034c8c (0, 0, 0);
+  left: 0;
+  bottom: 0;
+  transform-origin: 0% 50%;
+  transition: transform 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0.2s;
+}
+
+.SMN_effect-42 a span {
+  position: relative;
+}
+
+.SMN_effect-42 a span:after {
+  content: attr(data-hover);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.2s cubic-bezier(0.33, 0.91, 0.42, 1) 0s;
+}
+
+.SMN_effect-42 a:hover:before {
+  transform: scale(1);
+  transform-origin: 0 50%;
+  transition: transform 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0.2s;
+}
+
+.SMN_effect-42 a:hover:after {
+  transform: scale(0, 1);
+  transform-origin: 100% 50%;
+  transition: transform 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0s;
+}
+
+.SMN_effect-42 a:hover span:after {
+  color: #ffffff;
+  transition: color 0.3s cubic-bezier(0.33, 0.91, 0.42, 1) 0.2s;
 }
 </style>
