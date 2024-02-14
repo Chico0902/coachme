@@ -9,11 +9,9 @@ import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import Swal from 'sweetalert2'
 import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { getCoachingDetailPage, getAllLivesInCoaching } from '@/utils/api/coaching-api'
-import { getVideoList } from '@/utils/api/coach-api'
-import { getCoachingReview, postcoachingReview } from '@/utils/api/review-api'
+import { getCoachingDetailPage, getAllLivesInCoaching, getAllCoachingVideos } from '@/utils/api/coaching-api'
+import { getCoachingReview, postcoachingReview, deleteMyReview, patchMyReview } from '@/utils/api/review-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
-import { deleteMyReview } from '@/utils/api/review-api'
 import footerBar from '@/components/molecules/CustomShortFooter.vue'
 
 /**
@@ -27,7 +25,6 @@ const reviews = ref([]) // 리뷰
 const breadCrumbs = ref([]) // 대분류 소분류
 const videos = ref([])
 const currentMenu = ref('introduce')
-const videoLink = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0' // 코칭 미리보기 영상 링크
 const myLongId = ref()
 const coachingLongId = ref()
 
@@ -177,39 +174,39 @@ const reviewData = (data) => {
 // 리뷰 삭제
 const deleteReview = (reviewId) => {
 
-new Promise((resolve, reject) =>
+  new Promise((resolve, reject) =>
 
-  // 리뷰 삭제
-  deleteMyReview(
-    reviewId,
-    (success) => {
-      console.log(success)
-      Swal.fire({
-        icon: "success",
-        title: "리뷰를 삭제했습니다.",
-        showConfirmButton: true,
-        timer: 1500
-      });
-      resolve()
-    },
-    (fail) => {
-      reject(fail)
-    }
-  )
-).then(() => {
+    // 리뷰 삭제
+    deleteMyReview(
+      reviewId,
+      (success) => {
+        console.log(success)
+        Swal.fire({
+          icon: "success",
+          title: "리뷰를 삭제했습니다.",
+          showConfirmButton: true,
+          timer: 1500
+        });
+        resolve()
+      },
+      (fail) => {
+        reject(fail)
+      }
+    )
+  ).then(() => {
   // 리뷰 작성 후 정보들 다시 리로드
 
-  // 코치 상세 정보
-  getCoachingDetailPage(
-    coachingLongId.value,
-    (success) => {
-      console.log(success)
-      coachingDetail.value = success.data
-    },
-    (fail) => {
-      console.log(fail)
-    }
-  ),
+    // 코치 상세 정보
+    getCoachingDetailPage(
+      coachingLongId.value,
+      (success) => {
+        console.log(success)
+        coachingDetail.value = success.data
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    ),
     // 코치 리뷰
     getCoachingReview(
       coachingLongId.value,
@@ -221,7 +218,61 @@ new Promise((resolve, reject) =>
         console.log(fail)
       }
     )
-})
+  })
+}
+
+const updateReview = (data) => {
+
+  const reviewDto = {
+    "comment" : data.review.value,
+    "score" : data.ratingScore.value
+  }
+
+  new Promise((resolve, reject) =>
+
+    // 리뷰 수정
+    patchMyReview(
+      data.reviewId, reviewDto,
+      (success) => {
+        console.log(success)
+        Swal.fire({
+          icon: "success",
+          title: "리뷰를 수정했습니다.",
+          showConfirmButton: true,
+          timer: 1500
+        });
+        resolve()
+      },
+      (fail) => {
+        reject(fail)
+      }
+    )
+    ).then(() => {
+    // 리뷰 수정 후 정보들 다시 리로드
+
+    // 코치 상세 정보
+    getCoachingDetailPage(
+      coachingLongId.value,
+      (success) => {
+        console.log(success)
+        coachingDetail.value = success.data
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    ),
+    // 코치 리뷰
+    getCoachingReview(
+      coachingLongId.value,
+      (success) => {
+        console.log(success)
+        reviews.value = success.data.list
+      },
+      (fail) => {
+        console.log(fail)
+      }
+    )
+    })
 }
 
 
@@ -247,8 +298,8 @@ onBeforeMount(() => {
   )
     .then(() => {
       // 코칭 영상 조회
-      getVideoList(
-        coachId,
+      getAllCoachingVideos(
+        coachingId,
         (success) => {
           console.log(success)
           videos.value = success.data.list
@@ -345,7 +396,8 @@ onBeforeMount(() => {
                       :key="videoGroup.coachingName"
                       class="coaching-card"
                     >
-                      <CoachingCard :label="videoGroup.videoName" :video="videoGroup.url" :ratio="16 / 9"></CoachingCard>
+                      <CoachingCard :label="videoGroup.videoName" :video="videoGroup.url" :ratio="16 / 9"
+                      style="min-width: 18vw;"></CoachingCard>
                     </div>
                   </div>
                   <div v-else class="coaching-card" style="font-size: 16px">조회 가능한 영상이 없습니다.</div>
@@ -363,6 +415,7 @@ onBeforeMount(() => {
                   v-bind:review-count="coachingDetail.reviewCount"
                   @review-data="reviewData"
                   @delete-review="deleteReview"
+                  @update-review="updateReview"
                 ></Reviews>
               </div>
             </template>
