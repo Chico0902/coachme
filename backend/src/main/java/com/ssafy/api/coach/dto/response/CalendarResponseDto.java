@@ -11,5 +11,5 @@ public class CalendarResponseDto {
   private String className;
   private LocalDateTime date;
   private Boolean status;
-
+  private Long coachId;
 }
