@@ -195,3 +195,29 @@ export function getMainVideo(coachingId, fileId, success, fail) {
 export function getAllLivesInCoaching(coachingId, success, fail) {
   authAxios.get(`/coachings/${coachingId}/live`).then(success).catch(fail)
 }
+
+/**
+ * API번호 : coaching-8
+ * METHOD : GET
+ * URI : /coachings/{coaching_id}/videos
+ * 권한 : 1
+ * 설명 : 코칭 상세페이지에서 해당 코칭의 영상 목록을 조회한다.
+ * @param {number} coachingId 코칭id
+ * @param {Promise} success
+ * 설명 : 정상 조회완료
+ * 코드 : 200
+ * 	"list": [
+				{
+						"url": string
+				}
+		]
+  * @param {Promise} fail
+  * 설명 : 잘못된 요청[400], 서버 오류[500]
+  * 코드 : 400, 500
+  * body : {
+            message : String
+          }
+  */
+export function getAllCoachingVideos(coachingId, success, fail) {
+  authAxios.get(`/coachings/${coachingId}/videos`).then(success).catch(fail)
+}
