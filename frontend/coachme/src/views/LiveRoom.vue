@@ -342,7 +342,25 @@ async function getToken(mySessionId) {
   overflow-y: auto;
   position: relative;
 }
+.main-layout::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+}
 
+.main-layout::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.main-layout::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.main-layout::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
+}
 .chat-outside {
   display: flex;
   justify-content: space-between;
