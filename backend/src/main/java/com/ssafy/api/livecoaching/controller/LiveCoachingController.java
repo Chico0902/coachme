@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -73,7 +74,7 @@ public class LiveCoachingController {
       @RequestBody(required = false) Map<String, Object> params)
       throws OpenViduJavaClientException, OpenViduHttpException {
     Session session = openvidu.getActiveSession(sessionId);
-    log.debug("session : {}", session);
+
     if (session == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -89,38 +90,30 @@ public class LiveCoachingController {
   }
 
   // 녹화를 시작합니다.
-  @PostMapping("/recording/start")
-  public ResponseEntity<?> startRecording(@RequestBody StartRecordingRequestDto dto) {
-    String sessionId = dto.getSessionId();
-
+  @GetMapping("/recording/start/{sessionId}")
+  public ResponseEntity<?> startRecording(@PathVariable("sessionId") String sessionId) {
     RecordingProperties properties =
         new RecordingProperties.Builder()
-            .outputMode(Recording.OutputMode.valueOf(dto.getOutputMode()))
-            .hasAudio(dto.isHasAudio())
-            .hasVideo(dto.isHasVideo())
+            .outputMode(Recording.OutputMode.COMPOSED)
+            .hasAudio(true)
+            .hasVideo(true)
             .build();
-
-    log.debug("세션 {} 의 녹화 시작 | 속성=[outputMode={}, hasAudio={}, hasVideo={}]"
-        , sessionId, Recording.OutputMode.valueOf(dto.getOutputMode()), dto.isHasAudio(), dto.isHasVideo());
 
     try {
       Recording recording = openvidu.startRecording(sessionId, properties);
       sessionRecordings.put(sessionId, true);
-      log.debug("recording {}", recording);
-      return new ResponseEntity<>(recording, HttpStatus.OK);
+      Map<String, String> map = new HashMap<>();
+      map.put("recordingId", recording.getId());
+      return new ResponseEntity<>(map, HttpStatus.OK);
     } catch (OpenViduJavaClientException | OpenViduHttpException e) {
       e.printStackTrace();
-//      log.error(e.printStackTrace());
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
   }
 
   // 녹화를 중지합니다.
-  @PostMapping("/recording/stop")
-  public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
-    String recordingId = (String) params.get("recording");
-    log.debug("녹화 중지 | recordingId={}", recordingId);
-
+  @GetMapping("/recording/stop/{recordingId}")
+  public ResponseEntity<?> stopRecording(@PathVariable("recordingId") String recordingId) {
     try {
       Recording recording = openvidu.stopRecording(recordingId);
       sessionRecordings.remove(recording.getSessionId());
@@ -130,42 +123,22 @@ public class LiveCoachingController {
     }
   }
 
-  // 녹화를 삭제합니다.
-  @DeleteMapping("/recording/delete")
-  public ResponseEntity<?> deleteRecording(@RequestBody Map<String, Object> params) {
-    String recordingId = (String) params.get("recording");
-
-    log.debug("녹화 삭제 | recordingId={}", recordingId);
-
-    try {
-      openvidu.deleteRecording(recordingId);
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (OpenViduJavaClientException | OpenViduHttpException e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  @GetMapping("/recording/get/{recordingId}")
-  public ResponseEntity<?> getRecording(@PathVariable(value = "recordingId") String recordingId) {
-    log.debug("녹화 가져오기 | recordingId= {}", recordingId);
-    try {
-      Recording recording = openvidu.getRecording("SessionA~5");
-      return new ResponseEntity<>(recording, HttpStatus.OK);
-    } catch (OpenViduJavaClientException | OpenViduHttpException e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-  }
-
   // 녹화 목록을 가져옵니다.
-  @GetMapping("/recording/list")
-  public ResponseEntity<?> listRecordings() {
-    log.debug("녹화 목록 가져오기");
+  @GetMapping("/recording/list/{sessionId}")
+  public ResponseEntity<?> listRecordings(@PathVariable("sessionId") String sessionId) {
     try {
       List<Recording> recordings = openvidu.listRecordings();
+      log.debug("Recordings {}", recordings);
       return new ResponseEntity<>(recordings, HttpStatus.OK);
     } catch (OpenViduJavaClientException | OpenViduHttpException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @DeleteMapping("/room/{liveCoachingId}")
+  public ResponseEntity<?> deleteLiveRoom(@PathVariable("liveCoachingId") long liveCoachingId) {
+    liveCoachingService.deleteLiveRoom(liveCoachingId);
+    return new ResponseEntity<>(null, HttpStatus.OK);
   }
 
 }
