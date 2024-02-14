@@ -244,7 +244,7 @@ const updateReview = (data) => {
           title: '리뷰를 수정했습니다.',
           showConfirmButton: true,
           timer: 1500
-        });
+        })
         resolve()
       },
       (fail) => {
@@ -265,17 +265,17 @@ const updateReview = (data) => {
         console.log(fail)
       }
     ),
-    // 코치 리뷰
-    getCoachingReview(
-      coachingLongId.value,
-      (success) => {
-        console.log(success)
-        reviews.value = success.data.list
-      },
-      (fail) => {
-        console.log(fail)
-      }
-    )
+      // 코치 리뷰
+      getCoachingReview(
+        coachingLongId.value,
+        (success) => {
+          console.log(success)
+          reviews.value = success.data.list
+        },
+        (fail) => {
+          console.log(fail)
+        }
+      )
   })
 }
 
