@@ -56,7 +56,7 @@ public class LiveCoachingController {
     SessionProperties properties = SessionProperties.fromJson(params).build();
     log.debug("properties {}", properties);
     log.debug("openVidu: {}", openvidu);
-    Session session = openvidu.createSession();
+    Session session = openvidu.createSession(properties);
     log.debug("session {}", session);
 
     return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
@@ -107,7 +107,6 @@ public class LiveCoachingController {
       Recording recording = openvidu.startRecording(sessionId, properties);
       sessionRecordings.put(sessionId, true);
       log.debug("recording {}", recording);
-//      log.debug();
       return new ResponseEntity<>(recording, HttpStatus.OK);
     } catch (OpenViduJavaClientException | OpenViduHttpException e) {
       e.printStackTrace();
@@ -121,6 +120,7 @@ public class LiveCoachingController {
   public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
     String recordingId = (String) params.get("recording");
     log.debug("녹화 중지 | recordingId={}", recordingId);
+
     try {
       Recording recording = openvidu.stopRecording(recordingId);
       sessionRecordings.remove(recording.getSessionId());
