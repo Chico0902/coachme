@@ -43,4 +43,19 @@ public class DmSocketService {
 
     return returnMessage;
   }
+
+  public DmSocketResponseMessage liveSendDm(DmSocketRequestMessage message) {
+    LocalDateTime now = LocalDateTime.now();
+    long id = Long.parseLong(message.getSender());
+    Member member = memberRepository.getReferenceById(id);
+
+    DmSocketResponseMessage returnMessage = new DmSocketResponseMessage();
+    returnMessage.setMemberId(id);
+    returnMessage.setMemberName(member.getName());
+    returnMessage.setMemberProfileUrl(member.getProfileImage().getUrl());
+    returnMessage.setCreateDate(now.truncatedTo(ChronoUnit.MINUTES).toString());
+    returnMessage.setMessage(Collections.singletonList(message.getContent()));
+
+    return returnMessage;
+  }
 }
