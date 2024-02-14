@@ -13,10 +13,9 @@ import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCoachingDetailPage, getAllLivesInCoaching } from '@/utils/api/coaching-api'
 import { getVideoList } from '@/utils/api/coach-api'
-import { getCoachingReview, postcoachingReview } from '@/utils/api/review-api'
+import { getCoachingReview, postcoachingReview, deleteMyReview } from '@/utils/api/review-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { useAuthStore } from '@/stores/auth'
-import { deleteMyReview } from '@/utils/api/review-api'
 
 /**
  * VARIABLES
