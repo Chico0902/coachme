@@ -36,6 +36,14 @@ const route = useRoute()
 // local variable
 const coachingTitle = ref('이것만 알면 당신도 할 수 있다.') // 코칭 제목
 const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, profileText: profileText }
+const coachId = route.params.coachId
+const coachMainVideo = computed(() => {
+  return subscribers.value.find((subscriber) => {
+    const subscriberId = subscriber.session.options.sessionId
+    return subscriberId === coachId
+  })
+})
+setInterval(() => console.log(subscribers.value), 3000)
 const participants = computed(() => {
   const ret = []
   subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
@@ -334,7 +342,7 @@ async function getToken(mySessionId) {
         <!-- 코치 화면 -->
         <div class="coach">
           <!-- <div style="max-width: 5vw;"> -->
-          <CoachUserVideo id="main-video" :stream-manager="mainStreamManager" />
+          <CoachUserVideo id="main-video" :stream-manager="coachMainVideo" />
           <!-- </div> -->
         </div>
 

@@ -87,6 +87,10 @@ function subscribeRoom() {
     const newMessageBody = JSON.parse(message.body)
     console.log('메시지를 받았습니다:', newMessageBody)
     chats.value.push(newMessageBody)
+    const end = document.getElementById('end')
+    end.scrollIntoView({
+      behavior: 'smooth'
+    })
   })
   roomJoined.value = true
 }
