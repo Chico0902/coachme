@@ -1,13 +1,11 @@
 <script setup>
 import { getApplyLiveCoaching } from '@/utils/api/coaching-api'
 import { useMemberStore } from '@/stores/member'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 const memberStore = useMemberStore()
 const { longId } = memberStore
 const props = defineProps({ timeTable: Object })
-
-
 
 const apply = (id) => {
   console.log(longId)
@@ -18,26 +16,26 @@ const apply = (id) => {
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',
-          title: '신청 완료',
-        });
-      } else if (response.response.status === 500 && response.response.data.message === 'sign up duplicated') {
-        Swal.fire({
-          icon: 'info',
-          title: '이미 신청한 라이브 강의입니다.',
-        });
-      } else {
-        console.log(response);
+          title: '신청 완료'
+        })
       }
     },
     (fail) => {
-      console.log(fail);
-      Swal.fire({
-        icon: 'error',
-        title: '오류 발생',
-        text: '라이브 강의 신청 중 오류가 발생했습니다.',
-      });
+      console.log(fail)
+      if (fail.response.status === 500 && fail.response.data.message === 'sign up duplicated') {
+        Swal.fire({
+          icon: 'info',
+          title: '이미 신청한 라이브 강의입니다.'
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '오류 발생',
+          text: '라이브 강의 신청 중 오류가 발생했습니다.'
+        })
+      }
     }
-  );
+  )
 }
 </script>
 

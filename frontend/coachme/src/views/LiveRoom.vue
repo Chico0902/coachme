@@ -3,35 +3,43 @@ import LiveMenuList from '@/components/molecules/LiveMenuList.vue'
 import UserVideo from '@/components/openvidu/UserVideo.vue'
 import LiveChat from '@/components/molecules/LiveChat.vue'
 import profile from '@/components/atoms/ProfileImage.vue'
-import LivePeopleList from '@/components/molecules/LivePeopleList.vue'
-import { ref, onBeforeMount } from 'vue'
+import router from '@/router'
+import Swal from 'sweetalert2'
+import { ref, onBeforeMount, computed, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { OpenVidu } from 'openvidu-browser'
-import { postLiveCoachingEntrnce, postConnectLiveCoaching } from '@/utils/api/livecoaching-api'
+import {
+  postLiveCoachingEntrnce,
+  postConnectLiveCoaching,
+  getRecordStart,
+  getRecordStop,
+  getRecordFinish
+} from '@/utils/api/livecoaching-api'
 import { useMemberStore } from '@/stores/member'
-import router from '@/router'
+import { decodeToken } from '@/utils/functions/auth'
+import { useAuthStore } from '@/stores/auth'
 
 /**
  * VARIABLES
  */
 
 // for pinia
+const authStore = useAuthStore()
+const myName = decodeToken(authStore.accessToken).name
 const memberStore = useMemberStore()
-const { longId } = memberStore
+const { longId, profileText, profileImageUrl } = memberStore
 
 // for vue
 const route = useRoute()
 
 // local variable
 const coachingTitle = ref('이것만 알면 당신도 할 수 있다.') // 코칭 제목
-const participants = ref([
-  { name: '고코치', imageUrl: '/assets/img/logo.png', profileText: '안녕하세요 고코치입니다.' },
-  { name: '고코미', imageUrl: '/assets/icons/coame.png', profileText: '안녕하세요 고코미입니다.' },
-  { name: '고양이', imageUrl: '/assets/icons/coame.png', profileText: '안녕하세요 고양이입니다.' },
-  { name: '옆동네 고양이', imageUrl: '/assets/icons/coame.png', profileText: '야옹야옹야옹' },
-  { name: '코숏', imageUrl: '/assets/icons/coame.png', profileText: 'Korean ShotHair' }
-]) // 참가자 목록
-const id = 'coame' // 사용자 이름
+const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, profileText: profileText }
+const participants = computed(() => {
+  const ret = []
+  subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
+  return ret
+}) // 참가자 목록
 const dm = ref([]) // 채팅 목록
 
 // for render
@@ -53,7 +61,10 @@ const subscribers = ref([])
 // Join form
 const mySessionId = route.params.id
 const myUserName = ref(longId)
-// const screensharing = ref(false)
+const screensharing = ref(false)
+
+// for recording
+const recordingId = ref('')
 
 /**
  * METHODS
@@ -71,9 +82,77 @@ const changeParticipantsStatus = (status) => {
   isPeopleOpen.value = status.people
 }
 
+// 레코드 시작
+const startRecording = () => {
+  getRecordStart(
+    mySessionId,
+    (success) => {
+      recordingId.value = success.data.recordingId
+      alert('녹화를 시작합니다.')
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
+}
+
+// 레코드 종료
+const stopRecording = () => {
+  getRecordStop(
+    recordingId.value,
+    (success) => {
+      console.log(success)
+      alert('녹화를 중지합니다.')
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
+}
+
 // 화상 나가기
-const exit = () => {
-  if (confirm('정말로 채팅을 종료하시겠습니까?')) {
+const exit = async () => {
+  const result = await Swal.fire({
+    title: '정말로 화상을 종료하시겠습니까?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '예',
+    cancelButtonText: '아니오'
+  })
+
+  // 사용자가 중지
+  if (!result.isConfirmed) return
+
+  // 화상 저장여부
+  let isSave = false
+  if (recordingId.value != '') {
+    isSave = await Swal.fire({
+      title: '녹화영상을 저장하시겠습니까?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: '예',
+      cancelButtonText: '아니오'
+    })
+  }
+
+  if (isSave) {
+    getRecordFinish(
+      mySessionId,
+      (success) => {
+        console.log(success)
+        new Promise((resolve) => {
+          success.data.list.forEach((url) => window.open(url))
+          resolve()
+        })
+          .then(() => {
+            leaveSession()
+            router.push('/')
+          })
+          .catch((fail) => console.log(fail))
+      },
+      (fail) => console.log(fail)
+    )
+  } else {
     leaveSession()
     router.push('/')
   }
@@ -83,8 +162,11 @@ onBeforeMount(() => {
   // 최초 입장 시 오픈비두 라이브 채팅방에 접속
   console.log(route.params.id)
   joinSession()
-
   // 해당 방 참가자 목록 받아오기
+})
+
+onBeforeUnmount(() => {
+  leaveSession()
 })
 
 /**
@@ -114,9 +196,9 @@ function joinSession() {
   sessionCamera.value.on('streamCreated', (event) => {
     if (event.stream.typeOfVideo == 'CAMERA') {
       const subscriber = sessionCamera.value.subscribe(event.stream, 'container-cameras')
-      // const metadata = JSON.parse(event.target.options.metadata);
-      // const clientData = metadata.clientData;
-      // participants.value.push(clientData)
+      const metadata = JSON.parse(event.target.options.metadata)
+      const clientData = metadata.clientData
+      console.log(clientData)
       subscribers.value.push(subscriber)
     }
   })
@@ -154,10 +236,11 @@ function joinSession() {
 
   // Get a token from the OpenVidu deployment
   getToken(mySessionId).then((token) => {
+    const clientData = myData
     // First param is the token. Second param can be retrieved by every user on event
     // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
     sessionCamera.value
-      .connect(token, { clientData: myUserName.value })
+      .connect(token, { clientData })
       .then(() => {
         // --- 5) Get your own camera stream with the desired properties ---
 
@@ -177,7 +260,6 @@ function joinSession() {
         // Set the main video in the page to display our webcam and store our Publisher
         mainStreamManager.value = publisher.value
         subscribers.value.push(publisher.value)
-        participants.value.push(myUserName.value)
 
         // --- 6) Publish your stream ---
 
@@ -223,10 +305,17 @@ function updateMainVideoStreamManager(stream) {
 }
 
 async function getToken(mySessionId) {
+  console.log(getToken)
   const sessionId = await postConnectLiveCoaching({ customSessionId: mySessionId })
-  console.log(myUserName.value)
   const response = await postLiveCoachingEntrnce(sessionId, myUserName.value)
-  console.log(response)
+  const newParticipant = {
+    id: response.memberId,
+    memberName: response.memberName,
+    imageUrl: response.memberProfileUrl,
+    profileText: response.memberProfileText
+  }
+  const inParticipantsFind = participants.value.find((participant) => participant.id === newParticipant.id)
+  if (inParticipantsFind === undefined) participants.value.push(newParticipant)
   return response.token
 }
 </script>
@@ -240,22 +329,23 @@ async function getToken(mySessionId) {
   <div class="all">
     <div class="main-layout">
       <div class="chat-outside">
-        <!-- 코치 화면 -->
-        <div class="coach">
-          <UserVideo id="main-video" :stream-manager="mainStreamManager" />
+        <!-- 공유 화면 -->
+        <div v-if="screensharing" class="share">
+          <UserVideo :stream-manager="screenShare" />
         </div>
 
+        <!-- 코치 화면 -->
+        <div class="coach">
+          <UserVideo :stream-manager="mainStreamManager" />
+        </div>
         <!-- 코미 화면 -->
-        <div class="coame element-with-scrollbar">
-          <div id="video-container" class="col-6" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
-            <button
-              style="position: absolute; top: 10px; right: 10px"
-              class="btn"
-              @click="updateMainVideoStreamManager(sub)"
-            >
-              메인 카메라 바꾸기
-            </button>
-            <user-video :stream-manager="sub" />
+        <div class="coame-container">
+          <div class="coame element-with-scrollbar">
+            <div v-for="(sub, index) in subscribers" :key="sub.stream.connection.connectionId">
+              <template v-if="index != 0">
+                <UserVideo :stream-manager="sub" />
+              </template>
+            </div>
           </div>
         </div>
 
@@ -282,7 +372,7 @@ async function getToken(mySessionId) {
                 </q-item>
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ participant.name }}</q-item-label>
+                <q-item-label>{{ participant.memberName }}</q-item-label>
                 <q-item-label caption>{{ participant.profileText }}</q-item-label>
               </q-item-section>
             </q-item>
@@ -297,6 +387,8 @@ async function getToken(mySessionId) {
     <LiveMenuList
       @change-chat-status="changeChatStatus"
       @change-participants-status="changeParticipantsStatus"
+      @start-record="startRecording"
+      @stop-record="stopRecording"
       @exit="exit"
       :isCoach="isCoach"
       :publisher="publisher"
@@ -333,7 +425,25 @@ async function getToken(mySessionId) {
   overflow-y: auto;
   position: relative;
 }
+.main-layout::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+}
 
+.main-layout::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.main-layout::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.main-layout::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
+}
 .chat-outside {
   display: flex;
   justify-content: space-between;
@@ -350,14 +460,15 @@ async function getToken(mySessionId) {
   flex-direction: row;
   -ms-overflow-style: none;
 }
-
-.coame {
-  min-width: fit-content;
+.coame-container {
   height: 70vh;
   justify-content: center;
   align-items: flex-start;
   overflow-y: scroll;
   position: relative;
+}
+.coame {
+  max-width: 50vw;
 }
 
 .element-with-scrollbar {
