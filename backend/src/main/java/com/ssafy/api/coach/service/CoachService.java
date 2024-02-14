@@ -10,20 +10,24 @@ import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
 import com.ssafy.api.coaching.repository.CoachingRepository;
 import com.ssafy.api.coaching.repository.LiveCoachingRepository;
+import com.ssafy.api.member.dto.response.ProfileImageResponseDto;
 import com.ssafy.api.member.repository.MemberRepository;
 import com.ssafy.api.review.repository.ReviewRepository;
 import com.ssafy.db.entity.*;
 import com.ssafy.util.file.Mapper.FileMapper;
 import com.ssafy.util.file.repository.FileRepository;
+import com.ssafy.util.file.service.FileService;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +37,13 @@ public class CoachService {
 
   private final MemberRepository memberRepository;
   private final CoachingRepository coachingRepository;
-  private final CategoryRepository categoryRepository;
   private final ReviewRepository reviewRepository;
   private final FileRepository fileRepository;
   private final LiveCoachingRepository liveCoachingRepository;
+  private final FileService fileService;
+
+
+
 
   public PortfolioResponseDto getPortfolio(long id) {
     return CoachMapper.instance.PortfolioToPortfolioResponseDto(memberRepository.getReferenceById(id).getPortfolio());
@@ -153,7 +160,7 @@ public class CoachService {
     List<PopularCoachResponseDto> popularList = new ArrayList<>();
 
     List<Member> coachList = memberRepository.findByPopularCoach();
-
+    
     for (Member coach : coachList) {
       PopularCoachResponseDto dto = new PopularCoachResponseDto();
       dto.setCoachId(coach.getLongId());
@@ -180,4 +187,19 @@ public class CoachService {
     return popularList;
   }
 
+  public void uploadVideo(Long coachId, MultipartFile videoFile, String fileName, long coachingId) {
+    String url = fileService.uploadFileList(Arrays.asList(videoFile));
+    Member member = memberRepository.getReferenceById(coachId);
+    Coaching coaching = coachingRepository.getReferenceById(coachingId);
+
+    File file = File.builder()
+        .uploader(member)
+        .url(url)
+        .name(fileName)
+        .coaching(coaching)
+        .build();
+    
+    coaching.addVideoCoaching(file);
+    fileRepository.save(file);
+  }
 }

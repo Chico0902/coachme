@@ -103,4 +103,8 @@ public class Coaching extends BaseEntity {
   public void addLiveCoaching(LiveCoaching liveCoaching) {
     this.liveCoachings.add(liveCoaching);
   }
+
+  public void addVideoCoaching(File file){
+    this.videoCoachings.add(file);
+  }
 }

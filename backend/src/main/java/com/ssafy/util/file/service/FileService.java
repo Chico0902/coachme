@@ -44,20 +44,15 @@ public class FileService {
 
   // 파일 업로드
   @Transactional
-  public String uploadFileList(long longId, List<MultipartFile> multipartFiles) {
+  public String uploadFileList(List<MultipartFile> multipartFiles) {
     // 파일 업로드시, 파일명을 난수화하기 위해 UUID 를 활용하여 난수 생성
     String fileKey = UUID.randomUUID().toString();
 
     for (int i = 0; i < multipartFiles.size(); i++) {
-      String fileName = multipartFiles.get(i).getName();
-
       // AWS S3에 업로드할 객체의 메타데이터를 설정 -> 파일을 로컬에 따로 저장하지 않고 바로 S3에 저장하기 위함
       ObjectMetadata objectMetadata = new ObjectMetadata();
       objectMetadata.setContentLength(multipartFiles.get(i).getSize());
       objectMetadata.setContentType(multipartFiles.get(i).getContentType());
-
-      Member member = memberRepository.getReferenceById(longId);
-      member.addProfileImage(fileName, amazonS3.getUrl(bucket, fileKey).toString());
 
       // AWS S3에 파일 업로드 하는 부분. 파일 업로드 필요시 주석 제거 후 사용
       try (InputStream inputStream = multipartFiles.get(i).getInputStream()) {

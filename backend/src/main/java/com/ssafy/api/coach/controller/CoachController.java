@@ -35,7 +35,6 @@ public class CoachController {
 
   private final CoachService coachService;
   private final CoachingService coachingService;
-  private final FileService fileService;
 
   /**
    * [coach-1] 해당 분류 코치의 정보를 받아온다.
@@ -218,9 +217,12 @@ public class CoachController {
    */
   @PostMapping("/{coachId}/videos")
   public ResponseEntity<?> uploadVideo(
-      @PathVariable(value = "coachId") Long coachId, @Validated @RequestParam MultipartFile videoFile
+      @PathVariable(value = "coachId") Long coachId,
+      @Validated @RequestParam("videoFile") MultipartFile videoFile,
+      @RequestParam("fileName") String fileName,
+      @RequestParam("coachingId") long coachingId
   ) {
-    String url = fileService.uploadFileList(coachId, Arrays.asList(videoFile));
+    coachService.uploadVideo(coachId, videoFile, fileName, coachingId);
     return new ResponseEntity<>(new MessageDto("upload video successfully"), HttpStatus.OK);
   }
 
