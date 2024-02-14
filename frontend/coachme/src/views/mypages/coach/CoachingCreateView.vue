@@ -5,6 +5,7 @@ import { ref, computed } from 'vue'
 import { CreateCoachingRequestDto } from '@/utils/api/dto/coach-dto'
 import { postNewCoaching } from '@/utils/api/coach-api'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import Swal from 'sweetalert2'
 import router from '@/router'
 
 /**
@@ -17,9 +18,9 @@ const subCategories = computed(() => {
   switch (selectedCategory.value) {
     case 'Life':
       return ['House', 'Furniture', 'Lifestyle', 'Design']
-    case 'Creation':
+    case 'Creations':
       return ['Cooking', 'Knitting', 'Art', 'Beauty']
-    case 'Sport':
+    case 'Sports':
       return ['Soccer', 'Basketball', 'Tennis', 'Golf']
     case 'Develop':
       return ['Frontend', 'Backend', 'Database', 'Devops']
