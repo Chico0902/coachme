@@ -22,7 +22,7 @@ const apply = (id) => {
         });
       } else if (response.response.status === 500 && response.response.data.message === 'sign up duplicated') {
         Swal.fire({
-          icon: 'error',
+          icon: 'info',
           title: '이미 신청한 라이브 강의입니다.',
         });
       } else {
