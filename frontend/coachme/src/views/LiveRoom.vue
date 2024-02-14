@@ -37,12 +37,6 @@ const route = useRoute()
 const coachingTitle = ref('이것만 알면 당신도 할 수 있다.') // 코칭 제목
 const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, profileText: profileText }
 const coachId = route.params.coachId
-const coachMainVideo = computed(() => {
-  return subscribers.value.find((subscriber) => {
-    const subscriberId = subscriber.session.options.sessionId
-    return subscriberId === coachId
-  })
-})
 const participants = computed(() => {
   const ret = []
   subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
@@ -74,6 +68,8 @@ const screensharing = ref(false)
 // for recording
 const recordingId = ref('')
 
+// for coaching video
+const coachMainVideo = ref(undefined)
 /**
  * METHODS
  */
@@ -208,7 +204,8 @@ function joinSession() {
       const metadata = JSON.parse(event.target.options.metadata)
       const clientData = metadata.clientData
       console.log(clientData)
-      subscribers.value.push(subscriber)
+      if (clientData.id == coachId) coachMainVideo.value = subscriber
+      else subscribers.value.push(subscriber)
     }
   })
 
@@ -268,6 +265,7 @@ function joinSession() {
 
         // Set the main video in the page to display our webcam and store our Publisher
         mainStreamManager.value = publisher.value
+        coachMainVideo.value = publisher.value
         subscribers.value.push(publisher.value)
 
         // --- 6) Publish your stream ---
@@ -351,8 +349,8 @@ async function getToken(mySessionId) {
         <!-- 코미 화면 -->
         <div class="coame-container">
           <div class="coame element-with-scrollbar">
-            <div v-for="(sub, index) in subscribers" :key="sub.stream.connection.connectionId">
-              <CoameUserVideo :stream-manager="sub" v-show="index !== 0" />
+            <div v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
+              <CoameUserVideo :stream-manager="sub" />
             </div>
           </div>
         </div>
