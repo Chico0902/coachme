@@ -85,13 +85,13 @@ public class CoachService {
 
   /**
    * 코치 상세 페이지 조회
-        */
-    public CoachDetailResponseDto getCoachDetail(long coachId) {
-      CoachDetailResponseDto dto = CoachMapper.instance.memberToCoachDetailResponseDto(memberRepository.getReferenceById(coachId));
-      List<CoachDetail> coaching = CoachingMapper.instance.coachingToCoachDetailList(coachingRepository.findByCoachId(coachId));
-      dto.setList(coaching);
+   */
+  public CoachDetailResponseDto getCoachDetail(long coachId) {
+    CoachDetailResponseDto dto = CoachMapper.instance.memberToCoachDetailResponseDto(memberRepository.getReferenceById(coachId));
+    List<CoachDetail> coaching = CoachingMapper.instance.coachingToCoachDetailList(coachingRepository.findByCoachId(coachId));
+    dto.setList(coaching);
 
-      List<Review> reviewList = reviewRepository.findAllByCoachId(coachId);
+    List<Review> reviewList = reviewRepository.findAllByCoachId(coachId);
     long sum = 0;
     for (Review review : reviewList) {
       sum += review.getScore();
@@ -159,9 +159,9 @@ public class CoachService {
       dto.setCoachId(coach.getLongId());
       dto.setCoachName(coach.getName());
       dto.setCoachProfileImageUrl(coach.getProfileImage().getUrl());
-      if(!coach.getCoachTeachCourses().isEmpty()){
+      if (!coach.getCoachTeachCourses().isEmpty()) {
         dto.setCoachingInfo(coach.getCoachTeachCourses().get(0).getName());
-      }else{
+      } else {
         dto.setCoachingInfo("");
       }
 
