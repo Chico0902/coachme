@@ -136,27 +136,29 @@ const exit = async () => {
     })
   }
 
-  if (isSave) {
-    getRecordFinish(
-      mySessionId,
-      (success) => {
-        console.log(success)
+  getRecordFinish(
+    mySessionId,
+    (success) => {
+      console.log(success)
+      if (isSave)
         new Promise((resolve) => {
           success.data.list.forEach((url) => window.open(url))
           resolve()
         })
           .then(() => {
             leaveSession()
-            router.push('/')
+            router.push('/mypage-coach/live')
           })
           .catch((fail) => console.log(fail))
-      },
-      (fail) => console.log(fail)
-    )
-  } else {
-    leaveSession()
-    router.push('/')
-  }
+      else {
+        leaveSession()
+        router.push('/mypage-coach/live')
+      }
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
 }
 
 onBeforeMount(() => {
@@ -333,21 +335,21 @@ async function getToken(mySessionId) {
         <!-- 코치 화면 -->
         <div class="coach">
           <!-- <div style="max-width: 5vw;"> -->
-      <CoachUserVideo id="main-video" :stream-manager="mainStreamManager"  />
-    <!-- </div> -->
-    </div>
+          <CoachUserVideo id="main-video" :stream-manager="mainStreamManager" />
+          <!-- </div> -->
+        </div>
 
         <!-- <div class="person" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
           <UserVideo :stream-manager="sub" />
         </div> -->
         <!-- 코미 화면 -->
         <div class="coame-container">
-      <div class="coame element-with-scrollbar">
-        <div v-for="(sub, index) in subscribers" :key="sub.stream.connection.connectionId">
-          <CoameUserVideo :stream-manager="sub" v-show="index !== 0" />
+          <div class="coame element-with-scrollbar">
+            <div v-for="(sub, index) in subscribers" :key="sub.stream.connection.connectionId">
+              <CoameUserVideo :stream-manager="sub" v-show="index !== 0" />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
         <!-- 채팅 -->
         <q-layout
@@ -401,7 +403,7 @@ async function getToken(mySessionId) {
 </template>
 
 <style scoped>
-#main-video{
+#main-video {
   min-width: 100%;
 }
 
@@ -462,8 +464,8 @@ async function getToken(mySessionId) {
   text-align: center;
   flex-direction: row;
   -ms-overflow-style: none;
-  overflow: hidden; 
-  flex: 1; 
+  overflow: hidden;
+  flex: 1;
 }
 .coach::-webkit-scrollbar {
   width: 10px;
