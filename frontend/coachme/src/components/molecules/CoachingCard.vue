@@ -1,15 +1,7 @@
-<!-- 코칭 카드 컴포넌트
-필요한 정보 : 카드 라벨, 카드 캡션, 영상 비율, 영상 링크, 찜콩버튼 함수
-label : 카드에 있는 라벨으로 짙은 색 글자. 문자열. 기본값 없음
-caption : 카드에 있는 문자로 옅은 색 글자, 설명과 같은 기능. 문자열. 기본값 없음
-ratio : 카드에 포함될 영상의 비율. 숫자. 기본값 16/9
-video : 카드에 포함될 영상의 주소. 문자열. 기본값 없음
-liked : 찜콩버튼 클릭시 발생할 함수. function. 기본값 없음
--->
-
 <script setup>
 import labels from '../atoms/CardLabel.vue'
 import { getMainVideo } from '@/utils/api/coaching-api'
+import { postEditToAI } from '@/utils/api/ai-api'
 
 const props = defineProps({
   label: {
@@ -60,6 +52,16 @@ const setVideo = () => {
     }
   )
 }
+
+const editToAI = () => {
+  console.log(props.video)
+  const urlKey = props.video.split('/')[-1]
+  postEditToAI(
+    { key: urlKey },
+    (success) => console.log(success),
+    (fail) => console.log(fail)
+  )
+}
 </script>
 
 <template>
@@ -88,15 +90,12 @@ const setVideo = () => {
           <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
             <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
           </q-btn>
-          <q-btn padding="xs" color="blue-10" icon="edit">
-            <q-tooltip class="bg-blue">편집하기</q-tooltip>
-          </q-btn>
-          <q-btn padding="xs" color="amber-7">
-            <span class="material-symbols-outlined"> smart_toy </span>
-            <q-tooltip class="bg-blue">AI에게 요청하기</q-tooltip>
-          </q-btn>
-          <q-btn padding="xs" icon="download" color="blue-10">
+          <q-btn padding="xs" icon="download" color="amber-7">
             <q-tooltip class="bg-blue">다운로드</q-tooltip>
+          </q-btn>
+          <q-btn padding="xs" color="blue-10" @click="editToAI">
+            <span class="material-symbols-outlined"> smart_toy </span>
+            <q-tooltip class="bg-blue">AI에게 편집 요청하기</q-tooltip>
           </q-btn>
         </div>
       </q-item-section>
