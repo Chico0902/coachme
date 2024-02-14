@@ -5,37 +5,39 @@ import CustomButton from '../atoms/CustomButton.vue'
 import { onBeforeMount, computed, ref } from 'vue'
 import { useChatStore } from '../../stores/chat-status.js'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
-import { getLikeCoach,  deleteLikeCoach,  getCheckCoachLike } from '@/utils/api/like-api'
-
+import { getLikeCoach, deleteLikeCoach, getCheckCoachLike } from '@/utils/api/like-api'
 
 const store = useChatStore()
-const { requestDm } = store
+const { openChatByMemberId } = store
 // 채팅 관련 store
 
 const props = defineProps({
   coach: {
     // 코치 이름
     type: String
-  }, coachId: {
+  },
+  coachId: {
     type: Number
+  },
+  profileImg: {
+    type: String
   }
 })
 
-const chatLabel = computed(() => props.coach + '님께 문의해보세요.');
-const likeLabel = computed(() => props.coach + '님이 마음에 드셨나요?');
+const chatLabel = computed(() => props.coach + '님께 문의해보세요.')
+const likeLabel = computed(() => props.coach + '님이 마음에 드셨나요?')
 // 코치이름에 따라 반응형으로 변경
 
 const myLongId = ref()
 const likeState = ref(false)
 
-
 onBeforeMount(() => {
   myLongId.value = decodeToken(getAccessToken()).longId
 
   new Promise((resolve, reject) =>
-
     getCheckCoachLike(
-      myLongId.value, props.coachId,
+      myLongId.value,
+      props.coachId,
       (success) => {
         console.log(success)
         likeState.value = success.data.islike
@@ -44,23 +46,24 @@ onBeforeMount(() => {
       },
       (fail) => reject(fail)
     )
-  )}
-)
+  )
+})
 
 const changeState = () => {
-  if(likeState.value === true) {
+  if (likeState.value === true) {
     deleteLikeCoach(
-      myLongId.value, props.coachId,
+      myLongId.value,
+      props.coachId,
       (success) => {
         console.log(success)
       },
       (fail) => console.log(fail)
     )
     likeState.value = !likeState.value
-
   } else {
     getLikeCoach(
-      myLongId.value, props.coachId,
+      myLongId.value,
+      props.coachId,
       (success) => {
         console.log(success)
       },
@@ -68,9 +71,7 @@ const changeState = () => {
     )
     likeState.value = !likeState.value
   }
-
 }
-
 </script>
 
 <template>
@@ -85,13 +86,13 @@ const changeState = () => {
           <div class="buttons card-margin">
             <CustomButton
               style="width: 100px; height: 20px; background-color: #fcbf17; color: black"
-              @click="requestDm()"
+              @click="openChatByMemberId(props.coachId, props.coach, props.profileImg)"
               >채팅하기</CustomButton
             >
           </div>
         </q-item-section>
 
-        <q-separator style="margin-top: 2vh;"></q-separator>
+        <q-separator style="margin-top: 2vh"></q-separator>
 
         <Labels :label="likeLabel" class="card-margin"></Labels>
         <Labels label="좋아요 버튼을 클릭해주세요!  " class="card-margin"></Labels>
@@ -100,7 +101,7 @@ const changeState = () => {
           <div class="buttons card-margin">
             <Like :like="likeState" @click="changeState"></Like>
           </div>
-        </q-item-section>            
+        </q-item-section>
       </q-item-section>
     </q-item>
   </q-card>

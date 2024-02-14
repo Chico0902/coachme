@@ -59,7 +59,7 @@ const refreshInterceptor = authAxios.interceptors.response.use(
           return Promise.reject(fail)
         }
       } else {
-        return fail
+        return Promise.reject(fail)
       }
     } catch (e) {
       return Promise.reject(fail)
