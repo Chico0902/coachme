@@ -46,6 +46,7 @@ public interface MemberMapper {
   @Mapping(source = "longId", target = "memberId")
   @Mapping(source = "profileImage.url", target = "memberProfileUrl")
   @Mapping(source = "name", target = "memberName")
+  @Mapping(source = "profileText", target = "memberProfileText")
   LiveCoachingMemberResponseDto memberToLiveCoachingMemberDto(Member member);
 
 }
