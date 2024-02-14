@@ -12,7 +12,7 @@ import router from '@/router'
  */
 
 // 대분류와 소분류 데이터 정의
-const mainCategories = ref(['Life', 'Creation', 'Sport', 'Develop', 'Health', 'ETC'])
+const mainCategories = ref(['Life', 'Creations', 'Sports', 'Develop', 'Health', 'ETC'])
 const subCategories = computed(() => {
   switch (selectedCategory.value) {
     case 'Life':
