@@ -138,3 +138,26 @@ export function getRecordStop(recordingId, success, fail) {
 export function getRecordFinish(sessionId, success, fail) {
   authAxios.get(`/live/recording/finish/${sessionId}`).then(success).catch(fail)
 }
+
+/**
+ * API번호 : live-6
+ * METHOD : GET
+ * URI : /live/room/open/{liveCoachingId}
+ * 권한 : 2
+ * 설명 : 라이브 코칭 시작
+ * @param {Promise} success
+ * 설명 : 정상 시작
+ * 코드 : 200
+ * body : {
+            messages : String
+          }
+ * @param {Promise} fail
+ * 설명 : 잘못된 요청[400], 서버 오류[500]
+ * 코드 : 400, 500
+ * body : {
+            message : String
+          }
+ */
+export function getStartLiveCoaching(liveCoachingId, success, fail) {
+  authAxios.get(`/live/room/open/${liveCoachingId}`).then(success).catch(fail)
+}

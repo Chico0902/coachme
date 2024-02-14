@@ -1,6 +1,7 @@
 <script setup>
 import LiveMenuList from '@/components/molecules/LiveMenuList.vue'
-import UserVideo from '@/components/openvidu/UserVideo.vue'
+import CoachUserVideo from '@/components/openvidu/UserVideo-coach.vue'
+import CoameUserVideo from '@/components/openvidu/UserVideo-coame.vue'
 import LiveChat from '@/components/molecules/LiveChat.vue'
 import profile from '@/components/atoms/ProfileImage.vue'
 import router from '@/router'
@@ -329,25 +330,24 @@ async function getToken(mySessionId) {
   <div class="all">
     <div class="main-layout">
       <div class="chat-outside">
-        <!-- 공유 화면 -->
-        <div v-if="screensharing" class="share">
-          <UserVideo :stream-manager="screenShare" />
-        </div>
-
         <!-- 코치 화면 -->
         <div class="coach">
-          <UserVideo :stream-manager="mainStreamManager" />
-        </div>
+          <!-- <div style="max-width: 5vw;"> -->
+      <CoachUserVideo id="main-video" :stream-manager="mainStreamManager"  />
+    <!-- </div> -->
+    </div>
+
+        <!-- <div class="person" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
+          <UserVideo :stream-manager="sub" />
+        </div> -->
         <!-- 코미 화면 -->
         <div class="coame-container">
-          <div class="coame element-with-scrollbar">
-            <div v-for="(sub, index) in subscribers" :key="sub.stream.connection.connectionId">
-              <template v-if="index != 0">
-                <UserVideo :stream-manager="sub" />
-              </template>
-            </div>
-          </div>
+      <div class="coame element-with-scrollbar">
+        <div v-for="(sub, index) in subscribers" :key="sub.stream.connection.connectionId">
+          <CoameUserVideo :stream-manager="sub" v-show="index !== 0" />
         </div>
+      </div>
+    </div>
 
         <!-- 채팅 -->
         <q-layout
@@ -401,6 +401,10 @@ async function getToken(mySessionId) {
 </template>
 
 <style scoped>
+#main-video{
+  min-width: 100%;
+}
+
 .title {
   width: 1280px;
   height: 20px;
@@ -452,27 +456,72 @@ async function getToken(mySessionId) {
 .coach {
   background-color: white;
   width: 100%;
-  height: 70vh;
+  min-width: 70%;
   margin: auto;
-  overflow: scroll;
   display: flex;
   text-align: center;
   flex-direction: row;
   -ms-overflow-style: none;
+  overflow: hidden; 
+  flex: 1; 
 }
-.coame-container {
+.coach::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+}
+
+.coach::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.coach::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.coach::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
+}
+
+.coame {
+  min-width: fit-content;
+  /* width: 10vw; */
+  max-width: fit-content;
   height: 70vh;
-  justify-content: center;
-  align-items: flex-start;
-  overflow-y: scroll;
-  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex: 1;
+}
+
+.coame::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+}
+
+.coame::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+.coame::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+.coame::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
 }
 .coame {
   max-width: 50vw;
 }
 
 .element-with-scrollbar {
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .element-with-scrollbar:hover {
