@@ -55,7 +55,9 @@ const setVideo = () => {
 
 const editToAI = () => {
   console.log(props.video)
-  const urlKey = props.video.split('/')[-1]
+  const urlKeys = props.video.split('/')
+  const urlKey = urlKeys[urlKeys.length - 1]
+  console.log(urlKey)
   postEditToAI(
     { key: urlKey },
     (success) => console.log(success),
