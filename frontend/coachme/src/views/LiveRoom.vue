@@ -207,8 +207,9 @@ function joinSession() {
       subscribers.value.push(subscriber)
       subscribers.value.forEach((subscriber) => {
         console.log(subscriber)
-        const newId = JSON.parse(subscriber.stream.connection.data).id
-        if (newId == coachId) coachMainVideo.value = subscriber
+        const newId = JSON.parse(subscriber.stream.connection.data)
+        console.log(newId.clientData.id)
+        if (newId.clientData.id == coachId) coachMainVideo.value = subscriber
       })
     }
   })
