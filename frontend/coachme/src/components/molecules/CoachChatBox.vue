@@ -80,7 +80,7 @@ const changeState = () => {
       <q-item-section>
         <!-- 설명 섹션-->
         <Labels label="궁금한 내용이 있으신가요?" class="card-margin"></Labels>
-        <Labels :label="chatLabel" class="card-margin"></Labels>
+        <Labels :label="chatLabel" class="card-margin" style="color: #004c98"></Labels>
         <!-- 침콩 버튼과 채팅하기 버튼 -->
         <q-item-section>
           <div class="buttons card-margin">
@@ -95,7 +95,7 @@ const changeState = () => {
         <q-separator style="margin-top: 2vh"></q-separator>
 
         <Labels :label="likeLabel" class="card-margin"></Labels>
-        <Labels label="좋아요 버튼을 클릭해주세요!  " class="card-margin"></Labels>
+        <Labels label="좋아요 버튼을 클릭해주세요!  " class="card-margin" style="color: #004c98"></Labels>
 
         <q-item-section>
           <div class="buttons card-margin">
