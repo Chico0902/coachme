@@ -1,6 +1,7 @@
 <script setup>
 import CustomButton from '@/components/atoms/CustomButton.vue'
 import QuillEditor from '@/components/molecules/QuillEditor.vue'
+import Swal from 'sweetalert2'
 import { patchMyPortfolio } from '@/utils/api/coach-api'
 import { changePortfolioRequsetDto } from '@/utils/api/dto/coach-dto'
 import { onBeforeMount, ref } from 'vue'

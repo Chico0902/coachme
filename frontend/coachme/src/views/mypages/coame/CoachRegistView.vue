@@ -6,7 +6,7 @@ import { ElevationRequestDto } from '@/utils/api/dto/member-dto'
 import { ref, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { getMyPortfolio } from '@/utils/api/coach-api'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 /**
  * VARIABLES
@@ -16,44 +16,43 @@ const color = '#fcbf17'
 const label = '등록하기'
 const textcolor = 'black'
 const contentHTML = ref('')
-const isAlreadyRegistered = ref(false)
+const isAlreadyRegistered = ref(true)
 const longId = decodeToken(getAccessToken()).longId
 
 const regist = () => {
-  const dto = new ElevationRequestDto(longId.value, contentHTML.value);
-  
+  const dto = new ElevationRequestDto(longId, contentHTML.value)
+
   postRequestElevation(
     dto,
     (success) => {
-      console.log(success);
+      console.log(success)
       Swal.fire({
         icon: 'success',
         title: '등록 완료!',
         showConfirmButton: false,
-        timer: 1500, 
-        allowOutsideClick: false, 
+        timer: 1500,
+        allowOutsideClick: false
       }).then(() => {
-        window.location.reload();
-      });
+        window.location.reload()
+      })
     },
     (fail) => {
-      console.log(fail);
+      console.log(fail)
       Swal.fire({
         icon: 'error',
         title: '등록 실패!',
-        showConfirmButton: true,
-      });
+        showConfirmButton: true
+      })
     }
-  );
-};
+  )
+}
 
 onBeforeMount(() => {
   getMyPortfolio(
     longId,
     (success) => {
-      console.log(success)
-      isAlreadyRegistered.value = true
-      contentHTML.value = success.data.htmlDocs
+      if (success.data === '') isAlreadyRegistered.value = false
+      else contentHTML.value = success.data.htmlDocs
     },
     (fail) => console.log(fail)
   )
@@ -66,7 +65,9 @@ onBeforeMount(() => {
   </div>
   <div class="editor-container">
     <div class="editor">
-      <template v-if="isAlreadyRegistered"> <div class="editor-detail">관리자의 승인을 대기중입니다.</div> </template>
+      <template v-if="isAlreadyRegistered">
+        <div class="editor-detail">관리자의 승인을 대기중입니다.</div>
+      </template>
       <template v-else>
         <div class="editor-detail">
           아래 양식에 본인의 포트폴리오를 작성해서 제출하세요. 관리자의 승인 후 코칭 활동이 시작됩니다.

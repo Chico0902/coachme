@@ -103,8 +103,8 @@ onBeforeMount(() => {
     case 'ADMIN': {
       showToggle = false
       sideButtons.value = [
-        { name: '회원목록', link: 'Desktop-11', css: 'selected-button' },
-        { name: '권한요청', link: 'Desktop-12' }
+        { name: '권한요청', link: 'Desktop-12', css: 'selected-button' },
+        { name: '회원목록', link: 'Desktop-11' }
       ]
       break
     }
