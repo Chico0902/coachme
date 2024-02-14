@@ -22,6 +22,7 @@ const props = defineProps({
 })
 
 const chatLabel = computed(() => props.coach + '님께 문의해보세요.');
+const likeLabel = computed(() => props.coach + '님이 마음에 드셨나요?');
 // 코치이름에 따라 반응형으로 변경
 
 const myLongId = ref()
@@ -82,7 +83,6 @@ const changeState = () => {
         <!-- 침콩 버튼과 채팅하기 버튼 -->
         <q-item-section>
           <div class="buttons card-margin">
-            <Like :like="likeState" @click="changeState"></Like>
             <CustomButton
               style="width: 100px; height: 20px; background-color: #fcbf17; color: black"
               @click="requestDm()"
@@ -90,6 +90,17 @@ const changeState = () => {
             >
           </div>
         </q-item-section>
+
+        <q-separator style="margin-top: 2vh;"></q-separator>
+
+        <Labels :label="likeLabel" class="card-margin"></Labels>
+        <Labels label="좋아요 버튼을 클릭해주세요!  " class="card-margin"></Labels>
+
+        <q-item-section>
+          <div class="buttons card-margin">
+            <Like :like="likeState" @click="changeState"></Like>
+          </div>
+        </q-item-section>            
       </q-item-section>
     </q-item>
   </q-card>
@@ -99,11 +110,13 @@ const changeState = () => {
 .my-card {
   width: 100%;
   max-width: max-content;
+  text-align: center;
 }
 
 .buttons {
   display: flex;
   align-items: center;
+  margin: auto;
 }
 .card-margin {
   padding-top: 2vh;
