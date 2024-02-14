@@ -2,8 +2,8 @@
 import LiveMenuList from '@/components/molecules/LiveMenuList.vue'
 import CoachUserVideo from '@/components/openvidu/UserVideo-coach.vue'
 import CoameUserVideo from '@/components/openvidu/UserVideo-coame.vue'
-import LiveChat from '@/components/molecules/LiveChat.vue'
 import profile from '@/components/atoms/ProfileImage.vue'
+import LiveChat from '@/components/molecules/LiveChat.vue'
 import router from '@/router'
 import Swal from 'sweetalert2'
 import { ref, onBeforeMount, computed, onBeforeUnmount } from 'vue'
@@ -74,7 +74,6 @@ const recordingId = ref('')
 // 채팅창 보여주기
 const changeChatStatus = (status) => {
   isChatOpen.value = status.chat
-  isPeopleOpen.value = status.people
 }
 
 // 회의 참석자 목록 보여주기
@@ -360,7 +359,7 @@ async function getToken(mySessionId) {
           class="shadow-2 rounded-borders dm-window-container"
         >
           <q-page-container>
-            <LiveChat :directMessage="dm" :myId="id" @chatOff="isChatOpen = false"></LiveChat>
+            <LiveChat :mySessionId="mySessionId" @chatOff="isChatOpen = false"></LiveChat>
           </q-page-container>
         </q-layout>
 
