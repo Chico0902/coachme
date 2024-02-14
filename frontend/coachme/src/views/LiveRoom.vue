@@ -10,6 +10,7 @@ import { OpenVidu } from 'openvidu-browser'
 import { postLiveCoachingEntrnce, postConnectLiveCoaching } from '@/utils/api/livecoaching-api'
 import { useMemberStore } from '@/stores/member'
 import router from '@/router'
+import Swal from 'sweetalert2';
 
 /**
  * VARIABLES
@@ -72,12 +73,20 @@ const changeParticipantsStatus = (status) => {
 }
 
 // 화상 나가기
-const exit = () => {
-  if (confirm('정말로 채팅을 종료하시겠습니까?')) {
-    leaveSession()
-    router.push('/')
+const exit = async () => {
+  const result = await Swal.fire({
+    title: '정말로 채팅을 종료하시겠습니까?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '예',
+    cancelButtonText: '아니오',
+  });
+
+  if (result.isConfirmed) {
+    leaveSession();
+    router.push('/');
   }
-}
+};
 
 onBeforeMount(() => {
   // 최초 입장 시 오픈비두 라이브 채팅방에 접속
