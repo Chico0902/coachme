@@ -187,6 +187,26 @@ watch(
   { deep: true }
 )
 
+watch(
+  coameStreams,
+  () => {
+    switch (coameStreams.value.length) {
+      case 0:
+        return
+      case 1: {
+        coameMainStreamOne.value = coameStreams.value[0]
+        return
+      }
+      case 2: {
+        coameMainStreamOne.value = coameStreams.value[0]
+        coameMainStreamOne.value = coameStreams.value[1]
+        return
+      }
+    }
+  },
+  { deep: true }
+)
+
 onBeforeMount(() => {
   // 최초 입장 시 오픈비두 라이브 채팅방에 접속
   console.log(route.params.id)
@@ -374,7 +394,7 @@ const changeLayoutCount = () => {
         <div class="layout-two">
           <div class="coach-layout-two"><UserVideo :stream-manager="coachMainStream"></UserVideo></div>
           <div class="coame-layout-two">
-            <UserVideo :stream-manager="coameStreams[0]"></UserVideo>
+            <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
           </div>
         </div>
       </template>
@@ -387,8 +407,8 @@ const changeLayoutCount = () => {
           </div>
           <div class="coame-layout-three">
             <div class="coame-layout-three-flex">
-              <div class="coame-layout-three-inner"><UserVideo :stream-manager="coameStreams[0]"></UserVideo></div>
-              <div class="coame-layout-three-inner"><UserVideo :stream-manager="coameStreams[1]"></UserVideo></div>
+              <div class="coame-layout-three-inner"><UserVideo :stream-manager="coameMainStreamOne"></UserVideo></div>
+              <div class="coame-layout-three-inner"><UserVideo :stream-manager="coameMainStreamTwo"></UserVideo></div>
             </div>
           </div>
         </div>
