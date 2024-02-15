@@ -7,7 +7,7 @@ import { ref } from 'vue'
 
 // from parent(LiveRoom.vue)
 const props = defineProps({
-  isCoach: Boolean,
+  iAmCoach: Boolean,
   publisher: Object,
   participants: Array,
   OVScreen: Object,
@@ -145,7 +145,7 @@ const exit = () => {
       </q-tooltip>
     </q-btn>
 
-    <q-btn v-if="props.isCoach" flat>
+    <q-btn v-if="props.iAmCoach" flat>
       <template v-if="isRecording">
         <span class="material-symbols-outlined" style="color: red" @click="toggleRecord"> radio_button_checked </span>
         <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
