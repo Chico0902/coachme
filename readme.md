@@ -23,8 +23,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a>
+    <img src="https://velog.velcdn.com/images/lee02g29/post/cb5b3090-8f59-438d-8cfd-49959d5fb2ad/image.png" alt="Logo" width="220" height="80">
   </a>
 
 <h3 align="center">Coach Me</h3>
@@ -82,14 +82,31 @@
 ## 화면
 
 ### 메인 화면
+![메인화면](/uploads/9d1d63c380832752b83b50b8fea6abea/메인화면.JPG)
 
 ### 검색화면(코치)
+#### 리스트 
+![코치검색페이지_리스트](/uploads/0c838c813549069e6dc336861d4bd57a/코치검색페이지_리스트.JPG)
+  
+#### 카드  
+![코치검색페이지_카드](/uploads/e05882f959964ed7f2fe7118f6c24bfe/코치검색페이지_카드.JPG)
 
-### 검색화면(코미)
+### 검색화면(코칭)
+![코칭검색페이지](/uploads/1c317472ef49e915d2fc664e62f4dce9/코칭검색페이지.JPG)
 
 ### 마이페이지(코미)
+![마이페이지1](/uploads/13da3d54df69cb16aab53be33db14142/마이페이지1.JPG)
+
+![마이페이지2](/uploads/b8f4d8f8f2d3e0b86f6d2588e63588fd/마이페이지2.JPG)
 
 ### 마이페이지(코치)
+![코치페이지1](/uploads/fcbfe506b65bf83cc7d84d5ab9ed08ac/코치페이지1.JPG)
+
+![코치페이지2](/uploads/55bd09bad42a7872f1cc4a7eec205c67/코치페이지2.JPG)
+
+![코치페이지3](/uploads/152cc8f93b2fdc31d23396021438d325/코치페이지3.JPG)
+
+![코치페이지4](/uploads/ad3fe2334d515906a1ee1a24fb06307c/코치페이지4.JPG)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -99,10 +116,10 @@
 ## 프로젝트 구조
 
 ### 아키텍처
-
+![아키텍처](/uploads/612ddcd7fab98f7317517b60ae65454e/아키텍처.png)
 
 ### 와이어 프레임
-
+![와이어프레임](/uploads/c9d8d4ae383907b1f05be185a91a3765/와이어프레임.png)
 
 ### ERD
 
