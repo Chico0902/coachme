@@ -122,8 +122,16 @@ const editToAI = (videoUrl, coachingId) => {
     { key: noExtend },
     (success) => {
       console.log(success)
-      saveEditModalOpen.value = true
-      newAIVideoFileUrl.value = success.data.url
+      if (success.data.url == 'HighLight is zero.') {
+        Swal.fire({
+          icon: 'error',
+          title: '오류 발생',
+          text: '하이라이트를 찾지 못했습니다...'
+        })
+      } else {
+        saveEditModalOpen.value = true
+        newAIVideoFileUrl.value = success.data.url
+      }
     },
     (fail) => {
       console.error(fail)
