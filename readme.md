@@ -42,7 +42,7 @@
   <summary>목차</summary>
   <ol>
     <li>
-      <a href="#about-the-project">프로젝트 개요</a>
+      <a href="#summary">프로젝트 개요</a>
     </li>
     <li>
       <a href="#screen">화면</a>
@@ -56,7 +56,7 @@
 
 
 <!-- 프로젝트 개요 -->
-<h2 id="about-the-project"> 프로젝트 개요 </h2>
+<h2 id="summary"> 프로젝트 개요 </h2>
 
 ### 개발 기간 
 2024/01/08 - 2024/02/15(6주)
