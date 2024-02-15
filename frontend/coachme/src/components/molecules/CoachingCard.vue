@@ -2,7 +2,7 @@
 import labels from '../atoms/CardLabel.vue'
 import { getMainVideo } from '@/utils/api/coaching-api'
 import { postEditToAI } from '@/utils/api/ai-api'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 const props = defineProps({
   label: {
@@ -46,18 +46,18 @@ const setVideo = () => {
     (success) => {
       Swal.fire({
         icon: 'success',
-        title: '대표 영상으로 등록되었습니다.',
-      });
+        title: '대표 영상으로 등록되었습니다.'
+      })
     },
     (fail) => {
       Swal.fire({
         icon: 'error',
         title: '대표 영상 등록 실패',
-        text: '대표 영상 등록이 실패하였습니다.',
-      });
+        text: '대표 영상 등록이 실패하였습니다.'
+      })
     }
-  );
-};
+  )
+}
 
 const editToAI = () => {
   const urlKeys = props.video.split('/')
@@ -66,7 +66,7 @@ const editToAI = () => {
   postEditToAI(
     { key: noExtend },
     (success) => console.log(success),
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 }
 </script>

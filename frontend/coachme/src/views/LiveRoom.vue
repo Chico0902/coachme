@@ -154,14 +154,14 @@ const exit = async () => {
             leaveSession()
             router.push('/mypage-coach/live')
           })
-          .catch((fail) => console.log(fail))
+          .catch((fail) => console.error(fail))
       else {
         leaveSession()
         router.push('/mypage-coach/live')
       }
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
     }
   )
 }
@@ -368,17 +368,6 @@ async function getToken(mySessionId) {
   console.log(getToken)
   const sessionId = await postConnectLiveCoaching({ customSessionId: mySessionId })
   const response = await postLiveCoachingEntrnce(sessionId, myUserName.value)
-  // const newParticipant = {
-  //   id: response.memberId,
-  //   memberName: response.memberName,
-  //   imageUrl: response.memberProfileUrl,
-  //   profileText: response.memberProfileText
-  // }
-  // console.log('participants : ', participants)
-  // console.log('new participants : ', newParticipant)
-  // const inParticipantsFind = participants.value.find((participant) => participant.id === newParticipant.id)
-  // console.log(inParticipantsFind)
-  // if (inParticipantsFind === undefined) participants.value.push(newParticipant)
   return response.token
 }
 
