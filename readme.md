@@ -1,5 +1,5 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a name="readme-top"></a>
+<div id="readme-top"></ㅇ>
 <!--
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
 *** that would make this better, please fork the repo and create a pull request
@@ -81,7 +81,9 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- 화면 -->
-<h2 id="screen"> 화면 </h2>
+<div id="screen"></div>
+
+## 화면 
 
 ### 메인 화면
 ![메인화면](/uploads/9d1d63c380832752b83b50b8fea6abea/메인화면.JPG)
@@ -115,7 +117,9 @@
 
 
 <!-- structure -->
-<h2 id="structure"> 프로젝트 구조 </h2>
+<div id="structure"></div>
+
+## 프로젝트 구조
 
 ### 아키텍처
 ![아키텍처](/uploads/612ddcd7fab98f7317517b60ae65454e/아키텍처.png)
@@ -132,7 +136,9 @@
 
 
 <!-- 기술스택 -->
-<h2 id="tech-stack"> 기술 스택 </h2>
+<div id="tech-stack"></div>
+
+## 기술 스택 
 
 ### Language
 ![Java][Java] ![JavaScript][JavaScript] ![CSS3][CSS3] ![HTML5][HTML5] ![Python][Python]
@@ -157,7 +163,9 @@
 
 
 <!-- 팀원 -->
-<h2 id="teams"> 팀원 </h2>
+<div id="teams"></div>
+
+## 팀원
 
 * 남상엽 - 팀장, 프론트엔드, 기획, 프로젝트 관리
 * 이혜지 - 프론트엔드, FE팀장, 컴포넌트 관리, Atomic Design
