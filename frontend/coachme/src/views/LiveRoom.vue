@@ -270,6 +270,7 @@ function joinSession() {
       const subscriberScreen = sessionScreen.value.subscribe(event.stream, 'container-screens')
       screenShare.value = subscriberScreen
       screenPublisher.value = subscriberScreen
+      screensharing.value = true
     }
   })
 
