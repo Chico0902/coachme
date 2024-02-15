@@ -71,6 +71,7 @@ function parseLiveCoachingData(list) {
       allLiveCoachings_.value[dateKey] = [
         {
           id: element.id,
+          coachId: element.coachId,
           className: element.className,
           time: _time,
           isStart: date.getTime() < nowObject.getTime() ? true : false,
@@ -80,6 +81,7 @@ function parseLiveCoachingData(list) {
     else
       allLiveCoachings_.value[dateKey].push({
         id: element.id,
+        coachId: element.coachId,
         className: element.className,
         time: _time,
         isStart: date.getTime() < nowObject.getTime() ? true : false,
@@ -95,6 +97,7 @@ function parseLiveCoachingData(list) {
     )
       liveCoachings_.value.push({
         id: element.id,
+        coachId: element.coachId,
         className: element.className,
         time: _time,
         isStart: date.getTime() < nowObject.getTime() ? true : false,
@@ -166,7 +169,7 @@ watch(
                     icon="meeting_room"
                     flat
                     color="black"
-                    @click="$router.push(`/live/${liveCoaching.id}`)"
+                    @click="$router.push(`/live/${liveCoaching.id}/${liveCoaching.coachId}`)"
                   ></q-btn>
                 </template>
               </q-field>

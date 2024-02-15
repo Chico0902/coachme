@@ -22,7 +22,7 @@ export default [
     component: () => import('../../views/FindPasswordView.vue')
   },
   {
-    path: '/live/:id',
+    path: '/live/:id/:coachId',
     name: 'Desktop-17-1',
     component: () => import('../../views/LiveRoom.vue')
   },
