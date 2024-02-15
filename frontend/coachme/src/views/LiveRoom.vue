@@ -260,7 +260,6 @@ function joinSession() {
       const subscriber = sessionCamera.value.subscribe(event.stream, 'container-cameras')
       // const metadata = JSON.parse(event.target.options.metadata)
       // const clientData = metadata.clientData
-      // console.log(clientData)
       subscribers.value.push(subscriber)
     }
   })
@@ -404,74 +403,82 @@ const changeLayoutCount = () => {
 
     <div class="video-layout">
       <!-- 코치만 있을때 -->
-      <template v-if="layoutCount === 1">
-        <div class="layout-one">
-          <UserVideo :stream-manager="coachMainStream"></UserVideo>
-        </div>
-      </template>
+      <Transition>
+        <template v-if="layoutCount === 1">
+          <div class="layout-one">
+            <UserVideo :stream-manager="coachMainStream"></UserVideo>
+          </div>
+        </template>
+      </Transition>
 
       <!-- 코치1명 코미 1명 -->
-      <template v-if="layoutCount === 2">
-        <!-- {{ coameStreams }} -->
-        <div class="layout-two">
-          <div class="coach-layout-two">
-            <UserVideo :stream-manager="coachMainStream"></UserVideo>
-          </div>
-          <div class="coame-layout-two">
-            <!-- 코치는 오른쪽 코미들로 채우기 -->
-            <template v-if="iAmCoach">
-              <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
-            </template>
-            <!-- 코미는 오른쪽 본인으로 채우기 -->
-            <template v-else>
-              <UserVideo :stream-manager="mainStreamManager"></UserVideo>
-            </template>
-          </div>
-        </div>
-      </template>
-
-      <!-- 코치1명 코미 2명 이상 -->
-      <template v-if="layoutCount === 3">
-        <div class="layout-three">
-          <div class="coach-layout-three">
-            <UserVideo :stream-manager="coachMainStream"></UserVideo>
-          </div>
-          <div class="coame-layout-three">
-            <div class="coame-layout-three-flex">
+      <Transition>
+        <template v-if="layoutCount === 2">
+          <!-- {{ coameStreams }} -->
+          <div class="layout-two">
+            <div class="coach-layout-two">
+              <UserVideo :stream-manager="coachMainStream"></UserVideo>
+            </div>
+            <div class="coame-layout-two">
               <!-- 코치는 오른쪽 코미들로 채우기 -->
               <template v-if="iAmCoach">
-                <div class="coame-layout-three-inner">
-                  <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
-                </div>
-                <div class="coame-layout-three-inner">
-                  <UserVideo :stream-manager="coameMainStreamTwo"></UserVideo>
-                </div>
+                <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
               </template>
-              <!-- 코미는 오른쪽 위 본인으로 채우기 -->
+              <!-- 코미는 오른쪽 본인으로 채우기 -->
               <template v-else>
-                <div class="coame-layout-three-inner">
-                  <UserVideo :stream-manager="mainStreamManager"></UserVideo>
-                </div>
-                <div class="coame-layout-three-inner">
-                  <UserVideo :stream-manager="coameMainStreamTwo"></UserVideo>
-                </div>
+                <UserVideo :stream-manager="mainStreamManager"></UserVideo>
               </template>
             </div>
           </div>
-        </div>
-      </template>
+        </template>
+      </Transition>
 
-      <!-- 영상화면 공유 -->
-      <template v-if="layoutCount === 4">
-        <template v-if="screensharing">
-          <div class="share-layout">
-            <UserVideo :stream-manager="screenPublisher"></UserVideo>
+      <!-- 코치1명 코미 2명 이상 -->
+      <Transition>
+        <template v-if="layoutCount === 3">
+          <div class="layout-three">
+            <div class="coach-layout-three">
+              <UserVideo :stream-manager="coachMainStream"></UserVideo>
+            </div>
+            <div class="coame-layout-three">
+              <div class="coame-layout-three-flex">
+                <!-- 코치는 오른쪽 코미들로 채우기 -->
+                <template v-if="iAmCoach">
+                  <div class="coame-layout-three-inner">
+                    <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
+                  </div>
+                  <div class="coame-layout-three-inner">
+                    <UserVideo :stream-manager="coameMainStreamTwo"></UserVideo>
+                  </div>
+                </template>
+                <!-- 코미는 오른쪽 위 본인으로 채우기 -->
+                <template v-else>
+                  <div class="coame-layout-three-inner">
+                    <UserVideo :stream-manager="mainStreamManager"></UserVideo>
+                  </div>
+                  <div class="coame-layout-three-inner">
+                    <UserVideo :stream-manager="coameMainStreamTwo"></UserVideo>
+                  </div>
+                </template>
+              </div>
+            </div>
           </div>
         </template>
-        <template v-else>
-          <div class="share-layout-info"><p>현재 공유중인 화면이 없습니다.</p></div>
+      </Transition>
+
+      <!-- 영상화면 공유 -->
+      <Transition>
+        <template v-if="layoutCount === 4">
+          <template v-if="screensharing">
+            <div class="share-layout">
+              <UserVideo :stream-manager="screenPublisher"></UserVideo>
+            </div>
+          </template>
+          <template v-else>
+            <div class="share-layout-info"><p>현재 공유중인 화면이 없습니다.</p></div>
+          </template>
         </template>
-      </template>
+      </Transition>
     </div>
 
     <!-- 강의장 메뉴 리스트 -->
