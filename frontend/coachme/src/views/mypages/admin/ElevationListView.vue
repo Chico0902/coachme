@@ -26,7 +26,6 @@ const showPortfolio = (portfolio) => {
 
 // 백엔드에 선택한 목록 요청
 const elevation = (array) => {
-  console.log(array)
   const dto = new AdminElevateRequestDto(array)
   patchElevations(
     dto,
@@ -35,7 +34,7 @@ const elevation = (array) => {
       window.location.reload()
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
     }
   )
 }
@@ -46,7 +45,7 @@ onBeforeMount(() => {
       rows.value = success.data.list
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
     }
   )
 })

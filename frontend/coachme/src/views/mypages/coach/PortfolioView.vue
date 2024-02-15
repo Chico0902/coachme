@@ -29,7 +29,6 @@ const changePortfolio = () => {
     longId,
     dto,
     (success) => {
-      console.log(success)
       Swal.fire({
         icon: 'success',
         title: '수정 완료'
@@ -38,7 +37,6 @@ const changePortfolio = () => {
       // alert('코칭 수정완료')
     },
     (fail) => {
-      console.log(fail)
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -55,10 +53,9 @@ onBeforeMount(() => {
   getMyPortfolio(
     longId,
     (success) => {
-      console.log(success)
       contentHTML.value = success.data.htmlDocs
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 })
 </script>

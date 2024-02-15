@@ -5,8 +5,6 @@
  * @param {function} next 훅을 해결하기 위한 호출입니다.(참고 : https://v3.router.vuejs.org/kr/guide/advanced/navigation-guards.html)
  */
 export function checkRedirectPrivilege(to, from, next) {
-  console.log(to)
-  console.log(from)
   // mypage에서 redirect된 요청 승인
   if (to.redirectedFrom != undefined) {
     const redirectedBaseUrl = to.redirectedFrom.path.split('/')[1]
