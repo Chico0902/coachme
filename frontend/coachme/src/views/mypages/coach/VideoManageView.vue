@@ -2,7 +2,7 @@
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
-import { getVideoList, postNewVideo } from '@/utils/api/coach-api'
+import { getVideoList, postNewVideo, getMyCoaching } from '@/utils/api/coach-api'
 
 /**
  * VARIABLES
@@ -10,6 +10,14 @@ import { getVideoList, postNewVideo } from '@/utils/api/coach-api'
 
 // 비디오 목록(api)
 const videos = ref([])
+const coachings = ref([])
+const allCoachingOptions = computed(() => {
+  if (coachings.value.length === 0) return [{ value: null, label: '등록된 영상이 없습니다.' }]
+  const ret = []
+  coachings.value.forEach((coaching) => ret.push({ value: coaching.id, label: coaching.name }))
+  return ret
+})
+const registVideoCoachingId = ref('')
 const newVideoFile = ref(null)
 const newVideoFileName = ref('')
 
@@ -65,12 +73,21 @@ onBeforeMount(() => {
       console.log(fail)
     }
   )
+  // 모든 코칭들 조회
+  getMyCoaching(
+    longId.value,
+    (success) => {
+      console.log(success)
+      coachings.value = success.data.list
+    },
+    (fail) => console.log(fail)
+  )
 })
 
 const uploadNewVideo = () => {
   postNewVideo(
     longId.value,
-    { videoFile: newVideoFile.value, name: newVideoFileName.value },
+    { videoFile: newVideoFile.value, fileName: newVideoFileName.value, coachingId: registVideoCoachingId.value },
     (success) => console.log(success),
     (fail) => console.log(fail)
   )
@@ -136,6 +153,15 @@ const uploadNewVideo = () => {
       <q-card-section class="bg-amber-5 text-white">
         <q-item>
           <q-item-section>
+            <q-select
+              v-model="registVideoCoachingId"
+              :options="allCoachingOptions"
+              label="코칭 이름"
+              emit-value
+              map-options
+              @change="filterVideos"
+              style="margin-bottom: 1rem"
+            />
             <q-file filled bottom-slots v-model="newVideoFile" label="코칭 영상을 업로드하세요." counter max-files="1">
               <template v-slot:append>
                 <q-icon
