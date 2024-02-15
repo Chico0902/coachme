@@ -69,6 +69,8 @@ const recordingId = ref('')
 // for coaching video
 const coachMainStream = ref(undefined)
 const coameStreams = ref([])
+const coameMainStreamOne = ref(undefined)
+const coameMainStreamTwo = ref(undefined)
 /**
  * METHODS
  */
@@ -167,11 +169,19 @@ watch(
   () => {
     // 코치id 찾기, 코치 아닌애들은 코미배열에 넣기
     if (subscribers.value.length == undefined) return
+    coameStreams.value = []
     subscribers.value.forEach((subscriber) => {
       const clientData = JSON.parse(subscriber.stream.connection.data)
       const userId = clientData.clientData.id
       if (userId == coachId) coachMainStream.value = subscriber
-      else coameStreams.value.push(subscriber)
+      else {
+        // 코미 id 겹치는지 확인하고 집어넣기
+        coameStreams.value.forEach((coameStream) => {
+          const coameClientData = JSON.parse(coameStream.stream.connection.data)
+          const coameId = coameClientData.clientData.id
+          if (coameId != userId) coameStreams.value.push(subscriber)
+        })
+      }
     })
   },
   { deep: true }
@@ -347,8 +357,7 @@ const changeLayoutCount = () => {
   <div class="all">
     <div class="title">
       {{ coachingTitle }}
-      <q-btn @click="changeLayoutCount" label="레이아웃 변경"></q-btn>
-      <p>Lay Count = {{ layoutCount }}</p>
+      <q-btn icon="grid_view" @click="changeLayoutCount"> </q-btn>
     </div>
 
     <div class="video-layout">
