@@ -16,7 +16,6 @@ const memberStore = useMemberStore()
 const authStore = useAuthStore()
 const { profileImageUrl } = storeToRefs(memberStore)
 const { isLogin } = storeToRefs(authStore)
-console.log(isLogin.value)
 
 const sidebarOpen = ref(false)
 // 사이드바 오픈 여부

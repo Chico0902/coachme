@@ -29,11 +29,10 @@ onBeforeMount(() => {
   getMyCoaching(
     longId,
     (success) => {
-      console.log(success)
       coachings.value = success.data.list
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
     }
   )
 })

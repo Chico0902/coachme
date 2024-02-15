@@ -1,5 +1,6 @@
 import router from '@/router'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const { VITE_BACKEND_URL } = import.meta.env
 
@@ -58,16 +59,20 @@ export function getRefresh() {
         withCredentials: true
       })
       .then((success) => {
-        console.log(success)
         const accessToken = { accessToken: success.headers.authorization }
         sessionStorage.setItem('auth', JSON.stringify(accessToken))
         resolve()
       })
       .catch((fail) => {
-        console.log(fail)
+        console.error(fail)
         if (fail.response.data.message === 'Refresh Token Expired') {
-          alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
-          router.push('/login')
+          Swal.fire({
+            icon: 'info',
+            title: '로그인 정보가 없습니다.',
+            text: '로그인 페이지로 이동합니다.'
+          }).then(() => {
+            router.push('/login')
+          })
         }
       })
   )

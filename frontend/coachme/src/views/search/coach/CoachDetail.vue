@@ -64,7 +64,6 @@ const reviewData = (data) => {
     postcoachReview(
       dto,
       (success) => {
-        console.log(success)
         Swal.fire({
           icon: 'success',
           title: '리뷰를 작성했습니다.',
@@ -84,22 +83,20 @@ const reviewData = (data) => {
     getCoachDetailPage(
       coachId.value,
       (success) => {
-        console.log(success)
         coachDetail.value = success.data
       },
       (fail) => {
-        console.log(fail)
+        console.error(fail)
       }
     ),
       // 코치 리뷰
       getCoachReview(
         coachId.value,
         (success) => {
-          console.log(success)
           reviews.value = success.data.list
         },
         (fail) => {
-          console.log(fail)
+          console.error(fail)
         }
       )
   })
@@ -112,7 +109,6 @@ const deleteReview = (reviewId) => {
     deleteMyReview(
       reviewId,
       (success) => {
-        console.log(success)
         Swal.fire({
           icon: 'success',
           title: '리뷰를 삭제했습니다.',
@@ -132,22 +128,20 @@ const deleteReview = (reviewId) => {
     getCoachDetailPage(
       coachId.value,
       (success) => {
-        console.log(success)
         coachDetail.value = success.data
       },
       (fail) => {
-        console.log(fail)
+        console.error(fail)
       }
     ),
       // 코치 리뷰
       getCoachReview(
         coachId.value,
         (success) => {
-          console.log(success)
           reviews.value = success.data.list
         },
         (fail) => {
-          console.log(fail)
+          console.error(fail)
         }
       )
   })
@@ -166,7 +160,6 @@ const updateReview = (data) => {
       data.reviewId,
       reviewDto,
       (success) => {
-        console.log(success)
         Swal.fire({
           icon: 'success',
           title: '리뷰를 수정했습니다.',
@@ -186,22 +179,20 @@ const updateReview = (data) => {
     getCoachDetailPage(
       coachId.value,
       (success) => {
-        console.log(success)
         coachDetail.value = success.data
       },
       (fail) => {
-        console.log(fail)
+        console.error(fail)
       }
     ),
       // 코치 리뷰
       getCoachReview(
         coachId.value,
         (success) => {
-          console.log(success)
           reviews.value = success.data.list
         },
         (fail) => {
-          console.log(fail)
+          console.error(fail)
         }
       )
   })
@@ -226,11 +217,10 @@ onBeforeMount(() => {
   getCoachDetailPage(
     coachLongId,
     (success) => {
-      console.log(success)
       coachDetail.value = success.data
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
     }
   )
 
@@ -238,18 +228,16 @@ onBeforeMount(() => {
   getCoachReview(
     coachLongId,
     (success) => {
-      console.log(success)
       reviews.value = success.data.list
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
     }
   )
 })
 
 // 클릭한 버튼에 따라 메뉴구성 변경
 const changeMenu = (e) => {
-  console.log(e.srcElement.innerText)
   switch (e.srcElement.innerText) {
     case '코치 소개':
       currentMenu.value = 'introduce'

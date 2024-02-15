@@ -74,7 +74,7 @@ const privilege = decodeToken(accessToken.value).privilege
   margin-bottom: 5vh;
   border-radius: 1.5rem;
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: scroll;
 }
 .mainpage::-webkit-scrollbar {
   width: 10px;

@@ -25,11 +25,10 @@ export function postLiveCoachingEntrnce(roomId, longId) {
     authAxios
       .post(`live/sessions/${roomId}/connections`, { memberId: longId })
       .then((success) => {
-        console.log(success)
         resolve(success.data)
       })
       .catch((fail) => {
-        console.log(fail)
+        console.error(fail)
       })
   )
 }
@@ -65,7 +64,7 @@ export function postConnectLiveCoaching(dto) {
         resolve(success.data)
       })
       .catch((fail) => {
-        console.log(fail)
+        console.error(fail)
       })
   )
 }

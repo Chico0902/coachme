@@ -33,19 +33,15 @@ export default [
     return HttpResponse.json(mockChangePasswordResponseDto)
   }),
   http.get('http://localhost/members/:id', ({ params }) => {
-    console.log('params : ' + params.id)
     return HttpResponse.json(mockProfileResponseDto)
   }),
   http.get('http://localhost/members/profiles/:id', ({ params }) => {
-    console.log('params : ' + params.id)
     return HttpResponse.json(mockProfileResponseDto)
   }),
   http.patch('http://localhost/members/profiles/images/:id', ({ params }) => {
-    console.log('params : ' + params.id)
     return HttpResponse.json(mockProfileImageModifyResponseDto)
   }),
   http.patch('http://localhost/members/profiles/texts/:id', ({ params }) => {
-    console.log('params : ' + params.id)
     return HttpResponse.json(mockProfileTextModifyResponseDto)
   }),
   http.post('http://localhost/members/duplicate/id', () => {

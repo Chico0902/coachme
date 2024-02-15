@@ -120,7 +120,6 @@ const reviewData = (data) => {
     postcoachingReview(
       dto,
       (success) => {
-        console.log(success)
         Swal.fire({
           icon: 'success',
           title: '리뷰를 작성했습니다.',
@@ -138,20 +137,18 @@ const reviewData = (data) => {
     getCoachingDetailPage(
       coachingLongId.value,
       (success) => {
-        console.log(success)
         coachingDetail.value = success.data
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
 
     // 코칭 리뷰
     getCoachingReview(
       coachingLongId.value,
       (success) => {
-        console.log(success)
         reviews.value = success.data.list
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
   })
 }
@@ -163,7 +160,6 @@ const deleteReview = (reviewId) => {
     deleteMyReview(
       reviewId,
       (success) => {
-        console.log(success)
         Swal.fire({
           icon: 'success',
           title: '리뷰를 삭제했습니다.',
@@ -183,22 +179,20 @@ const deleteReview = (reviewId) => {
     getCoachingDetailPage(
       coachingLongId.value,
       (success) => {
-        console.log(success)
         coachingDetail.value = success.data
       },
       (fail) => {
-        console.log(fail)
+        console.error(fail)
       }
     ),
       // 코치 리뷰
       getCoachingReview(
         coachingLongId.value,
         (success) => {
-          console.log(success)
           reviews.value = success.data.list
         },
         (fail) => {
-          console.log(fail)
+          console.error(fail)
         }
       )
   })
@@ -216,7 +210,6 @@ const updateReview = (data) => {
       data.reviewId,
       reviewDto,
       (success) => {
-        console.log(success)
         Swal.fire({
           icon: 'success',
           title: '리뷰를 수정했습니다.',
@@ -236,22 +229,20 @@ const updateReview = (data) => {
     getCoachingDetailPage(
       coachingLongId.value,
       (success) => {
-        console.log(success)
         coachingDetail.value = success.data
       },
       (fail) => {
-        console.log(fail)
+        console.error(fail)
       }
     ),
       // 코치 리뷰
       getCoachingReview(
         coachingLongId.value,
         (success) => {
-          console.log(success)
           reviews.value = success.data.list
         },
         (fail) => {
-          console.log(fail)
+          console.error(fail)
         }
       )
   })
@@ -277,7 +268,6 @@ onBeforeMount(() => {
     getCoachingDetailPage(
       coachingId,
       (success) => {
-        console.log(success)
         coachingDetail.value = success.data
         breadCrumbs.value = [coachingDetail.value.mainCategory, coachingDetail.value.subCategory]
         coachId.value = coachingDetail.value.coachId
@@ -292,32 +282,28 @@ onBeforeMount(() => {
       getAllCoachingVideos(
         coachingId,
         (success) => {
-          console.log(success)
           videos.value = success.data.list
         },
-        (fail) => console.log(fail)
+        (fail) => console.error(fail)
       )
       // 리뷰 목록 조회
       getCoachingReview(
         coachingId,
         (success) => {
-          console.log(success)
           reviews.value = success.data.list
         },
-        (fail) => console.log(fail)
+        (fail) => console.error(fail)
       )
       // 코칭 스케줄 조회
       getAllLivesInCoaching(
         coachingId,
         (success) => {
-          console.log(success)
           parseSchedule(success.data.list)
-          console.log(scheduleList.value)
         },
-        (fail) => console.log(fail)
+        (fail) => console.error(fail)
       )
     })
-    .catch((e) => console.log(e))
+    .catch((e) => console.error(e))
 })
 </script>
 

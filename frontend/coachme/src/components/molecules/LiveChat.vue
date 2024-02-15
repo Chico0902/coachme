@@ -80,7 +80,7 @@ function disconnect() {
 function subscribeRoom() {
   console.log('방을 구독합니다.')
   if (!connected.value) {
-    console.error('소켓 연결을 먼저 시작해주세요.')
+    // console.error('소켓 연결을 먼저 시작해주세요.')
     return
   }
   client.value.subscribe(`/topic/live/room/${props.mySessionId}`, (message) => {

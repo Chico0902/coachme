@@ -53,7 +53,6 @@ export default {
             publisherScreen.on('videoElementCreated', function (event) {
                 // appendUserData(event.element, sessionScreen.connection);
                 // event.element['muted'] = true;
-                console.log(event);
             });
 
             publisherScreen.once('accessDenied', () => {
