@@ -1,5 +1,5 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<div id="readme-top"></ㅇ>
+<div id="readme-top"></div>
 <!--
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
 *** that would make this better, please fork the repo and create a pull request
@@ -47,9 +47,15 @@
     <li>
       <a href="#screen">화면</a>
     </li>
-    <li><a href="#structure">프로젝트 구조</a></li>
-    <li><a href="#tech-stack">기술스택</a></li>
-    <li><a href="#teams">팀원</a></li>
+    <li>
+      <a href="#structure">프로젝트 구조</a>
+    </li>
+    <li>
+      <a href="#tech-stack">기술스택</a>
+    </li>
+    <li>
+      <a href="#teams">팀원</a>
+    </li>
   </ol>
 </details>
 
