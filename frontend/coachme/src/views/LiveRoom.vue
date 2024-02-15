@@ -426,18 +426,20 @@ const changeLayoutCount = () => {
           </div>
           <div class="coame-layout-three">
             <div class="coame-layout-three-flex">
-              <div class="coame-layout-three-inner">
-                <!-- 코치는 오른쪽 코미들로 채우기 -->
-                <template v-if="iAmCoach">
+              <!-- 코치는 오른쪽 코미들로 채우기 -->
+              <template v-if="iAmCoach">
+                <div class="coame-layout-three-inner">
                   <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
                   <UserVideo :stream-manager="coameMainStreamTwo"></UserVideo>
-                </template>
-                <!-- 코미는 오른쪽 위 본인으로 채우기 -->
-                <template v-else>
+                </div>
+              </template>
+              <!-- 코미는 오른쪽 위 본인으로 채우기 -->
+              <template v-else>
+                <div class="coame-layout-three-inner">
                   <UserVideo :stream-manager="mainStreamManager"></UserVideo>
                   <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
-                </template>
-              </div>
+                </div>
+              </template>
             </div>
           </div>
         </div>
