@@ -206,8 +206,11 @@ watch(
       }
       default: {
         coameMainStreamOne.value = coameStreams.value[0]
-        console.log(coameMainStreamTwo.value)
-        coameMainStreamTwo.value = coameStreams.value[1]
+        coameStreams.value.forEach((coameStream) => {
+          const coameClientData = JSON.parse(coameStream.stream.connection.data)
+          const coameId = coameClientData.clientData.id
+          if (coameId == longId) coameMainStreamTwo.value = coameStream
+        })
         return
       }
     }
@@ -376,11 +379,19 @@ async function getToken(mySessionId) {
 
 const changeCoameTwo = (selectedCoameId) => {
   if (coameStreams.value.length === 0) return
-  coameStreams.value.forEach((coameStream) => {
-    const coameClientData = JSON.parse(coameStream.stream.connection.data)
-    const coameId = coameClientData.clientData.id
-    if (coameId == selectedCoameId) coameMainStreamTwo.value = coameStream
-  })
+  new Promise((resolve) => {
+    coameMainStreamTwo.value = undefined
+    resolve()
+  }).then(() =>
+    coameStreams.value.forEach((coameStream) => {
+      const coameClientData = JSON.parse(coameStream.stream.connection.data)
+      const coameId = coameClientData.clientData.id
+      if (coameId == selectedCoameId) {
+        coameMainStreamTwo.value = coameStream
+        console.log(coameStream)
+      }
+    })
+  )
 }
 
 // 창 변경
@@ -533,7 +544,6 @@ const changeLayoutCount = () => {
   width: 100%;
   height: 10vh;
   font-size: 1.5rem;
-  background-color: aliceblue;
   color: #004c98;
   display: flex;
   justify-content: space-evenly;
@@ -636,13 +646,11 @@ const changeLayoutCount = () => {
   height: 240px;
 }
 .share-layout {
-  border: solid 5px #004c98;
-  background-color: #004c98;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1024px;
+  top: 10vh;
+  left: 0;
+  width: 100%;
+  height: 80vh;
 }
 .share-layout-info {
   display: flex;
