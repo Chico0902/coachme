@@ -128,6 +128,7 @@ const editToAI = (videoUrl, coachingId) => {
           title: '오류 발생',
           text: '하이라이트를 찾지 못했습니다...'
         })
+        showWaitingEditGear.value = false
       } else {
         saveEditModalOpen.value = true
         newAIVideoFileUrl.value = success.data.url
@@ -139,7 +140,7 @@ const editToAI = (videoUrl, coachingId) => {
       Swal.fire({
         icon: 'error',
         title: '오류 발생',
-        text: '영상 편집 중 오류 발생'
+        text: '영상 편집 중 오류 발생!'
       })
     }
   )
@@ -207,23 +208,27 @@ const uploadAIVideo = () => {
           {{ coachingName }}
         </div>
         <div class="element-with-scrollbar">
-          <div v-for="(video, index) in videosGroup" :key="video.videoId" class="coaching-card">
+          <template v-for="(video, index) in videosGroup" :key="video.videoId">
             <template v-if="showWaitingEditGear && requestEditCoachingId == video.coachingId && index == 0">
-              <AICreateCard class="coaching-card"> </AICreateCard
-            ></template>
-            <CoachingCard
-              :label="video.videoName"
-              :caption="caption"
-              :ratio="ratio"
-              :video="video.url"
-              :visible="false"
-              :coachingId="video.coachingId"
-              :videoId="video.videoId"
-              :isAI="video.isAI"
-              @edit-to-ai-emit="editToAI"
-            >
-            </CoachingCard>
-          </div>
+              <div class="coaching-card">
+                <AICreateCard> </AICreateCard>
+              </div>
+            </template>
+            <div class="coaching-card">
+              <CoachingCard
+                :label="video.videoName"
+                :caption="caption"
+                :ratio="ratio"
+                :video="video.url"
+                :visible="false"
+                :coachingId="video.coachingId"
+                :videoId="video.videoId"
+                :isAI="video.isAI"
+                @edit-to-ai-emit="editToAI"
+              >
+              </CoachingCard>
+            </div>
+          </template>
         </div>
       </div>
     </div>
