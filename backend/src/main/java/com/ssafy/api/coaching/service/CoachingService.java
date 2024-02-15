@@ -269,9 +269,8 @@ public class CoachingService {
   public void registEditedVideo(Long coachingId, VideoRequestDto videoRequestDto) {
     Coaching coaching = coachingRepository.getReferenceById(coachingId);
     Member member = memberRepository.getReferenceById(videoRequestDto.getCoachId());
-    File file = fileRepository.getReferenceById(videoRequestDto.getVideoId());
     File newfile = new File();
-    newfile.createFile(member, coaching, videoRequestDto.getUrl(), file.getName());
+    newfile.createFile(member, coaching, videoRequestDto.getUrl(), videoRequestDto.getVideoName());
     fileRepository.save(newfile);
   }
 }

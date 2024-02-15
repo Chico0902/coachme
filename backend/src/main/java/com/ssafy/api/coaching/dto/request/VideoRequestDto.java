@@ -6,7 +6,7 @@ import lombok.Data;
 public class VideoRequestDto {
 
   private Long coachId;
-  private Long videoId;
+  private String videoName;
   private String url;
 
 }
