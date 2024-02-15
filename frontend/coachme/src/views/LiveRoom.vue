@@ -38,9 +38,12 @@ const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, prof
 const coachId = route.params.coachId
 const iAmCoach = longId == coachId
 const participants = computed(() => {
-  const ret = []
-  subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
-  return ret
+  const rets = []
+  subscribers.value.forEach((subscriber) => {
+    const userData = JSON.parse(subscriber.stream.connection.data).clientData
+    if (rets.find((ret) => ret.id == userData.id) == undefined) rets.push(userData)
+  })
+  return rets
 }) // 참가자 목록
 
 // for render
@@ -366,14 +369,17 @@ async function getToken(mySessionId) {
   console.log(getToken)
   const sessionId = await postConnectLiveCoaching({ customSessionId: mySessionId })
   const response = await postLiveCoachingEntrnce(sessionId, myUserName.value)
-  const newParticipant = {
-    id: response.memberId,
-    memberName: response.memberName,
-    imageUrl: response.memberProfileUrl,
-    profileText: response.memberProfileText
-  }
-  const inParticipantsFind = participants.value.find((participant) => participant.id === newParticipant.id)
-  if (inParticipantsFind === undefined) participants.value.push(newParticipant)
+  // const newParticipant = {
+  //   id: response.memberId,
+  //   memberName: response.memberName,
+  //   imageUrl: response.memberProfileUrl,
+  //   profileText: response.memberProfileText
+  // }
+  // console.log('participants : ', participants)
+  // console.log('new participants : ', newParticipant)
+  // const inParticipantsFind = participants.value.find((participant) => participant.id === newParticipant.id)
+  // console.log(inParticipantsFind)
+  // if (inParticipantsFind === undefined) participants.value.push(newParticipant)
   return response.token
 }
 
