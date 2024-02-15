@@ -25,7 +25,6 @@ const regist = () => {
   postRequestElevation(
     dto,
     (success) => {
-      console.log(success)
       Swal.fire({
         icon: 'success',
         title: '등록 완료!',
@@ -37,7 +36,6 @@ const regist = () => {
       })
     },
     (fail) => {
-      console.log(fail)
       Swal.fire({
         icon: 'error',
         title: '등록 실패!',
@@ -54,7 +52,7 @@ onBeforeMount(() => {
       if (success.data === '') isAlreadyRegistered.value = false
       else contentHTML.value = success.data.htmlDocs
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 })
 </script>

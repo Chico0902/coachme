@@ -39,7 +39,7 @@ const refreshInterceptor = authAxios.interceptors.response.use(
       if (fail.response.status === 401) {
         // 엑세스 토큰 만료일 경우, 토큰 재발급 요청
         if (fail.response.data.message === 'Access Token Expired') {
-          console.log('access token expired')
+          console.error('access token expired')
           await getRefresh()
           fail.config.headers.Authorization = `Bearer ${getAccessToken()}`
           authAxios.interceptors.response.eject(refreshInterceptor)

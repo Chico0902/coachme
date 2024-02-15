@@ -37,10 +37,9 @@ export const useChatStore = defineStore('chatStatus', () => {
     getMyDmRooms(
       myLongId.value,
       (success) => {
-        console.log(success)
         chatList.value = success.data.list
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
   }
 
@@ -54,7 +53,7 @@ export const useChatStore = defineStore('chatStatus', () => {
       (success) => {
         chats.value = success.data.list
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
     useDmWindow.value = true
   }
@@ -82,11 +81,10 @@ export const useChatStore = defineStore('chatStatus', () => {
       myLongId.value,
       coachId.value,
       (success) => {
-        console.log(success)
         chats.value = success.data.dmList
         roomId.value = success.data.roomId
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
     useDmWindow.value = true
   }

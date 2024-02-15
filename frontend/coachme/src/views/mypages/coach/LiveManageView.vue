@@ -30,7 +30,6 @@ const now = computed(() => {
   return `${nowObject.getFullYear()}-${nowMonth}-${nowDate}`
 })
 const date = ref(now.value)
-console.log(date.value)
 
 /**
  * METHODS
@@ -96,9 +95,8 @@ function getLiveCoachingStudent(coachingId) {
     coachingId,
     (success) => {
       students.value = success.data.list
-      console.log(success)
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 }
 
@@ -106,10 +104,9 @@ onBeforeMount(() => {
   getLiveCoachingCalendar(
     longId,
     (success) => {
-      console.log(success)
       parseLiveCoachingData(success.data.list)
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 })
 watch(
@@ -136,13 +133,11 @@ const startLiveCoaching = (liveCoachingId) => {
       getStartLiveCoaching(
         liveCoachingId,
         (success) => {
-          console.log(success)
           Swal.fire('성공', '화상회의 페이지로 이동합니다.', 'success').then(() => {
             router.push(`/live/${liveCoachingId}/${longId}`)
           })
         },
         (fail) => {
-          console.log(fail)
           Swal.fire('에러', '라이브 코칭 시작에 실패했습니다.', 'error')
         }
       )

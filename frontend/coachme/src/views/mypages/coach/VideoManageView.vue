@@ -66,21 +66,19 @@ onBeforeMount(() => {
   getVideoList(
     longId.value,
     (success) => {
-      console.log(success)
       videos.value = success.data.list
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
     }
   )
   // 모든 코칭들 조회
   getMyCoaching(
     longId.value,
     (success) => {
-      console.log(success)
       coachings.value = success.data.list
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 })
 
@@ -89,11 +87,10 @@ const uploadNewVideo = () => {
     longId.value,
     { videoFile: newVideoFile.value, fileName: newVideoFileName.value, coachingId: registVideoCoachingId.value },
     (success) => {
-      console.log(success)
       alert('영상 등록완료')
       window.location.reload()
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 }
 </script>

@@ -26,7 +26,6 @@ let MAX_DEFAULT_MOVE
 // card animation
 
 onMounted(() => {
-  console.log(cards)
   if (cards.value.length > 0) {
     frame = document.querySelector('.frame')
 

@@ -39,9 +39,7 @@ onBeforeMount(() => {
       myLongId.value,
       props.coachId,
       (success) => {
-        console.log(success)
         likeState.value = success.data.islike
-        console.log(likeState.value)
         resolve()
       },
       (fail) => reject(fail)
@@ -57,7 +55,7 @@ const changeState = () => {
       (success) => {
         console.log(success)
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
     likeState.value = !likeState.value
   } else {
@@ -67,7 +65,7 @@ const changeState = () => {
       (success) => {
         console.log(success)
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
     likeState.value = !likeState.value
   }

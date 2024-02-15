@@ -41,7 +41,6 @@ onBeforeUnmount(() => {
 
 async function connectAndSubscribe() {
   try {
-    console.log('connecting!')
     await connectWebSocket() // WebSocket 연결을 기다림
     subscribeRoom() // WebSocket 연결 완료 후에 방에 구독
   } catch (error) {
@@ -61,7 +60,6 @@ function connectWebSocket() {
         }
       })
       client.value.onConnect = (frame) => {
-        console.log('STOMP 클라이언트와 연결되었습니다:', frame)
         connected.value = true
         resolve()
       }
@@ -82,11 +80,9 @@ function disconnect() {
     client.value.deactivate()
     client.value = null
     connected.value = false
-    console.log('연결이 해제되었습니다.')
   }
 }
 function subscribeRoom() {
-  console.log('방을 구독합니다.')
   if (!connected.value) {
     console.error('소켓 연결을 먼저 시작해주세요.')
     return
@@ -97,7 +93,6 @@ function subscribeRoom() {
   }
   client.value.subscribe(`/topic/room/${roomId.value}`, (message) => {
     const newMessageBody = JSON.parse(message.body)
-    console.log('메시지를 받았습니다:', newMessageBody)
     chats.value.push(newMessageBody)
   })
   roomJoined.value = true
@@ -108,7 +103,6 @@ function sendMessage() {
     console.error('소켓 연결을 먼저 시작해주세요.')
     return
   }
-  console.log(roomId.value)
   if (newMessage.value === '' || roomId.value === '') {
     console.error('메시지와 방 번호를 입력해주세요.')
     return
