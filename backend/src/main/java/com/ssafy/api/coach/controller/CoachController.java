@@ -238,7 +238,4 @@ public class CoachController {
     return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 
-
-
-
 }
