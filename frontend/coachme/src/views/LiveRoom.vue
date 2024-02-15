@@ -36,6 +36,7 @@ const route = useRoute()
 const coachingTitle = `${route.params.id}번 라이브 방` // 코칭 제목
 const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, profileText: profileText }
 const coachId = route.params.coachId
+const iAmCoach = longId == coachId
 const participants = computed(() => {
   const ret = []
   subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
@@ -168,6 +169,7 @@ watch(
   subscribers,
   () => {
     // 코치id 찾기, 코치 아닌애들은 코미배열에 넣기
+    console.log(subscribers.value)
     if (subscribers.value.length == undefined) return
     coameStreams.value = []
     subscribers.value.forEach((subscriber) => {
@@ -178,10 +180,13 @@ watch(
         // 코미 id 겹치는지 확인하고 집어넣기
         if (coameStreams.value.length === 0) coameStreams.value.push(subscriber)
         else
-          coameStreams.value.forEach((coameStream) => {
+          coameStreams.value.forEach((coameStream, index) => {
             const coameClientData = JSON.parse(coameStream.stream.connection.data)
             const coameId = coameClientData.clientData.id
+            // 코미id가 안겹칠때는 그냥 넣음
             if (coameId != userId) coameStreams.value.push(subscriber)
+            // 겹칠때는 교체하기
+            else coameStreams.value.splice(index, 1, subscriber)
           })
       }
     })
@@ -409,7 +414,16 @@ const changeLayoutCount = () => {
           </div>
           <div class="coame-layout-three">
             <div class="coame-layout-three-flex">
-              <div class="coame-layout-three-inner"><UserVideo :stream-manager="coameMainStreamOne"></UserVideo></div>
+              <div class="coame-layout-three-inner">
+                <!-- 코치는 오른쪽 코미들로 채우기 -->
+                <template v-if="iAmCoach">
+                  <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
+                </template>
+                <!-- 코미는 오른쪽 위 본인으로 채우기 -->
+                <template v-else>
+                  <UserVideo :stream-manager="mainStreamManager"></UserVideo>
+                </template>
+              </div>
               <div class="coame-layout-three-inner"><UserVideo :stream-manager="coameMainStreamTwo"></UserVideo></div>
             </div>
           </div>
