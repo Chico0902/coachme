@@ -88,7 +88,6 @@ export default {
 
     // 참가자 메서드
     showParticipants() {
-      console.log(this.participants)
       this.showParticipantsList = !this.showParticipantsList
     }
   }

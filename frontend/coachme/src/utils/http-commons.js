@@ -39,7 +39,7 @@ const refreshInterceptor = authAxios.interceptors.response.use(
       if (fail.response.status === 401) {
         // 엑세스 토큰 만료일 경우, 토큰 재발급 요청
         if (fail.response.data.message === 'Access Token Expired') {
-          console.log('access token expired')
+          console.error('access token expired')
           await getRefresh()
           fail.config.headers.Authorization = `Bearer ${getAccessToken()}`
           authAxios.interceptors.response.eject(refreshInterceptor)
@@ -53,7 +53,7 @@ const refreshInterceptor = authAxios.interceptors.response.use(
           alert('리프레쉬 토큰이 없습니다.')
           router.push('/login')
           return Promise.reject(fail)
-        } else if (fail.response.data.message === 'Refresh Token is Forged') {
+        } else if (fail.response.data.message === 'Refresh Token Forged') {
           alert('리프레쉬 토큰이 변경되었습니다.')
           router.push('/login')
           return Promise.reject(fail)

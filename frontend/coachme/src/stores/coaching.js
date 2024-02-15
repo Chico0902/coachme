@@ -35,7 +35,6 @@ export const useCoachingStore = defineStore('coaching', () => {
     // 반응형 변수 변경
     selectedMainCategory.value = mainCatagoryName
     subCategories.value = sideButtonList[subCategoryIndex]
-    console.log({ words: keyword, loginMemberId })
 
     // 데이터 받아오기
     postCoachingsByCategory(
@@ -44,9 +43,8 @@ export const useCoachingStore = defineStore('coaching', () => {
       { words: keyword, loginMemberId },
       (success) => {
         coachings.value = success.data.list
-        console.log(success)
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
   }
 

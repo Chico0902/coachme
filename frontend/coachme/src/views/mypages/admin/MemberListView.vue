@@ -32,7 +32,7 @@ onBeforeMount(() => {
       rows.value = success.data.data
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
     }
   )
 })

@@ -54,32 +54,25 @@ const login = (id, pw) => {
   postLoginRequest(
     dto,
     (success) => {
-      console.log(success)
       accessToken.value = success.headers['authorization']
       longId.value = decodeToken(success.headers['authorization']).longId
       isLogin.value = true
       profileImageUrl.value = success.data.profileImageUrl
       profileText.value = success.data.profileText
       Swal.fire({
-        // position: "top-end",
         icon: 'success',
         title: '로그인 성공',
         showConfirmButton: false,
         timer: 1500
       })
-      // 기존코드
-      // alert('로그인 성공')
       router.push('/')
     },
     (error) => {
-      console.log(error)
       Swal.fire({
         icon: 'error',
         title: '저런...',
         text: '로그인 실패'
       })
-      //기존코드
-      // alert('로그인 실패')
     }
   )
 }

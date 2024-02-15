@@ -25,11 +25,17 @@ export const useChatStore = defineStore('chatStatus', () => {
     if (auth != undefined) {
       const isLogin = JSON.parse(auth).isLogin
       if (isLogin === false) {
-        alert('로그인이 필요합니다.')
+        Swal.fire({
+          title: '로그인이 필요합니다.',
+          icon: 'warning',
+        })
         return
       }
     } else {
-      alert('로그인이 필요합니다.')
+      Swal.fire({
+        title: '로그인이 필요합니다.',
+        icon: 'warning',
+      })
       return
     }
     myLongId.value = decodeToken(getAccessToken()).longId
@@ -37,10 +43,9 @@ export const useChatStore = defineStore('chatStatus', () => {
     getMyDmRooms(
       myLongId.value,
       (success) => {
-        console.log(success)
         chatList.value = success.data.list
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
   }
 
@@ -54,7 +59,7 @@ export const useChatStore = defineStore('chatStatus', () => {
       (success) => {
         chats.value = success.data.list
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
     useDmWindow.value = true
   }
@@ -66,11 +71,17 @@ export const useChatStore = defineStore('chatStatus', () => {
     if (auth != undefined) {
       const isLogin = JSON.parse(auth).isLogin
       if (isLogin === false) {
-        alert('로그인이 필요합니다.')
+        Swal.fire({
+          title: '로그인이 필요합니다.',
+          icon: 'warning',
+        })
         return
       }
     } else {
-      alert('로그인이 필요합니다.')
+      Swal.fire({
+        title: '로그인이 필요합니다.',
+        icon: 'warning',
+      })
       return
     }
     myLongId.value = decodeToken(getAccessToken()).longId
@@ -82,11 +93,10 @@ export const useChatStore = defineStore('chatStatus', () => {
       myLongId.value,
       coachId.value,
       (success) => {
-        console.log(success)
         chats.value = success.data.dmList
         roomId.value = success.data.roomId
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
     useDmWindow.value = true
   }

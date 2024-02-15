@@ -8,7 +8,6 @@ const { longId } = memberStore
 const props = defineProps({ timeTable: Object })
 
 const apply = (id) => {
-  console.log(longId)
   getApplyLiveCoaching(
     id,
     longId,
@@ -21,7 +20,7 @@ const apply = (id) => {
       }
     },
     (fail) => {
-      console.log(fail)
+      console.error(fail)
       if (fail.response.status === 500 && fail.response.data.message === 'sign up duplicated') {
         Swal.fire({
           icon: 'info',

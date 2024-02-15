@@ -1,7 +1,7 @@
 <script setup>
 import labels from '../atoms/CardLabel.vue'
 import { getMainVideo } from '@/utils/api/coaching-api'
-import { postEditToAI } from '@/utils/api/ai-api'
+import Swal from 'sweetalert2'
 
 const props = defineProps({
   label: {
@@ -43,27 +43,22 @@ const setVideo = () => {
     props.coachingId,
     props.videoId,
     (success) => {
-      console.log(success.data)
-      alert('대표 영상으로 등록되었습니다.')
+      Swal.fire({
+        icon: 'success',
+        title: '대표 영상으로 등록되었습니다.'
+      })
     },
     (fail) => {
-      console.log(fail.data)
-      alert('대표 영상 등록이 실패하였습니다.')
+      Swal.fire({
+        icon: 'error',
+        title: '대표 영상 등록 실패',
+        text: '대표 영상 등록이 실패하였습니다.'
+      })
     }
   )
 }
-
-const editToAI = () => {
-  console.log(props.video)
-  const urlKeys = props.video.split('/')
-  const urlKey = urlKeys[urlKeys.length - 1]
-  const noExtend = urlKey.split('.')[0]
-  console.log(noExtend)
-  postEditToAI(
-    { key: noExtend },
-    (success) => console.log(success),
-    (fail) => console.log(fail)
-  )
+const downloadVideo = () => {
+  window.open(props.video)
 }
 </script>
 
@@ -93,10 +88,10 @@ const editToAI = () => {
           <q-btn padding="xs" color="amber-7" icon="check" @click="setVideo">
             <q-tooltip class="bg-blue">대표 영상으로 설정하기</q-tooltip>
           </q-btn>
-          <q-btn padding="xs" icon="download" color="amber-7">
+          <q-btn padding="xs" icon="download" @click="downloadVideo" color="amber-7">
             <q-tooltip class="bg-blue">다운로드</q-tooltip>
           </q-btn>
-          <q-btn padding="xs" color="blue-10" @click="editToAI">
+          <q-btn padding="xs" color="blue-10" @click="$emit('editToAiEmit', props.video, props.coachingId)">
             <span class="material-symbols-outlined"> smart_toy </span>
             <q-tooltip class="bg-blue">AI에게 편집 요청하기</q-tooltip>
           </q-btn>
