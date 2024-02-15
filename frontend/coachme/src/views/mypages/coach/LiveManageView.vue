@@ -6,7 +6,7 @@ import { getLiveCoachingCalendar } from '@/utils/api/coach-api'
 import { getLiveCoachingCoame } from '@/utils/api/coaching-api'
 import { getStartLiveCoaching } from '@/utils/api/livecoaching-api'
 import router from '@/router'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 /**
  * VARIABLES
@@ -136,19 +136,19 @@ const startLiveCoaching = (liveCoachingId) => {
       getStartLiveCoaching(
         liveCoachingId,
         (success) => {
-          console.log(success);
+          console.log(success)
           Swal.fire('성공', '화상회의 페이지로 이동합니다.', 'success').then(() => {
-            router.push(`/live/${liveCoachingId}`);
-          });
+            router.push(`/live/${liveCoachingId}/${longId}`)
+          })
         },
         (fail) => {
-          console.log(fail);
-          Swal.fire('에러', '라이브 코칭 시작에 실패했습니다.', 'error');
+          console.log(fail)
+          Swal.fire('에러', '라이브 코칭 시작에 실패했습니다.', 'error')
         }
-      );
+      )
     }
-  });
-};
+  })
+}
 </script>
 <template>
   <div class="outside">

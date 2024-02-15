@@ -2,8 +2,8 @@
 import LiveMenuList from '@/components/molecules/LiveMenuList.vue'
 import CoachUserVideo from '@/components/openvidu/UserVideo-coach.vue'
 import CoameUserVideo from '@/components/openvidu/UserVideo-coame.vue'
-import LiveChat from '@/components/molecules/LiveChat.vue'
 import profile from '@/components/atoms/ProfileImage.vue'
+import LiveChat from '@/components/molecules/LiveChat.vue'
 import router from '@/router'
 import Swal from 'sweetalert2'
 import { ref, onBeforeMount, computed, onBeforeUnmount } from 'vue'
@@ -34,8 +34,9 @@ const { longId, profileText, profileImageUrl } = memberStore
 const route = useRoute()
 
 // local variable
-const coachingTitle = ref('이것만 알면 당신도 할 수 있다.') // 코칭 제목
+const coachingTitle = `${route.params.id}번 라이브 방` // 코칭 제목
 const myData = { id: longId, memberName: myName, imageUrl: profileImageUrl, profileText: profileText }
+const coachId = route.params.coachId
 const participants = computed(() => {
   const ret = []
   subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
@@ -67,6 +68,8 @@ const screensharing = ref(false)
 // for recording
 const recordingId = ref('')
 
+// for coaching video
+const coachMainVideo = ref(undefined)
 /**
  * METHODS
  */
@@ -74,7 +77,6 @@ const recordingId = ref('')
 // 채팅창 보여주기
 const changeChatStatus = (status) => {
   isChatOpen.value = status.chat
-  isPeopleOpen.value = status.people
 }
 
 // 회의 참석자 목록 보여주기
@@ -136,27 +138,29 @@ const exit = async () => {
     })
   }
 
-  if (isSave) {
-    getRecordFinish(
-      mySessionId,
-      (success) => {
-        console.log(success)
+  getRecordFinish(
+    mySessionId,
+    (success) => {
+      console.log(success)
+      if (isSave)
         new Promise((resolve) => {
           success.data.list.forEach((url) => window.open(url))
           resolve()
         })
           .then(() => {
             leaveSession()
-            router.push('/')
+            router.push('/mypage-coach/live')
           })
           .catch((fail) => console.log(fail))
-      },
-      (fail) => console.log(fail)
-    )
-  } else {
-    leaveSession()
-    router.push('/')
-  }
+      else {
+        leaveSession()
+        router.push('/mypage-coach/live')
+      }
+    },
+    (fail) => {
+      console.log(fail)
+    }
+  )
 }
 
 onBeforeMount(() => {
@@ -201,6 +205,12 @@ function joinSession() {
       const clientData = metadata.clientData
       console.log(clientData)
       subscribers.value.push(subscriber)
+      subscribers.value.forEach((subscriber) => {
+        console.log(subscriber)
+        const newId = JSON.parse(subscriber.stream.connection.data)
+        console.log(newId.clientData.id)
+        if (newId.clientData.id == coachId) coachMainVideo.value = subscriber
+      })
     }
   })
 
@@ -260,6 +270,7 @@ function joinSession() {
 
         // Set the main video in the page to display our webcam and store our Publisher
         mainStreamManager.value = publisher.value
+        coachMainVideo.value = publisher.value
         subscribers.value.push(publisher.value)
 
         // --- 6) Publish your stream ---
@@ -333,37 +344,38 @@ async function getToken(mySessionId) {
         <!-- 코치 화면 -->
         <div class="coach">
           <!-- <div style="max-width: 5vw;"> -->
-      <CoachUserVideo id="main-video" :stream-manager="mainStreamManager"  />
-    <!-- </div> -->
-    </div>
+          <CoachUserVideo id="main-video" :stream-manager="coachMainVideo" />
+          <!-- </div> -->
+        </div>
 
         <!-- <div class="person" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
           <UserVideo :stream-manager="sub" />
         </div> -->
         <!-- 코미 화면 -->
         <div class="coame-container">
-      <div class="coame element-with-scrollbar">
-        <div v-for="(sub, index) in subscribers" :key="sub.stream.connection.connectionId">
-          <CoameUserVideo :stream-manager="sub" v-show="index !== 0" />
+          <div class="coame element-with-scrollbar">
+            <div v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
+              <CoameUserVideo :stream-manager="sub" />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
         <!-- 채팅 -->
-        <q-layout
-          v-if="isChatOpen"
-          view="lHh Lpr lFf"
-          container
-          style="height: 70vh; width: 30rem"
-          class="shadow-2 rounded-borders dm-window-container"
-        >
-          <q-page-container>
-            <LiveChat :directMessage="dm" :myId="id" @chatOff="isChatOpen = false"></LiveChat>
-          </q-page-container>
-        </q-layout>
+        <div v-show="isChatOpen">
+          <q-layout
+            view="lHh Lpr lFf"
+            container
+            style="height: 70vh; width: 30rem"
+            class="shadow-2 rounded-borders dm-window-container"
+          >
+            <q-page-container>
+              <LiveChat :mySessionId="mySessionId" @chatOff="isChatOpen = false"></LiveChat>
+            </q-page-container>
+          </q-layout>
+        </div>
 
         <!-- 참가자 리스트 -->
-        <div v-else-if="isPeopleOpen" class="people">
+        <div v-if="isPeopleOpen" class="people">
           <template v-for="participant in participants" :key="participant.id">
             <q-item clickable v-ripple>
               <q-item-section avatar>
@@ -401,7 +413,7 @@ async function getToken(mySessionId) {
 </template>
 
 <style scoped>
-#main-video{
+#main-video {
   min-width: 100%;
 }
 
@@ -462,8 +474,8 @@ async function getToken(mySessionId) {
   text-align: center;
   flex-direction: row;
   -ms-overflow-style: none;
-  overflow: hidden; 
-  flex: 1; 
+  overflow: hidden;
+  flex: 1;
 }
 .coach::-webkit-scrollbar {
   width: 10px;

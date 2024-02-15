@@ -121,20 +121,6 @@ const deleteProfileImg = () => {
   })
 }
 
-// 프로필 이미지 삭제 기존코드
-// const deleteProfileImg = () => {
-//   if (confirm('이미지를 삭제하시겠습니까?')) {
-//     deleteProfileImage(
-//       longId,
-//       () => {
-//         alert('프로필 이미지 삭제완료')
-//         profileImageUrl.value = '/assets/icons/coame.png'
-//       },
-//       (fail) => console.log(fail)
-//     )
-//   }
-// }
-
 function changeProfileText(newProfileText) {
   Swal.fire({
     title: '프로필 변경',
@@ -159,32 +145,15 @@ function changeProfileText(newProfileText) {
   })
 }
 
-// 프로필 글 수정 기존코드
-// function changeProfileText(newProfileText) {
-//   console.log(newProfileText)
-//   if (confirm('프로필을 변경하시겠습니까?')) {
-//     const dto = new ProfileTextRequestDto(newProfileText)
-//     postProfileText(
-//       longId,
-//       dto,
-//       () => {
-//         alert('프로필 변경 완료')
-//         profileText.value = newProfileText
-//       },
-//       (fail) => console.log(fail)
-//     )
-//   }
-// }
-
 // 회원정보 수정
 const changeMemberInfo = (pw, newNick, newEmail) => {
   // 정상요청 검증
   if (!(validatePassword(pw) && validateNickName(newNick))) {
     Swal.fire({
-      position: "top",
-      title: "유효하지 않은 입력값이 있습니다.",
-      icon: "info"
-    });
+      position: 'top',
+      title: '유효하지 않은 입력값이 있습니다.',
+      icon: 'info'
+    })
     // alert('유효하지 않은 입력값이 있습니다.')
     return
   }
