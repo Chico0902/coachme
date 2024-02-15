@@ -6,7 +6,7 @@ import profile from '@/components/atoms/ProfileImage.vue'
 import LiveChat from '@/components/molecules/LiveChat.vue'
 import router from '@/router'
 import Swal from 'sweetalert2'
-import { ref, onBeforeMount, computed, onBeforeUnmount } from 'vue'
+import { ref, onBeforeMount, computed, onBeforeUnmount, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { OpenVidu } from 'openvidu-browser'
 import {
@@ -42,7 +42,6 @@ const participants = computed(() => {
   subscribers.value.forEach((subscriber) => ret.push(JSON.parse(subscriber.stream.connection.data).clientData))
   return ret
 }) // 참가자 목록
-const dm = ref([]) // 채팅 목록
 
 // for render
 const isChatOpen = ref(false)
@@ -163,6 +162,21 @@ const exit = async () => {
   )
 }
 
+watch(
+  subscribers,
+  () => {
+    // 코치id 찾기, 코치 아닌애들은 코미배열에 넣기
+    if (subscribers.value.length == undefined) return
+    subscribers.value.forEach((subscriber) => {
+      const clientData = JSON.parse(subscriber.stream.connection.data)
+      const userId = clientData.clientData.id
+      if (userId == coachId) coachMainStream.value = subscriber
+      else coameStreams.value.push(subscriber)
+    })
+  },
+  { deep: true }
+)
+
 onBeforeMount(() => {
   // 최초 입장 시 오픈비두 라이브 채팅방에 접속
   console.log(route.params.id)
@@ -205,12 +219,6 @@ function joinSession() {
       const clientData = metadata.clientData
       console.log(clientData)
       subscribers.value.push(subscriber)
-      subscribers.value.forEach((subscriber) => {
-        console.log(subscriber)
-        const newId = JSON.parse(subscriber.stream.connection.data)
-        console.log(newId.clientData.id)
-        if (newId.clientData.id == coachId) coachMainVideo.value = subscriber
-      })
     }
   })
 
