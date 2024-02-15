@@ -192,7 +192,6 @@ watch(
 watch(
   coameStreams,
   () => {
-    console.log(coameStreams.value)
     switch (coameStreams.value.length) {
       case 0:
         return
@@ -200,9 +199,9 @@ watch(
         coameMainStreamOne.value = coameStreams.value[0]
         return
       }
-      case 2: {
+      default: {
         coameMainStreamOne.value = coameStreams.value[0]
-        coameMainStreamOne.value = coameStreams.value[1]
+        coameMainStreamTwo.value = coameStreams.value[1]
         return
       }
     }
