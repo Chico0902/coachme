@@ -168,7 +168,6 @@ watch(
   subscribers,
   () => {
     // 코치id 찾기, 코치 아닌애들은 코미배열에 넣기
-    console.log(subscribers.value)
     if (subscribers.value.length == undefined) return
     coameStreams.value = []
     subscribers.value.forEach((subscriber) => {
@@ -218,7 +217,6 @@ watch(
 
 onBeforeMount(() => {
   // 최초 입장 시 오픈비두 라이브 채팅방에 접속
-  console.log(route.params.id)
   joinSession()
   // 해당 방 참가자 목록 받아오기
 })
@@ -232,14 +230,12 @@ onBeforeUnmount(() => {
  */
 
 function updateScreenSharing(value) {
-  console.log('update toggle-----------------', value)
   screensharing.value = value
 }
 
 // 띄워줄 stream이 value로 들어옴!!!
 function updatePublisher(value) {
   screenPublisher.value = value
-  console.log('화면공유 됐나??--------------------------', screenPublisher)
 }
 
 function joinSession() {
@@ -288,6 +284,7 @@ function joinSession() {
       subscribers.value.splice(index, 1)
     }
     screenShare.value = undefined
+    screensharing.value = false
   })
 
   // On every asynchronous exception...
@@ -378,21 +375,15 @@ async function getToken(mySessionId) {
 }
 
 const changeCoameTwo = (selectedCoameId) => {
-  console.log(selectedCoameId)
-  console.log(subscribers.value)
-  if (subscribers.value.length === 0) return
-  subscribers.value.forEach((subscriber) => {
-    const coameClientData = JSON.parse(subscriber.stream.connection.data)
+  if (coameStreams.value.length === 0) return
+  coameStreams.value.forEach((coameStream) => {
+    const coameClientData = JSON.parse(coameStream.stream.connection.data)
     const coameId = coameClientData.clientData.id
-    console.log(selectedCoameId + '  --------   ' + coameId)
-    if (coameId == selectedCoameId) coameMainStreamTwo.value = subscriber
-    console.log(coameMainStreamTwo.value)
+    if (coameId == selectedCoameId) coameMainStreamTwo.value = coameStream
   })
 }
 
-/**
- * FOR TEST!!!!
- */
+// 창 변경
 const layoutCount = ref(1)
 const changeLayoutCount = () => {
   if (layoutCount.value < 4) layoutCount.value++
