@@ -113,7 +113,6 @@ export function postNewCoaching(longId, dto, success, fail) {
  * URI : /coaches/{longId(member)}/coachings
  * 권한 : 2
  * 설명 : 코치가 자신의 코칭 정보를 조회한다.
- * @param {String} token accessToken(pinia 사용시 accessToken.value)
  * @param {Number} longId 사용자(코치) pk
  * @param {Promise} success
  * 설명 : 정상 개설완료
