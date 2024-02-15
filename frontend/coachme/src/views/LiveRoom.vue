@@ -406,7 +406,7 @@ const changeLayoutCount = () => {
             <UserVideo :stream-manager="coachMainStream"></UserVideo>
           </div>
           <div class="coame-layout-two">
-            <!-- 코치는 오른쪽 코미로 채우기 -->
+            <!-- 코치는 오른쪽 코미들로 채우기 -->
             <template v-if="iAmCoach">
               <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
             </template>
@@ -430,13 +430,14 @@ const changeLayoutCount = () => {
                 <!-- 코치는 오른쪽 코미들로 채우기 -->
                 <template v-if="iAmCoach">
                   <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
+                  <UserVideo :stream-manager="coameMainStreamTwo"></UserVideo>
                 </template>
                 <!-- 코미는 오른쪽 위 본인으로 채우기 -->
                 <template v-else>
                   <UserVideo :stream-manager="mainStreamManager"></UserVideo>
+                  <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
                 </template>
               </div>
-              <div class="coame-layout-three-inner"><UserVideo :stream-manager="coameMainStreamTwo"></UserVideo></div>
             </div>
           </div>
         </div>
