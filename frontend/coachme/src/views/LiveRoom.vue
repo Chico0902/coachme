@@ -183,8 +183,10 @@ watch(
           coameStreams.value.forEach((coameStream, index) => {
             const coameClientData = JSON.parse(coameStream.stream.connection.data)
             const coameId = coameClientData.clientData.id
+            // 본인이름이랑 겹치면 안넣음
+            if (coameId == longId) return
             // 코미id가 안겹칠때는 그냥 넣음
-            if (coameId != userId) coameStreams.value.push(subscriber)
+            else if (coameId != userId) coameStreams.value.push(subscriber)
             // 겹칠때는 교체하기
             else coameStreams.value.splice(index, 1, subscriber)
           })
@@ -206,6 +208,7 @@ watch(
       }
       default: {
         coameMainStreamOne.value = coameStreams.value[0]
+        console.log(coameMainStreamTwo.value)
         coameMainStreamTwo.value = coameStreams.value[1]
         return
       }
@@ -399,9 +402,18 @@ const changeLayoutCount = () => {
       <template v-if="layoutCount === 2">
         <!-- {{ coameStreams }} -->
         <div class="layout-two">
-          <div class="coach-layout-two"><UserVideo :stream-manager="coachMainStream"></UserVideo></div>
+          <div class="coach-layout-two">
+            <UserVideo :stream-manager="coachMainStream"></UserVideo>
+          </div>
           <div class="coame-layout-two">
-            <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
+            <!-- 코치는 오른쪽 코미로 채우기 -->
+            <template v-if="iAmCoach">
+              <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
+            </template>
+            <!-- 코미는 오른쪽 본인으로 채우기 -->
+            <template v-else>
+              <UserVideo :stream-manager="mainStreamManager"></UserVideo>
+            </template>
           </div>
         </div>
       </template>
