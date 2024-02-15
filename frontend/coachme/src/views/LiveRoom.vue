@@ -176,11 +176,13 @@ watch(
       if (userId == coachId) coachMainStream.value = subscriber
       else {
         // 코미 id 겹치는지 확인하고 집어넣기
-        coameStreams.value.forEach((coameStream) => {
-          const coameClientData = JSON.parse(coameStream.stream.connection.data)
-          const coameId = coameClientData.clientData.id
-          if (coameId != userId) coameStreams.value.push(subscriber)
-        })
+        if (coameStreams.value.length === 0) coameStreams.value.push(subscriber)
+        else
+          coameStreams.value.forEach((coameStream) => {
+            const coameClientData = JSON.parse(coameStream.stream.connection.data)
+            const coameId = coameClientData.clientData.id
+            if (coameId != userId) coameStreams.value.push(subscriber)
+          })
       }
     })
   },
@@ -190,6 +192,7 @@ watch(
 watch(
   coameStreams,
   () => {
+    console.log(coameStreams.value)
     switch (coameStreams.value.length) {
       case 0:
         return
