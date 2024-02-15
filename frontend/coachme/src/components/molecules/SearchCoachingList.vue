@@ -17,7 +17,6 @@ import { storeToRefs } from 'pinia'
 const chatStore = useChatStore()
 const coachingStore = useCoachingStore()
 const { coachings } = storeToRefs(coachingStore)
-console.log(coachings)
 
 // function
 const { openChatByMemberId } = chatStore

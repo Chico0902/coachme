@@ -145,7 +145,6 @@ const exit = async () => {
   getRecordFinish(
     mySessionId,
     (success) => {
-      console.log(success)
       if (isSave)
         new Promise((resolve) => {
           success.data.list.forEach((url) => window.open(url))

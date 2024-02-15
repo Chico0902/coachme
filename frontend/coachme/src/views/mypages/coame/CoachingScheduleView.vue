@@ -23,7 +23,6 @@ const now = computed(() => {
   return `${nowObject.getFullYear()}-${nowMonth}-${nowDate}`
 })
 const date = ref(now.value)
-console.log(date.value)
 
 // 로컬변수
 const liveCoachings_ = ref([])
@@ -112,10 +111,9 @@ onBeforeMount(() => {
   getCoameLiveCoachingCalendar(
     longId,
     (success) => {
-      console.log(success)
       parseLiveCoachingData(success.data.list)
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 })
 

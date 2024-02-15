@@ -39,7 +39,6 @@ const memberStore = useMemberStore()
 const { accessToken, isLogin } = storeToRefs(authStore)
 const { profileText, profileImageUrl, longId } = storeToRefs(memberStore)
 const username = computed(() => {
-  console.log(decodeToken(accessToken.value))
   if (accessToken.value != '') return decodeToken(accessToken.value).name
   else return ''
 })
@@ -98,24 +97,18 @@ onBeforeMount(() => {
     // API호출이 성공했을떄
     (success) => {
       popularCoachingList.value = success.data.list
-      console.log(popularCoachingList.value)
     },
     // API호출이 실패했을때
     (fail) => {
-      console.log(fail)
-      console.log('check')
     }
   )
   getPopularCoachList(
     // API호출이 성공했을떄
     (success) => {
       popularCoachList.value = success.data.list
-      console.log(popularCoachList.value)
     },
     // API호출이 실패했을때
     (fail) => {
-      console.log(fail)
-      console.log('checkcoach')
     }
   )
 })

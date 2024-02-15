@@ -23,7 +23,7 @@ const getToken = () => {
     .then(() => {
       console.log($cookies.get('accessToken'))
     })
-    .catch((fail) => console.log(fail))
+    .catch((fail) => console.error(fail))
 }
 
 const postWithToken = () => {
@@ -37,7 +37,7 @@ const postWithToken = () => {
     .then(() => {
       console.log($cookies.get('refreshToken'))
     })
-    .catch((fail) => console.log(fail))
+    .catch((fail) => console.error(fail))
 }
 </script>
 <template>

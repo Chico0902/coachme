@@ -73,7 +73,7 @@ onBeforeMount(() => {
       nick.value = success.data.nick
       email.value = success.data.email
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 })
 
@@ -94,7 +94,7 @@ const changeProfileImage = (newImage) => {
         profileImageUrl.value = success.data.profileImageUrl
         changeImageModal.value = false
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
   }
 }
@@ -115,7 +115,7 @@ const deleteProfileImg = () => {
           Swal.fire('프로필 이미지 삭제 완료', '', 'success')
           profileImageUrl.value = '/assets/icons/coame.png'
         },
-        (fail) => console.log(fail)
+        (fail) => console.error(fail)
       )
     }
   })
@@ -139,7 +139,7 @@ function changeProfileText(newProfileText) {
           Swal.fire('프로필 변경 완료', '', 'success')
           profileText.value = newProfileText
         },
-        (fail) => console.log(fail)
+        (fail) => console.error(fail)
       )
     }
   })
@@ -172,7 +172,7 @@ const changeMemberInfo = (pw, newNick, newEmail) => {
     },
     // API 호출 실패 시 오류메시지 콘솔에 출력
     (fail) => {
-      console.log(fail)
+      console.error(fail)
       if (fail.response.status === 401)
         Swal.fire({
           title: '잘못된 비밀번호입니다!',

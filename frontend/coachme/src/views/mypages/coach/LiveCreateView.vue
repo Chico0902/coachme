@@ -52,12 +52,10 @@ function parseCoaching(list) {
 
 const create = () => {
   const dto = { coachingId: selectedCoaching.value.id, date: dateTime.value }
-  console.log(dto)
   postCreateLiveCoaching(
     longId,
     dto,
     (success) => {
-      console.log(success)
       Swal.fire({
         title: '생성 완료',
         text: '라이브가 생성되었습니다!',
@@ -67,7 +65,7 @@ const create = () => {
         window.location.reload()
       })
     },
-    (error) => console.log(error)
+    (error) => console.error(error)
   )
 }
 
@@ -113,19 +111,16 @@ onBeforeMount(() => {
   getMyCoaching(
     longId,
     (success) => {
-      console.log(success)
       coachings.value = parseCoaching(success.data.list)
-      console.log(coachings.value)
     },
-    (error) => console.log(error)
+    (error) => console.error(error)
   )
   getLiveCoachingCalendar(
     longId,
     (success) => {
-      console.log(success)
       parseLiveCoachingData(success.data.list)
     },
-    (fail) => console.log(fail)
+    (fail) => console.error(fail)
   )
 })
 
