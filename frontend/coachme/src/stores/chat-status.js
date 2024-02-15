@@ -25,11 +25,17 @@ export const useChatStore = defineStore('chatStatus', () => {
     if (auth != undefined) {
       const isLogin = JSON.parse(auth).isLogin
       if (isLogin === false) {
-        alert('로그인이 필요합니다.')
+        Swal.fire({
+          title: '로그인이 필요합니다.',
+          icon: 'warning',
+        })
         return
       }
     } else {
-      alert('로그인이 필요합니다.')
+      Swal.fire({
+        title: '로그인이 필요합니다.',
+        icon: 'warning',
+      })
       return
     }
     myLongId.value = decodeToken(getAccessToken()).longId
@@ -65,11 +71,17 @@ export const useChatStore = defineStore('chatStatus', () => {
     if (auth != undefined) {
       const isLogin = JSON.parse(auth).isLogin
       if (isLogin === false) {
-        alert('로그인이 필요합니다.')
+        Swal.fire({
+          title: '로그인이 필요합니다.',
+          icon: 'warning',
+        })
         return
       }
     } else {
-      alert('로그인이 필요합니다.')
+      Swal.fire({
+        title: '로그인이 필요합니다.',
+        icon: 'warning',
+      })
       return
     }
     myLongId.value = decodeToken(getAccessToken()).longId
