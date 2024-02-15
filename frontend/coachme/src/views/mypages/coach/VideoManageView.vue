@@ -1,4 +1,5 @@
 <script setup>
+import labels from '@/components/atoms/CardLabel.vue'
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import AICreateCard from '@/components/molecules/AICreateCard.vue'
 import Swal from 'sweetalert2'
@@ -265,6 +266,7 @@ const uploadAIVideo = () => {
       <q-card-section class="bg-amber-5 text-white">
         <q-item>
           <q-item-section>
+            <labels caption label="완성된 영상의 이름을 설정하세요!"></labels>
             <q-input standout="bg-primary text-white" v-model="newAIVideoFileName" label="AI 편집영상 이름" />
           </q-item-section>
         </q-item>
