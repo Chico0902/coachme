@@ -167,7 +167,6 @@ const uploadAIVideo = () => {
       <div class="editor-detail">나만의 영상을 편집하고, 게시해보세요!</div>
     </div>
     <div class="menu-bar">
-      <q-btn label="기어" @click="showWaitingEditGear"></q-btn>
       <div class="coaching-dropdown">
         <q-select
           v-model="selectedCoachingId"
@@ -194,7 +193,6 @@ const uploadAIVideo = () => {
           {{ coachingName }}
         </div>
         <div class="element-with-scrollbar">
-          <AICreateCard class="coaching-card"> </AICreateCard>
           <div v-for="(video, index) in videosGroup" :key="video.videoId" class="coaching-card">
             <template v-if="showWaitingEditGear && requestEditCoachingId == video.coachingId && index == 0">
               <AICreateCard class="coaching-card"> </AICreateCard
