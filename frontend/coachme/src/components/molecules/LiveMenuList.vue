@@ -12,7 +12,7 @@ const props = defineProps({
   participants: Array,
   OVScreen: Object,
   sessionScreen: Object,
-  screensharing: Object
+  screensharing: Boolean
 })
 
 // for change status
@@ -76,6 +76,7 @@ function publishScreenShare() {
   // --- 9.2) Publish the screen share stream only after the user grants permission to the browser
   publisherScreen.once('accessAllowed', () => {
     emit('updateScreensharing', true)
+    console.log('--------------update------------')
 
     // If the user closes the shared window or stops sharing it, unpublish the stream
     publisherScreen.stream

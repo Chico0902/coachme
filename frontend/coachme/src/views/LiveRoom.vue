@@ -231,13 +231,15 @@ onBeforeUnmount(() => {
  * For OpenVidu Session
  */
 
-function updateScreensharing(value) {
+function updateScreenSharing(value) {
+  console.log('update toggle-----------------', value)
   screensharing.value = value
 }
 
 // 띄워줄 stream이 value로 들어옴!!!
 function updatePublisher(value) {
   screenPublisher.value = value
+  console.log('화면공유 됐나??--------------------------', screenPublisher)
 }
 
 function joinSession() {
@@ -373,6 +375,19 @@ async function getToken(mySessionId) {
   return response.token
 }
 
+const changeCoameTwo = (selectedCoameId) => {
+  console.log(selectedCoameId)
+  console.log(subscribers.value)
+  if (subscribers.value.length === 0) return
+  subscribers.value.forEach((subscriber) => {
+    const coameClientData = JSON.parse(subscriber.stream.connection.data)
+    const coameId = coameClientData.clientData.id
+    console.log(selectedCoameId + '  --------   ' + coameId)
+    if (coameId == selectedCoameId) coameMainStreamTwo.value = subscriber
+    console.log(coameMainStreamTwo.value)
+  })
+}
+
 /**
  * FOR TEST!!!!
  */
@@ -440,7 +455,7 @@ const changeLayoutCount = () => {
                   <UserVideo :stream-manager="mainStreamManager"></UserVideo>
                 </div>
                 <div class="coame-layout-three-inner">
-                  <UserVideo :stream-manager="coameMainStreamOne"></UserVideo>
+                  <UserVideo :stream-manager="coameMainStreamTwo"></UserVideo>
                 </div>
               </template>
             </div>
@@ -449,10 +464,15 @@ const changeLayoutCount = () => {
       </template>
 
       <!-- 영상화면 공유 -->
-      <template v-if="layoutCount === 4 && screensharing">
-        <div class="share-layout">
-          <UserVideo :stream-manager="screenPublisher"></UserVideo>
-        </div>
+      <template v-if="layoutCount === 4">
+        <template v-if="screensharing">
+          <div class="share-layout">
+            <UserVideo :stream-manager="screenPublisher"></UserVideo>
+          </div>
+        </template>
+        <template v-else>
+          <div class="share-layout-info"><p>현재 공유중인 화면이 없습니다.</p></div>
+        </template>
       </template>
     </div>
 
@@ -464,7 +484,7 @@ const changeLayoutCount = () => {
         @start-record="startRecording"
         @stop-record="stopRecording"
         @update-publisher="updatePublisher"
-        @update-screen-sharing="updateScreensharing"
+        @update-screensharing="updateScreenSharing"
         @exit="exit"
         :iAmCoach="iAmCoach"
         :publisher="publisher"
@@ -493,7 +513,7 @@ const changeLayoutCount = () => {
   <!-- 참가자 리스트 -->
   <div v-if="isPeopleOpen" class="shadow-2 rounded-borders people">
     <template v-for="participant in participants" :key="participant.id">
-      <q-item clickable v-ripple>
+      <q-item clickable v-ripple @click="changeCoameTwo(participant.id)">
         <q-item-section avatar>
           <q-item>
             <profile :img="participant.imageUrl"></profile>
@@ -629,14 +649,23 @@ const changeLayoutCount = () => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 768px;
-  height: 546px;
+  width: 1024px;
+}
+.share-layout-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.share-layout-info p {
+  font-size: 2rem;
+  color: #004c98;
 }
 .people {
   position: absolute;
   top: 15vh;
   left: 5%;
-  background-color: #6593ff;
+  background-color: #8ebefd;
 }
 .dm-window-container {
   position: absolute;
