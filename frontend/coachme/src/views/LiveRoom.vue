@@ -269,6 +269,7 @@ function joinSession() {
     if (event.stream.typeOfVideo == 'SCREEN') {
       const subscriberScreen = sessionScreen.value.subscribe(event.stream, 'container-screens')
       screenShare.value = subscriberScreen
+      screenPublisher.value = subscriberScreen
     }
   })
 
