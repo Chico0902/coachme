@@ -1,8 +1,11 @@
 <script setup>
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
+import AICreateCard from '@/components/molecules/AICreateCard.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
+import { postEditToAI } from '@/utils/api/ai-api'
 import { getVideoList, postNewVideo, getMyCoaching } from '@/utils/api/coach-api'
+import { postAIVideo } from '@/utils/api/coaching-api'
 
 /**
  * VARIABLES
@@ -47,6 +50,7 @@ const groupedFilteredVideos = computed(() => {
     }
     grouped[video.coachingName].push(video)
   })
+  console.log(grouped)
   return grouped
 })
 
@@ -55,6 +59,13 @@ const show = ref(false)
 
 // 본인 id
 const longId = ref(-1)
+
+// ai 등록용
+const showNewVideo = ref(false)
+const saveEditModalOpen = ref(false)
+const requestEditCoachingId = ref('')
+const newAIVideoFileName = ref('')
+const newAIVideoFileUrl = ref('')
 
 /**
  * METHODS
@@ -93,6 +104,30 @@ const uploadNewVideo = () => {
     (fail) => console.error(fail)
   )
 }
+
+const editToAI = (videoUrl, coachingId) => {
+  const urlKeys = videoUrl.split('/')
+  const urlKey = urlKeys[urlKeys.length - 1]
+  const noExtend = urlKey.split('.')[0]
+  showNewVideo.value = true
+  requestEditCoachingId.value = coachingId
+  postEditToAI(
+    { key: noExtend },
+    (success) => {
+      console.log(success)
+      saveEditModalOpen.value = true
+      newAIVideoFileUrl.value = success.data.url
+    },
+    (fail) => {
+      console.error(fail)
+      showNewVideo.value = false
+    }
+  )
+}
+
+const uploadAIVideo = () => {
+  postAIVideo(requestEditCoachingId, { coachId: longId, videoName: newAIVideoFileName, url: newAIVideoFileUrl })
+}
 </script>
 <template>
   <div class="main">
@@ -127,6 +162,7 @@ const uploadNewVideo = () => {
           {{ coachingName }}
         </div>
         <div class="element-with-scrollbar">
+          <template v-if="showNewVideo"> <AICreateCard class="coaching-card"> </AICreateCard></template>
           <div v-for="video in videosGroup" :key="video.videoId" class="coaching-card">
             <CoachingCard
               :label="video.videoName"
@@ -136,6 +172,8 @@ const uploadNewVideo = () => {
               :visible="false"
               :coachingId="video.coachingId"
               :videoId="video.videoId"
+              :isAI="video.isAI"
+              @edit-to-ai-emit="editToAI"
             >
             </CoachingCard>
           </div>
@@ -175,13 +213,26 @@ const uploadNewVideo = () => {
               </template>
             </q-file>
             <q-input standout="bg-primary text-white" v-model="newVideoFileName" label="영상 이름" />
-            <q-item-label class="coaching-name">{{ coachingName }}</q-item-label>
-            <q-item-label caption class="coaching-detail">{{ coachingSummary }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-card-section>
       <q-card-actions class="modal-option" align="right">
         <q-btn flat label="등록하기" color="primary" @click="uploadNewVideo" />
+        <q-btn flat label="취소" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  <q-dialog v-model="saveEditModalOpen">
+    <q-card>
+      <q-card-section class="bg-amber-5 text-white">
+        <q-item>
+          <q-item-section>
+            <q-input standout="bg-primary text-white" v-model="newAIVideoFileName" label="AI 편집영상 이름" />
+          </q-item-section>
+        </q-item>
+      </q-card-section>
+      <q-card-actions class="modal-option" align="right">
+        <q-btn flat label="등록하기" color="primary" @click="uploadAIVideo" />
         <q-btn flat label="취소" color="primary" v-close-popup />
       </q-card-actions>
     </q-card>
@@ -226,13 +277,17 @@ const uploadNewVideo = () => {
   max-width: 100%;
   height: 38vh;
   margin-top: 2rem;
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
 }
 
 .coaching-card {
   margin: 30px 15px 30px;
+}
+
+.element-with-scrollbar {
+  width: 100%;
+  margin-left: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .card-section {
@@ -242,16 +297,8 @@ const uploadNewVideo = () => {
 
 .coaching-group-title {
   font-size: 20px;
-  text-align: center;
+  margin-left: 2rem;
   margin-bottom: 0;
-}
-
-.element-with-scrollbar {
-  overflow: hidden;
-}
-
-.element-with-scrollbar:hover {
-  overflow: auto;
 }
 .menu {
   display: flex;

@@ -221,3 +221,33 @@ export function getAllLivesInCoaching(coachingId, success, fail) {
 export function getAllCoachingVideos(coachingId, success, fail) {
   authAxios.get(`/coachings/${coachingId}/videos`).then(success).catch(fail)
 }
+
+/**
+ * API번호 : coaching-9
+ * METHOD : POST
+ * URI : /coachings/{coaching_id}/videos
+ * 권한 : 2
+ * 설명 : AI로 편집된 영상이 저장된 S3 URL을 전달받아 DB에 저장한다.
+ * @param {number} coachingId 코칭id
+ * @param {Object} dto
+ * {
+		"coachId": Long,
+		"videoName": String,
+		"url": String
+  }
+ * @param {Promise} success
+ * 설명 : 정상 조회완료
+ * 코드 : 200
+ * {
+		"message": String
+  }
+  * @param {Promise} fail
+  * 설명 : 잘못된 요청[400], 서버 오류[500]
+  * 코드 : 400, 500
+  * {
+		"message": String
+    }
+  */
+export function postAIVideo(coachingId, dto, success, fail) {
+  authAxios.post(`/coachings/${coachingId}/videos`, dto).then(success).catch(fail)
+}
