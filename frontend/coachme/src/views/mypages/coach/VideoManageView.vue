@@ -126,7 +126,7 @@ const editToAI = (videoUrl, coachingId) => {
 }
 
 const uploadAIVideo = () => {
-  postAIVideo(requestEditCoachingId, { coachId: longId, videoName: newAIVideoFileName, url: newAIVideoFileUrl })
+  postAIVideo(requestEditCoachingId.value, { coachId: longId, videoName: newAIVideoFileName, url: newAIVideoFileUrl })
 }
 </script>
 <template>
@@ -162,8 +162,10 @@ const uploadAIVideo = () => {
           {{ coachingName }}
         </div>
         <div class="element-with-scrollbar">
-          <template v-if="showNewVideo"> <AICreateCard class="coaching-card"> </AICreateCard></template>
           <div v-for="video in videosGroup" :key="video.videoId" class="coaching-card">
+            <template v-if="showNewVideo && requestEditCoachingId == video.coachingId">
+              <AICreateCard class="coaching-card"> </AICreateCard
+            ></template>
             <CoachingCard
               :label="video.videoName"
               :caption="caption"
