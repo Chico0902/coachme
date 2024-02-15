@@ -43,9 +43,8 @@ export const useCoachStore = defineStore('coach', () => {
       { words: keyword, loginMemberId },
       (success) => {
         coaches.value = success.data.list
-        console.log(success)
       },
-      (fail) => console.log(fail)
+      (fail) => console.error(fail)
     )
   }
 

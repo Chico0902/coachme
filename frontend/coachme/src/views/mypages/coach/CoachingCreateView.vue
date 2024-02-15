@@ -68,7 +68,6 @@ const createNewCoaching = () => {
     coachingSummary.value,
     contentHTML.value
   )
-  console.log(dto)
   postNewCoaching(
     longId,
     dto,
@@ -77,8 +76,6 @@ const createNewCoaching = () => {
         icon: 'success',
         title: '생성 완료!'
       })
-      // 기존코드
-      // alert('등록 완료')
       router.push({ name: 'Desktop-5-3' })
     },
     (error) => {
@@ -86,9 +83,6 @@ const createNewCoaching = () => {
         icon: 'fail',
         title: '등록 실패!'
       })
-      // 기존 코드
-      // alert('등록 실패')
-      console.log(error)
     }
   )
 }

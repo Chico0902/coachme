@@ -56,7 +56,6 @@ onBeforeRouteUpdate((to) => {
 
 // 대분류 코치 조회
 const clickCategory = (subCategoryIndex, mainCatagoryName) => {
-  console.log(subCategoryIndex)
   const upperCategory1 = mainCatagoryName.toLowerCase()
   router.push(`/search/coaching/list/${upperCategory1}/all/all`)
 
