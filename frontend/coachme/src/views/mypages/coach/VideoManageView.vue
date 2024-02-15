@@ -121,12 +121,17 @@ const editToAI = (videoUrl, coachingId) => {
     (fail) => {
       console.error(fail)
       showNewVideo.value = false
+      alert('오류 발생!')
     }
   )
 }
 
 const uploadAIVideo = () => {
-  postAIVideo(requestEditCoachingId.value, { coachId: longId, videoName: newAIVideoFileName, url: newAIVideoFileUrl })
+  postAIVideo(requestEditCoachingId.value, {
+    coachId: longId.value,
+    videoName: newAIVideoFileName,
+    url: newAIVideoFileUrl
+  })
 }
 </script>
 <template>
@@ -162,8 +167,8 @@ const uploadAIVideo = () => {
           {{ coachingName }}
         </div>
         <div class="element-with-scrollbar">
-          <div v-for="video in videosGroup" :key="video.videoId" class="coaching-card">
-            <template v-if="showNewVideo && requestEditCoachingId == video.coachingId">
+          <div v-for="(video, index) in videosGroup" :key="video.videoId" class="coaching-card">
+            <template v-if="showNewVideo && requestEditCoachingId == video.coachingId && index == 0">
               <AICreateCard class="coaching-card"> </AICreateCard
             ></template>
             <CoachingCard
