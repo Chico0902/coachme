@@ -1,5 +1,5 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<div id="readme-top"></div>
+<a name="readme-top"></a>
 <!--
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
 *** that would make this better, please fork the repo and create a pull request
@@ -42,28 +42,25 @@
   <summary>목차</summary>
   <ol>
     <li>
-      <a href="#summary">프로젝트 개요</a>
+      <a href="#프로젝트-개요">프로젝트 개요</a>
     </li>
     <li>
-      <a href="#screen">화면</a>
+      <a href="#화면">화면</a>
     </li>
     <li>
-      <a href="#structure">프로젝트 구조</a>
+      <a href="#프로젝트-구조">프로젝트 구조</a>
     </li>
     <li>
-      <a href="#tech-stack">기술스택</a>
+      <a href="#기술스택">기술스택</a>
     </li>
     <li>
-      <a href="#teams">팀원</a>
+      <a href="#팀원">팀원</a>
     </li>
   </ol>
 </details>
 
 
-
 <!-- 프로젝트 개요 -->
-<div id="summary"></div>
-
 ## 프로젝트 개요
 
 ### 개발 기간 
@@ -87,8 +84,6 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- 화면 -->
-<div id="screen"></div>
-
 ## 화면 
 
 ### 메인 화면
@@ -121,10 +116,7 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- structure -->
-<div id="structure"></div>
-
 ## 프로젝트 구조
 
 ### 아키텍처
@@ -142,8 +134,6 @@
 
 
 <!-- 기술스택 -->
-<div id="tech-stack"></div>
-
 ## 기술 스택 
 
 ### Language
@@ -169,8 +159,6 @@
 
 
 <!-- 팀원 -->
-<div id="teams"></div>
-
 ## 팀원
 
 * 남상엽 - 팀장, 프론트엔드, 기획, 프로젝트 관리
