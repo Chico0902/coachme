@@ -9,7 +9,9 @@ import Swal from 'sweetalert2'
     <q-item>
       <!-- 영상 -->
       <q-item-section style="flex-direction: row">
-        <q-spinner-gears color="primary" size="5em" style="height: 100px" />
+        <q-responsive :ratio="16 / 9" style="width: 100%; height: 100%">
+          <q-spinner-gears color="primary" />
+        </q-responsive>
       </q-item-section>
     </q-item>
     <q-separator></q-separator>
@@ -42,6 +44,15 @@ import Swal from 'sweetalert2'
 </template>
 
 <style scoped>
+.gear-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.gear-container-inner {
+  width: 100%;
+  height: 100%;
+}
 .my-card {
   min-width: 15vw;
   max-width: 30vw;

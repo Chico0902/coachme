@@ -1,6 +1,7 @@
 <script setup>
 import CoachingCard from '@/components/molecules/CoachingCard.vue'
 import AICreateCard from '@/components/molecules/AICreateCard.vue'
+import Swal from 'sweetalert2'
 import { ref, computed, onBeforeMount } from 'vue'
 import { decodeToken, getAccessToken } from '@/utils/functions/auth'
 import { postEditToAI } from '@/utils/api/ai-api'
@@ -61,7 +62,7 @@ const show = ref(false)
 const longId = ref(-1)
 
 // ai 등록용
-const showNewVideo = ref(false)
+const showWaitingEditGear = ref(false)
 const saveEditModalOpen = ref(false)
 const requestEditCoachingId = ref('')
 const newAIVideoFileName = ref('')
@@ -97,8 +98,11 @@ const uploadNewVideo = () => {
   postNewVideo(
     longId.value,
     { videoFile: newVideoFile.value, fileName: newVideoFileName.value, coachingId: registVideoCoachingId.value },
-    (success) => {
-      alert('영상 등록완료')
+    () => {
+      Swal.fire({
+        icon: 'success',
+        title: '영상 등록 완료'
+      })
       window.location.reload()
     },
     (fail) => console.error(fail)
@@ -109,7 +113,7 @@ const editToAI = (videoUrl, coachingId) => {
   const urlKeys = videoUrl.split('/')
   const urlKey = urlKeys[urlKeys.length - 1]
   const noExtend = urlKey.split('.')[0]
-  showNewVideo.value = true
+  showWaitingEditGear.value = true
   requestEditCoachingId.value = coachingId
   postEditToAI(
     { key: noExtend },
@@ -120,18 +124,40 @@ const editToAI = (videoUrl, coachingId) => {
     },
     (fail) => {
       console.error(fail)
-      showNewVideo.value = false
-      alert('오류 발생!')
+      showWaitingEditGear.value = false
+      Swal.fire({
+        icon: 'error',
+        title: '오류 발생',
+        text: '영상 편집 중 오류 발생'
+      })
     }
   )
 }
 
 const uploadAIVideo = () => {
-  postAIVideo(requestEditCoachingId.value, {
-    coachId: longId.value,
-    videoName: newAIVideoFileName,
-    url: newAIVideoFileUrl
-  })
+  postAIVideo(
+    requestEditCoachingId.value,
+    {
+      coachId: longId.value,
+      videoName: newAIVideoFileName.value,
+      url: newAIVideoFileUrl.value
+    },
+    (success) => {
+      console.log(success)
+      Swal.fire({
+        icon: 'success',
+        title: '영상 업로드 완료'
+      })
+    },
+    (fail) => {
+      console.log(fail)
+      Swal.fire({
+        icon: 'error',
+        title: '오류 발생',
+        text: '영상 업로드 중 오류 발생'
+      })
+    }
+  )
 }
 </script>
 <template>
@@ -141,6 +167,7 @@ const uploadAIVideo = () => {
       <div class="editor-detail">나만의 영상을 편집하고, 게시해보세요!</div>
     </div>
     <div class="menu-bar">
+      <q-btn label="기어" @click="showWaitingEditGear"></q-btn>
       <div class="coaching-dropdown">
         <q-select
           v-model="selectedCoachingId"
@@ -167,8 +194,9 @@ const uploadAIVideo = () => {
           {{ coachingName }}
         </div>
         <div class="element-with-scrollbar">
+          <AICreateCard class="coaching-card"> </AICreateCard>
           <div v-for="(video, index) in videosGroup" :key="video.videoId" class="coaching-card">
-            <template v-if="showNewVideo && requestEditCoachingId == video.coachingId && index == 0">
+            <template v-if="showWaitingEditGear && requestEditCoachingId == video.coachingId && index == 0">
               <AICreateCard class="coaching-card"> </AICreateCard
             ></template>
             <CoachingCard
