@@ -42,21 +42,21 @@
   <summary>목차</summary>
   <ol>
     <li>
-      <a href="#프로젝트-개요">프로젝트 개요</a>
+      <a href="#about-the-project">프로젝트 개요</a>
     </li>
     <li>
-      <a href="#화면">화면</a>
+      <a href="#screen">화면</a>
     </li>
-    <li><a href="#프로젝트-구조">프로젝트 구조</a></li>
-    <li><a href="#기술스택">기술스택</a></li>
-    <li><a href="#팀원">팀원</a></li>
+    <li><a href="#structure">프로젝트 구조</a></li>
+    <li><a href="#tech-stack">기술스택</a></li>
+    <li><a href="#teams">팀원</a></li>
   </ol>
 </details>
 
 
 
 <!-- 프로젝트 개요 -->
-## 프로젝트 개요
+<h2 id="about-the-project"> 프로젝트 개요 </h2>
 
 ### 개발 기간 
 2024/01/08 - 2024/02/15(6주)
@@ -79,7 +79,7 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- 화면 -->
-## 화면
+<h2 id="screen"> 화면 </h2>
 
 ### 메인 화면
 ![메인화면](/uploads/9d1d63c380832752b83b50b8fea6abea/메인화면.JPG)
@@ -112,8 +112,8 @@
 
 
 
-<!-- GETTING STARTED -->
-## 프로젝트 구조
+<!-- structure -->
+<h2 id="structure"> 프로젝트 구조 </h2>
 
 ### 아키텍처
 ![아키텍처](/uploads/612ddcd7fab98f7317517b60ae65454e/아키텍처.png)
@@ -130,7 +130,7 @@
 
 
 <!-- 기술스택 -->
-## 기술스택
+<h2 id="tech-stack"> 기술 스택 </h2>
 
 ### Language
 ![Java][Java] ![JavaScript][JavaScript] ![CSS3][CSS3] ![HTML5][HTML5] ![Python][Python]
@@ -155,7 +155,7 @@
 
 
 <!-- 팀원 -->
-## 팀원
+<h2 id="teams"> 팀원 </h2>
 
 * 남상엽 - 팀장, 프론트엔드, 기획, 프로젝트 관리
 * 이혜지 - 프론트엔드, FE팀장, 컴포넌트 관리, Atomic Design
