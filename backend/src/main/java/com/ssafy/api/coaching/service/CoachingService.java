@@ -4,6 +4,7 @@ import com.ssafy.api.coach.dto.response.CoachesCoachingsResponseDto;
 import com.ssafy.api.coaching.dto.request.CoachingInfoChangeRequestDto;
 import com.ssafy.api.coaching.dto.request.CoachingRequestDto;
 import com.ssafy.api.coaching.dto.request.CreateCoachingRequestDto;
+import com.ssafy.api.coaching.dto.request.VideoRequestDto;
 import com.ssafy.api.coaching.dto.response.*;
 import com.ssafy.api.coaching.mapper.CoachingMapper;
 import com.ssafy.api.coaching.repository.CategoryRepository;
@@ -263,5 +264,14 @@ public class CoachingService {
   public List<VideosInCoachingResponseDto> getVideos(Long coachingId) {
     List<File> videosList = fileRepository.findByCoachingId(coachingId);
     return FileMapper.instance.fileToVideosInCoachingResponseDto(videosList);
+  }
+
+  public void registEditedVideo(Long coachingId, VideoRequestDto videoRequestDto) {
+    Coaching coaching = coachingRepository.getReferenceById(coachingId);
+    Member member = memberRepository.getReferenceById(videoRequestDto.getCoachId());
+    File file = fileRepository.getReferenceById(videoRequestDto.getVideoId());
+    File newfile = new File();
+    newfile.createFile(member, coaching, videoRequestDto.getUrl(), file.getName());
+    fileRepository.save(newfile);
   }
 }

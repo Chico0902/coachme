@@ -1,6 +1,7 @@
 package com.ssafy.api.coaching.controller;
 
 import com.ssafy.api.coaching.dto.request.CoachingRequestDto;
+import com.ssafy.api.coaching.dto.request.VideoRequestDto;
 import com.ssafy.api.coaching.dto.response.CoachingDetailResponseDto;
 import com.ssafy.api.coaching.dto.response.CoameListResponseDto;
 import com.ssafy.api.coaching.dto.response.LiveCoachingsResponseDto;
@@ -149,5 +150,19 @@ public class CoachingController {
     List<VideosInCoachingResponseDto> list = coachingService.getVideos(coachingId);
 
     return new ResponseEntity<>(new ListDataDto(list), HttpStatus.OK);
+  }
+
+  /**
+   * [coaching-9] AI로 편집된 영상이 저장된 S3 URL을 전달받아 DB에 저장한다.
+   * @param coachingId - 코칭 pk
+   * @param videoRequestDto - 코치 pk, 파일 pk, url
+   * @return - [200] 정상 처리 메세지
+   */
+  @PostMapping("/{coachingId}/videos")
+  public ResponseEntity<?> registEditedVideo(@PathVariable Long coachingId, @RequestBody VideoRequestDto videoRequestDto) {
+
+    coachingService.registEditedVideo(coachingId, videoRequestDto);
+
+    return new ResponseEntity<>(new MessageDto("regist video successfully"), HttpStatus.OK);
   }
 }

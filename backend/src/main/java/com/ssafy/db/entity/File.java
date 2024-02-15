@@ -2,15 +2,13 @@ package com.ssafy.db.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 @Entity
 @Table(name = "Files")
 @Builder
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 public class File extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,5 +33,13 @@ public class File extends BaseEntity {
     this.uploader = member;
     this.name = name;
     this.url = url;
+  }
+
+  public void createFile(Member member, Coaching coaching, String url, String name) {
+    this.uploader = member;
+    this.coaching = coaching;
+    this.url = url;
+    this.name = name + "_AI";
+    coaching.getVideoCoachings().add(this);
   }
 }
