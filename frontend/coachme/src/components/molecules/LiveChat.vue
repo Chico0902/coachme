@@ -198,18 +198,6 @@ function parseTime(timestamp) {
   font-weight: bold;
   line-height: normal;
 }
-.dm-window-container {
-  position: fixed;
-  bottom: 150px;
-  right: 10vw;
-  color: #fff;
-  background-color: white;
-  text-align: center;
-  z-index: 7000;
-  max-height: 600px;
-  max-width: 300px;
-  overflow: scroll;
-}
 
 .material-symbols-outlined {
   font-size: 25px;
