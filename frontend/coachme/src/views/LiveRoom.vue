@@ -46,7 +46,6 @@ const participants = computed(() => {
 // for render
 const isChatOpen = ref(false)
 const isPeopleOpen = ref(false)
-const isCoach = ref(true)
 
 // for openvidu
 const OVCamera = ref(undefined) // 영상
@@ -467,7 +466,7 @@ const changeLayoutCount = () => {
         @update-publisher="updatePublisher"
         @update-screen-sharing="updateScreensharing"
         @exit="exit"
-        :isCoach="isCoach"
+        :iAmCoach="iAmCoach"
         :publisher="publisher"
         :participants="participants"
         :OVScreen="OVScreen"
@@ -492,7 +491,7 @@ const changeLayoutCount = () => {
   </div>
 
   <!-- 참가자 리스트 -->
-  <div v-if="isPeopleOpen" class="people">
+  <div v-if="isPeopleOpen" class="shadow-2 rounded-borders people">
     <template v-for="participant in participants" :key="participant.id">
       <q-item clickable v-ripple>
         <q-item-section avatar>
@@ -520,7 +519,9 @@ const changeLayoutCount = () => {
 .title {
   width: 100%;
   height: 10vh;
+  font-size: 1.5rem;
   background-color: aliceblue;
+  color: #004c98;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -631,101 +632,23 @@ const changeLayoutCount = () => {
   width: 768px;
   height: 546px;
 }
-
 .people {
-  min-width: 15vw;
-  max-height: 70vh;
-  position: relative;
-  margin-top: 5vh;
-  margin-left: 4vw;
-  border: 3px solid #004c98;
-  background-color: #004c98;
-}
-
-.main-layout::-webkit-scrollbar {
-  width: 10px;
-  height: 0.5rem;
-}
-
-.main-layout::-webkit-scrollbar-thumb {
+  position: absolute;
+  top: 15vh;
+  left: 5%;
   background-color: #6593ff;
-  border-radius: 1.5rem;
-  min-width: 50px;
 }
-
-.main-layout::-webkit-scrollbar-thumb:hover {
-  background-color: #3370ff;
-}
-
-.main-layout::-webkit-scrollbar-track {
-  background-color: #c7c7c7;
-  border-radius: 1.5rem;
-}
-
-.coach {
+.dm-window-container {
+  position: absolute;
+  top: 15vh;
+  right: 5%;
+  color: #fff;
   background-color: white;
-  width: 100%;
-  min-width: 70%;
-  margin: auto;
-  display: flex;
   text-align: center;
-  flex-direction: row;
-  -ms-overflow-style: none;
-  overflow: hidden;
-  flex: 1;
-}
-.coach::-webkit-scrollbar {
-  width: 10px;
-  height: 0.5rem;
-}
-
-.coach::-webkit-scrollbar-thumb {
-  background-color: #6593ff;
-  border-radius: 1.5rem;
-  min-width: 50px;
-}
-
-.coach::-webkit-scrollbar-thumb:hover {
-  background-color: #3370ff;
-}
-
-.coach::-webkit-scrollbar-track {
-  background-color: #c7c7c7;
-  border-radius: 1.5rem;
-}
-
-.coame {
-  min-width: fit-content;
-  /* width: 10vw; */
-  max-width: fit-content;
-  height: 70vh;
-  overflow-y: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  flex: 1;
-}
-
-.coame::-webkit-scrollbar {
-  width: 10px;
-  height: 0.5rem;
-}
-
-.coame::-webkit-scrollbar-thumb {
-  background-color: #6593ff;
-  border-radius: 1.5rem;
-  min-width: 50px;
-}
-
-.coame::-webkit-scrollbar-thumb:hover {
-  background-color: #3370ff;
-}
-
-.coame::-webkit-scrollbar-track {
-  background-color: #c7c7c7;
-  border-radius: 1.5rem;
-}
-.coame {
-  max-width: 50vw;
+  z-index: 7000;
+  border-radius: 0.5rem;
+  max-height: 600px;
+  max-width: 300px;
+  overflow: scroll;
 }
 </style>
