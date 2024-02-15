@@ -99,7 +99,7 @@ const uploadNewVideo = () => {
     longId.value,
     { videoFile: newVideoFile.value, fileName: newVideoFileName.value, coachingId: registVideoCoachingId.value },
     () => {
-      saveEditModalOpen.value = false
+      show.value = false
       Swal.fire({
         icon: 'success',
         title: '영상 등록 완료',
@@ -146,6 +146,7 @@ const uploadAIVideo = () => {
     },
     (success) => {
       console.log(success)
+      saveEditModalOpen.value = false
       Swal.fire({
         icon: 'success',
         title: '영상 등록 완료',
@@ -317,7 +318,7 @@ const uploadAIVideo = () => {
 }
 
 .coaching-card {
-  margin: 30px 15px 30px;
+  padding: 10px;
 }
 
 .element-with-scrollbar {
@@ -335,8 +336,9 @@ const uploadAIVideo = () => {
 
 .coaching-group-title {
   font-size: 20px;
+  margin-top: 1rem;
   margin-left: 2rem;
-  margin-bottom: 0;
+  margin-bottom: 0.5rem;
 }
 .menu {
   display: flex;
