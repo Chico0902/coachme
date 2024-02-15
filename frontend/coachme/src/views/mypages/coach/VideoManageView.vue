@@ -88,7 +88,11 @@ const uploadNewVideo = () => {
   postNewVideo(
     longId.value,
     { videoFile: newVideoFile.value, fileName: newVideoFileName.value, coachingId: registVideoCoachingId.value },
-    (success) => console.log(success),
+    (success) => {
+      console.log(success)
+      alert('영상 등록완료')
+      window.location.reload()
+    },
     (fail) => console.log(fail)
   )
 }
