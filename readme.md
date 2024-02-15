@@ -110,7 +110,7 @@
 ![와이어프레임](/uploads/c9d8d4ae383907b1f05be185a91a3765/와이어프레임.png)
 
 ### ERD
-
+![ERD](/uploads/3bbcfcd638983d15a1a996ae38dfc333/live_coaching.png)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
