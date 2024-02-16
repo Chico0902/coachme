@@ -39,7 +39,7 @@ public class File extends BaseEntity {
     this.uploader = member;
     this.coaching = coaching;
     this.url = url;
-    this.name = name + "_AI";
+    this.name = name;
     coaching.getVideoCoachings().add(this);
   }
 }
