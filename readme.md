@@ -29,7 +29,7 @@
 
 <h3 align="center">Coach Me</h3>
 
-  <p align="center">
+  <h5 align="center">
     일상에서 코칭을 받을 수 있는 화상 플랫폼입니다.
     <br />
   </p>
@@ -145,12 +145,12 @@
 <!-- 팀원 -->
 ## 팀원
 
-* 남상엽 - 팀장, 프론트엔드, 기획, 프로젝트 관리
-* 이혜지 - 프론트엔드, FE팀장, 컴포넌트 관리, Atomic Design
-* 김동현 - 프론트엔드, 회의록 관리, 레이아웃 설계, Wireframe 관리
-* 박민아 - 백엔드, 발표자, Database관리, API 관리
-* 이준학 - 백엔드, BE팀장, 인프라 관리, AI 연구
-* 김지원 - 백엔드, Jira 관리, Socket 및 WebRTC 통신
+#### * 남상엽 - 팀장, 프론트엔드, 기획, 프로젝트 관리
+#### * 이혜지 - 프론트엔드, FE팀장, 컴포넌트 관리, Atomic Design
+#### * 김동현 - 프론트엔드, 회의록 관리, 레이아웃 설계, Wireframe 관리
+#### * 박민아 - 백엔드, 발표자, Database관리, API 관리
+#### * 이준학 - 백엔드, BE팀장, 인프라 관리, AI 연구
+#### * 김지원 - 백엔드, Jira 관리, Socket 및 WebRTC 통신
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
