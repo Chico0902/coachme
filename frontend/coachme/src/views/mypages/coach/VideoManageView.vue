@@ -174,6 +174,10 @@ const uploadAIVideo = () => {
     }
   )
 }
+
+const goEditPage = () => {
+  window.open('https://i10a403.p.ssafy.io:8570')
+}
 </script>
 <template>
   <div class="main">
@@ -194,7 +198,7 @@ const uploadAIVideo = () => {
       </div>
       <div class="menu">
         <div class="SMN_effect-42">
-          <RouterLink :to="{ name: 'Desktop-5-6' }"><span data-hover="편집하기">편집하기</span></RouterLink>
+          <a href="#" @click.prevent="goEditPage"><span data-hover="편집하기">편집하기</span></a>
         </div>
         <div class="SMN_effect-42">
           <a href="#" @click.prevent="show = true"><span data-hover="등록하기">등록하기</span></a>
