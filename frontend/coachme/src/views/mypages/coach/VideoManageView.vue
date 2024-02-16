@@ -176,7 +176,7 @@ const uploadAIVideo = () => {
 }
 
 const goEditPage = () => {
-  window.open('https://i10a403.p.ssafy.io/edit')
+  window.open('https://i10a403.p.ssafy.io:8570')
 }
 </script>
 <template>
