@@ -1,0 +1,66 @@
+server:
+  servlet:
+    context-path: '/api'
+  port: 7777
+
+logging:
+  level:
+    com.ssafy: DEBUG
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://70.12.246.219:3306/test?useUnicode=true&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://i10a403.p.ssafy.io:3306/test?useUnicode=true&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+    username: ssafy
+    password: ssafy
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+  redis:
+    host: localhost
+    port: 6379
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+  spring:
+    mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 본인의 구글 계정 @gmail.com
+    password: 본인의 구글 계정 비밀번호
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+jwt:
+  secret: 4850d7ebde9ae79a8e736767b3cd227412a2307701ad67ccf5c23d3ba9df16f1c4bd2c16212e67de81d2786b2a6f82e3d41bcd588294b1055bf54456647083cd
+  access-token-expire: 1800000
+  refresh-token-expire: 86400000
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAZ762MW5CXHXTF56Y
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: ssafycoachme
+    stack:
+      auto: false
+
+openvidu:
+  url: http://localhost:5443/
+  secret: CoachMe
+#openvidu:
+#  url: http://localhost:4443/
+#  secret: MY_SECRET
