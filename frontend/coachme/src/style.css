@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'TheJamsil5Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+#app {
+font-family:'TheJamsil5Bold';
+}
+
+#app::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+}
+
+#app::-webkit-scrollbar-thumb {
+  background-color: #6593ff;
+  border-radius: 1.5rem;
+  min-width: 50px;
+}
+
+#app::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff;
+}
+
+#app::-webkit-scrollbar-track {
+  background-color: #c7c7c7;
+  border-radius: 1.5rem;
+}
+
+.swal2-popup{
+  font-family: 'TheJamsil5Bold';
+}
+
+.ql-editor::-webkit-scrollbar {
+  width: 10px; /* 세로 스크롤의 너비 조절 */
+}
+
+.ql-editor::-webkit-scrollbar-thumb {
+  background-color: #6593ff; /* 스크롤 바의 색상 */
+  border-radius: 1.5rem; /* 스크롤 바 모양을 원형으로 만들기 */
+}
+
+.ql-editor::-webkit-scrollbar-thumb:hover {
+  background-color: #3370ff; /* 스크롤 바에 호버됐을 때의 색상 */
+}
+
+.ql-editor::-webkit-scrollbar-track {
+  background-color: #c7c7c7; /* 스크롤 트랙의 배경색 */
+  border-radius: 1.5rem; /* 스크롤 트랙 모양을 원형으로 만들기 */
+}
