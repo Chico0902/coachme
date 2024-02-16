@@ -1,0 +1,52 @@
+{
+  "name": "coachme",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --mode dev",
+    "build": "vite build --mode prod",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.9",
+    "@stomp/stompjs": "^7.0.0",
+    "@vueup/vue-quill": "^1.2.0",
+    "axios": "^1.6.5",
+    "js-cookie": "^3.0.5",
+    "openvidu-browser": "^2.29.1",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persist": "^1.0.0",
+    "quasar": "^2.14.2",
+    "quill-image-uploader": "^1.3.0",
+    "stompjs": "^2.3.3",
+    "sweetalert2": "^11.10.5",
+    "vue": "^3.3.11",
+    "vue-cookies": "^1.8.3",
+    "vue-router": "^4.2.5",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.6.0",
+    "@rushstack/eslint-patch": "^1.3.3",
+    "@vitejs/plugin-vue": "^4.5.2",
+    "@vitest/ui": "^1.2.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/test-utils": "^2.4.3",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "jsdom": "^23.0.1",
+    "msw": "^2.0.14",
+    "prettier": "^3.0.3",
+    "sass": "^1.70.0",
+    "vite": "^5.0.10",
+    "vitest": "^1.2.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
+  }
+}
