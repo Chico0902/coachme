@@ -41,6 +41,7 @@
 ![Static Badge](https://img.shields.io/badge/Docker-v25.0.3-blue?logo=docker&logoColor=%232496ED)
 ![Static Badge](https://img.shields.io/badge/OpenVidu-v2.29.0-blue?logo=webrtc&logoColor=yellow)
 ![Static Badge](https://img.shields.io/badge/jenkins-v2.441-blue?logo=jenkins&logoColor=%23D24939)
+![Static Badge](https://img.shields.io/badge/MovieMasher-v5.1.1-blue)
 <br/>
 <br/>
 <br/>
@@ -115,6 +116,37 @@
                 proxy_set_header Upgrade $http_upgrade;
                 proxy_set_header Connection "upgrade";
                 proxy_redirect off;
+        }
+
+        location /ai {
+                proxy_http_version 1.1;
+                proxy_pass http://127.0.0.1:8000;
+                proxy_set_header X-Real_IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+
+                # 프록시 버퍼 설정 - no 502 errors!
+                proxy_buffer_size               128k;
+                proxy_buffers                   4 256k;
+                proxy_busy_buffers_size         256k;
+
+                proxy_connect_timeout 500;
+                proxy_send_timeout 500;
+                proxy_read_timeout 500;
+                send_timeout 500;
+        }
+
+        location /edit/ {
+                proxy_http_version 1.1;
+                proxy_pass http://127.0.0.1:8570/;
+                proxy_set_header X-Real_IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Forwarded-Proto $scheme;
+
         }
     }
 
@@ -281,4 +313,12 @@
 - insert secret
     ```
     $ cat /var/lib/jenkins/secrets/initialAdminPassword
+    ```
+
+<br/>
+
+## 7. MovieMasher &nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/MovieMasher-v5.1.1-blue)
+- install
+    ```
+    $ sudo docker run -d -p 8570:8570 --name moviemasher moviemasher/moviemasher.js:5.1.1
     ```
