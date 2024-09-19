@@ -77,37 +77,36 @@
 
 ### 메인 화면
 
-![메인화면](/uploads/9d1d63c380832752b83b50b8fea6abea/메인화면.JPG)
+![1](https://github.com/user-attachments/assets/6e2495b6-2724-4d36-835d-95594a83b288)
+
+
+
 
 ### 검색화면(코치)
 
 #### 리스트
 
-![코치검색페이지_리스트](/uploads/0c838c813549069e6dc336861d4bd57a/코치검색페이지_리스트.JPG)
+![2](https://github.com/user-attachments/assets/1ca18757-3e0c-480e-80f2-437e86f4ef50)
 
 #### 카드
 
-![코치검색페이지_카드](/uploads/e05882f959964ed7f2fe7118f6c24bfe/코치검색페이지_카드.JPG)
+![3](https://github.com/user-attachments/assets/92cbb4f6-4920-45e7-8b10-27d346f2f166)
 
 ### 검색화면(코칭)
 
-![코칭검색페이지](/uploads/1c317472ef49e915d2fc664e62f4dce9/코칭검색페이지.JPG)
+![4](https://github.com/user-attachments/assets/325631bb-9084-41a2-a01c-2f625df2eed2)
+
 
 ### 마이페이지(코미)
 
-![마이페이지1](/uploads/13da3d54df69cb16aab53be33db14142/마이페이지1.JPG)
-
-![마이페이지2](/uploads/b8f4d8f8f2d3e0b86f6d2588e63588fd/마이페이지2.JPG)
+![5](https://github.com/user-attachments/assets/303b79ea-3354-4f09-8dc6-0bb1408fb7e6)
+![6](https://github.com/user-attachments/assets/67304ea9-d6cd-47dc-aede-524e2e3ef5fa)
 
 ### 마이페이지(코치)
+![7](https://github.com/user-attachments/assets/7251b69f-5cfa-4149-8ecf-b071bc44d9b6)
+![8](https://github.com/user-attachments/assets/ae185b72-fb95-4d38-8aae-5b13275e3f8f)
+![10](https://github.com/user-attachments/assets/3e3ad9a3-04b8-49b7-8b86-8e9b9fe0daa6)
 
-![코치페이지1](/uploads/fcbfe506b65bf83cc7d84d5ab9ed08ac/코치페이지1.JPG)
-
-![코치페이지2](/uploads/55bd09bad42a7872f1cc4a7eec205c67/코치페이지2.JPG)
-
-![코치페이지3](/uploads/152cc8f93b2fdc31d23396021438d325/코치페이지3.JPG)
-
-![코치페이지4](/uploads/ad3fe2334d515906a1ee1a24fb06307c/코치페이지4.JPG)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -116,16 +115,17 @@
 ## 3. 프로젝트 구조
 
 ### 아키텍처
-
-![아키텍처](/uploads/da2c256d1e7aad7633eb2fa5eb9ce7b9/architecture.png)
+![아키텍처](https://github.com/user-attachments/assets/8acbbb54-a356-4301-b102-1e1c7dd9bbb3)
 
 ### 와이어 프레임
 
-![와이어프레임](/uploads/c9d8d4ae383907b1f05be185a91a3765/와이어프레임.png)
+![와이어프레임](https://github.com/user-attachments/assets/78e6cacd-a19e-4c83-a192-b554feb309da)
+
 
 ### ERD
 
-![ERD](/uploads/3bbcfcd638983d15a1a996ae38dfc333/live_coaching.png)
+![ERD](https://github.com/user-attachments/assets/f6479207-b453-49f8-930e-7f80474d6906)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
